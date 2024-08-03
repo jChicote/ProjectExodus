@@ -1,7 +1,5 @@
 # name: Build project
-
 # on: [pull_request]
-
 # jobs:
 #   buildForAllSupportedPlatforms:
 #     name: Build for ${{ matrix.targetPlatform }}

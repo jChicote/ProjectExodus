@@ -12,3 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: DeNA/unity-meta-check@v3
+
+  Inspect-Code-With-ReSharper:
+    runs-on: ubuntu-latest
+    steps:
+      - name: JetBrains ReSharper Inspect Code
+        uses: JetBrains/ReSharper-InspectCode@v0.5
