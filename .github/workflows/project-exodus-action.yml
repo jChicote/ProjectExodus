@@ -18,3 +18,5 @@ jobs:
     steps:
       - name: JetBrains ReSharper Inspect Code
         uses: JetBrains/ReSharper-InspectCode@v0.5
+        with:
+            solution: 'ProjectExodus.sln'
