@@ -16,3 +16,10 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+
+  Check-Unity-Meta-Files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Unity meta files check
+        uses: DeNA/unity-meta-check@v4.0.0
+
