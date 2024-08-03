@@ -5,8 +5,11 @@ using UnityEngine.InputSystem;
 namespace ProjectExodus.GameLogic.Input.UserInterface
 {
 
+    /// <summary>
+    /// Responsible for handling input transformation for Keyboard & Mouse UserInterface inputs.
+    /// </summary>
     public class KeyboardAndMouseUserInterfaceInputControl : 
-        PausableMonoBeheavior, 
+        PausableMonoBehavior, 
         IInputControl, 
         IUserInterfaceInputControl
     {

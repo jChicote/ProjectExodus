@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ProjectExodus.GameLogic.Pause.PauseController;
+using UnityEngine;
 
 namespace ProjectExodus.Management.SceneManager
 {
@@ -9,6 +10,12 @@ namespace ProjectExodus.Management.SceneManager
     public class SceneManager : MonoBehaviour, ISceneManager
     {
 
+        #region - - - - - - Fields - - - - - -
+
+        [SerializeField] private PauseController m_PauseController;
+
+        #endregion Fields
+  
         #region - - - - - - Unity Methods - - - - - -
 
         private void Awake()

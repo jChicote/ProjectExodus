@@ -1,10 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Pause.PausableMonoBehavior
 {
 
-    public class PausableMonoBeheavior : MonoBehaviour, IPausable
+    public class PausableMonoBehavior : MonoBehaviour, IPausable
     {
 
         #region - - - - - - Fields - - - - - -

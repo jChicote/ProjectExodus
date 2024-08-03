@@ -1,9 +1,11 @@
+using System;
 using ProjectExodus.Management.AudioManager;
 using ProjectExodus.Management.EventManager;
 using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.SceneManager;
 using ProjectExodus.Management.UserInterfaceManager;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace ProjectExodus
 {
@@ -24,6 +26,8 @@ namespace ProjectExodus
         [SerializeField] private InputManager m_InputManager;
         [SerializeField] private SceneManager m_SceneManager;
         [SerializeField] private UserInterfaceManager m_UserInterfaceManager;
+
+        private GameState m_CurrentState;
 
         #endregion Fields
 
@@ -68,10 +72,24 @@ namespace ProjectExodus
             this.InputManager.InitialiseInputManager();
             this.SceneManager.InitialiseSceneManager();
             this.UserInterfaceManager.InitialiseUserInterfaceManager();
+
+            this.m_CurrentState = GameState.MainMenu; // Set default game state
         }
 
         #endregion Methods
   
+    }
+
+    [Serializable]
+    public enum GameState
+    {
+        
+        MainMenu,
+        Inventory,
+        Loading,
+        Gameplay,
+        Completion
+        
     }
 
 }
