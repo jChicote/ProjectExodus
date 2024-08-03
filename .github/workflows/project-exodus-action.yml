@@ -5,10 +5,10 @@ on:
     types:
       - opened
       - synchronize
+
 jobs:
   Check-Unity-Meta-Files:
     runs-on: ubuntu-latest
     steps:
-      - name: Unity meta files check
-        uses: DeNA/unity-meta-check@v4.0.0
-
+      - uses: actions/checkout@v2
+      - uses: DeNA/unity-meta-check@v3
