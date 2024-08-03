@@ -8,6 +8,12 @@
 
         void InitialiseInputManager();
 
+        void PossesUIInputControls();
+
+        void SwitchToGameplayInputControls();
+
+        void SwitchToUserInterfaceInputControls();
+
         #endregion Methods
 
     }

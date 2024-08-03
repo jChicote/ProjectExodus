@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using ProjectExodus.GameLogic.Input;
+using ProjectExodus.GameLogic.Input.UserInterface;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using Object = UnityEngine.Object;
 
 namespace ProjectExodus.Management.InputManager
 {
@@ -9,6 +14,17 @@ namespace ProjectExodus.Management.InputManager
     public class InputManager : MonoBehaviour, IInputManager
     {
 
+        #region - - - - - - Fields - - - - - -
+
+        [SerializeField] private GameObject m_SessionUser;
+        [SerializeField] private InputControlSchema m_CurrentInputControlSchema = InputControlSchema.KeyboardAndMouse;
+        [SerializeField] private PlayerInput m_PlayerInput;
+
+        private IInputControl m_UserInterfaceInputControl;
+        private IInputControl m_GameplayInputControl;
+
+        #endregion Fields
+  
         #region - - - - - - Unity Methods - - - - - -
 
         private void Awake()
@@ -25,11 +41,53 @@ namespace ProjectExodus.Management.InputManager
 
         void IInputManager.InitialiseInputManager()
         {
-            Debug.Log("AudioManager initialised."); // Temp debug only
+            ((IInputManager)this).PossesUIInputControls();
+            
+            Debug.Log("InputManager initialised."); // Temp debug only
+        }
+
+        void IInputManager.PossesUIInputControls()
+        {
+            switch (this.m_CurrentInputControlSchema)
+            { 
+                case InputControlSchema.KeyboardAndMouse:
+                    this.m_UserInterfaceInputControl = this.m_SessionUser
+                                                        .AddComponent<KeyboardAndMouseUserInterfaceInputControl>();
+                    break;
+                case InputControlSchema.Gamepad:
+                    Debug.LogError("No Gamepad schema exists.");
+                    break;
+            }
+            
+            this.m_UserInterfaceInputControl.BindInputControls(this.m_PlayerInput);
+            ((IInputManager)this).SwitchToUserInterfaceInputControls();
+        }
+
+        void IInputManager.SwitchToGameplayInputControls()
+        {
+            this.m_PlayerInput.SwitchCurrentActionMap("Gameplay");
+            
+            this.m_GameplayInputControl?.EnableInputControl();
+            this.m_UserInterfaceInputControl?.DisableInputControl();
+        }
+
+        void IInputManager.SwitchToUserInterfaceInputControls()
+        {
+            this.m_PlayerInput.SwitchCurrentActionMap("UI");
+            
+            this.m_GameplayInputControl?.DisableInputControl();
+            this.m_UserInterfaceInputControl?.EnableInputControl();
         }
 
         #endregion Methods
   
+    }
+
+    [Serializable]
+    public enum InputControlSchema
+    {
+        KeyboardAndMouse,
+        Gamepad
     }
 
 }
