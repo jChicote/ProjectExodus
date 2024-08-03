@@ -3,7 +3,13 @@
 
     public interface IAudioManager
     {
-        
+
+        #region - - - - - - Methods - - - - - -
+
+        void InitialiseAudioManager();
+
+        #endregion Methods
+
     }
 
 }

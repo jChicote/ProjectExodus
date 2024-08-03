@@ -3,7 +3,15 @@
 
     public interface ISceneManager
     {
-        
+
+
+        #region - - - - - - Methods - - - - - -
+
+        void InitialiseSceneManager();
+
+        #endregion Methods
+
+
     }
 
 }

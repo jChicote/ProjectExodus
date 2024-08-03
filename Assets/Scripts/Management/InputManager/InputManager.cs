@@ -8,7 +8,16 @@ namespace ProjectExodus.Management.InputManager
     /// </summary>
     public class InputManager : MonoBehaviour, IInputManager
     {
-        
+
+        #region - - - - - - Methods - - - - - -
+
+        void IInputManager.InitialiseInputManager()
+        {
+            
+        }
+
+        #endregion Methods
+  
     }
 
 }

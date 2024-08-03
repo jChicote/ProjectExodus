@@ -8,7 +8,16 @@ namespace ProjectExodus.Management.SceneManager
     /// </summary>
     public class SceneManager : MonoBehaviour, ISceneManager
     {
-        
+
+        #region - - - - - - Methods - - - - - -
+
+        void ISceneManager.InitialiseSceneManager()
+        {
+            
+        }
+
+        #endregion Methods
+  
     }
 
 }

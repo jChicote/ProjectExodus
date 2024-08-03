@@ -3,7 +3,13 @@
 
     public interface IInputManager
     {
-        
+
+        #region - - - - - - Methods - - - - - -
+
+        void InitialiseInputManager();
+
+        #endregion Methods
+
     }
 
 }
