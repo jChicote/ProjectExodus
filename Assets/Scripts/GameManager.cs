@@ -54,10 +54,23 @@ namespace ProjectExodus
                 Instance = this;
             else
                 Object.Destroy(gameObject);
+            
+            this.SetupGame();
         }
 
         #endregion Unity Methods
-		
+
+        #region - - - - - - Methods - - - - - -
+
+        private void SetupGame()
+        {
+            this.AudioManager.InitialiseAudioManager();
+            this.InputManager.InitialiseInputManager();
+            this.SceneManager.InitialiseSceneManager();
+            this.UserInterfaceManager.InitialiseUserInterfaceManager();
+        }
+
+        #endregion Methods
   
     }
 
