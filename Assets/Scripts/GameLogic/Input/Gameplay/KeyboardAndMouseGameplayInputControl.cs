@@ -94,6 +94,29 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
                 ((IGameplayInputControl)this).OnSprint;
         }
 
+        void IInputControl.UnbindInputControls(PlayerInput playerInput)
+        {
+            playerInput.actions[GameplayInputActionConstants.ATTACK].performed -=
+                ((IGameplayInputControl)this).OnAttack;
+            playerInput.actions[GameplayInputActionConstants.INTERACT].performed -=
+                ((IGameplayInputControl)this).OnInteract;
+            playerInput.actions[GameplayInputActionConstants.PAUSE].performed -= ((IGameplayInputControl)this).OnPause;
+            
+            // Look
+            playerInput.actions[GameplayInputActionConstants.LOOK].performed -= ((IGameplayInputControl)this).OnLook;
+            playerInput.actions[GameplayInputActionConstants.LOOK].canceled -= ((IGameplayInputControl)this).OnLook;
+
+            // Move
+            playerInput.actions[GameplayInputActionConstants.MOVE].performed -= ((IGameplayInputControl)this).OnMove;
+            playerInput.actions[GameplayInputActionConstants.MOVE].canceled -= ((IGameplayInputControl)this).OnMove;
+
+            // Sprint
+            playerInput.actions[GameplayInputActionConstants.SPRINT].performed -=
+                ((IGameplayInputControl)this).OnSprint;
+            playerInput.actions[GameplayInputActionConstants.SPRINT].canceled -=
+                ((IGameplayInputControl)this).OnSprint;
+        }
+
         bool IInputControl.IsInputControlIsActive()
             => this.m_IsInputActive;
 

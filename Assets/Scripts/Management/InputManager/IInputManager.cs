@@ -10,11 +10,15 @@
 
         void PossesGameplayInputControls();
 
-        void PossesUIInputControls();
+        void PossesUserInterfaceInputControls();
 
         void SwitchToGameplayInputControls();
 
         void SwitchToUserInterfaceInputControls();
+        
+        void UnpossesGameplayInputControls();
+
+        void UnpossesUserInterfaceInputControls();
 
         #endregion Methods
 

@@ -10,6 +10,8 @@ namespace ProjectExodus.GameLogic.Input
 
         void BindInputControls(PlayerInput playerInput);
 
+        void UnbindInputControls(PlayerInput playerInput);
+
         bool IsInputControlIsActive();
 
         void DisableInputControl();

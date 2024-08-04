@@ -38,6 +38,12 @@ namespace ProjectExodus.GameLogic.Input.UserInterface
             playerInput.actions[UserInterfaceInputActionConstants.UNPAUSE].performed 
                 += ((IUserInterfaceInputControl)this).OnUnPause;
         }
+
+        void IInputControl.UnbindInputControls(PlayerInput playerInput)
+        {
+            playerInput.actions[UserInterfaceInputActionConstants.UNPAUSE].performed 
+                -= ((IUserInterfaceInputControl)this).OnUnPause;
+        }
         
         bool IInputControl.IsInputControlIsActive()
             => this.m_IsInputActive;

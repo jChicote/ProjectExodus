@@ -1,9 +1,8 @@
 ﻿using ProjectExodus.GameLogic.Input.Gameplay;
 using ProjectExodus.GameLogic.Input.UserInterface;
+using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
 using ProjectExodus.Management.GameStateManager;
-using ProjectExodus.Management.InputManager;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace ProjectExodus.Tests.TestHarness.TestGameStateManager
 {
@@ -46,6 +45,10 @@ namespace ProjectExodus.Tests.TestHarness.TestGameStateManager
             
             // Act
             ((IGameStateManager)this.GameStateManager).ChangeGameState(GameState.MainMenu);
+
+            IGameplayInputControl _InputControl =
+                this.ActivePlayer.GetComponent<IGameplayInputControl>();
+            Object.Destroy(_InputControl as PausableMonoBehavior);
             
             // Assert
             if (this.m_UserInterfaceInputControl.IsInputControlIsActive())

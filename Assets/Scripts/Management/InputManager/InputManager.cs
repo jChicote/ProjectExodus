@@ -47,15 +47,22 @@ namespace ProjectExodus.Management.InputManager
             this.m_PlayerProvider = (IPlayerProvider)GameManager.Instance.SceneManager;
             
             // Note: Ensure all values exist and references are set. Avoid setting the active input control.
-            ((IInputManager)this).PossesUIInputControls();
+            ((IInputManager)this).PossesUserInterfaceInputControls();
             
             Debug.Log("InputManager initialised."); // Temp debug only
         }
+        
+        // --------------------------------------
+        // InputControl Possession Behavior
+        // --------------------------------------
 
         void IInputManager.PossesGameplayInputControls()
         {
-            GameObject _ActivePlayer = this.m_PlayerProvider.GetActivePlayer();
+            // Validate whether controls exist
+            if (this.m_PlayerProvider.GetActivePlayer().GetComponent<IGameplayInputControl>() != null)
+                return;
             
+            GameObject _ActivePlayer = this.m_PlayerProvider.GetActivePlayer();
             switch (this.m_CurrentInputControlSchema)
             {
                 case InputControlSchema.KeyboardAndMouse:
@@ -69,8 +76,12 @@ namespace ProjectExodus.Management.InputManager
             this.m_GameplayInputControl.BindInputControls(this.m_PlayerInput);
         }
 
-        void IInputManager.PossesUIInputControls()
+        void IInputManager.PossesUserInterfaceInputControls()
         {
+            // Validate whether controls exist
+            if (this.m_SessionUser.GetComponent<IUserInterfaceInputControl>() != null)
+                return;
+            
             switch (this.m_CurrentInputControlSchema)
             { 
                 case InputControlSchema.KeyboardAndMouse:
@@ -85,6 +96,16 @@ namespace ProjectExodus.Management.InputManager
             this.m_UserInterfaceInputControl.BindInputControls(this.m_PlayerInput);
         }
 
+        void IInputManager.UnpossesGameplayInputControls() 
+            => this.m_GameplayInputControl.UnbindInputControls(this.m_PlayerInput);
+
+        void IInputManager.UnpossesUserInterfaceInputControls()
+            => this.m_UserInterfaceInputControl.UnbindInputControls(this.m_PlayerInput);
+
+        // --------------------------------------
+        // InputControl Switching Behavior
+        // --------------------------------------
+        
         void IInputManager.SwitchToGameplayInputControls()
         {
             this.m_PlayerInput.SwitchCurrentActionMap("Gameplay");

@@ -3,12 +3,6 @@
 
     public interface IGameStateManager
     {
-
-        #region - - - - - - Properties - - - - - -
-
-        GameState GameState { get; }
-
-        #endregion Properties
   
         #region - - - - - - Methods - - - - - -
         
