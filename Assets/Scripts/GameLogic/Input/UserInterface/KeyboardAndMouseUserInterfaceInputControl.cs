@@ -9,8 +9,7 @@ namespace ProjectExodus.GameLogic.Input.UserInterface
     /// Responsible for handling input transformation for Keyboard & Mouse UserInterface inputs.
     /// </summary>
     public class KeyboardAndMouseUserInterfaceInputControl : 
-        PausableMonoBehavior, 
-        IInputControl, 
+        MonoBehaviour, 
         IUserInterfaceInputControl
     {
 
@@ -24,7 +23,7 @@ namespace ProjectExodus.GameLogic.Input.UserInterface
 
         void IUserInterfaceInputControl.OnUnPause(InputAction.CallbackContext callback)
         {
-            if (this.m_IsPaused || !this.m_IsInputActive)
+            if (!this.m_IsInputActive)
                 return;
 
             Debug.Log("Unpause menu");
@@ -39,6 +38,9 @@ namespace ProjectExodus.GameLogic.Input.UserInterface
             playerInput.actions[UserInterfaceInputActionConstants.UNPAUSE].performed 
                 += ((IUserInterfaceInputControl)this).OnUnPause;
         }
+        
+        bool IInputControl.IsInputControlIsActive()
+            => this.m_IsInputActive;
 
         void IInputControl.DisableInputControl()
             => this.m_IsInputActive = false;

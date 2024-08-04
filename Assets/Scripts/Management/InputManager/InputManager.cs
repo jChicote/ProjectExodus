@@ -1,6 +1,8 @@
 ﻿using System;
 using ProjectExodus.GameLogic.Input;
+using ProjectExodus.GameLogic.Input.Gameplay;
 using ProjectExodus.GameLogic.Input.UserInterface;
+using ProjectExodus.Management.SceneManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Object = UnityEngine.Object;
@@ -19,7 +21,8 @@ namespace ProjectExodus.Management.InputManager
         [SerializeField] private GameObject m_SessionUser;
         [SerializeField] private InputControlSchema m_CurrentInputControlSchema = InputControlSchema.KeyboardAndMouse;
         [SerializeField] private PlayerInput m_PlayerInput;
-
+        private IPlayerProvider m_PlayerProvider;
+        
         private IInputControl m_UserInterfaceInputControl;
         private IInputControl m_GameplayInputControl;
 
@@ -41,10 +44,29 @@ namespace ProjectExodus.Management.InputManager
 
         void IInputManager.InitialiseInputManager()
         {
+            this.m_PlayerProvider = (IPlayerProvider)GameManager.Instance.SceneManager;
+            
             // Note: Ensure all values exist and references are set. Avoid setting the active input control.
             ((IInputManager)this).PossesUIInputControls();
             
             Debug.Log("InputManager initialised."); // Temp debug only
+        }
+
+        void IInputManager.PossesGameplayInputControls()
+        {
+            GameObject _ActivePlayer = this.m_PlayerProvider.GetActivePlayer();
+            
+            switch (this.m_CurrentInputControlSchema)
+            {
+                case InputControlSchema.KeyboardAndMouse:
+                    this.m_GameplayInputControl = _ActivePlayer.AddComponent<KeyboardAndMouseGameplayInputControl>();
+                    break;
+                case InputControlSchema.Gamepad:
+                    Debug.LogError("No gamepad input control exists");
+                    break;
+            }
+            
+            this.m_GameplayInputControl.BindInputControls(this.m_PlayerInput);
         }
 
         void IInputManager.PossesUIInputControls()
@@ -56,7 +78,7 @@ namespace ProjectExodus.Management.InputManager
                                                         .AddComponent<KeyboardAndMouseUserInterfaceInputControl>();
                     break;
                 case InputControlSchema.Gamepad:
-                    Debug.LogError("No Gamepad schema exists.");
+                    Debug.LogError("No Gamepad input control exists.");
                     break;
             }
             

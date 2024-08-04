@@ -70,6 +70,7 @@ namespace ProjectExodus.Management.GameStateManager
              *  - Switches the acting input to 'Gameplay'
              */
             
+            this.m_InputManager.PossesGameplayInputControls();
             this.m_InputManager.SwitchToGameplayInputControls();
         }
 

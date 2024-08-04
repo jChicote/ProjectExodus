@@ -3,7 +3,7 @@
 namespace ProjectExodus.GameLogic.Input.UserInterface
 {
 
-    public interface IUserInterfaceInputControl
+    public interface IUserInterfaceInputControl : IInputControl
     {
 
         #region - - - - - - Events - - - - - -

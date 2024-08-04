@@ -8,6 +8,8 @@
 
         void InitialiseInputManager();
 
+        void PossesGameplayInputControls();
+
         void PossesUIInputControls();
 
         void SwitchToGameplayInputControls();
