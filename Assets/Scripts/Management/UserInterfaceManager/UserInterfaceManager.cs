@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ProjectExodus.UserInterface.MainMenu;
+using UnityEngine;
 
 namespace ProjectExodus.Management.UserInterfaceManager
 {
@@ -9,6 +10,20 @@ namespace ProjectExodus.Management.UserInterfaceManager
     public class UserInterfaceManager : MonoBehaviour, IUserInterfaceManager
     {
 
+        #region - - - - - - Fields - - - - - -
+
+        [Header("GUI Controllers")]
+        [SerializeField] private MainMenuController m_MainMenuController;
+
+        #endregion Fields
+
+        #region - - - - - - Properties - - - - - -
+
+        IMainMenuController IUserInterfaceManager.MainMenuController
+            => this.m_MainMenuController;
+
+        #endregion Properties
+  
         #region - - - - - - Unity Methods - - - - - -
 
         private void Awake()
@@ -24,7 +39,10 @@ namespace ProjectExodus.Management.UserInterfaceManager
         #region - - - - - - Methods - - - - - -
 
         void IUserInterfaceManager.InitialiseUserInterfaceManager() 
-            => Debug.Log("UserInterfaceManager initialised."); // Temp debug only
+            => this.InitialiseUserIterfaces();
+
+        private void InitialiseUserIterfaces() 
+            => ((IMainMenuController)this.m_MainMenuController).InitialiseMainMenuController();
 
         #endregion Methods
   

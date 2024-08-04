@@ -30,7 +30,9 @@ namespace ProjectExodus.Management.GameStateManager
             this.m_InputManager = GameManager.Instance.InputManager;
 
             this.m_GameplayState = new GameplayState(this.m_InputManager);
-            this.m_MainMenuState = new MainMenuState(this.m_InputManager);
+            this.m_MainMenuState = new MainMenuState(
+                                    this.m_InputManager,
+                                    GameManager.Instance.UserInterfaceManager.MainMenuController);
             
             // Set the starting game state
             ((IGameStateManager)this).ChangeGameState(GameState.MainMenu);
