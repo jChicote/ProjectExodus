@@ -1,9 +1,12 @@
+using System;
 using ProjectExodus.Management.AudioManager;
 using ProjectExodus.Management.EventManager;
+using ProjectExodus.Management.GameStateManager;
 using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.SceneManager;
 using ProjectExodus.Management.UserInterfaceManager;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace ProjectExodus
 {
@@ -21,6 +24,7 @@ namespace ProjectExodus
         [Header("Persistent Managers")]
         [SerializeField] private AudioManager m_AudioManager;
         [SerializeField] private EventManager m_EventManager;
+        [SerializeField] private GameStateManager m_GameStateManager;
         [SerializeField] private InputManager m_InputManager;
         [SerializeField] private SceneManager m_SceneManager;
         [SerializeField] private UserInterfaceManager m_UserInterfaceManager;
@@ -37,6 +41,9 @@ namespace ProjectExodus
 
         public IInputManager InputManager
             => this.m_InputManager;
+
+        public IGameStateManager GameStateManager
+            => this.m_GameStateManager;
 
         public ISceneManager SceneManager
             => this.m_SceneManager;
@@ -66,6 +73,7 @@ namespace ProjectExodus
         {
             this.AudioManager.InitialiseAudioManager();
             this.InputManager.InitialiseInputManager();
+            this.GameStateManager.InitialiseGameStateManager();
             this.SceneManager.InitialiseSceneManager();
             this.UserInterfaceManager.InitialiseUserInterfaceManager();
         }

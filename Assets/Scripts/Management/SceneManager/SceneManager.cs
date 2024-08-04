@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ProjectExodus.GameLogic.Pause.PauseController;
+using UnityEngine;
 
 namespace ProjectExodus.Management.SceneManager
 {
@@ -6,9 +7,16 @@ namespace ProjectExodus.Management.SceneManager
     /// <summary>
     /// Responsible for managing the high-level aspects of gameplay and control of the scene's state.
     /// </summary>
-    public class SceneManager : MonoBehaviour, ISceneManager
+    public class SceneManager : MonoBehaviour, ISceneManager, IPlayerProvider
     {
 
+        #region - - - - - - Fields - - - - - -
+
+        [SerializeField] private PauseController m_PauseController;
+        [SerializeField] private GameObject m_ActivePlayer; // Debug only
+
+        #endregion Fields
+  
         #region - - - - - - Unity Methods - - - - - -
 
         private void Awake()
@@ -28,8 +36,11 @@ namespace ProjectExodus.Management.SceneManager
             Debug.Log("SceneManager initialised."); // Temp debug only
         }
 
+        GameObject IPlayerProvider.GetActivePlayer()
+            => this.m_ActivePlayer;
+
         #endregion Methods
-  
+
     }
 
 }
