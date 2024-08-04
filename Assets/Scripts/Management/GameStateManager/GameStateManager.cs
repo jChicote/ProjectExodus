@@ -12,9 +12,6 @@ namespace ProjectExodus.Management.GameStateManager
 
         #region - - - - - - Fields - - - - - -
 
-        // Managers
-        private IInputManager m_InputManager;
-
         // Game States
         private GameplayState m_GameplayState;
         private MainMenuState m_MainMenuState;
@@ -27,11 +24,10 @@ namespace ProjectExodus.Management.GameStateManager
 
         void IGameStateManager.InitialiseGameStateManager()
         {
-            this.m_InputManager = GameManager.Instance.InputManager;
-
-            this.m_GameplayState = new GameplayState(this.m_InputManager);
+            IInputManager _InputManager = GameManager.Instance.InputManager;
+            this.m_GameplayState = new GameplayState(_InputManager);
             this.m_MainMenuState = new MainMenuState(
-                                    this.m_InputManager,
+                                    _InputManager,
                                     GameManager.Instance.UserInterfaceManager.MainMenuController);
             
             // Set the starting game state
