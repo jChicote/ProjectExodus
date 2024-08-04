@@ -18,13 +18,16 @@ namespace ProjectExodus.Management.InputManager
 
         #region - - - - - - Fields - - - - - -
 
+        [Header("Target input destinations")]
         [SerializeField] private GameObject m_SessionUser;
-        [SerializeField] private InputControlSchema m_CurrentInputControlSchema = InputControlSchema.KeyboardAndMouse;
         [SerializeField] private PlayerInput m_PlayerInput;
-        private IPlayerProvider m_PlayerProvider;
         
-        private IInputControl m_UserInterfaceInputControl;
+        [Header("Schema Control")]
+        [SerializeField] private InputControlSchema m_CurrentInputControlSchema = InputControlSchema.KeyboardAndMouse;
+        
+        private IPlayerProvider m_PlayerProvider;
         private IInputControl m_GameplayInputControl;
+        private IInputControl m_UserInterfaceInputControl;
 
         #endregion Fields
   

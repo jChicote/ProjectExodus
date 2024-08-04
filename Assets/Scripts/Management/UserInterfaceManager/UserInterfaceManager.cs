@@ -23,10 +23,8 @@ namespace ProjectExodus.Management.UserInterfaceManager
   
         #region - - - - - - Methods - - - - - -
 
-        void IUserInterfaceManager.InitialiseUserInterfaceManager()
-        {
-            Debug.Log("UserInterfaceManager initialised."); // Temp debug only
-        }
+        void IUserInterfaceManager.InitialiseUserInterfaceManager() 
+            => Debug.Log("UserInterfaceManager initialised."); // Temp debug only
 
         #endregion Methods
   

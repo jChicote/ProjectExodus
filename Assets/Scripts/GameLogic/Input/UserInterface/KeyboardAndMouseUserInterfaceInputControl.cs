@@ -1,5 +1,4 @@
-﻿using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace ProjectExodus.GameLogic.Input.UserInterface
@@ -26,7 +25,7 @@ namespace ProjectExodus.GameLogic.Input.UserInterface
             if (!this.m_IsInputActive)
                 return;
 
-            Debug.Log("Unpause menu");
+            Debug.Log("[DEBUG]: Unpause menu");
         }
         
         #endregion Events

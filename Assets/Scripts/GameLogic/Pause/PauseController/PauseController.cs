@@ -8,12 +8,6 @@ namespace ProjectExodus.GameLogic.Pause.PauseController
     public class PauseController : MonoBehaviour, IPauseController
     {
 
-        #region - - - - - - Fields - - - - - -
-
-        [SerializeField] private SceneManager m_SceneManager;
-
-        #endregion Fields
-  
         #region - - - - - - Methods - - - - - -
 
         // Note: This is an expensive method call.

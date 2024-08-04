@@ -23,10 +23,8 @@ namespace ProjectExodus.Management.AudioManager
   
         #region - - - - - - Methods - - - - - -
 
-        void IAudioManager.InitialiseAudioManager()
-        {
-            Debug.Log("AudioManager initialised."); // Temp debug only
-        }
+        void IAudioManager.InitialiseAudioManager() 
+            => Debug.Log("AudioManager initialised."); // Temp debug only
 
         #endregion Methods
 

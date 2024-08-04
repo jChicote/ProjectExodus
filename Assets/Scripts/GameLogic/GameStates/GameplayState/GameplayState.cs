@@ -1,5 +1,4 @@
 ﻿using ProjectExodus.Management.InputManager;
-using UnityEngine;
 
 namespace ProjectExodus.GameLogic.GameStates.GameplayState
 {
@@ -15,10 +14,8 @@ namespace ProjectExodus.GameLogic.GameStates.GameplayState
   
         #region - - - - - - Constructor - - - - - -
 
-        public GameplayState(IInputManager inputManager)
-        {
-            this.m_InputManager = inputManager;
-        }        
+        public GameplayState(IInputManager inputManager) 
+            => this.m_InputManager = inputManager;
 
         #endregion Constructor
   

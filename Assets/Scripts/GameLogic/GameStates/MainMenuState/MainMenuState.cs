@@ -1,5 +1,4 @@
-﻿using ProjectExodus.Management.GameStateManager;
-using ProjectExodus.Management.InputManager;
+﻿using ProjectExodus.Management.InputManager;
 using UnityEngine;
 
 namespace ProjectExodus.GameLogic.GameStates.MainMenuState
@@ -16,10 +15,8 @@ namespace ProjectExodus.GameLogic.GameStates.MainMenuState
   
         #region - - - - - - Constructor - - - - - -
 
-        public MainMenuState(IInputManager inputManager)
-        {
-            this.m_InputManager = inputManager;
-        }        
+        public MainMenuState(IInputManager inputManager) 
+            => this.m_InputManager = inputManager;
 
         #endregion Constructor
         

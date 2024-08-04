@@ -1,5 +1,4 @@
-﻿using System;
-using ProjectExodus.GameLogic.GameStates;
+﻿using ProjectExodus.GameLogic.GameStates;
 using ProjectExodus.GameLogic.GameStates.GameplayState;
 using ProjectExodus.GameLogic.GameStates.MainMenuState;
 using ProjectExodus.Management.InputManager;
@@ -13,8 +12,10 @@ namespace ProjectExodus.Management.GameStateManager
 
         #region - - - - - - Fields - - - - - -
 
+        // Managers
         private IInputManager m_InputManager;
 
+        // Game States
         private GameplayState m_GameplayState;
         private MainMenuState m_MainMenuState;
         
