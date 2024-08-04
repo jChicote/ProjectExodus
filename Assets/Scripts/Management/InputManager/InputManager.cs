@@ -41,6 +41,7 @@ namespace ProjectExodus.Management.InputManager
 
         void IInputManager.InitialiseInputManager()
         {
+            // Note: Ensure all values exist and references are set. Avoid setting the active input control.
             ((IInputManager)this).PossesUIInputControls();
             
             Debug.Log("InputManager initialised."); // Temp debug only
@@ -60,7 +61,6 @@ namespace ProjectExodus.Management.InputManager
             }
             
             this.m_UserInterfaceInputControl.BindInputControls(this.m_PlayerInput);
-            ((IInputManager)this).SwitchToUserInterfaceInputControls();
         }
 
         void IInputManager.SwitchToGameplayInputControls()
