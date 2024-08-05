@@ -41,6 +41,19 @@ namespace ProjectExodus.Management.UserInterfaceManager
         void IUserInterfaceManager.InitialiseUserInterfaceManager() 
             => this.InitialiseUserIterfaces();
 
+        void IUserInterfaceManager.OpenMenu(GUIScreen guiScreen)
+        {
+            switch (guiScreen)
+            {
+                case GUIScreen.GameplayScreen:
+                    Debug.LogWarning("[WARNING] - No behavior implemented.");
+                    break;
+                case GUIScreen.MainMenu:
+                    // this.m_MainMenuController.
+                    break;
+            }
+        }
+        
         private void InitialiseUserIterfaces() 
             => ((IMainMenuController)this.m_MainMenuController).InitialiseMainMenuController();
 

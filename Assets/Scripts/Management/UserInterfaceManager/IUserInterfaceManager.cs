@@ -1,4 +1,5 @@
 ﻿using ProjectExodus.UserInterface.MainMenu;
+using UnityEngine;
 
 namespace ProjectExodus.Management.UserInterfaceManager
 {
@@ -16,8 +17,16 @@ namespace ProjectExodus.Management.UserInterfaceManager
 
         void InitialiseUserInterfaceManager();
 
+        void OpenMenu(GUIScreen guiScreen);
+
         #endregion Methods
 
+    }
+
+    public enum GUIScreen
+    {
+        MainMenu,
+        GameplayScreen
     }
 
 }

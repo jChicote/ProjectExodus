@@ -8,6 +8,8 @@
 
         void InitialiseMainMenuController();
 
+        void HideMainMenu();
+
         void ShowMainMenu();
 
         #endregion Methods

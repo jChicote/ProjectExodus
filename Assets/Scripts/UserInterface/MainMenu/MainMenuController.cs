@@ -20,14 +20,17 @@ namespace ProjectExodus.UserInterface.MainMenu
         public void OnPlaySelection()
         {
             this.m_GameStateManager.ChangeGameState(GameState.Gameplay);
-            this.HideMainMenu();
+            ((IMainMenuController)this).HideMainMenu();
         }
 
         public void OnOptionsSelection()
             => Debug.LogWarning("[WARNING] >> No implemented behavior.");
 
-        public void OnExitSelection() 
-            => Debug.LogWarning("[WARNING] >> No implemented behavior.");
+        public void OnExitSelection()
+        {
+            Debug.LogWarning("[MainMenuController] >> Exit game.");
+            Application.Quit();
+        }
 
         #endregion Events
 
@@ -36,11 +39,11 @@ namespace ProjectExodus.UserInterface.MainMenu
         void IMainMenuController.InitialiseMainMenuController() 
             => this.m_GameStateManager = GameManager.Instance.GameStateManager;
 
+        void IMainMenuController.HideMainMenu()
+            => this.m_ContentGroup.SetActive(false);
+
         void IMainMenuController.ShowMainMenu() 
             => this.m_ContentGroup.SetActive(true);
-
-        private void HideMainMenu() 
-            => this.m_ContentGroup.SetActive(false);
 
         #endregion Methods
 
