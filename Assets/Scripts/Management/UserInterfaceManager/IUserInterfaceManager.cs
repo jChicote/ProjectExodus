@@ -1,32 +1,23 @@
-﻿using ProjectExodus.UserInterface.MainMenu;
-using UnityEngine;
+﻿using ProjectExodus.Management.UserInterfaceScreenStatesManager;
 
 namespace ProjectExodus.Management.UserInterfaceManager
 {
-    
+
     public interface IUserInterfaceManager
     {
 
         #region - - - - - - Properties - - - - - -
 
-        IMainMenuController MainMenuController { get; }
+        IUserInterfaceScreenStateManager UserInterfaceScreenStateManager { get; }
 
         #endregion Properties
-  
+
         #region - - - - - - Methods - - - - - -
 
         void InitialiseUserInterfaceManager();
 
-        void OpenMenu(GUIScreen guiScreen);
-
         #endregion Methods
 
-    }
-
-    public enum GUIScreen
-    {
-        MainMenu,
-        GameplayScreen
     }
 
 }

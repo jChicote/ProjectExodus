@@ -1,4 +1,5 @@
-﻿using ProjectExodus.Management.GameStateManager;
+﻿using ProjectExodus.Management.Enumeration;
+using ProjectExodus.Management.GameStateManager;
 using UnityEngine;
 
 namespace ProjectExodus.UserInterface.MainMenu
@@ -20,7 +21,7 @@ namespace ProjectExodus.UserInterface.MainMenu
         public void OnPlaySelection()
         {
             this.m_GameStateManager.ChangeGameState(GameState.Gameplay);
-            ((IMainMenuController)this).HideMainMenu();
+            ((IScreenStateController)this).HideScreen();
         }
 
         public void OnOptionsSelection()
@@ -39,10 +40,10 @@ namespace ProjectExodus.UserInterface.MainMenu
         void IMainMenuController.InitialiseMainMenuController() 
             => this.m_GameStateManager = GameManager.Instance.GameStateManager;
 
-        void IMainMenuController.HideMainMenu()
+        void IScreenStateController.HideScreen()
             => this.m_ContentGroup.SetActive(false);
 
-        void IMainMenuController.ShowMainMenu() 
+        void IScreenStateController.ShowScreen() 
             => this.m_ContentGroup.SetActive(true);
 
         #endregion Methods

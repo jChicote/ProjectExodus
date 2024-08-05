@@ -1,4 +1,6 @@
-﻿using ProjectExodus.UserInterface.MainMenu;
+﻿using ProjectExodus.Management.Models;
+using ProjectExodus.Management.UserInterfaceScreenStatesManager;
+using ProjectExodus.UserInterface.MainMenu;
 using UnityEngine;
 
 namespace ProjectExodus.Management.UserInterfaceManager
@@ -15,12 +17,15 @@ namespace ProjectExodus.Management.UserInterfaceManager
         [Header("GUI Controllers")]
         [SerializeField] private MainMenuController m_MainMenuController;
 
+        [Header("Sub-Managers")]
+        [SerializeField] private UserInterfaceScreenStateManager m_UserInterfaceScreenStateManager;
+
         #endregion Fields
 
         #region - - - - - - Properties - - - - - -
 
-        IMainMenuController IUserInterfaceManager.MainMenuController
-            => this.m_MainMenuController;
+        IUserInterfaceScreenStateManager IUserInterfaceManager.UserInterfaceScreenStateManager
+            => this.m_UserInterfaceScreenStateManager;
 
         #endregion Properties
   
@@ -38,22 +43,15 @@ namespace ProjectExodus.Management.UserInterfaceManager
   
         #region - - - - - - Methods - - - - - -
 
-        void IUserInterfaceManager.InitialiseUserInterfaceManager() 
-            => this.InitialiseUserIterfaces();
-
-        void IUserInterfaceManager.OpenMenu(GUIScreen guiScreen)
+        void IUserInterfaceManager.InitialiseUserInterfaceManager()
         {
-            switch (guiScreen)
-            {
-                case GUIScreen.GameplayScreen:
-                    Debug.LogWarning("[WARNING] - No behavior implemented.");
-                    break;
-                case GUIScreen.MainMenu:
-                    // this.m_MainMenuController.
-                    break;
-            }
+            this.InitialiseUserIterfaces();
+
+            GameScreens _GameScreens = new GameScreens(this.m_MainMenuController);
+            ((IUserInterfaceManager)this).UserInterfaceScreenStateManager
+                .InitialiseUserInterfaceScreenStatesManager(_GameScreens);
         }
-        
+
         private void InitialiseUserIterfaces() 
             => ((IMainMenuController)this.m_MainMenuController).InitialiseMainMenuController();
 

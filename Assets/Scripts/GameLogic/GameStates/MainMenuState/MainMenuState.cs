@@ -1,5 +1,6 @@
-﻿using ProjectExodus.Management.InputManager;
-using ProjectExodus.UserInterface.MainMenu;
+﻿using ProjectExodus.Management.Enumeration;
+using ProjectExodus.Management.InputManager;
+using ProjectExodus.Management.UserInterfaceScreenStatesManager;
 using UnityEngine;
 
 namespace ProjectExodus.GameLogic.GameStates.MainMenuState
@@ -11,16 +12,18 @@ namespace ProjectExodus.GameLogic.GameStates.MainMenuState
         #region - - - - - - Fields - - - - - -
 
         private readonly IInputManager m_InputManager;
-        private readonly IMainMenuController m_MainMenuController;
+        private readonly IUserInterfaceScreenStateManager m_UserInterfaceScreenStateManager;
 
         #endregion Fields
   
         #region - - - - - - Constructor - - - - - -
 
-        public MainMenuState(IInputManager inputManager, IMainMenuController mainMenuController)
+        public MainMenuState(
+            IInputManager inputManager, 
+            IUserInterfaceScreenStateManager userInterfaceScreenStateManager)
         {
             this.m_InputManager = inputManager;
-            this.m_MainMenuController = mainMenuController;
+            this.m_UserInterfaceScreenStateManager = userInterfaceScreenStateManager;
         }
 
         #endregion Constructor
@@ -30,7 +33,7 @@ namespace ProjectExodus.GameLogic.GameStates.MainMenuState
         void IGameState.StartState()
         {
             this.m_InputManager.SwitchToUserInterfaceInputControls();
-            this.m_MainMenuController.ShowMainMenu();
+            this.m_UserInterfaceScreenStateManager.OpenMenu(UIScreenType.MainMenu);
         }
 
         void IGameState.EndState()

@@ -1,7 +1,9 @@
 ﻿using ProjectExodus.GameLogic.GameStates;
 using ProjectExodus.GameLogic.GameStates.GameplayState;
 using ProjectExodus.GameLogic.GameStates.MainMenuState;
+using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.InputManager;
+using ProjectExodus.Management.UserInterfaceScreenStatesManager;
 using UnityEngine;
 
 namespace ProjectExodus.Management.GameStateManager
@@ -25,10 +27,10 @@ namespace ProjectExodus.Management.GameStateManager
         void IGameStateManager.InitialiseGameStateManager()
         {
             IInputManager _InputManager = GameManager.Instance.InputManager;
+            IUserInterfaceScreenStateManager _UserInterfaceScreenStateManager =
+                GameManager.Instance.UserInterfaceManager.UserInterfaceScreenStateManager;
             this.m_GameplayState = new GameplayState(_InputManager);
-            this.m_MainMenuState = new MainMenuState(
-                                    _InputManager,
-                                    GameManager.Instance.UserInterfaceManager.MainMenuController);
+            this.m_MainMenuState = new MainMenuState(_InputManager, _UserInterfaceScreenStateManager);
             
             // Set the starting game state
             ((IGameStateManager)this).ChangeGameState(GameState.MainMenu);
@@ -57,12 +59,6 @@ namespace ProjectExodus.Management.GameStateManager
 
         #endregion Methods
   
-    }
-
-    public enum GameState
-    {
-        MainMenu,
-        Gameplay
     }
 
 }
