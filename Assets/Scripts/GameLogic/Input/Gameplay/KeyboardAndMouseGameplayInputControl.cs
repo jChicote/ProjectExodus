@@ -1,5 +1,5 @@
-﻿using System;
-using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
+﻿using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace ProjectExodus.GameLogic.Input.Gameplay
@@ -23,7 +23,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             if (this.m_IsPaused || !this.m_IsInputActive)
                 return;
             
-            throw new NotImplementedException();
+            Debug.LogWarning("[NOT IMPLEMENTED] >> No implemented behavior for OnAttack.");
         }
 
         void IGameplayInputControl.OnInteract(InputAction.CallbackContext callbackContext)
@@ -31,7 +31,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             if (this.m_IsPaused || !this.m_IsInputActive)
                 return;
 
-            throw new NotImplementedException();
+            Debug.LogWarning("[NOT IMPLEMENTED] >> No implemented behavior for OnInteract.");
         }
 
         void IGameplayInputControl.OnLook(InputAction.CallbackContext callback)
@@ -39,7 +39,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             if (this.m_IsPaused || !this.m_IsInputActive)
                 return;
 
-            throw new NotImplementedException();
+            Debug.LogWarning("[NOT IMPLEMENTED] >> No implemented behavior for OnLook.");
         }
 
         void IGameplayInputControl.OnMove(InputAction.CallbackContext callback)
@@ -47,7 +47,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             if (this.m_IsPaused || !this.m_IsInputActive)
                 return;
 
-            throw new NotImplementedException();
+            Debug.LogWarning("[NOT IMPLEMENTED] >> No implemented behavior for OnMove.");
         }
 
         void IGameplayInputControl.OnPause(InputAction.CallbackContext callback)
@@ -55,7 +55,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             if (this.m_IsPaused || !this.m_IsInputActive)
                 return;
 
-            throw new NotImplementedException();
+            Debug.LogWarning("[NOT IMPLEMENTED] >> No implemented behavior for OnPause.");
         }
 
         void IGameplayInputControl.OnSprint(InputAction.CallbackContext callbackContext)
@@ -63,7 +63,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             if (this.m_IsPaused || !this.m_IsInputActive)
                 return;
 
-            throw new NotImplementedException();
+            Debug.LogWarning("[NOT IMPLEMENTED] >> No implemented behavior for OnSprint.");
         }
 
         #endregion Events
