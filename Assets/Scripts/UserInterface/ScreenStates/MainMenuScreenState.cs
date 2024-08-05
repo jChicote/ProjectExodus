@@ -8,16 +8,14 @@ namespace ProjectExodus.UserInterface.ScreenStates
 
         #region - - - - - - Fields - - - - - -
 
-        private IMainMenuController m_MainMenuController;
+        private readonly IMainMenuController m_MainMenuController;
 
         #endregion Fields
   
         #region - - - - - - Constructors - - - - - -
 
-        public MainMenuScreenState(IMainMenuController mainMenuStateController)
-        {
-            this.m_MainMenuController = mainMenuStateController;
-        }
+        public MainMenuScreenState(IMainMenuController mainMenuStateController) 
+            => this.m_MainMenuController = mainMenuStateController;
 
         #endregion Constructors
   
