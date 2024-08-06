@@ -1,6 +1,7 @@
 ﻿using ProjectExodus.GameLogic.Input.Gameplay;
 using ProjectExodus.GameLogic.Input.UserInterface;
 using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
+using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.GameStateManager;
 using UnityEngine;
 

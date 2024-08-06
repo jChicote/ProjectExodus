@@ -1,4 +1,6 @@
-﻿namespace ProjectExodus.Management.GameStateManager
+﻿using ProjectExodus.Management.Enumeration;
+
+namespace ProjectExodus.Management.GameStateManager
 {
 
     public interface IGameStateManager

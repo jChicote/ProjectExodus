@@ -73,9 +73,9 @@ namespace ProjectExodus
         {
             this.AudioManager.InitialiseAudioManager();
             this.InputManager.InitialiseInputManager();
+            this.UserInterfaceManager.InitialiseUserInterfaceManager();
             this.GameStateManager.InitialiseGameStateManager();
             this.SceneManager.InitialiseSceneManager();
-            this.UserInterfaceManager.InitialiseUserInterfaceManager();
         }
 
         #endregion Methods

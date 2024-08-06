@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using ProjectExodus.Management.Models;
+using ProjectExodus.Management.UserInterfaceScreenStatesManager;
+using ProjectExodus.UserInterface.MainMenu;
+using UnityEngine;
 
 namespace ProjectExodus.Management.UserInterfaceManager
 {
@@ -9,6 +12,23 @@ namespace ProjectExodus.Management.UserInterfaceManager
     public class UserInterfaceManager : MonoBehaviour, IUserInterfaceManager
     {
 
+        #region - - - - - - Fields - - - - - -
+
+        [Header("GUI Controllers")]
+        [SerializeField] private MainMenuController m_MainMenuController;
+
+        [Header("Sub-Managers")]
+        [SerializeField] private UserInterfaceScreenStateManager m_UserInterfaceScreenStateManager;
+
+        #endregion Fields
+
+        #region - - - - - - Properties - - - - - -
+
+        IUserInterfaceScreenStateManager IUserInterfaceManager.UserInterfaceScreenStateManager
+            => this.m_UserInterfaceScreenStateManager;
+
+        #endregion Properties
+  
         #region - - - - - - Unity Methods - - - - - -
 
         private void Awake()
@@ -23,8 +43,17 @@ namespace ProjectExodus.Management.UserInterfaceManager
   
         #region - - - - - - Methods - - - - - -
 
-        void IUserInterfaceManager.InitialiseUserInterfaceManager() 
-            => Debug.Log("UserInterfaceManager initialised."); // Temp debug only
+        void IUserInterfaceManager.InitialiseUserInterfaceManager()
+        {
+            this.InitialiseUserIterfaces();
+
+            GameScreens _GameScreens = new GameScreens(this.m_MainMenuController);
+            ((IUserInterfaceManager)this).UserInterfaceScreenStateManager
+                .InitialiseUserInterfaceScreenStatesManager(_GameScreens);
+        }
+
+        private void InitialiseUserIterfaces() 
+            => ((IMainMenuController)this.m_MainMenuController).InitialiseMainMenuController();
 
         #endregion Methods
   
