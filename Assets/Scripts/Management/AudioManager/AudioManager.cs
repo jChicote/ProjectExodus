@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace ProjectExodus.Management.AudioManager
 {
@@ -6,7 +8,7 @@ namespace ProjectExodus.Management.AudioManager
     /// <summary>
     /// Responsible for high-level management actions of audio components.
     /// </summary>
-    public class AudioManager : MonoBehaviour, IAudioManager
+    public class AudioManager : MonoBehaviour, IAudioManager, IAudioControls
     {
 
         #region - - - - - - Unity Methods - - - - - -
@@ -20,6 +22,30 @@ namespace ProjectExodus.Management.AudioManager
         }
 
         #endregion Unity Methods
+  
+        #region - - - - - - Events - - - - - -
+
+        void IAudioControls.OnPause()
+        {
+            throw new NotImplementedException();
+        }
+
+        void IAudioControls.OnPlay()
+        {
+            throw new NotImplementedException();
+        }
+
+        void IAudioControls.OnStop()
+        {
+            throw new NotImplementedException();
+        }
+
+        void IAudioControls.OnSetVolume()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion Events
   
         #region - - - - - - Methods - - - - - -
 
