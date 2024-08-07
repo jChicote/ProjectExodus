@@ -1,4 +1,6 @@
-﻿namespace ProjectExodus.Management.AudioManager
+﻿using UnityEngine;
+
+namespace ProjectExodus.Management.AudioManager
 {
 
     public interface IAudioControls
@@ -15,6 +17,12 @@
         void OnSetVolume();
 
         #endregion Events
+
+        #region - - - - - - Methods - - - - - -
+
+        void SetAudioClip(AudioClip audioClip);
+
+        #endregion Methods
 
     }
 

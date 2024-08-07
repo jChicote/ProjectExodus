@@ -22,7 +22,7 @@ namespace ProjectExodus.Tests.TestHarness.TestGameStateManager
 
         #endregion Fields
 
-        #region - - - - - - Methods - - - - - -
+        #region - - - - - - Tests - - - - - -
 
         public void ChangeGameState_SettingNextGameState_GameplayStateIsActiveWithCorrectInputControl()
         {
@@ -58,7 +58,7 @@ namespace ProjectExodus.Tests.TestHarness.TestGameStateManager
                 Debug.LogWarning("[FAILED]: UserInterface InputControl is not active.");
         }
 
-        #endregion Methods
+        #endregion Tests
   
     }
 
