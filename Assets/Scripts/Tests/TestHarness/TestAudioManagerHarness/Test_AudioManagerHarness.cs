@@ -11,7 +11,7 @@ namespace ProjectExodus.Tests.TestHarness.TestAudioManagerHarness
 
         public AudioManager AudioManager;
         public AudioSource AudioSource;
-        public AudioClip TestClip;
+        public AudioClip TestAudioClip;
 
         private IAudioControls m_AudioControls;
 
@@ -34,8 +34,12 @@ namespace ProjectExodus.Tests.TestHarness.TestAudioManagerHarness
             this.m_AudioControls.OnPause();
             
             // Assert
-            if (this.AudioSource.isPlaying)
-                Return Debug.Log("[Success] Audio can now pause.]");
+            if (this.AudioSource.resource != null)
+                Debug.Log(!this.AudioSource.isPlaying
+                        ? "[SUCCESS] Audio are now paused." 
+                        : "[FAIL] Audio is still paused.");
+            else
+                Debug.Log("[FAIL] Cannot pause the audio if not audio clip has been set.");
         }
 
         public void OnPlay_PlayingAudioManager_AnyActiveSoundtracksOrSoundsArePlaying()
@@ -43,9 +47,12 @@ namespace ProjectExodus.Tests.TestHarness.TestAudioManagerHarness
             // Arrange
             
             // Act
+            this.m_AudioControls.OnPlay();
             
             // Assert
-            
+            Debug.Log(this.AudioSource.isPlaying
+                ? "[SUCCESS] Audio is now playing."
+                : "[FAIL] Audio is still paused or inactive.");
         }
 
         public void SetAudioClip_AddingNewClipForTheAudioManagerToPlay_NewAudioClipIsPlaying()
@@ -53,8 +60,12 @@ namespace ProjectExodus.Tests.TestHarness.TestAudioManagerHarness
             // Arrange
             
             // Act
+            this.m_AudioControls.SetAudioClip(this.TestAudioClip);
             
             // Assert
+            Debug.Log(this.AudioSource.resource == this.TestAudioClip
+                ? "[SUCCESS] Audio clip has been set."
+                : "[FAIL] Audio clip is not found.");
         }
 
         #endregion Tests
