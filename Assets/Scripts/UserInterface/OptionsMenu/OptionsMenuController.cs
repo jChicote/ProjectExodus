@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ProjectExodus.UserInterface.OptionsMenu
 {
@@ -10,11 +11,41 @@ namespace ProjectExodus.UserInterface.OptionsMenu
 
         [SerializeField] private GameObject m_ContentGroup;
 
-        [Header("Audio Control Options")]
-        [SerializeField] private GameObject m_AudioControlContentGroup;
-        // [SerializeField] private 
-
+        [Header("Audio Options")]
+        [SerializeField] private GameObject m_AudioOptionsContentGroup;
+        [SerializeField] private Button m_AudioOptionTabButton;
+        
+        [Header("Input Options")]
+        [SerializeField] private GameObject m_InputOptionsContentGroup;
+        [SerializeField] private Button m_InputOptionTabButton;
+        
+        [Header("UserInterface Options")]
+        [SerializeField] private GameObject m_UserInterfaceOptionsContentGroup;
+        [SerializeField] private Button m_UserInterfaceOptionTabButton;
+        
+        [Header("Graphics Options")]
+        [SerializeField] private GameObject m_GraphicsOptionsContentGroup;
+        [SerializeField] private Button m_GraphicsOptionTabButton;
+        
         #endregion Fields
+
+        #region - - - - - - Unity Methods - - - - - -
+
+        private void Start()
+        {
+            // this.m_AudioOptionTabButton.onClick += this.ShowAudioOptions();
+        }
+
+        #endregion Unity Methods
+  
+        #region - - - - - - Events - - - - - -
+
+        public void ShowAudioOptions()
+        {
+            
+        }
+        
+        #endregion Events
   
         #region - - - - - - Methods - - - - - -
 
