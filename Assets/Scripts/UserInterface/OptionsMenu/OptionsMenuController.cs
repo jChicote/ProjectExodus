@@ -33,16 +33,52 @@ namespace ProjectExodus.UserInterface.OptionsMenu
 
         private void Start()
         {
-            // this.m_AudioOptionTabButton.onClick += this.ShowAudioOptions();
+            this.m_AudioOptionTabButton.onClick.AddListener(this.OnShowAudioOptions);
+            this.m_InputOptionTabButton.onClick.AddListener(this.OnShowInputOptions);
+            this.m_UserInterfaceOptionTabButton.onClick.AddListener(this.OnShowUserInterfaceOptions);
+            this.m_GraphicsOptionTabButton.onClick.AddListener(this.OnShowGraphicsOptions);
         }
 
         #endregion Unity Methods
   
         #region - - - - - - Events - - - - - -
 
-        public void ShowAudioOptions()
+        private void OnShowAudioOptions()
         {
+            this.m_AudioOptionsContentGroup.SetActive(true);
+            Debug.Log("Showing Audio options");
+
+            this.m_GraphicsOptionsContentGroup.SetActive(false);
+            this.m_InputOptionsContentGroup.SetActive(false);
+            this.m_UserInterfaceOptionsContentGroup.SetActive(false);
+        }
+
+        private void OnShowInputOptions()
+        {
+            this.m_InputOptionsContentGroup.SetActive(true);
+            Debug.Log("Showing Input options");
             
+            this.m_AudioOptionsContentGroup.SetActive(false);
+            this.m_GraphicsOptionsContentGroup.SetActive(false);
+            this.m_UserInterfaceOptionsContentGroup.SetActive(false);
+        }
+
+        private void OnShowGraphicsOptions()
+        {
+            this.m_GraphicsOptionsContentGroup.SetActive(true);
+            Debug.Log("Showing Audio options");
+
+            this.m_AudioOptionsContentGroup.SetActive(false);
+            this.m_InputOptionsContentGroup.SetActive(false);
+            // this.m_User
+        }
+
+        private void OnShowUserInterfaceOptions()
+        {
+            this.m_AudioOptionsContentGroup.SetActive(true);
+            Debug.Log("Showing Audio options");
+            
+            // this.m_GraphicsOptionsContentGroup,
         }
         
         #endregion Events
