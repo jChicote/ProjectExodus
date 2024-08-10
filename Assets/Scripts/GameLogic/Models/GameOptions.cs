@@ -1,4 +1,5 @@
 using System;
+using ProjectExodus.GameLogic.Enumeration;
 
 namespace ProjectExodus.GameLogic.Models
 {
@@ -13,17 +14,17 @@ namespace ProjectExodus.GameLogic.Models
         // Audio Options
         // ---------------------------------------
         
-        public int EnvironmentFXVolume { get; set; }
+        public float EnvironmentFXVolume { get; set; }
         
         public bool IsMuted { get; set; }
         
-        public int GameMusicVolume { get; set; }
+        public float GameMusicVolume { get; set; }
         
-        public int MasterVolume { get; set; }
+        public float MasterVolume { get; set; }
         
-        public int SoundFXVolume { get; set; }
+        public float SoundFXVolume { get; set; }
         
-        public int UIVolume { get; set; }
+        public float UIVolume { get; set; }
         
         // ---------------------------------------
         // User-Interface Options
@@ -43,12 +44,6 @@ namespace ProjectExodus.GameLogic.Models
         
         #endregion Properties
   
-    }
-    
-    public enum DisplayOption
-    {
-        Fullscreen,
-        Windowed
     }
 
 }

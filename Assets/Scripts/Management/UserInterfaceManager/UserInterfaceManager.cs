@@ -1,6 +1,7 @@
 ﻿using ProjectExodus.Management.Models;
 using ProjectExodus.Management.UserInterfaceScreenStatesManager;
 using ProjectExodus.UserInterface.MainMenu;
+using ProjectExodus.UserInterface.OptionsMenu;
 using UnityEngine;
 
 namespace ProjectExodus.Management.UserInterfaceManager
@@ -16,6 +17,7 @@ namespace ProjectExodus.Management.UserInterfaceManager
 
         [Header("GUI Controllers")]
         [SerializeField] private MainMenuController m_MainMenuController;
+        [SerializeField] private OptionsMenuController m_OptionsMenuController;
 
         [Header("Sub-Managers")]
         [SerializeField] private UserInterfaceScreenStateManager m_UserInterfaceScreenStateManager;
@@ -47,13 +49,19 @@ namespace ProjectExodus.Management.UserInterfaceManager
         {
             this.InitialiseUserIterfaces();
 
-            GameScreens _GameScreens = new GameScreens(this.m_MainMenuController);
+            GameScreens _GameScreens = new GameScreens(
+                this.m_MainMenuController,
+                this.m_OptionsMenuController);
             ((IUserInterfaceManager)this).UserInterfaceScreenStateManager
                 .InitialiseUserInterfaceScreenStatesManager(_GameScreens);
         }
 
-        private void InitialiseUserIterfaces() 
-            => ((IMainMenuController)this.m_MainMenuController).InitialiseMainMenuController();
+        private void InitialiseUserIterfaces()
+        {
+            ((IMainMenuController)this.m_MainMenuController).InitialiseMainMenuController();
+            ((IOptionsMenuController)this.m_OptionsMenuController).InitialiseOptionsMenu(
+                GameManager.Instance.GameSettings.GameOptions);
+        }
 
         #endregion Methods
   

@@ -1,4 +1,6 @@
 using System;
+using ProjectExodus.GameLogic.GameSettings;
+using ProjectExodus.GameLogic.Models;
 using ProjectExodus.Management.AudioManager;
 using ProjectExodus.Management.EventManager;
 using ProjectExodus.Management.GameStateManager;
@@ -29,6 +31,8 @@ namespace ProjectExodus
         [SerializeField] private SceneManager m_SceneManager;
         [SerializeField] private UserInterfaceManager m_UserInterfaceManager;
 
+        private GameSettings m_GameSettings;
+
         #endregion Fields
 
         #region - - - - - - Properties - - - - - -
@@ -41,6 +45,9 @@ namespace ProjectExodus
 
         public IInputManager InputManager
             => this.m_InputManager;
+
+        public GameSettings GameSettings
+            => this.m_GameSettings;
 
         public IGameStateManager GameStateManager
             => this.m_GameStateManager;
@@ -71,6 +78,13 @@ namespace ProjectExodus
 
         private void SetupGame()
         {
+            // Setup settings
+            // NOTE: This is temporary until a use case exists to initialise the settings option from a scriptable-object
+            //  or from a source JSON file.
+            this.m_GameSettings = new GameSettings();
+            this.m_GameSettings.GameOptions = new GameOptions();
+            
+            // Setup managers
             this.AudioManager.InitialiseAudioManager();
             this.InputManager.InitialiseInputManager();
             this.UserInterfaceManager.InitialiseUserInterfaceManager();

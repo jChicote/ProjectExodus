@@ -1,12 +1,14 @@
+using ProjectExodus.GameLogic.Models;
+
 namespace ProjectExodus.UserInterface.OptionsMenu
 {
 
-    public interface IOptionsMenuController
+    public interface IOptionsMenuController : IScreenStateController
     {
 
         #region - - - - - - Methods - - - - - -
 
-        void InitialiseOptionsMenu();
+        void InitialiseOptionsMenu(GameOptions gameOptions);
 
         #endregion Methods
 

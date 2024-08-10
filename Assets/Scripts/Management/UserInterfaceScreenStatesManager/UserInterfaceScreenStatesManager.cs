@@ -2,6 +2,7 @@
 using ProjectExodus.Management.Models;
 using ProjectExodus.UserInterface.ScreenStates;
 using UnityEngine;
+using UnityEngine.InputSystem.Editor;
 
 namespace ProjectExodus.Management.UserInterfaceScreenStatesManager
 {
@@ -13,6 +14,7 @@ namespace ProjectExodus.Management.UserInterfaceScreenStatesManager
 
         // UI Screen States
         private MainMenuScreenState m_MainMenuScreenState;
+        private OptionsMenuScreenState m_OptionsMenuScreenState;
 
         private IScreenState m_CurrentScreenState;
 
@@ -23,6 +25,7 @@ namespace ProjectExodus.Management.UserInterfaceScreenStatesManager
         void IUserInterfaceScreenStateManager.InitialiseUserInterfaceScreenStatesManager(GameScreens gameScreens)
         {
             this.m_MainMenuScreenState = new MainMenuScreenState(gameScreens.MainMenuController);
+            this.m_OptionsMenuScreenState = new OptionsMenuScreenState(gameScreens.OptionsMenuController);
             
             // Default opening game screen
             ((IUserInterfaceScreenStateManager)this).OpenMenu(UIScreenType.MainMenu);

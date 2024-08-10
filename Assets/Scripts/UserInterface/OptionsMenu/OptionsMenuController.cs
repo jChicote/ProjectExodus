@@ -1,11 +1,13 @@
+using ProjectExodus.GameLogic.Enumeration;
 using ProjectExodus.GameLogic.Models;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ProjectExodus.UserInterface.OptionsMenu
 {
 
-    public class OptionsMenuController : MonoBehaviour, IOptionsMenuController, IScreenStateController
+    public class OptionsMenuController : MonoBehaviour, IOptionsMenuController
     {
 
         #region - - - - - - Fields - - - - - -
@@ -34,9 +36,9 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         [Header("Graphics Options")]
         [SerializeField] private GameObject m_GraphicsOptionsContentGroup;
         [SerializeField] private Button m_GraphicsOptionTabButton;
-        [SerializeField] private InputField m_WidthInputField;
-        [SerializeField] private InputField m_HeightInputField;
-        [SerializeField] private Dropdown m_DisplayDropdown;
+        [SerializeField] private TMP_InputField m_WidthInputField;
+        [SerializeField] private TMP_InputField m_HeightInputField;
+        [SerializeField] private TMP_Dropdown m_DisplayDropdown;
 
         private GameOptions m_GameOptions;
         
@@ -58,6 +60,7 @@ namespace ProjectExodus.UserInterface.OptionsMenu
             this.m_MasterVolumeSlider.onValueChanged.AddListener(this.OnMasterVolumeChanged);
             this.m_SoundFXVolumeSlider.onValueChanged.AddListener(this.OnSoundFXVolumeChanged);
             this.m_UIVolumeSlider.onValueChanged.AddListener(this.OnUIVolumeChanged);
+            this.m_MuteButton.onClick.AddListener(this.OnToggleMute);
             
             // User-Interface option event-bindings
             this.m_HUDVisibilityButton.onClick.AddListener(this.OnToggleHUDVisibility);
@@ -120,67 +123,61 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         // Audio Option Events
         // -----------------------------------
 
-        private void OnEnvironmentVolumeChanged(float sliderValue)
-        {
-            
-        }
+        private void OnEnvironmentVolumeChanged(float sliderValue) 
+            => this.m_GameOptions.EnvironmentFXVolume = sliderValue;
 
-        private void OnGameMusicVolumeChanged(float sliderValue)
-        {
-            
-        }
+        private void OnGameMusicVolumeChanged(float sliderValue) 
+            => this.m_GameOptions.GameMusicVolume = sliderValue;
 
-        private void OnMasterVolumeChanged(float sliderValue)
-        {
-            
-        }
+        private void OnMasterVolumeChanged(float sliderValue) 
+            => this.m_GameOptions.MasterVolume = sliderValue;
 
-        private void OnSoundFXVolumeChanged(float sliderValue)
-        {
-            
-        }
+        private void OnSoundFXVolumeChanged(float sliderValue) 
+            => this.m_GameOptions.SoundFXVolume = sliderValue;
 
-        private void OnUIVolumeChanged(float sliderValue)
-        {
-            
-        }
-        
+        private void OnUIVolumeChanged(float sliderValue) 
+            => this.m_GameOptions.UIVolume = sliderValue;
+
+        private void OnToggleMute()
+            => this.m_GameOptions.IsMuted = !this.m_GameOptions.IsMuted;
+
         // -----------------------------------
         // User-Interface Option Events
         // -----------------------------------
 
-        private void OnToggleHUDVisibility()
-        {
-            
-        }
-        
+        private void OnToggleHUDVisibility() 
+            => this.m_GameOptions.IsHUDVisible = !this.m_GameOptions.IsHUDVisible;
+
         // -----------------------------------
         // Graphics Option Events
         // -----------------------------------
 
         private void OnDisplayWidthChanged(string widthValue)
         {
+            if (!int.TryParse(widthValue, out int _Result))
+                return;
             
+            this.m_GameOptions.DisplayWidth = _Result;
         }
 
         private void OnDisplayHeightChanged(string heightValue)
         {
+            if (!int.TryParse(heightValue, out int _Result))
+                return;
             
+            this.m_GameOptions.DisplayHeight = _Result;
         }
 
-        private void OnDisplayDropdownSelection(int displaySelection)
-        {
-        }
+        private void OnDisplayDropdownSelection(int displaySelection) 
+            => this.m_GameOptions.DisplayOption = (DisplayOption)displaySelection;
 
         #endregion Events
   
         #region - - - - - - Methods - - - - - -
 
-        void IOptionsMenuController.InitialiseOptionsMenu()
-        {
-            
-        }
-        
+        void IOptionsMenuController.InitialiseOptionsMenu(GameOptions gameOptions) 
+            => this.m_GameOptions = gameOptions;
+
         void IScreenStateController.HideScreen() 
             => this.m_ContentGroup.SetActive(false);
 
