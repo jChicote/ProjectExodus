@@ -60,7 +60,9 @@ namespace ProjectExodus.Management.UserInterfaceManager
         {
             ((IMainMenuController)this.m_MainMenuController).InitialiseMainMenuController();
             ((IOptionsMenuController)this.m_OptionsMenuController).InitialiseOptionsMenu(
-                GameManager.Instance.GameSettings.GameOptions);
+                GameManager.Instance.GameSettings.GameOptions,
+                GameManager.Instance.Mapper,
+                this.m_UserInterfaceScreenStateManager);
         }
 
         #endregion Methods

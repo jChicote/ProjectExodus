@@ -1,5 +1,6 @@
 using System;
 using ProjectExodus.GameLogic.GameSettings;
+using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Models;
 using ProjectExodus.Management.AudioManager;
 using ProjectExodus.Management.EventManager;
@@ -32,6 +33,7 @@ namespace ProjectExodus
         [SerializeField] private UserInterfaceManager m_UserInterfaceManager;
 
         private GameSettings m_GameSettings;
+        private ObjectMapper m_ObjectMapper;
 
         #endregion Fields
 
@@ -51,6 +53,9 @@ namespace ProjectExodus
 
         public IGameStateManager GameStateManager
             => this.m_GameStateManager;
+
+        public IObjectMapper Mapper
+            => this.m_ObjectMapper;
 
         public ISceneManager SceneManager
             => this.m_SceneManager;
@@ -83,6 +88,10 @@ namespace ProjectExodus
             //  or from a source JSON file.
             this.m_GameSettings = new GameSettings();
             this.m_GameSettings.GameOptions = new GameOptions();
+            
+            // Setup Services
+            this.m_ObjectMapper = new ObjectMapper();
+            ((IConfigure)new ObjectMapperConfigurator(this.m_ObjectMapper)).Configure();
             
             // Setup managers
             this.AudioManager.InitialiseAudioManager();

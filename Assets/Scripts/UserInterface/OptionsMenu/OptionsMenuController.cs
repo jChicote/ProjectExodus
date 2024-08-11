@@ -1,8 +1,10 @@
+using ProjectExodus.GameLogic.Dtos;
 using ProjectExodus.GameLogic.Enumeration;
+using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Models;
+using ProjectExodus.Management.UserInterfaceScreenStatesManager;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace ProjectExodus.UserInterface.OptionsMenu
@@ -13,9 +15,12 @@ namespace ProjectExodus.UserInterface.OptionsMenu
 
         #region - - - - - - Fields - - - - - -
 
+        [Header("Options Menu Views")]
         [SerializeField] private GameObject m_OptionsContentGroup;
+        [SerializeField] private Button m_ApplyButton;
+        [SerializeField] private Button m_ExitButton;
 
-        [Header("Audio Options")]
+        [Header("Audio Options Views")]
         [SerializeField] private GameObject m_AudioOptionsContentGroup;
         [SerializeField] private Button m_AudioOptionTabButton;
         [SerializeField] private Button m_MuteButton;
@@ -25,16 +30,16 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         [SerializeField] private Slider m_SoundFXVolumeSlider;
         [SerializeField] private Slider m_UIVolumeSlider;
         
-        [Header("Input Options")]
+        [Header("Input Options Views")]
         [SerializeField] private GameObject m_InputOptionsContentGroup;
         [SerializeField] private Button m_InputOptionTabButton;
         
-        [Header("UserInterface Options")]
+        [Header("UserInterface Options Views")]
         [SerializeField] private GameObject m_UserInterfaceOptionsContentGroup;
         [SerializeField] private Button m_UserInterfaceOptionTabButton;
         [SerializeField] private Button m_HUDVisibilityButton;
         
-        [Header("Graphics Options")]
+        [Header("Graphics Options Views")]
         [SerializeField] private GameObject m_GraphicsOptionsContentGroup;
         [SerializeField] private Button m_GraphicsOptionTabButton;
         [SerializeField] private TMP_InputField m_WidthInputField;
@@ -42,6 +47,9 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         [SerializeField] private TMP_Dropdown m_DisplayDropdown;
 
         private GameOptions m_GameOptions;
+        private GameOptionsDto m_GameOptionDto;
+        private IObjectMapper m_Mapper;
+        private IUserInterfaceScreenStateManager m_UserInterfaceScreenStateManager;
         
         #endregion Fields
 
@@ -70,6 +78,10 @@ namespace ProjectExodus.UserInterface.OptionsMenu
             this.m_WidthInputField.onValueChanged.AddListener(this.OnDisplayWidthChanged);
             this.m_HeightInputField.onValueChanged.AddListener(this.OnDisplayHeightChanged);
             this.m_DisplayDropdown.onValueChanged.AddListener(this.OnDisplayDropdownSelection);
+            
+            // Options Menu view event-bindings
+            this.m_ApplyButton.onClick.AddListener(this.OnApplyOptions);
+            this.m_ExitButton.onClick.AddListener(this.OnExitOptions);
         }
 
         #endregion Unity Methods
@@ -83,7 +95,6 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         private void OnShowAudioOptions()
         {
             this.m_AudioOptionsContentGroup.SetActive(true);
-            Debug.Log("Showing Audio options");
 
             this.m_GraphicsOptionsContentGroup.SetActive(false);
             this.m_InputOptionsContentGroup.SetActive(false);
@@ -93,7 +104,6 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         private void OnShowInputOptions()
         {
             this.m_InputOptionsContentGroup.SetActive(true);
-            Debug.Log("Showing Input options");
             
             this.m_AudioOptionsContentGroup.SetActive(false);
             this.m_GraphicsOptionsContentGroup.SetActive(false);
@@ -103,7 +113,6 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         private void OnShowGraphicsOptions()
         {
             this.m_GraphicsOptionsContentGroup.SetActive(true);
-            Debug.Log("Showing Audio options");
 
             this.m_AudioOptionsContentGroup.SetActive(false);
             this.m_InputOptionsContentGroup.SetActive(false);
@@ -113,7 +122,6 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         private void OnShowUserInterfaceOptions()
         {
             this.m_UserInterfaceOptionsContentGroup.SetActive(true);
-            Debug.Log("Showing User-Interface options");
 
             this.m_AudioOptionsContentGroup.SetActive(false);
             this.m_GraphicsOptionsContentGroup.SetActive(false);
@@ -125,29 +133,29 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         // -----------------------------------
 
         private void OnEnvironmentVolumeChanged(float sliderValue) 
-            => this.m_GameOptions.EnvironmentFXVolume = sliderValue;
+            => this.m_GameOptionDto.EnvironmentFXVolume = sliderValue;
 
         private void OnGameMusicVolumeChanged(float sliderValue) 
-            => this.m_GameOptions.GameMusicVolume = sliderValue;
+            => this.m_GameOptionDto.GameMusicVolume = sliderValue;
 
         private void OnMasterVolumeChanged(float sliderValue) 
-            => this.m_GameOptions.MasterVolume = sliderValue;
+            => this.m_GameOptionDto.MasterVolume = sliderValue;
 
         private void OnSoundFXVolumeChanged(float sliderValue) 
-            => this.m_GameOptions.SoundFXVolume = sliderValue;
+            => this.m_GameOptionDto.SoundFXVolume = sliderValue;
 
         private void OnUIVolumeChanged(float sliderValue) 
-            => this.m_GameOptions.UIVolume = sliderValue;
+            => this.m_GameOptionDto.UIVolume = sliderValue;
 
         private void OnToggleMute()
-            => this.m_GameOptions.IsMuted = !this.m_GameOptions.IsMuted;
+            => this.m_GameOptionDto.IsMuted = !this.m_GameOptionDto.IsMuted;
 
         // -----------------------------------
         // User-Interface Option Events
         // -----------------------------------
 
         private void OnToggleHUDVisibility() 
-            => this.m_GameOptions.IsHUDVisible = !this.m_GameOptions.IsHUDVisible;
+            => this.m_GameOptionDto.IsHUDVisible = !this.m_GameOptionDto.IsHUDVisible;
 
         // -----------------------------------
         // Graphics Option Events
@@ -158,7 +166,7 @@ namespace ProjectExodus.UserInterface.OptionsMenu
             if (!int.TryParse(widthValue, out int _Result))
                 return;
             
-            this.m_GameOptions.DisplayWidth = _Result;
+            this.m_GameOptionDto.DisplayWidth = _Result;
         }
 
         private void OnDisplayHeightChanged(string heightValue)
@@ -166,24 +174,66 @@ namespace ProjectExodus.UserInterface.OptionsMenu
             if (!int.TryParse(heightValue, out int _Result))
                 return;
             
-            this.m_GameOptions.DisplayHeight = _Result;
+            this.m_GameOptionDto.DisplayHeight = _Result;
         }
 
         private void OnDisplayDropdownSelection(int displaySelection) 
-            => this.m_GameOptions.DisplayOption = (DisplayOption)displaySelection;
+            => this.m_GameOptionDto.DisplayOption = (DisplayOption)displaySelection;
+        
+        // -----------------------------------
+        // Confirmation Events
+        // -----------------------------------
+        
+        private void OnExitOptions() 
+            => this.m_UserInterfaceScreenStateManager.OpenPreviousScreen();
+
+        private void OnApplyOptions()
+        {
+            this.m_Mapper.Map(this.m_GameOptionDto, this.m_GameOptions);
+            this.m_UserInterfaceScreenStateManager.OpenPreviousScreen();
+        }
 
         #endregion Events
   
         #region - - - - - - Methods - - - - - -
 
-        void IOptionsMenuController.InitialiseOptionsMenu(GameOptions gameOptions) 
-            => this.m_GameOptions = gameOptions;
+        void IOptionsMenuController.InitialiseOptionsMenu(
+            GameOptions gameOptions, 
+            IObjectMapper mapper,
+            IUserInterfaceScreenStateManager userInterfaceScreenStateManager)
+        {
+            this.m_GameOptions = gameOptions;
+            this.m_Mapper = mapper;
+            this.m_GameOptionDto = new GameOptionsDto();
+            this.m_UserInterfaceScreenStateManager = userInterfaceScreenStateManager;
+            
+            this.m_Mapper.Map(gameOptions, this.m_GameOptionDto);
+        }
 
         void IScreenStateController.HideScreen() 
             => this.m_OptionsContentGroup.SetActive(false);
 
-        void IScreenStateController.ShowScreen() 
-            => this.m_OptionsContentGroup.SetActive(true);
+        void IScreenStateController.ShowScreen()
+        {
+            this.m_OptionsContentGroup.SetActive(true);
+            
+            // Set screen form values
+            this.m_EnvironmentFXVolumeSlider.value = this.m_GameOptions.EnvironmentFXVolume;
+            this.m_GameMusicVolumeSlider.value = this.m_GameOptions.GameMusicVolume;
+            this.m_MasterVolumeSlider.value = this.m_GameOptions.MasterVolume;
+            this.m_SoundFXVolumeSlider.value = this.m_GameOptions.SoundFXVolume;
+            this.m_UIVolumeSlider.value = this.m_GameOptions.UIVolume;
+            
+            this.m_WidthInputField.text = this.m_GameOptions.DisplayWidth.ToString();
+            this.m_HeightInputField.text = this.m_GameOptions.DisplayHeight.ToString();
+            this.m_DisplayDropdown.value = (int)this.m_GameOptions.DisplayOption;
+            
+            // Reset active displayed tab to default
+            this.m_AudioOptionsContentGroup.SetActive(true);
+            this.m_GraphicsOptionsContentGroup.SetActive(false);
+            this.m_InputOptionsContentGroup.SetActive(false);
+            this.m_UserInterfaceOptionsContentGroup.SetActive(false);
+        }
 
         #endregion Methods
 

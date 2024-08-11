@@ -24,11 +24,11 @@ namespace ProjectExodus.UserInterface.MainMenu
         public void OnPlaySelection()
         {
             this.m_GameStateManager.ChangeGameState(GameState.Gameplay);
-            this.m_UserInterfaceScreenStateManager.OpenMenu(UIScreenType.GameplayHUD);
+            this.m_UserInterfaceScreenStateManager.OpenScreen(UIScreenType.GameplayHUD);
         }
 
         public void OnOptionsSelection() 
-            => this.m_UserInterfaceScreenStateManager.OpenMenu(UIScreenType.OptionsMenu);
+            => this.m_UserInterfaceScreenStateManager.OpenScreen(UIScreenType.OptionsMenu);
 
         public void OnExitSelection()
         {

@@ -1,4 +1,6 @@
+using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Models;
+using ProjectExodus.Management.UserInterfaceScreenStatesManager;
 
 namespace ProjectExodus.UserInterface.OptionsMenu
 {
@@ -8,7 +10,10 @@ namespace ProjectExodus.UserInterface.OptionsMenu
 
         #region - - - - - - Methods - - - - - -
 
-        void InitialiseOptionsMenu(GameOptions gameOptions);
+        void InitialiseOptionsMenu(
+            GameOptions gameOptions, 
+            IObjectMapper mapper, 
+            IUserInterfaceScreenStateManager userInterfaceScreenStateManager);
 
         #endregion Methods
 

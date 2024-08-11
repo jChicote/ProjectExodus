@@ -16,6 +16,7 @@ namespace ProjectExodus.Management.UserInterfaceScreenStatesManager
         private OptionsMenuScreenState m_OptionsMenuScreenState;
 
         private IScreenState m_CurrentScreenState;
+        private IScreenState m_PreviousScreenState;
 
         #endregion Fields
         
@@ -27,11 +28,12 @@ namespace ProjectExodus.Management.UserInterfaceScreenStatesManager
             this.m_OptionsMenuScreenState = new OptionsMenuScreenState(gameScreens.OptionsMenuController);
             
             // Default opening game screen
-            ((IUserInterfaceScreenStateManager)this).OpenMenu(UIScreenType.MainMenu);
+            ((IUserInterfaceScreenStateManager)this).OpenScreen(UIScreenType.MainMenu);
         }
         
-        void IUserInterfaceScreenStateManager.OpenMenu(UIScreenType uiScreenType)
+        void IUserInterfaceScreenStateManager.OpenScreen(UIScreenType uiScreenType)
         {
+            this.m_PreviousScreenState = this.m_CurrentScreenState;
             this.m_CurrentScreenState?.EndState();
             
             switch (uiScreenType)
@@ -47,6 +49,13 @@ namespace ProjectExodus.Management.UserInterfaceScreenStatesManager
                     break;
             }
             
+            this.m_CurrentScreenState.StartState();
+        }
+
+        void IUserInterfaceScreenStateManager.OpenPreviousScreen()
+        {
+            this.m_CurrentScreenState?.EndState();
+            this.m_CurrentScreenState = this.m_PreviousScreenState;
             this.m_CurrentScreenState.StartState();
         }
 

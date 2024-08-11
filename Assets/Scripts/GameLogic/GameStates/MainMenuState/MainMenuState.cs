@@ -33,7 +33,7 @@ namespace ProjectExodus.GameLogic.GameStates.MainMenuState
         void IGameState.StartState()
         {
             this.m_InputManager.SwitchToUserInterfaceInputControls();
-            this.m_UserInterfaceScreenStateManager.OpenMenu(UIScreenType.MainMenu);
+            this.m_UserInterfaceScreenStateManager.OpenScreen(UIScreenType.MainMenu);
         }
 
         void IGameState.EndState()
