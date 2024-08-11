@@ -10,6 +10,8 @@ namespace ProjectExodus.GameLogic.Models
 
         #region - - - - - - Properties - - - - - -
 
+        public Guid ID { get; set; }
+
         // ---------------------------------------
         // Audio Options
         // ---------------------------------------

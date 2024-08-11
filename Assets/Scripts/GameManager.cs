@@ -1,7 +1,8 @@
-using System;
+using ProjectExodus.Backend.JsonDataContext;
+using ProjectExodus.Backend.Repositories.GameOptionsRepository;
+using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
 using ProjectExodus.GameLogic.GameSettings;
 using ProjectExodus.GameLogic.Mappers;
-using ProjectExodus.GameLogic.Models;
 using ProjectExodus.Management.AudioManager;
 using ProjectExodus.Management.EventManager;
 using ProjectExodus.Management.GameStateManager;
@@ -34,6 +35,8 @@ namespace ProjectExodus
 
         private GameSettings m_GameSettings;
         private ObjectMapper m_ObjectMapper;
+        private IGameOptionsFacade m_GameOptionsFacade;
+        private IDataContext m_DataContext;
 
         #endregion Fields
 
@@ -87,11 +90,18 @@ namespace ProjectExodus
             // NOTE: This is temporary until a use case exists to initialise the settings option from a scriptable-object
             //  or from a source JSON file.
             this.m_GameSettings = new GameSettings();
-            this.m_GameSettings.GameOptions = new GameOptions();
             
             // Setup Services
             this.m_ObjectMapper = new ObjectMapper();
             ((IConfigure)new ObjectMapperConfigurator(this.m_ObjectMapper)).Configure();
+            
+            // Load all data
+            this.m_DataContext = new JsonDataContext(); // Temporarily be initialised here
+
+            GameOptionsRepository _GameOptionsRepository =
+                new GameOptionsRepository(this.m_DataContext, this.m_ObjectMapper);
+            this.m_GameOptionsFacade = new GameOptionsFacade(_GameOptionsRepository, this.m_GameSettings);
+            this.m_GameOptionsFacade.GetGameOption();
             
             // Setup managers
             this.AudioManager.InitialiseAudioManager();

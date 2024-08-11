@@ -1,5 +1,6 @@
 using System;
 using ProjectExodus.GameLogic.Models;
+using UnityEngine;
 
 namespace ProjectExodus.GameLogic.GameSettings
 {
@@ -13,9 +14,22 @@ namespace ProjectExodus.GameLogic.GameSettings
 
         #region - - - - - - Fields - - - - - -
 
-        public GameOptions GameOptions { get; set; }
+        public GameOptions GameOptions { get; private set; }
 
         #endregion Fields
+
+        #region - - - - - - Methods - - - - - -
+
+        public void SetGameOptions(GameOptions gameOptions)
+        {
+            if (this.GameOptions != null)
+                Debug.LogWarning("You are overriding pre-existing GameOptions.");
+            
+            this.GameOptions = gameOptions;
+        }
+
+        #endregion Methods
+  
   
     }
 
