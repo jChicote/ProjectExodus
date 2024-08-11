@@ -1,5 +1,6 @@
 ﻿using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.GameStateManager;
+using ProjectExodus.Management.UserInterfaceScreenStatesManager;
 using UnityEngine;
 
 namespace ProjectExodus.UserInterface.MainMenu
@@ -10,9 +11,11 @@ namespace ProjectExodus.UserInterface.MainMenu
 
         #region - - - - - - Fields - - - - - -
 
-        [Header("Views")] [SerializeField] private GameObject m_ContentGroup;
+        [Header("Views")] 
+        [SerializeField] private GameObject m_ContentGroup;
 
         private IGameStateManager m_GameStateManager;
+        private IUserInterfaceScreenStateManager m_UserInterfaceScreenStateManager;
 
         #endregion Fields
 
@@ -21,11 +24,11 @@ namespace ProjectExodus.UserInterface.MainMenu
         public void OnPlaySelection()
         {
             this.m_GameStateManager.ChangeGameState(GameState.Gameplay);
-            ((IScreenStateController)this).HideScreen();
+            this.m_UserInterfaceScreenStateManager.OpenMenu(UIScreenType.GameplayHUD);
         }
 
-        public void OnOptionsSelection()
-            => Debug.LogWarning("[WARNING] >> No implemented behavior.");
+        public void OnOptionsSelection() 
+            => this.m_UserInterfaceScreenStateManager.OpenMenu(UIScreenType.OptionsMenu);
 
         public void OnExitSelection()
         {
@@ -37,8 +40,12 @@ namespace ProjectExodus.UserInterface.MainMenu
 
         #region - - - - - - Methods - - - - - -
 
-        void IMainMenuController.InitialiseMainMenuController() 
-            => this.m_GameStateManager = GameManager.Instance.GameStateManager;
+        void IMainMenuController.InitialiseMainMenuController()
+        {
+            this.m_GameStateManager = GameManager.Instance.GameStateManager;
+            this.m_UserInterfaceScreenStateManager =
+                GameManager.Instance.UserInterfaceManager.UserInterfaceScreenStateManager;
+        }
 
         void IScreenStateController.HideScreen()
             => this.m_ContentGroup.SetActive(false);

@@ -4,6 +4,7 @@
     public enum UIScreenType
     {
         MainMenu,
+        OptionsMenu,
         GameplayHUD
     }
 

@@ -2,7 +2,6 @@
 using ProjectExodus.Management.Models;
 using ProjectExodus.UserInterface.ScreenStates;
 using UnityEngine;
-using UnityEngine.InputSystem.Editor;
 
 namespace ProjectExodus.Management.UserInterfaceScreenStatesManager
 {
@@ -42,6 +41,9 @@ namespace ProjectExodus.Management.UserInterfaceScreenStatesManager
                     break;
                 case UIScreenType.MainMenu:
                     this.m_CurrentScreenState = this.m_MainMenuScreenState;
+                    break;
+                case UIScreenType.OptionsMenu:
+                    this.m_CurrentScreenState = this.m_OptionsMenuScreenState;
                     break;
             }
             

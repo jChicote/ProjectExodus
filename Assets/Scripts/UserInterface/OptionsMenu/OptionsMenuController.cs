@@ -2,6 +2,7 @@ using ProjectExodus.GameLogic.Enumeration;
 using ProjectExodus.GameLogic.Models;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace ProjectExodus.UserInterface.OptionsMenu
@@ -12,7 +13,7 @@ namespace ProjectExodus.UserInterface.OptionsMenu
 
         #region - - - - - - Fields - - - - - -
 
-        [SerializeField] private GameObject m_ContentGroup;
+        [SerializeField] private GameObject m_OptionsContentGroup;
 
         [Header("Audio Options")]
         [SerializeField] private GameObject m_AudioOptionsContentGroup;
@@ -66,8 +67,8 @@ namespace ProjectExodus.UserInterface.OptionsMenu
             this.m_HUDVisibilityButton.onClick.AddListener(this.OnToggleHUDVisibility);
             
             // Graphics option event-bindings
-            this.m_WidthInputField.onSubmit.AddListener(this.OnDisplayWidthChanged);
-            this.m_HeightInputField.onSubmit.AddListener(this.OnDisplayHeightChanged);
+            this.m_WidthInputField.onValueChanged.AddListener(this.OnDisplayWidthChanged);
+            this.m_HeightInputField.onValueChanged.AddListener(this.OnDisplayHeightChanged);
             this.m_DisplayDropdown.onValueChanged.AddListener(this.OnDisplayDropdownSelection);
         }
 
@@ -179,10 +180,10 @@ namespace ProjectExodus.UserInterface.OptionsMenu
             => this.m_GameOptions = gameOptions;
 
         void IScreenStateController.HideScreen() 
-            => this.m_ContentGroup.SetActive(false);
+            => this.m_OptionsContentGroup.SetActive(false);
 
         void IScreenStateController.ShowScreen() 
-            => this.m_ContentGroup.SetActive(true);
+            => this.m_OptionsContentGroup.SetActive(true);
 
         #endregion Methods
 
