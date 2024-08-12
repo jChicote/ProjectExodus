@@ -8,7 +8,7 @@ namespace ProjectExodus.GameLogic.Facades.GameOptionsFacade
 
         void CreateGameOptions();
 
-        void GetGameOption();
+        void GetGameOptions();
 
         void UpdateGameOptions();
 

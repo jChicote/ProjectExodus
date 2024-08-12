@@ -11,7 +11,7 @@ namespace ProjectExodus.Backend.Repositories
 
         void Create(TEntity entityToCreate);
 
-        IEnumerable<TEntity> Get();
+        IEnumerable<TEntity> GetEntities();
 
         void Update(Guid ID, TEntity entityToUpdate);
         

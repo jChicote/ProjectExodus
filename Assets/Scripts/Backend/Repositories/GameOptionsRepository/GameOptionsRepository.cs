@@ -37,7 +37,7 @@ namespace ProjectExodus.Backend.Repositories.GameOptionsRepository
             this.m_DataContext.Add(_GameOptions);
         }
 
-        IEnumerable<GameOptions> IDataRepository<GameOptions>.Get()
+        IEnumerable<GameOptions> IDataRepository<GameOptions>.GetEntities()
             => this.m_DataContext
                 .GetEntities<GameOptions>()
                 .Select(go =>

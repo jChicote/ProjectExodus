@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using ProjectExodus.Backend.Configuration;
 using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Backend.Repositories.GameOptionsRepository;
@@ -88,7 +89,7 @@ namespace ProjectExodus
 
         #region - - - - - - Methods - - - - - -
 
-        private void SetupGame()
+        private async Task SetupGame()
         {
             // Setup settings
             // NOTE: This is temporary until a use case exists to initialise the settings option from a scriptable-object
@@ -96,13 +97,13 @@ namespace ProjectExodus
             this.m_GameSettings = new GameSettings();
             
             // Setup Services and Configuration
+            this.m_DataContext = new JsonDataContext(); // Temporarily be initialised here
             this.m_ObjectMapper = new ObjectMapper();
             ((IConfigure)new BackendConfiguration(this.m_ObjectMapper)).Configure();
             ((IConfigure)new GameLogicConfiguration(this.m_ObjectMapper)).Configure();
             ((IConfigure)new UserInterfaceConfiguration(this.m_ObjectMapper)).Configure();
             
-            // Load all data
-            this.m_DataContext = new JsonDataContext(); // Temporarily be initialised here
+            // Configure data for GameLogic, Management and UI
             GameOptionsRepository _GameOptionsRepository = new GameOptionsRepository(
                                                             this.m_DataContext, 
                                                             this.m_ObjectMapper);
@@ -110,7 +111,15 @@ namespace ProjectExodus
                                         _GameOptionsRepository, 
                                         this.m_GameSettings, 
                                         this.m_ObjectMapper);
-            this.m_GameOptionsFacade.GetGameOption();
+            
+            // Load save data
+            await this.m_DataContext.Load();
+            await this.PostLoad();
+        }
+        
+        private async Task PostLoad()
+        {
+            this.m_GameOptionsFacade.GetGameOptions();
             
             // Setup managers
             this.AudioManager.InitialiseAudioManager();

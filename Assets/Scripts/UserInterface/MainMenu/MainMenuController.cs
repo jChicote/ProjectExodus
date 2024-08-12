@@ -2,6 +2,7 @@
 using ProjectExodus.Management.GameStateManager;
 using ProjectExodus.Management.UserInterfaceScreenStatesManager;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ProjectExodus.UserInterface.MainMenu
 {
@@ -13,12 +14,26 @@ namespace ProjectExodus.UserInterface.MainMenu
 
         [Header("Views")] 
         [SerializeField] private GameObject m_ContentGroup;
+        [SerializeField] private Button m_PlayButton;
+        [SerializeField] private Button m_OptionsButton;
+        [SerializeField] private Button m_ExitButton;
 
         private IGameStateManager m_GameStateManager;
         private IUserInterfaceScreenStateManager m_UserInterfaceScreenStateManager;
 
         #endregion Fields
 
+        #region - - - - - - Unity Methods - - - - - -
+
+        private void Start()
+        {
+            this.m_PlayButton.onClick.AddListener(this.OnPlaySelection);
+            this.m_OptionsButton.onClick.AddListener(this.OnOptionsSelection);
+            this.m_ExitButton.onClick.AddListener(this.OnExitSelection);
+        }
+
+        #endregion Unity Methods
+  
         #region - - - - - - Events - - - - - -
 
         public void OnPlaySelection()

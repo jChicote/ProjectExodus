@@ -13,7 +13,7 @@ namespace ProjectExodus.UserInterface.Configuration
 
         #region - - - - - - Fields - - - - - -
 
-        private IObjectMapperRegister m_ObjectMapperRegister;
+        private readonly IObjectMapperRegister m_ObjectMapperRegister;
 
         #endregion Fields
    

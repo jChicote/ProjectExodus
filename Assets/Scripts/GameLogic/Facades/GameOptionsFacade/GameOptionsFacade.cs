@@ -15,10 +15,10 @@ namespace ProjectExodus.GameLogic.Facades.GameOptionsFacade
 
         #region - - - - - - Fields - - - - - -
 
-        private IUseCaseInteractor<GetGameOptionsInputPort, IGetGameOptionsOutputPort> m_GetInteractor;
-
-        private GameSettings.GameSettings m_GameSettings;
-        private IObjectMapper m_Mapper;
+        private readonly IUseCaseInteractor<GetGameOptionsInputPort, IGetGameOptionsOutputPort> m_GetInteractor;
+        
+        private readonly GameSettings.GameSettings m_GameSettings;
+        private readonly IObjectMapper m_Mapper;
 
         #endregion Fields
 
@@ -46,7 +46,7 @@ namespace ProjectExodus.GameLogic.Facades.GameOptionsFacade
             throw new System.NotImplementedException();
         }
 
-        void IGameOptionsFacade.GetGameOption() 
+        void IGameOptionsFacade.GetGameOptions() 
             => this.m_GetInteractor.Handle(new GetGameOptionsInputPort(), this);
 
         void IGameOptionsFacade.UpdateGameOptions()

@@ -867,20 +867,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 307025923}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 992167621}
-        m_TargetAssemblyTypeName: ProjectExodus.UserInterface.MainMenu.MainMenuController,
-          Assembly-CSharp
-        m_MethodName: OnPlaySelection
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &307025923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3570,20 +3557,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 980439615}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 992167621}
-        m_TargetAssemblyTypeName: ProjectExodus.UserInterface.MainMenu.MainMenuController,
-          Assembly-CSharp
-        m_MethodName: OnExitSelection
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &980439615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3710,6 +3684,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ContentGroup: {fileID: 1339759587}
+  m_PlayButton: {fileID: 0}
+  m_OptionsButton: {fileID: 0}
+  m_ExitButton: {fileID: 0}
 --- !u!1 &1011593436
 GameObject:
   m_ObjectHideFlags: 0
@@ -3792,20 +3769,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1011593439}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 992167621}
-        m_TargetAssemblyTypeName: ProjectExodus.UserInterface.MainMenu.MainMenuController,
-          Assembly-CSharp
-        m_MethodName: OnOptionsSelection
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1011593439
 MonoBehaviour:
   m_ObjectHideFlags: 0

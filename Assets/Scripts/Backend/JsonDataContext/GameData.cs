@@ -9,7 +9,7 @@ namespace ProjectExodus.Backend.JsonDataContext
 
         #region - - - - - - Properties - - - - - -
 
-        public ICollection<GameOptions> GameOptions;
+        public ICollection<GameOptions> GameOptions = new List<GameOptions>();
 
         #endregion Properties
 

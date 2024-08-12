@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using ProjectExodus.Backend.Entities;
-using Unity.VisualScripting;
 using UnityEngine;
 using Application = UnityEngine.Device.Application;
 
@@ -33,6 +31,9 @@ namespace ProjectExodus.Backend.JsonDataContext
 
         ICollection<TEntity> IDataContext.GetEntities<TEntity>()
         {
+            if (this.m_GameData == null)
+                throw new InvalidOperationException("GameData is not initialized.");
+            
             if (typeof(TEntity) == typeof(GameOptions))
                 return (ICollection<TEntity>)this.m_GameData.GameOptions;
 
@@ -53,9 +54,13 @@ namespace ProjectExodus.Backend.JsonDataContext
         {
             if (!Directory.Exists(SAVE_FOLDER))
                 Directory.CreateDirectory(SAVE_FOLDER);
-            
+
+            // Create new filesave
             if (!File.Exists(FILEPATH))
-                await ((IDataContext)this).SaveChanges(); // Should create new file
+            {
+                this.m_GameData = new GameData();
+                await ((IDataContext)this).SaveChanges(); 
+            }
 
             using var _Reader = new StreamReader(FILEPATH);
             var _StringJson = await _Reader.ReadToEndAsync();
