@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using ProjectExodus.Backend.Entities;
+using Unity.VisualScripting;
 using UnityEngine;
 using Application = UnityEngine.Device.Application;
 
@@ -15,21 +18,12 @@ namespace ProjectExodus.Backend.JsonDataContext
 
         private static readonly string SAVE_FOLDER = Application.dataPath + "/Saves/";
         private static readonly string FILENAME = "GameData";
-
-        private readonly Dictionary<Type, ICollection<object>> m_Entities = new();
+        private static readonly string FILEPATH = $"{SAVE_FOLDER}/{FILENAME}.json";
 
         private GameData m_GameData;
 
         #endregion Fields
 
-        #region - - - - - - Constructors - - - - - -
-
-        public JsonDataContext()
-        {
-        }
-
-        #endregion Constructors
-  
         #region - - - - - - Methods - - - - - -
 
         void IDataContext.Add<TEntity>(TEntity newObject)
@@ -39,7 +33,10 @@ namespace ProjectExodus.Backend.JsonDataContext
 
         ICollection<TEntity> IDataContext.GetEntities<TEntity>()
         {
-            throw new NotImplementedException();
+            if (typeof(TEntity) == typeof(GameOptions))
+                return (ICollection<TEntity>)this.m_GameData.GameOptions;
+
+            throw new NotSupportedException($"The entity type '{typeof(TEntity)}' is not supported.");
         }
 
         void IDataContext.Remove<TEntity>(TEntity objectToRemove)
@@ -57,10 +54,10 @@ namespace ProjectExodus.Backend.JsonDataContext
             if (!Directory.Exists(SAVE_FOLDER))
                 Directory.CreateDirectory(SAVE_FOLDER);
             
-            if (!File.Exists($"{SAVE_FOLDER}/{FILENAME}.json"))
+            if (!File.Exists(FILEPATH))
                 await ((IDataContext)this).SaveChanges(); // Should create new file
 
-            using var _Reader = new StreamReader($"{SAVE_FOLDER}/{FILENAME}.json");
+            using var _Reader = new StreamReader(FILEPATH);
             var _StringJson = await _Reader.ReadToEndAsync();
             JsonUtility.FromJsonOverwrite(_StringJson, this.m_GameData);
             _Reader.Close();
@@ -69,7 +66,7 @@ namespace ProjectExodus.Backend.JsonDataContext
         async Task IDataContext.SaveChanges()
         {
             string _StringJson = JsonUtility.ToJson(this.m_GameData);
-            await using var _Writer = new StreamWriter($"{SAVE_FOLDER}/{FILENAME}.json");
+            await using var _Writer = new StreamWriter(FILEPATH);
             await _Writer.WriteAsync(_StringJson);
             _Writer.Close();
         }

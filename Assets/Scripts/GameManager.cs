@@ -1,5 +1,8 @@
+using ProjectExodus.Backend.Configuration;
 using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Backend.Repositories.GameOptionsRepository;
+using ProjectExodus.Common.Services;
+using ProjectExodus.GameLogic.Configuration;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
 using ProjectExodus.GameLogic.GameSettings;
 using ProjectExodus.GameLogic.Mappers;
@@ -9,6 +12,7 @@ using ProjectExodus.Management.GameStateManager;
 using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.SceneManager;
 using ProjectExodus.Management.UserInterfaceManager;
+using ProjectExodus.UserInterface.Configuration;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -91,16 +95,21 @@ namespace ProjectExodus
             //  or from a source JSON file.
             this.m_GameSettings = new GameSettings();
             
-            // Setup Services
+            // Setup Services and Configuration
             this.m_ObjectMapper = new ObjectMapper();
-            ((IConfigure)new ObjectMapperConfigurator(this.m_ObjectMapper)).Configure();
+            ((IConfigure)new BackendConfiguration(this.m_ObjectMapper)).Configure();
+            ((IConfigure)new GameLogicConfiguration(this.m_ObjectMapper)).Configure();
+            ((IConfigure)new UserInterfaceConfiguration(this.m_ObjectMapper)).Configure();
             
             // Load all data
             this.m_DataContext = new JsonDataContext(); // Temporarily be initialised here
-
-            GameOptionsRepository _GameOptionsRepository =
-                new GameOptionsRepository(this.m_DataContext, this.m_ObjectMapper);
-            this.m_GameOptionsFacade = new GameOptionsFacade(_GameOptionsRepository, this.m_GameSettings);
+            GameOptionsRepository _GameOptionsRepository = new GameOptionsRepository(
+                                                            this.m_DataContext, 
+                                                            this.m_ObjectMapper);
+            this.m_GameOptionsFacade = new GameOptionsFacade(
+                                        _GameOptionsRepository, 
+                                        this.m_GameSettings, 
+                                        this.m_ObjectMapper);
             this.m_GameOptionsFacade.GetGameOption();
             
             // Setup managers

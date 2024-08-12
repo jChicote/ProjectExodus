@@ -1,20 +1,23 @@
+using System;
+using ProjectExodus.Common.Services;
+using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Mappers.GameOptionsMapper;
 
-namespace ProjectExodus.GameLogic.Mappers
+namespace ProjectExodus.GameLogic.Configuration
 {
 
-    public class ObjectMapperConfigurator: IConfigure
+    public class GameLogicConfiguration : IConfigure
     {
 
         #region - - - - - - Fields - - - - - -
 
-        private IObjectMapperRegister m_ObjectMapperRegister;
+        private readonly IObjectMapperRegister m_ObjectMapperRegister;
 
         #endregion Fields
 
         #region - - - - - - Constructors - - - - - -
 
-        public ObjectMapperConfigurator(IObjectMapperRegister objectMapperRegister) 
+        public GameLogicConfiguration(IObjectMapperRegister objectMapperRegister) 
             => this.m_ObjectMapperRegister = objectMapperRegister;
 
         #endregion Constructors
@@ -28,17 +31,6 @@ namespace ProjectExodus.GameLogic.Mappers
 
         #endregion Methods
   
-    }
-
-    public interface IConfigure
-    {
-
-        #region - - - - - - Methods - - - - - -
-
-        void Configure();
-
-        #endregion Methods
-
     }
 
 }

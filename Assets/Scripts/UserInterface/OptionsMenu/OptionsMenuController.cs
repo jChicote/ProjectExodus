@@ -46,10 +46,11 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         [SerializeField] private TMP_InputField m_HeightInputField;
         [SerializeField] private TMP_Dropdown m_DisplayDropdown;
 
-        private GameOptions m_GameOptions;
-        private GameOptionsDto m_GameOptionDto;
         private IObjectMapper m_Mapper;
-        private IUserInterfaceScreenStateManager m_UserInterfaceScreenStateManager;
+        private IUserInterfaceScreenStateManager m_UserInterfaceScreenStateManager;        
+        
+        private GameOptionsModel m_GameOptionsModel;
+        private OptionsMenuViewModel m_ViewModel;
         
         #endregion Fields
 
@@ -133,29 +134,29 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         // -----------------------------------
 
         private void OnEnvironmentVolumeChanged(float sliderValue) 
-            => this.m_GameOptionDto.EnvironmentFXVolume = sliderValue;
+            => this.m_ViewModel.EnvironmentFXVolume = sliderValue;
 
         private void OnGameMusicVolumeChanged(float sliderValue) 
-            => this.m_GameOptionDto.GameMusicVolume = sliderValue;
+            => this.m_ViewModel.GameMusicVolume = sliderValue;
 
         private void OnMasterVolumeChanged(float sliderValue) 
-            => this.m_GameOptionDto.MasterVolume = sliderValue;
+            => this.m_ViewModel.MasterVolume = sliderValue;
 
         private void OnSoundFXVolumeChanged(float sliderValue) 
-            => this.m_GameOptionDto.SoundFXVolume = sliderValue;
+            => this.m_ViewModel.SoundFXVolume = sliderValue;
 
         private void OnUIVolumeChanged(float sliderValue) 
-            => this.m_GameOptionDto.UIVolume = sliderValue;
+            => this.m_ViewModel.UIVolume = sliderValue;
 
         private void OnToggleMute()
-            => this.m_GameOptionDto.IsMuted = !this.m_GameOptionDto.IsMuted;
+            => this.m_ViewModel.IsMuted = !this.m_ViewModel.IsMuted;
 
         // -----------------------------------
         // User-Interface Option Events
         // -----------------------------------
 
         private void OnToggleHUDVisibility() 
-            => this.m_GameOptionDto.IsHUDVisible = !this.m_GameOptionDto.IsHUDVisible;
+            => this.m_ViewModel.IsHUDVisible = !this.m_ViewModel.IsHUDVisible;
 
         // -----------------------------------
         // Graphics Option Events
@@ -166,7 +167,7 @@ namespace ProjectExodus.UserInterface.OptionsMenu
             if (!int.TryParse(widthValue, out int _Result))
                 return;
             
-            this.m_GameOptionDto.DisplayWidth = _Result;
+            this.m_ViewModel.DisplayWidth = _Result;
         }
 
         private void OnDisplayHeightChanged(string heightValue)
@@ -174,11 +175,11 @@ namespace ProjectExodus.UserInterface.OptionsMenu
             if (!int.TryParse(heightValue, out int _Result))
                 return;
             
-            this.m_GameOptionDto.DisplayHeight = _Result;
+            this.m_ViewModel.DisplayHeight = _Result;
         }
 
         private void OnDisplayDropdownSelection(int displaySelection) 
-            => this.m_GameOptionDto.DisplayOption = (DisplayOption)displaySelection;
+            => this.m_ViewModel.DisplayOption = (DisplayOption)displaySelection;
         
         // -----------------------------------
         // Confirmation Events
@@ -189,7 +190,7 @@ namespace ProjectExodus.UserInterface.OptionsMenu
 
         private void OnApplyOptions()
         {
-            this.m_Mapper.Map(this.m_GameOptionDto, this.m_GameOptions);
+            this.m_Mapper.Map(this.m_ViewModel, this.m_GameOptionsModel);
             this.m_UserInterfaceScreenStateManager.OpenPreviousScreen();
         }
 
@@ -198,16 +199,16 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         #region - - - - - - Methods - - - - - -
 
         void IOptionsMenuController.InitialiseOptionsMenu(
-            GameOptions gameOptions, 
+            GameOptionsModel gameOptionsModel, 
             IObjectMapper mapper,
             IUserInterfaceScreenStateManager userInterfaceScreenStateManager)
         {
-            this.m_GameOptions = gameOptions;
+            this.m_GameOptionsModel = gameOptionsModel;
             this.m_Mapper = mapper;
-            this.m_GameOptionDto = new GameOptionsDto();
+            this.m_ViewModel = new OptionsMenuViewModel();
             this.m_UserInterfaceScreenStateManager = userInterfaceScreenStateManager;
             
-            this.m_Mapper.Map(gameOptions, this.m_GameOptionDto);
+            this.m_Mapper.Map(gameOptionsModel, this.m_ViewModel);
         }
 
         void IScreenStateController.HideScreen() 
@@ -218,15 +219,15 @@ namespace ProjectExodus.UserInterface.OptionsMenu
             this.m_OptionsContentGroup.SetActive(true);
             
             // Set screen form values
-            this.m_EnvironmentFXVolumeSlider.value = this.m_GameOptions.EnvironmentFXVolume;
-            this.m_GameMusicVolumeSlider.value = this.m_GameOptions.GameMusicVolume;
-            this.m_MasterVolumeSlider.value = this.m_GameOptions.MasterVolume;
-            this.m_SoundFXVolumeSlider.value = this.m_GameOptions.SoundFXVolume;
-            this.m_UIVolumeSlider.value = this.m_GameOptions.UIVolume;
+            this.m_EnvironmentFXVolumeSlider.value = this.m_ViewModel.EnvironmentFXVolume;
+            this.m_GameMusicVolumeSlider.value = this.m_ViewModel.GameMusicVolume;
+            this.m_MasterVolumeSlider.value = this.m_ViewModel.MasterVolume;
+            this.m_SoundFXVolumeSlider.value = this.m_ViewModel.SoundFXVolume;
+            this.m_UIVolumeSlider.value = this.m_ViewModel.UIVolume;
             
-            this.m_WidthInputField.text = this.m_GameOptions.DisplayWidth.ToString();
-            this.m_HeightInputField.text = this.m_GameOptions.DisplayHeight.ToString();
-            this.m_DisplayDropdown.value = (int)this.m_GameOptions.DisplayOption;
+            this.m_WidthInputField.text = this.m_ViewModel.DisplayWidth.ToString();
+            this.m_HeightInputField.text = this.m_ViewModel.DisplayHeight.ToString();
+            this.m_DisplayDropdown.value = (int)this.m_ViewModel.DisplayOption;
             
             // Reset active displayed tab to default
             this.m_AudioOptionsContentGroup.SetActive(true);

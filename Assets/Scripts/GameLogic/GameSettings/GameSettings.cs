@@ -14,18 +14,18 @@ namespace ProjectExodus.GameLogic.GameSettings
 
         #region - - - - - - Fields - - - - - -
 
-        public GameOptions GameOptions { get; private set; }
+        public GameOptionsModel GameOptionsModel { get; private set; }
 
         #endregion Fields
 
         #region - - - - - - Methods - - - - - -
 
-        public void SetGameOptions(GameOptions gameOptions)
+        public void SetGameOptions(GameOptionsModel gameOptionsModel)
         {
-            if (this.GameOptions != null)
+            if (this.GameOptionsModel != null)
                 Debug.LogWarning("You are overriding pre-existing GameOptions.");
             
-            this.GameOptions = gameOptions;
+            this.GameOptionsModel = gameOptionsModel;
         }
 
         #endregion Methods

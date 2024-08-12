@@ -11,17 +11,13 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.GetGameOptions
         #region - - - - - - Fields - - - - - -
 
         private readonly IDataRepository<Entities.GameOptions> m_DataRepository;
-        private readonly GameSettings m_GameSettings;
 
         #endregion Fields
   
         #region - - - - - - Constructors - - - - - -
 
-        public GetGameOptionsInteractor(IDataRepository<Entities.GameOptions> dataRepository, GameSettings gameSettings)
-        {
-            this.m_DataRepository = dataRepository;
-            this.m_GameSettings = gameSettings;
-        }
+        public GetGameOptionsInteractor(IDataRepository<Entities.GameOptions> dataRepository) 
+            => this.m_DataRepository = dataRepository;
 
         #endregion Constructors
   

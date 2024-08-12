@@ -1,6 +1,8 @@
+using ProjectExodus.Backend.Entities;
 using ProjectExodus.Backend.Repositories;
 using ProjectExodus.Backend.UseCases;
 using ProjectExodus.Backend.UseCases.GameOptions.GetGameOptions;
+using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Models;
 
 namespace ProjectExodus.GameLogic.Facades.GameOptionsFacade
@@ -16,14 +18,21 @@ namespace ProjectExodus.GameLogic.Facades.GameOptionsFacade
         private IUseCaseInteractor<GetGameOptionsInputPort, IGetGameOptionsOutputPort> m_GetInteractor;
 
         private GameSettings.GameSettings m_GameSettings;
-        private IDataRepository m_DataRepository;
+        private IObjectMapper m_Mapper;
 
         #endregion Fields
 
         #region - - - - - - Constructors - - - - - -
 
-        public GameOptionsFacade(IDataRepository dataRepository, GameSettings.GameSettings gameSettings) 
-            => this.m_GetInteractor = new GetGameOptionsInteractor(dataRepository, gameSettings);
+        public GameOptionsFacade(
+            IDataRepository<GameOptions> dataRepository, 
+            GameSettings.GameSettings gameSettings, 
+            IObjectMapper mapper)
+        {
+            this.m_GameSettings = gameSettings;
+            this.m_Mapper = mapper;
+            this.m_GetInteractor = new GetGameOptionsInteractor(dataRepository);
+        }
 
         #endregion Constructors
   
@@ -50,10 +59,9 @@ namespace ProjectExodus.GameLogic.Facades.GameOptionsFacade
 
         void IGetGameOptionsOutputPort.PresentGameOptions(GameOptions gameOptions)
         {
-            // TODO: Change the gameOptions to be a DTO exiting the Backend.
-            // TODO: Change the Models to be in backend. Additionally the models in game logic
-            //      are only containers not persisted to the JSON.
-            this.m_GameSettings.SetGameOptions(gameOptions);
+            var _GameOptionsModel = new GameOptionsModel();
+            this.m_Mapper.Map(gameOptions, _GameOptionsModel);
+            this.m_GameSettings.SetGameOptions(_GameOptionsModel);
         }
 
         #endregion Methods

@@ -11,7 +11,7 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         #region - - - - - - Methods - - - - - -
 
         void InitialiseOptionsMenu(
-            GameOptions gameOptions, 
+            GameOptionsModel gameOptionsModel, 
             IObjectMapper mapper, 
             IUserInterfaceScreenStateManager userInterfaceScreenStateManager);
 

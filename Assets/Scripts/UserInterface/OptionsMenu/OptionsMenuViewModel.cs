@@ -1,16 +1,12 @@
-using System;
 using ProjectExodus.GameLogic.Enumeration;
 
-namespace ProjectExodus.GameLogic.Models
+namespace ProjectExodus.UserInterface.OptionsMenu
 {
 
-    [Serializable]
-    public class GameOptionsModel
+    public class OptionsMenuViewModel
     {
-        
-        #region - - - - - - Properties - - - - - -
 
-        public Guid ID { get; set; }
+        #region - - - - - - Properties - - - - - -
 
         // ---------------------------------------
         // Audio Options
@@ -45,7 +41,7 @@ namespace ProjectExodus.GameLogic.Models
         public int DisplayWidth { get; set; }
         
         #endregion Properties
-        
+  
     }
 
 }
