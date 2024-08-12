@@ -1,7 +1,7 @@
 namespace ProjectExodus.Backend.Entities
 {
 
-    public class GameOptionsEntity
+    public class GameOptions
     {
 
         #region - - - - - - Properties - - - - - -

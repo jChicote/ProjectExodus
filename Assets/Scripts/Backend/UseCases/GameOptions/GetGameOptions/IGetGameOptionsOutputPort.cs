@@ -6,7 +6,7 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.GetGameOptions
 
         #region - - - - - - Methods - - - - - -
 
-        void PresentGameOptions(GameLogic.Models.GameOptions gameOptions);
+        void PresentGameOptions(Entities.GameOptions gameOptions);
 
         #endregion Methods
 

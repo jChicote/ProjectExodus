@@ -8,7 +8,7 @@ using ProjectExodus.GameLogic.Mappers;
 namespace ProjectExodus.Backend.Repositories.GameOptionsRepository
 {
 
-    public class GameOptionsRepository : IDataRepository
+    public class GameOptionsRepository : IDataRepository<GameOptions>
     {
 
         #region - - - - - - Fields - - - - - -
@@ -30,27 +30,27 @@ namespace ProjectExodus.Backend.Repositories.GameOptionsRepository
   
         #region - - - - - - Methods - - - - - -
 
-        void IDataRepository.Create<GameOptions>(GameOptions entityToCreate)
+        void IDataRepository<GameOptions>.Create(GameOptions entityToCreate)
         {
-            var _GameOptionsEntity = new GameOptionsEntity();
-            this.m_Mapper.Map(entityToCreate, _GameOptionsEntity);
-            this.m_DataContext.Add(_GameOptionsEntity);
+            var _GameOptions = new GameOptions();
+            this.m_Mapper.Map(entityToCreate, _GameOptions);
+            this.m_DataContext.Add(_GameOptions);
         }
 
-        IEnumerable<GameOptions> IDataRepository.Get<GameOptions>()
+        IEnumerable<GameOptions> IDataRepository<GameOptions>.Get()
             => this.m_DataContext
-                .GetEntities<GameOptionsEntity>()
-                .Select(goe =>
+                .GetEntities<GameOptions>()
+                .Select(go =>
                 {
                     GameOptions _GameOptions = new GameOptions();
-                    this.m_Mapper.Map(goe, _GameOptions);
+                    this.m_Mapper.Map(go, _GameOptions);
                     return _GameOptions;
                 });
 
-        void IDataRepository.Update<GameOptions>(Guid ID, GameOptions entityToUpdate)
+        void IDataRepository<GameOptions>.Update(Guid ID, GameOptions entityToUpdate)
         {
-            var _GameOptionsEntity = new GameOptionsEntity();
-            this.m_Mapper.Map(entityToUpdate, _GameOptionsEntity);
+            var _GameOptions = new Entities.GameOptions();
+            this.m_Mapper.Map(entityToUpdate, _GameOptions);
             this.m_DataContext.Update(ID, entityToUpdate);
         }
 

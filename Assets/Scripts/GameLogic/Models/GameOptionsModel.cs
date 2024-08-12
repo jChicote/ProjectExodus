@@ -5,9 +5,9 @@ namespace ProjectExodus.GameLogic.Models
 {
 
     [Serializable]
-    public class GameOptions
+    public class GameOptionsModel
     {
-
+        
         #region - - - - - - Properties - - - - - -
 
         public Guid ID { get; set; }
@@ -45,7 +45,6 @@ namespace ProjectExodus.GameLogic.Models
         public int DisplayWidth { get; set; }
         
         #endregion Properties
-  
     }
 
 }

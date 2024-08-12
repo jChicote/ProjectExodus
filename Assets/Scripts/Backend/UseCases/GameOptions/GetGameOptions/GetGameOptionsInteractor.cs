@@ -1,8 +1,6 @@
 using System.Linq;
-using ProjectExodus.Backend.Entities;
 using ProjectExodus.Backend.Repositories;
 using ProjectExodus.GameLogic.GameSettings;
-using ProjectExodus.GameLogic.Mappers;
 
 namespace ProjectExodus.Backend.UseCases.GameOptions.GetGameOptions
 {
@@ -12,14 +10,14 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.GetGameOptions
 
         #region - - - - - - Fields - - - - - -
 
-        private readonly IDataRepository m_DataRepository;
+        private readonly IDataRepository<Entities.GameOptions> m_DataRepository;
         private readonly GameSettings m_GameSettings;
 
         #endregion Fields
   
         #region - - - - - - Constructors - - - - - -
 
-        public GetGameOptionsInteractor(IDataRepository dataRepository, GameSettings gameSettings)
+        public GetGameOptionsInteractor(IDataRepository<Entities.GameOptions> dataRepository, GameSettings gameSettings)
         {
             this.m_DataRepository = dataRepository;
             this.m_GameSettings = gameSettings;
@@ -33,8 +31,8 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.GetGameOptions
             GetGameOptionsInputPort inputPort, 
             IGetGameOptionsOutputPort outputPort)
         {
-            var _GameOptions = this.m_DataRepository.Get<GameLogic.Models.GameOptions>().First();
-            this.m_GameSettings.SetGameOptions(_GameOptions);
+            var _GameOptions = this.m_DataRepository.Get().First();
+            outputPort.PresentGameOptions(_GameOptions);
         }
 
         #endregion Methods

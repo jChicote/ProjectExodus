@@ -4,16 +4,16 @@ using System.Collections.Generic;
 namespace ProjectExodus.Backend.Repositories
 {
 
-    public interface IDataRepository
+    public interface IDataRepository<TEntity> where TEntity : class
     {
 
         #region - - - - - - Methods - - - - - -
 
-        void Create<TEntity>(TEntity entityToCreate) where TEntity : class;
+        void Create(TEntity entityToCreate);
 
-        IEnumerable<TEntity> Get<TEntity>() where TEntity : class, new();
+        IEnumerable<TEntity> Get();
 
-        void Update<TEntity>(Guid ID, TEntity entityToUpdate) where TEntity : class;
+        void Update(Guid ID, TEntity entityToUpdate);
         
         #endregion Methods
 
