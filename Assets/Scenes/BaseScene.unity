@@ -3684,9 +3684,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ContentGroup: {fileID: 1339759587}
-  m_PlayButton: {fileID: 0}
-  m_OptionsButton: {fileID: 0}
-  m_ExitButton: {fileID: 0}
+  m_PlayButton: {fileID: 307025922}
+  m_OptionsButton: {fileID: 1011593438}
+  m_ExitButton: {fileID: 980439614}
 --- !u!1 &1011593436
 GameObject:
   m_ObjectHideFlags: 0
