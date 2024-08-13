@@ -1,6 +1,5 @@
 using System.Linq;
 using ProjectExodus.Backend.Repositories;
-using ProjectExodus.GameLogic.GameSettings;
 
 namespace ProjectExodus.Backend.UseCases.GameOptions.GetGameOptions
 {

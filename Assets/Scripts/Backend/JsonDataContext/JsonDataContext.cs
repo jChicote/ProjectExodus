@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using ProjectExodus.Backend.Entities;
 using UnityEngine;
+using UnityEngine.Rendering.UI;
 using Application = UnityEngine.Device.Application;
 
 namespace ProjectExodus.Backend.JsonDataContext
@@ -54,6 +55,7 @@ namespace ProjectExodus.Backend.JsonDataContext
         {
             if (!Directory.Exists(SAVE_FOLDER))
                 Directory.CreateDirectory(SAVE_FOLDER);
+            Debug.Log("a.Verified directory");
 
             // Create new filesave
             if (!File.Exists(FILEPATH))
@@ -61,10 +63,30 @@ namespace ProjectExodus.Backend.JsonDataContext
                 this.m_GameData = new GameData();
                 await ((IDataContext)this).SaveChanges(); 
             }
+            Debug.Log("b. Verified file");
 
             using var _Reader = new StreamReader(FILEPATH);
-            var _StringJson = await _Reader.ReadToEndAsync();
-            JsonUtility.FromJsonOverwrite(_StringJson, this.m_GameData);
+            try
+            {
+                // TODO: Below code is causing the thread to hang
+                // TODO: Wrap ready in try catch statement and seperately process each JSON related exception.
+                Debug.Log(FILEPATH);
+                
+                var _StringJson = await _Reader.ReadToEndAsync();
+                JsonUtility.FromJsonOverwrite(_StringJson, this.m_GameData);
+                Debug.Log("c. Completed load");
+            }
+            catch (FileNotFoundException ex)
+            {
+                // Handle file not found exception
+                Console.WriteLine($"File not found: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Handle any other possible exceptions
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+            
             _Reader.Close();
         }
 

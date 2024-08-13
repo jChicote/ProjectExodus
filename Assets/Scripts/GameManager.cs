@@ -7,6 +7,7 @@ using ProjectExodus.GameLogic.Configuration;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
 using ProjectExodus.GameLogic.GameSettings;
 using ProjectExodus.GameLogic.Mappers;
+using ProjectExodus.GameLogic.Models;
 using ProjectExodus.Management.AudioManager;
 using ProjectExodus.Management.EventManager;
 using ProjectExodus.Management.GameStateManager;
@@ -82,7 +83,7 @@ namespace ProjectExodus
             else
                 Object.Destroy(gameObject);
             
-            this.SetupGame();
+            _ = this.SetupGame();
         }
 
         #endregion Unity Methods
@@ -95,6 +96,7 @@ namespace ProjectExodus
             // NOTE: This is temporary until a use case exists to initialise the settings option from a scriptable-object
             //  or from a source JSON file.
             this.m_GameSettings = new GameSettings();
+            this.m_GameSettings.SetGameOptions(new GameOptionsModel());
             
             // Setup Services and Configuration
             this.m_DataContext = new JsonDataContext(); // Temporarily be initialised here
@@ -113,20 +115,36 @@ namespace ProjectExodus
                                         this.m_ObjectMapper);
             
             // Load save data
-            await this.m_DataContext.Load();
+            await this.LoadData();
+            await this.ConfigureGameState();
             await this.PostLoad();
         }
-        
-        private async Task PostLoad()
+
+        private async Task LoadData()
         {
+            Debug.Log("1. Load Data");
+            await this.m_DataContext.Load();
+        }
+
+        private Task ConfigureGameState()
+        {
+            Debug.Log("2. Configure GameState");
             this.m_GameOptionsFacade.GetGameOptions();
             
+            return Task.CompletedTask;
+        }
+        
+        private Task PostLoad()
+        {
+            Debug.Log("3.Configure Managers");
             // Setup managers
             this.AudioManager.InitialiseAudioManager();
             this.InputManager.InitialiseInputManager();
             this.UserInterfaceManager.InitialiseUserInterfaceManager();
             this.GameStateManager.InitialiseGameStateManager();
             this.SceneManager.InitialiseSceneManager();
+            
+            return Task.CompletedTask;
         }
 
         #endregion Methods
