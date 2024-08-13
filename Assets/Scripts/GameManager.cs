@@ -94,7 +94,6 @@ namespace ProjectExodus
         {
             // Setup settings
             // NOTE: This is temporary until a use case exists to initialise the settings option from a scriptable-object
-            //  or from a source JSON file.
             this.m_GameSettings = new GameSettings();
             this.m_GameSettings.SetGameOptions(new GameOptionsModel());
             
@@ -117,33 +116,32 @@ namespace ProjectExodus
             // Load save data
             await this.LoadData();
             await this.ConfigureGameState();
-            await this.PostLoad();
+            await this.ConfigureManagers();
         }
 
         private async Task LoadData()
         {
-            Debug.Log("1. Load Data");
             await this.m_DataContext.Load();
+            Debug.Log("1. Loaded Data");
         }
 
         private Task ConfigureGameState()
         {
-            Debug.Log("2. Configure GameState");
             this.m_GameOptionsFacade.GetGameOptions();
             
+            Debug.Log("2. Configured GameState");
             return Task.CompletedTask;
         }
         
-        private Task PostLoad()
+        private Task ConfigureManagers()
         {
-            Debug.Log("3.Configure Managers");
-            // Setup managers
             this.AudioManager.InitialiseAudioManager();
             this.InputManager.InitialiseInputManager();
             this.UserInterfaceManager.InitialiseUserInterfaceManager();
             this.GameStateManager.InitialiseGameStateManager();
             this.SceneManager.InitialiseSceneManager();
             
+            Debug.Log("3.Configured Managers");
             return Task.CompletedTask;
         }
 

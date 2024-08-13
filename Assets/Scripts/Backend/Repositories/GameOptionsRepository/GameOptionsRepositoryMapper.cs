@@ -1,32 +1,28 @@
 using System;
 using ProjectExodus.Backend.Entities;
-using ProjectExodus.GameLogic.Enumeration;
-using ProjectExodus.GameLogic.Models;
+using ProjectExodus.GameLogic.Mappers;
 
-namespace ProjectExodus.GameLogic.Mappers.GameOptionsMapper
+namespace ProjectExodus.Backend.Mappers
 {
 
-    public class GameOptionsMappingAction
+    public class GameOptionsRepositoryMapper
     {
-
+        
         #region - - - - - - Constructors - - - - - -
 
-        public GameOptionsMappingAction(IObjectMapperRegister objectMapperRegister)
-        {
-            objectMapperRegister.AddMappingAction<GameOptions, GameOptionsModel>(this.MapGameOptionsToGameOptionsModel);
-        }
+        public GameOptionsRepositoryMapper(IObjectMapperRegister objectMapperRegister) 
+            => objectMapperRegister.AddMappingAction<GameOptions, GameOptions>(this.MapGameOptionsToGameOptions);
 
         #endregion Constructors
 
         #region - - - - - - Methods - - - - - -
-
-        private void MapGameOptionsToGameOptionsModel(GameOptions source, GameOptionsModel destination)
+        
+        private void MapGameOptionsToGameOptions(GameOptions source, GameOptions destination)
         {
             if (source == null || destination == null)
                 throw new ArgumentException($"Mapping objects of type: {source.GetType()}" +
                                             $" and {destination.GetType()}, cannot both or either be null.");
-
-            destination.ID = source.ID;
+            
             destination.EnvironmentFXVolume = source.EnvironmentFXVolume;
             destination.IsMuted = source.IsMuted;
             destination.GameMusicVolume = source.GameMusicVolume;
@@ -34,13 +30,13 @@ namespace ProjectExodus.GameLogic.Mappers.GameOptionsMapper
             destination.SoundFXVolume = source.SoundFXVolume;
             destination.UIVolume = source.UIVolume;
             destination.IsHUDVisible = source.IsHUDVisible;
-            destination.DisplayOption = (DisplayOption)source.DisplayOption;
+            destination.DisplayOption = source.DisplayOption;
             destination.DisplayHeight = source.DisplayHeight;
             destination.DisplayWidth = source.DisplayWidth;
         }
 
         #endregion Methods
-  
+        
     }
 
 }

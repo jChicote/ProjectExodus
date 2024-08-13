@@ -30,12 +30,8 @@ namespace ProjectExodus.Backend.Repositories.GameOptionsRepository
   
         #region - - - - - - Methods - - - - - -
 
-        void IDataRepository<GameOptions>.Create(GameOptions entityToCreate)
-        {
-            var _GameOptions = new GameOptions();
-            this.m_Mapper.Map(entityToCreate, _GameOptions);
-            this.m_DataContext.Add(_GameOptions);
-        }
+        void IDataRepository<GameOptions>.Create(GameOptions entityToCreate) 
+            => this.m_DataContext.Add(entityToCreate);
 
         IEnumerable<GameOptions> IDataRepository<GameOptions>.GetEntities()
             => this.m_DataContext
@@ -49,7 +45,7 @@ namespace ProjectExodus.Backend.Repositories.GameOptionsRepository
 
         void IDataRepository<GameOptions>.Update(Guid ID, GameOptions entityToUpdate)
         {
-            var _GameOptions = new Entities.GameOptions();
+            var _GameOptions = new GameOptions();
             this.m_Mapper.Map(entityToUpdate, _GameOptions);
             this.m_DataContext.Update(ID, entityToUpdate);
         }

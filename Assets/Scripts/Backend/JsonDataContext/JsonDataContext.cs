@@ -15,9 +15,9 @@ namespace ProjectExodus.Backend.JsonDataContext
 
         #region - - - - - - Fields - - - - - -
 
-        private static readonly string SAVE_FOLDER = Application.dataPath + "/Saves/";
         private static readonly string FILENAME = "GameData";
         private static readonly string FILEPATH = $"{SAVE_FOLDER}/{FILENAME}.json";
+        private static readonly string SAVE_FOLDER = Application.dataPath + "/Saves/";
 
         private GameData m_GameData;
 
@@ -27,7 +27,10 @@ namespace ProjectExodus.Backend.JsonDataContext
 
         void IDataContext.Add<TEntity>(TEntity newObject)
         {
-            throw new NotImplementedException();
+            if (typeof(TEntity) == typeof(GameOptions))
+                this.m_GameData.GameOptions.Add(newObject as GameOptions);
+            
+            throw new NotSupportedException($"The entity type '{typeof(TEntity)}' is not supported.");
         }
 
         ICollection<TEntity> IDataContext.GetEntities<TEntity>()
@@ -55,7 +58,6 @@ namespace ProjectExodus.Backend.JsonDataContext
         {
             if (!Directory.Exists(SAVE_FOLDER))
                 Directory.CreateDirectory(SAVE_FOLDER);
-            Debug.Log("a.Verified directory");
 
             // Create new filesave
             if (!File.Exists(FILEPATH))
@@ -63,28 +65,22 @@ namespace ProjectExodus.Backend.JsonDataContext
                 this.m_GameData = new GameData();
                 await ((IDataContext)this).SaveChanges(); 
             }
-            Debug.Log("b. Verified file");
 
             using var _Reader = new StreamReader(FILEPATH);
+            
             try
             {
-                // TODO: Below code is causing the thread to hang
-                // TODO: Wrap ready in try catch statement and seperately process each JSON related exception.
-                Debug.Log(FILEPATH);
-                
+                // This creates a new GameData object.
                 var _StringJson = await _Reader.ReadToEndAsync();
-                JsonUtility.FromJsonOverwrite(_StringJson, this.m_GameData);
-                Debug.Log("c. Completed load");
+                this.m_GameData = JsonUtility.FromJson<GameData>(_StringJson);
             }
             catch (FileNotFoundException ex)
             {
-                // Handle file not found exception
-                Console.WriteLine($"File not found: {ex.Message}");
+                Debug.LogError($"File not found: {ex.Message}");
             }
             catch (Exception ex)
             {
-                // Handle any other possible exceptions
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                Debug.LogError($"An error occurred: {ex.Message}");
             }
             
             _Reader.Close();

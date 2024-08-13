@@ -1,32 +1,32 @@
 using System;
-using ProjectExodus.Backend.Entities;
-using ProjectExodus.GameLogic.Enumeration;
-using ProjectExodus.GameLogic.Models;
+using ProjectExodus.GameLogic.Mappers;
 
-namespace ProjectExodus.GameLogic.Mappers.GameOptionsMapper
+namespace ProjectExodus.Backend.UseCases.GameOptions.CreateGameOptions
 {
 
-    public class GameOptionsMappingAction
+    public class CreateGameOptionsMapper
     {
 
         #region - - - - - - Constructors - - - - - -
 
-        public GameOptionsMappingAction(IObjectMapperRegister objectMapperRegister)
-        {
-            objectMapperRegister.AddMappingAction<GameOptions, GameOptionsModel>(this.MapGameOptionsToGameOptionsModel);
-        }
+        public CreateGameOptionsMapper(IObjectMapperRegister objectMapperRegister) 
+            => objectMapperRegister.
+                    AddMappingAction<CreateGameOptionsInputPort, Entities.GameOptions>(
+                        this.MapCreateGameOptionsInputPortToGameOptions);
 
         #endregion Constructors
 
         #region - - - - - - Methods - - - - - -
 
-        private void MapGameOptionsToGameOptionsModel(GameOptions source, GameOptionsModel destination)
+        private void MapCreateGameOptionsInputPortToGameOptions(
+            CreateGameOptionsInputPort source,
+            Entities.GameOptions destination)
         {
             if (source == null || destination == null)
                 throw new ArgumentException($"Mapping objects of type: {source.GetType()}" +
                                             $" and {destination.GetType()}, cannot both or either be null.");
 
-            destination.ID = source.ID;
+            destination.ID = new Guid();
             destination.EnvironmentFXVolume = source.EnvironmentFXVolume;
             destination.IsMuted = source.IsMuted;
             destination.GameMusicVolume = source.GameMusicVolume;
@@ -34,7 +34,7 @@ namespace ProjectExodus.GameLogic.Mappers.GameOptionsMapper
             destination.SoundFXVolume = source.SoundFXVolume;
             destination.UIVolume = source.UIVolume;
             destination.IsHUDVisible = source.IsHUDVisible;
-            destination.DisplayOption = (DisplayOption)source.DisplayOption;
+            destination.DisplayOption = (int)source.DisplayOption;
             destination.DisplayHeight = source.DisplayHeight;
             destination.DisplayWidth = source.DisplayWidth;
         }

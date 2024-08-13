@@ -9,14 +9,14 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.GetGameOptions
 
         #region - - - - - - Fields - - - - - -
 
-        private readonly IDataRepository<Entities.GameOptions> m_GameOptionsRepository;
+        private readonly IDataRepository<Entities.GameOptions> m_Repository;
 
         #endregion Fields
   
         #region - - - - - - Constructors - - - - - -
 
         public GetGameOptionsInteractor(IDataRepository<Entities.GameOptions> dataRepository) 
-            => this.m_GameOptionsRepository = dataRepository;
+            => this.m_Repository = dataRepository;
 
         #endregion Constructors
   
@@ -26,8 +26,9 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.GetGameOptions
             GetGameOptionsInputPort inputPort, 
             IGetGameOptionsOutputPort outputPort)
         {
-            var _GameOptions = this.m_GameOptionsRepository.GetEntities().FirstOrDefault();
+            var _GameOptions = this.m_Repository.GetEntities().FirstOrDefault();
 
+            // This is only default behavior to ensure that null is not being returned to the game scene.
             if (_GameOptions == null)
                 _GameOptions = new Entities.GameOptions();
             

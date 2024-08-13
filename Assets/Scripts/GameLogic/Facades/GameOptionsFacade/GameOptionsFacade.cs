@@ -1,22 +1,26 @@
 using ProjectExodus.Backend.Entities;
 using ProjectExodus.Backend.Repositories;
 using ProjectExodus.Backend.UseCases;
+using ProjectExodus.Backend.UseCases.GameOptions.CreateGameOptions;
 using ProjectExodus.Backend.UseCases.GameOptions.GetGameOptions;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Models;
+using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Facades.GameOptionsFacade
 {
 
     public class GameOptionsFacade : 
+        ICreateGameOptionsOutputPort,
         IGameOptionsFacade,
         IGetGameOptionsOutputPort
     {
 
         #region - - - - - - Fields - - - - - -
 
+        private readonly IUseCaseInteractor<CreateGameOptionsInputPort, ICreateGameOptionsOutputPort> m_CreateInteractor;
         private readonly IUseCaseInteractor<GetGameOptionsInputPort, IGetGameOptionsOutputPort> m_GetInteractor;
-        
+
         private readonly GameSettings.GameSettings m_GameSettings;
         private readonly IObjectMapper m_Mapper;
 
@@ -25,29 +29,44 @@ namespace ProjectExodus.GameLogic.Facades.GameOptionsFacade
         #region - - - - - - Constructors - - - - - -
 
         public GameOptionsFacade(
-            IDataRepository<GameOptions> dataRepository, 
+            IDataRepository<GameOptions> repository, 
             GameSettings.GameSettings gameSettings, 
             IObjectMapper mapper)
         {
             this.m_GameSettings = gameSettings;
             this.m_Mapper = mapper;
-            this.m_GetInteractor = new GetGameOptionsInteractor(dataRepository);
+
+            this.m_CreateInteractor = new CreateGameOptionsInteractor(mapper, repository);
+            this.m_GetInteractor = new GetGameOptionsInteractor(repository);
         }
 
         #endregion Constructors
   
         #region - - - - - - Methods - - - - - -
 
+        // -------------------------------------
+        // Create Game Options
+        // -------------------------------------
+        
         void IGameOptionsFacade.CreateGameOptions()
         {
-            // Create the GameLogic's Model
-            // Create the Entity tracked.
-            
-            throw new System.NotImplementedException();
+            // Create with default starting values
+            // TODO: Use scriptable object default values
+            this.m_CreateInteractor.Handle(new CreateGameOptionsInputPort(), this);
         }
 
-        void IGameOptionsFacade.GetGameOptions() 
-            => this.m_GetInteractor.Handle(new GetGameOptionsInputPort(), this);
+        void ICreateGameOptionsOutputPort.PresentCreatedGameOptions(GameOptions gameOptions)
+        {
+            var _GameOptionsModel = new GameOptionsModel();
+            this.m_Mapper.Map(gameOptions, _GameOptionsModel);
+            this.m_GameSettings.SetGameOptions(_GameOptionsModel);
+
+            Debug.Log("New GameOptions has been created.");
+        }
+        
+        // -------------------------------------
+        // Update Game Options
+        // -------------------------------------
 
         void IGameOptionsFacade.UpdateGameOptions()
         {
@@ -56,6 +75,13 @@ namespace ProjectExodus.GameLogic.Facades.GameOptionsFacade
             
             throw new System.NotImplementedException();
         }
+        
+        // -------------------------------------
+        // Get Game Options
+        // -------------------------------------
+
+        void IGameOptionsFacade.GetGameOptions() 
+            => this.m_GetInteractor.Handle(new GetGameOptionsInputPort(), this);
 
         void IGetGameOptionsOutputPort.PresentGameOptions(GameOptions gameOptions)
         {
