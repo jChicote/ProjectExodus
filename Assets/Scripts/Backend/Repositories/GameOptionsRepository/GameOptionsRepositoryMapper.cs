@@ -2,7 +2,7 @@ using System;
 using ProjectExodus.Backend.Entities;
 using ProjectExodus.GameLogic.Mappers;
 
-namespace ProjectExodus.Backend.Mappers
+namespace ProjectExodus.Backend.Repositories.GameOptionsRepository
 {
 
     public class GameOptionsRepositoryMapper
