@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using ProjectExodus.Backend.Entities;
 using UnityEngine;
@@ -49,9 +50,20 @@ namespace ProjectExodus.Backend.JsonDataContext
             throw new NotImplementedException();
         }
 
-        void IDataContext.Update<TEntity>(Guid ID, TEntity objectToUpdate)
+        void IDataContext.Update<TEntity>(Guid searchID, TEntity objectToUpdate)
         {
-            throw new NotImplementedException();
+            if (typeof(TEntity) == typeof(GameOptions))
+            {
+                int _Index = this.m_GameData.GameOptions
+                    .Select((go, index) => new { go, index })
+                    .Where(goi => goi.go.ID == searchID)
+                    .Select(goi => goi.index)
+                    .FirstOrDefault();
+                
+                // Needs validation
+                
+                this.m_GameData.GameOptions.ToList()[_Index] = objectToUpdate as GameOptions;
+            }
         }
 
         async Task IDataContext.Load()

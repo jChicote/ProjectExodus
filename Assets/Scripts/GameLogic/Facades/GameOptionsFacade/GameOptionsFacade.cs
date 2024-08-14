@@ -41,6 +41,7 @@ namespace ProjectExodus.GameLogic.Facades.GameOptionsFacade
 
             this.m_CreateInteractor = new CreateGameOptionsInteractor(mapper, repository);
             this.m_GetInteractor = new GetGameOptionsInteractor(repository);
+            this.m_UpdateInteractor = new UpdateGameOptionsInteractor(mapper, repository);
         }
 
         #endregion Constructors
@@ -82,6 +83,11 @@ namespace ProjectExodus.GameLogic.Facades.GameOptionsFacade
         void IUpdateOptionsOutputPort.PresentSuccessfulUpdate()
         {
             Debug.Log("Game Options have been updated");
+        }
+        
+        void IUpdateOptionsOutputPort.PresentFailedUpdateOfGameOptions()
+        {
+            Debug.Log("Failed to update the existing Gaming options");
         }
         
         // -------------------------------------

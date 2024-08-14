@@ -6,6 +6,8 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions
 
         #region - - - - - - Methods - - - - - -
 
+        void PresentFailedUpdateOfGameOptions();
+        
         void PresentSuccessfulUpdate();
 
         #endregion Methods

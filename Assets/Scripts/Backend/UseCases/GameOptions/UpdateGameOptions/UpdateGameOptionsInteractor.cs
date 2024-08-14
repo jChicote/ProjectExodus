@@ -1,3 +1,4 @@
+using System.Linq;
 using ProjectExodus.Backend.Repositories;
 using ProjectExodus.GameLogic.Mappers;
 
@@ -18,8 +19,8 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions
         #region - - - - - - Constructors - - - - - -
 
         public UpdateGameOptionsInteractor(
-            IDataRepository<Entities.GameOptions> repository, 
-            IObjectMapper mapper)
+            IObjectMapper mapper,
+            IDataRepository<Entities.GameOptions> repository)
         {
             this.m_Repository = repository;
             this.m_Mapper = mapper;
@@ -33,7 +34,17 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions
             UpdateGameOptionsInputPort inputPort, 
             IUpdateOptionsOutputPort outputPort)
         {
+            var _GameOptions = this.m_Repository.GetEntities().FirstOrDefault(go => go.ID == inputPort.ID);
+            if (_GameOptions == null)
+            {
+                outputPort.PresentFailedUpdateOfGameOptions();
+                return;
+            }
             
+            this.m_Mapper.Map(inputPort, _GameOptions);
+            this.m_Repository.Update(inputPort.ID, _GameOptions);
+            
+            outputPort.PresentSuccessfulUpdate();
         }
         
         #endregion Methods

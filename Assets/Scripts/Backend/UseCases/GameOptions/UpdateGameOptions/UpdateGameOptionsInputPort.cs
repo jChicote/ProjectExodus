@@ -1,3 +1,4 @@
+using System;
 using ProjectExodus.GameLogic.Enumeration;
 
 namespace ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions
@@ -8,6 +9,8 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions
 
         #region - - - - - - Properties - - - - - -
 
+        public Guid ID { get; set; }
+        
         public DisplayOption DisplayOption { get; set; }
         
         public int DisplayHeight { get; set; }
