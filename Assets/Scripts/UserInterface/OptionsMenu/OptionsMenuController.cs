@@ -1,4 +1,5 @@
 using ProjectExodus.GameLogic.Enumeration;
+using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Models;
 using ProjectExodus.Management.UserInterfaceScreenStatesManager;
@@ -45,6 +46,7 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         [SerializeField] private TMP_InputField m_HeightInputField;
         [SerializeField] private TMP_Dropdown m_DisplayDropdown;
 
+        private IGameOptionsFacade m_GameOptionsFacade;
         private IObjectMapper m_Mapper;
         private IUserInterfaceScreenStateManager m_UserInterfaceScreenStateManager;        
         
@@ -199,12 +201,15 @@ namespace ProjectExodus.UserInterface.OptionsMenu
 
         void IOptionsMenuController.InitialiseOptionsMenu(
             GameOptionsModel gameOptionsModel, 
+            IGameOptionsFacade gameOptionsFacade,
             IObjectMapper mapper,
             IUserInterfaceScreenStateManager userInterfaceScreenStateManager)
         {
             this.m_GameOptionsModel = gameOptionsModel;
-            this.m_Mapper = mapper;
             this.m_ViewModel = new OptionsMenuViewModel();
+
+            this.m_GameOptionsFacade = gameOptionsFacade;
+            this.m_Mapper = mapper;
             this.m_UserInterfaceScreenStateManager = userInterfaceScreenStateManager;
             
             this.m_Mapper.Map(gameOptionsModel, this.m_ViewModel);

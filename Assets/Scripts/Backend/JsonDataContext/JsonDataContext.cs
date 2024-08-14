@@ -16,9 +16,9 @@ namespace ProjectExodus.Backend.JsonDataContext
 
         #region - - - - - - Fields - - - - - -
 
+        private static readonly string SAVE_FOLDER = Application.dataPath + "/Saves/";
         private static readonly string FILENAME = "GameData";
         private static readonly string FILEPATH = $"{SAVE_FOLDER}/{FILENAME}.json";
-        private static readonly string SAVE_FOLDER = Application.dataPath + "/Saves/";
 
         private GameData m_GameData;
 
@@ -45,10 +45,8 @@ namespace ProjectExodus.Backend.JsonDataContext
             throw new NotSupportedException($"The entity type '{typeof(TEntity)}' is not supported.");
         }
 
-        void IDataContext.Remove<TEntity>(TEntity objectToRemove)
-        {
-            throw new NotImplementedException();
-        }
+        void IDataContext.Remove<TEntity>(TEntity objectToRemove) 
+            => throw new NotImplementedException();
 
         void IDataContext.Update<TEntity>(Guid searchID, TEntity objectToUpdate)
         {
@@ -60,7 +58,7 @@ namespace ProjectExodus.Backend.JsonDataContext
                     .Select(goi => goi.index)
                     .FirstOrDefault();
                 
-                // Needs validation
+                // TODO: Needs validation
                 
                 this.m_GameData.GameOptions.ToList()[_Index] = objectToUpdate as GameOptions;
             }
@@ -78,8 +76,8 @@ namespace ProjectExodus.Backend.JsonDataContext
                 await ((IDataContext)this).SaveChanges(); 
             }
 
+            // Try reading from the save file
             using var _Reader = new StreamReader(FILEPATH);
-            
             try
             {
                 // This creates a new GameData object.

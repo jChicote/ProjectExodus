@@ -44,7 +44,7 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions
             this.m_Mapper.Map(inputPort, _GameOptions);
             this.m_Repository.Update(inputPort.ID, _GameOptions);
             
-            outputPort.PresentSuccessfulUpdate();
+            outputPort.PresentSuccessfulUpdate(_GameOptions);
         }
         
         #endregion Methods

@@ -1,3 +1,5 @@
+using ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions;
+
 namespace ProjectExodus.GameLogic.Facades.GameOptionsFacade
 {
 
@@ -10,7 +12,7 @@ namespace ProjectExodus.GameLogic.Facades.GameOptionsFacade
 
         void GetGameOptions();
 
-        void UpdateGameOptions();
+        void UpdateGameOptions(UpdateGameOptionsInputPort inputPort);
 
         #endregion Methods
         

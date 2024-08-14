@@ -57,6 +57,9 @@ namespace ProjectExodus
         public IInputManager InputManager
             => this.m_InputManager;
 
+        public IGameOptionsFacade GameOptionsFacade
+            => this.m_GameOptionsFacade;
+
         public GameSettings GameSettings
             => this.m_GameSettings;
 

@@ -52,44 +52,29 @@ namespace ProjectExodus.GameLogic.Facades.GameOptionsFacade
         // Create Game Options
         // -------------------------------------
         
-        void IGameOptionsFacade.CreateGameOptions()
-        {
-            // Create with default starting values
-            // TODO: Use scriptable object default values
-            this.m_CreateInteractor.Handle(new CreateGameOptionsInputPort(), this);
-        }
+        void IGameOptionsFacade.CreateGameOptions() 
+            => this.m_CreateInteractor.Handle(new CreateGameOptionsInputPort(), this);
 
         void ICreateGameOptionsOutputPort.PresentCreatedGameOptions(GameOptions gameOptions)
         {
             var _GameOptionsModel = new GameOptionsModel();
             this.m_Mapper.Map(gameOptions, _GameOptionsModel);
             this.m_GameSettings.SetGameOptions(_GameOptionsModel);
-
-            Debug.Log("New GameOptions has been created.");
         }
         
         // -------------------------------------
         // Update Game Options
         // -------------------------------------
 
-        void IGameOptionsFacade.UpdateGameOptions()
-        {
-            // Update the GameLogic's Model
-            // Update the Entity tracked.
-            UpdateGameOptionsInputPort _UpdateGameOptionsInputPort = new UpdateGameOptionsInputPort();
-            this.m_UpdateInteractor.Handle(_UpdateGameOptionsInputPort, this);
-        }
+        void IGameOptionsFacade.UpdateGameOptions(UpdateGameOptionsInputPort inputPort) 
+            => this.m_UpdateInteractor.Handle(inputPort, this);
 
-        void IUpdateOptionsOutputPort.PresentSuccessfulUpdate()
-        {
-            Debug.Log("Game Options have been updated");
-        }
-        
-        void IUpdateOptionsOutputPort.PresentFailedUpdateOfGameOptions()
-        {
-            Debug.Log("Failed to update the existing Gaming options");
-        }
-        
+        void IUpdateOptionsOutputPort.PresentSuccessfulUpdate(GameOptions gameOptions) 
+            => this.m_Mapper.Map(gameOptions, this.m_GameSettings.GameOptionsModel);
+
+        void IUpdateOptionsOutputPort.PresentFailedUpdateOfGameOptions() 
+            => Debug.Log("[UPDATE FAIL]: Failed to update the existing Gaming options");
+
         // -------------------------------------
         // Get Game Options
         // -------------------------------------

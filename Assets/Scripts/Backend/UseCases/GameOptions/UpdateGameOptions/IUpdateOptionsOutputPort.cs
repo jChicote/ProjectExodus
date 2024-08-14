@@ -8,7 +8,7 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions
 
         void PresentFailedUpdateOfGameOptions();
         
-        void PresentSuccessfulUpdate();
+        void PresentSuccessfulUpdate(Entities.GameOptions gameOptions);
 
         #endregion Methods
 
