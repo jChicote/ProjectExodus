@@ -3,6 +3,7 @@ using ProjectExodus.Backend.Repositories;
 using ProjectExodus.Backend.UseCases;
 using ProjectExodus.Backend.UseCases.GameOptions.CreateGameOptions;
 using ProjectExodus.Backend.UseCases.GameOptions.GetGameOptions;
+using ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Models;
 using UnityEngine;
@@ -13,13 +14,15 @@ namespace ProjectExodus.GameLogic.Facades.GameOptionsFacade
     public class GameOptionsFacade : 
         ICreateGameOptionsOutputPort,
         IGameOptionsFacade,
-        IGetGameOptionsOutputPort
+        IGetGameOptionsOutputPort,
+        IUpdateOptionsOutputPort
     {
 
         #region - - - - - - Fields - - - - - -
 
         private readonly IUseCaseInteractor<CreateGameOptionsInputPort, ICreateGameOptionsOutputPort> m_CreateInteractor;
         private readonly IUseCaseInteractor<GetGameOptionsInputPort, IGetGameOptionsOutputPort> m_GetInteractor;
+        private readonly IUseCaseInteractor<UpdateGameOptionsInputPort, IUpdateOptionsOutputPort> m_UpdateInteractor;
 
         private readonly GameSettings.GameSettings m_GameSettings;
         private readonly IObjectMapper m_Mapper;
@@ -72,8 +75,13 @@ namespace ProjectExodus.GameLogic.Facades.GameOptionsFacade
         {
             // Update the GameLogic's Model
             // Update the Entity tracked.
-            
-            throw new System.NotImplementedException();
+            UpdateGameOptionsInputPort _UpdateGameOptionsInputPort = new UpdateGameOptionsInputPort();
+            this.m_UpdateInteractor.Handle(_UpdateGameOptionsInputPort, this);
+        }
+
+        void IUpdateOptionsOutputPort.PresentSuccessfulUpdate()
+        {
+            Debug.Log("Game Options have been updated");
         }
         
         // -------------------------------------

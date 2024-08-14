@@ -1,32 +1,26 @@
-using System;
 using ProjectExodus.GameLogic.Mappers;
 
-namespace ProjectExodus.Backend.UseCases.GameOptions.CreateGameOptions
+namespace ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions
 {
 
-    public class CreateGameOptionsMapper
+    public class UpdateGameOptionsMapper
     {
 
         #region - - - - - - Constructors - - - - - -
 
-        public CreateGameOptionsMapper(IObjectMapperRegister objectMapperRegister) 
-            => objectMapperRegister.
-                    AddMappingAction<CreateGameOptionsInputPort, Entities.GameOptions>(
-                        this.MapCreateGameOptionsInputPortToGameOptions);
+        public UpdateGameOptionsMapper(IObjectMapperRegister objectMapperRegister) 
+            => objectMapperRegister
+                .AddMappingAction<UpdateGameOptionsInputPort, Entities.GameOptions>(
+                    this.MapUpdateGameOptionsInputPortToGameOptions);
 
         #endregion Constructors
 
         #region - - - - - - Methods - - - - - -
 
-        private void MapCreateGameOptionsInputPortToGameOptions(
-            CreateGameOptionsInputPort source,
+        private void MapUpdateGameOptionsInputPortToGameOptions(
+            UpdateGameOptionsInputPort source,
             Entities.GameOptions destination)
         {
-            if (source == null || destination == null)
-                throw new ArgumentException($"Mapping objects of type: {typeof(CreateGameOptionsInputPort)}" +
-                                            $" and {typeof(Entities.GameOptions)}, cannot both or either be null.");
-
-            destination.ID = new Guid();
             destination.EnvironmentFXVolume = source.EnvironmentFXVolume;
             destination.IsMuted = source.IsMuted;
             destination.GameMusicVolume = source.GameMusicVolume;

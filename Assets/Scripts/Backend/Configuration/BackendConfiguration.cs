@@ -1,5 +1,6 @@
 using ProjectExodus.Backend.Repositories.GameOptionsRepository;
 using ProjectExodus.Backend.UseCases.GameOptions.CreateGameOptions;
+using ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions;
 using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Mappers;
 
@@ -29,6 +30,7 @@ namespace ProjectExodus.Backend.Configuration
             // Configure mappers
             _ = new CreateGameOptionsMapper(this.m_ObjectMapperRegister);
             _ = new GameOptionsRepositoryMapper(this.m_ObjectMapperRegister);
+            _ = new UpdateGameOptionsMapper(this.m_ObjectMapperRegister);
         }
 
         #endregion Methods
