@@ -30,7 +30,6 @@ namespace ProjectExodus.GameLogic.GameSettings
 
         #endregion Methods
   
-  
     }
 
 }

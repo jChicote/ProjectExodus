@@ -1,17 +1,19 @@
+using System;
 using System.Collections.Generic;
 using ProjectExodus.Backend.Entities;
 
 namespace ProjectExodus.Backend.JsonDataContext
 {
 
+    [Serializable]
     public class GameData
     {
 
-        #region - - - - - - Properties - - - - - -
+        #region - - - - - - Fields - - - - - -
 
-        public ICollection<GameOptions> GameOptions = new List<GameOptions>();
+        public List<GameOptions> GameOptions = new();
 
-        #endregion Properties
+        #endregion Fields
 
     }
 

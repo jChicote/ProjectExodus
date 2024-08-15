@@ -1,4 +1,5 @@
 using System;
+using ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Models;
 
@@ -14,8 +15,8 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         {
             objectMapperRegister.AddMappingAction<GameOptionsModel, OptionsMenuViewModel>(
                                     this.MapGameOptionsToViewModel);
-            objectMapperRegister.AddMappingAction<OptionsMenuViewModel, GameOptionsModel>(
-                                    this.MapViewModelToGameOptions);
+            objectMapperRegister.AddMappingAction<OptionsMenuViewModel, UpdateGameOptionsInputPort>(
+                                    this.MapViewModelToInputPort);
         }
 
         #endregion Constructors
@@ -40,7 +41,7 @@ namespace ProjectExodus.UserInterface.OptionsMenu
             destination.DisplayWidth = source.DisplayWidth;
         }
 
-        private void MapViewModelToGameOptions(OptionsMenuViewModel source, GameOptionsModel destination)
+        private void MapViewModelToInputPort(OptionsMenuViewModel source, UpdateGameOptionsInputPort destination)
         {
             if (source == null || destination == null)
                 throw new ArgumentException($"Mapping objects of type: {source.GetType()}" +

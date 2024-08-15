@@ -3,35 +3,36 @@ using System;
 namespace ProjectExodus.Backend.Entities
 {
 
+    [Serializable]
     public class GameOptions
     {
 
-        #region - - - - - - Properties - - - - - -
-        
-        public Guid ID { get; set; }
-        
-        public int DisplayOption { get; set; }
-        
-        public int DisplayHeight { get; set; }
-        
-        public int DisplayWidth { get; set; }
+        #region - - - - - - Fields - - - - - -
 
-        public float EnvironmentFXVolume { get; set; }
-        
-        public float GameMusicVolume { get; set; }
-        
-        public bool IsHUDVisible { get; set; }
-        
-        public bool IsMuted { get; set; }
-        
-        public float MasterVolume { get; set; }
-        
-        public float SoundFXVolume { get; set; }
-        
-        public float UIVolume { get; set; }
+        public Guid ID;
 
-        #endregion Properties
-  
+        public int DisplayOption;
+
+        public int DisplayHeight;
+
+        public int DisplayWidth;
+
+        public float EnvironmentFXVolume;
+
+        public float GameMusicVolume;
+
+        public bool IsHUDVisible;
+
+        public bool IsMuted;
+
+        public float MasterVolume;
+
+        public float SoundFXVolume;
+
+        public float UIVolume;
+
+        #endregion Fields
+
     }
 
 }

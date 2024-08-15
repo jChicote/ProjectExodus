@@ -30,8 +30,8 @@ namespace ProjectExodus.Backend.JsonDataContext
         {
             if (typeof(TEntity) == typeof(GameOptions))
                 this.m_GameData.GameOptions.Add(newObject as GameOptions);
-            
-            throw new NotSupportedException($"The entity type '{typeof(TEntity)}' is not supported.");
+            else
+                throw new NotSupportedException($"The entity type '{typeof(TEntity)}' is not supported.");
         }
 
         ICollection<TEntity> IDataContext.GetEntities<TEntity>()
@@ -41,7 +41,7 @@ namespace ProjectExodus.Backend.JsonDataContext
             
             if (typeof(TEntity) == typeof(GameOptions))
                 return (ICollection<TEntity>)this.m_GameData.GameOptions;
-
+            
             throw new NotSupportedException($"The entity type '{typeof(TEntity)}' is not supported.");
         }
 
@@ -60,7 +60,11 @@ namespace ProjectExodus.Backend.JsonDataContext
                 
                 // TODO: Needs validation
                 
-                this.m_GameData.GameOptions.ToList()[_Index] = objectToUpdate as GameOptions;
+                this.m_GameData.GameOptions[_Index] = objectToUpdate as GameOptions;
+            }
+            else
+            {
+                throw new NotSupportedException($"The entity type '{typeof(TEntity)}' is not supported.");
             }
         }
 
@@ -98,10 +102,20 @@ namespace ProjectExodus.Backend.JsonDataContext
 
         async Task IDataContext.SaveChanges()
         {
-            string _StringJson = JsonUtility.ToJson(this.m_GameData);
-            await using var _Writer = new StreamWriter(FILEPATH);
-            await _Writer.WriteAsync(_StringJson);
-            _Writer.Close();
+            try
+            {
+                string _StringJson = JsonUtility.ToJson(this.m_GameData);
+                
+                Debug.Log(_StringJson);
+                
+                await using  var _Writer = new StreamWriter(FILEPATH);
+                await _Writer.WriteAsync(_StringJson);
+                _Writer.Close();
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Failed to save data: {ex.Message}");
+            }
         }
 
         #endregion Methods

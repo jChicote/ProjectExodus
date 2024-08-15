@@ -84,6 +84,12 @@ namespace ProjectExodus.GameLogic.Facades.GameOptionsFacade
 
         void IGetGameOptionsOutputPort.PresentGameOptions(GameOptions gameOptions)
         {
+            if (gameOptions == null)
+            {
+                Debug.LogWarning("[WARNING]: No game options were found.");
+                return;
+            }
+            
             var _GameOptionsModel = new GameOptionsModel();
             this.m_Mapper.Map(gameOptions, _GameOptionsModel);
             this.m_GameSettings.SetGameOptions(_GameOptionsModel);

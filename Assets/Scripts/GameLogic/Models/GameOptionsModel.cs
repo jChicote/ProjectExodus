@@ -4,7 +4,6 @@ using ProjectExodus.GameLogic.Enumeration;
 namespace ProjectExodus.GameLogic.Models
 {
 
-    [Serializable]
     public class GameOptionsModel
     {
         

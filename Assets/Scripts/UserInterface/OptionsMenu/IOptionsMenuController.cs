@@ -1,3 +1,4 @@
+using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Models;
@@ -12,6 +13,7 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         #region - - - - - - Methods - - - - - -
 
         void InitialiseOptionsMenu(
+            IDataContext dataContext,
             GameOptionsModel gameOptionsModel, 
             IGameOptionsFacade gameOptionsFacade,
             IObjectMapper mapper, 

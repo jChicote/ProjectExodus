@@ -39,10 +39,10 @@ namespace ProjectExodus
         [SerializeField] private SceneManager m_SceneManager;
         [SerializeField] private UserInterfaceManager m_UserInterfaceManager;
 
+        private IDataContext m_DataContext;
+        private IGameOptionsFacade m_GameOptionsFacade;
         private GameSettings m_GameSettings;
         private ObjectMapper m_ObjectMapper;
-        private IGameOptionsFacade m_GameOptionsFacade;
-        private IDataContext m_DataContext;
 
         #endregion Fields
 
@@ -50,6 +50,9 @@ namespace ProjectExodus
 
         public IAudioManager AudioManager
             => this.m_AudioManager;
+
+        public IDataContext DataContext
+            => this.m_DataContext;
 
         public IEventManager EventManager
             => this.m_EventManager;
@@ -98,7 +101,6 @@ namespace ProjectExodus
             // Setup settings
             // NOTE: This is temporary until a use case exists to initialise the settings option from a scriptable-object
             this.m_GameSettings = new GameSettings();
-            this.m_GameSettings.SetGameOptions(new GameOptionsModel());
             
             // Setup Services and Configuration
             this.m_DataContext = new JsonDataContext(); // Temporarily be initialised here
@@ -130,7 +132,13 @@ namespace ProjectExodus
 
         private Task ConfigureGameState()
         {
+            // Setup GameOptions and settings
             this.m_GameOptionsFacade.GetGameOptions();
+            Debug.Log(this.m_GameSettings.GameOptionsModel);
+            
+            if (this.m_GameSettings.GameOptionsModel == null)
+                this.m_GameOptionsFacade.CreateGameOptions();
+            Debug.Log(this.m_GameSettings.GameOptionsModel);
             
             Debug.Log("2. Configured GameState");
             return Task.CompletedTask;

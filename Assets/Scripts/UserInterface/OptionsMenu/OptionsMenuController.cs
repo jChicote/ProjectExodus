@@ -1,3 +1,5 @@
+using ProjectExodus.Backend.JsonDataContext;
+using ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions;
 using ProjectExodus.GameLogic.Enumeration;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
 using ProjectExodus.GameLogic.Mappers;
@@ -46,6 +48,7 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         [SerializeField] private TMP_InputField m_HeightInputField;
         [SerializeField] private TMP_Dropdown m_DisplayDropdown;
 
+        private IDataContext m_DataContext;
         private IGameOptionsFacade m_GameOptionsFacade;
         private IObjectMapper m_Mapper;
         private IUserInterfaceScreenStateManager m_UserInterfaceScreenStateManager;        
@@ -191,7 +194,13 @@ namespace ProjectExodus.UserInterface.OptionsMenu
 
         private void OnApplyOptions()
         {
-            this.m_Mapper.Map(this.m_ViewModel, this.m_GameOptionsModel);
+            UpdateGameOptionsInputPort _InputPort = new UpdateGameOptionsInputPort();
+            _InputPort.ID = m_GameOptionsModel.ID;
+            
+            this.m_Mapper.Map(this.m_ViewModel, _InputPort);
+            this.m_GameOptionsFacade.UpdateGameOptions(_InputPort);
+            this.m_DataContext.SaveChanges();
+            
             this.m_UserInterfaceScreenStateManager.OpenPreviousScreen();
         }
 
@@ -200,6 +209,7 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         #region - - - - - - Methods - - - - - -
 
         void IOptionsMenuController.InitialiseOptionsMenu(
+            IDataContext dataContext,
             GameOptionsModel gameOptionsModel, 
             IGameOptionsFacade gameOptionsFacade,
             IObjectMapper mapper,
@@ -208,6 +218,7 @@ namespace ProjectExodus.UserInterface.OptionsMenu
             this.m_GameOptionsModel = gameOptionsModel;
             this.m_ViewModel = new OptionsMenuViewModel();
 
+            this.m_DataContext = dataContext;
             this.m_GameOptionsFacade = gameOptionsFacade;
             this.m_Mapper = mapper;
             this.m_UserInterfaceScreenStateManager = userInterfaceScreenStateManager;
