@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace ProjectExodus.Backend.UseCases.GameOptions.GetGameOptions
 {
 
@@ -6,7 +8,7 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.GetGameOptions
 
         #region - - - - - - Methods - - - - - -
 
-        void PresentGameOptions(Entities.GameOptions gameOptions);
+        void PresentGameOptions(IEnumerable<Entities.GameOptions> gameOptions);
 
         #endregion Methods
 

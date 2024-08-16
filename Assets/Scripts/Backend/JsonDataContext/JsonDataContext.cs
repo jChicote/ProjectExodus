@@ -58,8 +58,6 @@ namespace ProjectExodus.Backend.JsonDataContext
                     .Select(goi => goi.index)
                     .FirstOrDefault();
                 
-                // TODO: Needs validation
-                
                 this.m_GameData.GameOptions[_Index] = objectToUpdate as GameOptions;
             }
             else
@@ -105,9 +103,6 @@ namespace ProjectExodus.Backend.JsonDataContext
             try
             {
                 string _StringJson = JsonUtility.ToJson(this.m_GameData);
-                
-                Debug.Log(_StringJson);
-                
                 await using  var _Writer = new StreamWriter(FILEPATH);
                 await _Writer.WriteAsync(_StringJson);
                 _Writer.Close();

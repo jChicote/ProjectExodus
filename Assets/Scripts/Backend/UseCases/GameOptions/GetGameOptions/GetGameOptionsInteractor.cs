@@ -4,7 +4,8 @@ using ProjectExodus.Backend.Repositories;
 namespace ProjectExodus.Backend.UseCases.GameOptions.GetGameOptions
 {
 
-    public class GetGameOptionsInteractor : IUseCaseInteractor<GetGameOptionsInputPort, IGetGameOptionsOutputPort>
+    public class GetGameOptionsInteractor : 
+        IUseCaseInteractor<GetGameOptionsInputPort, IGetGameOptionsOutputPort>
     {
 
         #region - - - - - - Fields - - - - - -
@@ -26,7 +27,7 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.GetGameOptions
             GetGameOptionsInputPort inputPort, 
             IGetGameOptionsOutputPort outputPort)
         {
-            var _GameOptions = this.m_Repository.GetEntities().FirstOrDefault();
+            var _GameOptions = this.m_Repository.GetEntities();
             outputPort.PresentGameOptions(_GameOptions);
         }
 

@@ -218,7 +218,7 @@ namespace ProjectExodus.UserInterface.OptionsMenu
             this.m_GameOptionsModel = gameOptionsModel;
             this.m_ViewModel = new OptionsMenuViewModel();
 
-            this.m_DataContext = dataContext;
+            this.m_DataContext = dataContext; // Ticket #43 - Change this to use the Save Manager contract
             this.m_GameOptionsFacade = gameOptionsFacade;
             this.m_Mapper = mapper;
             this.m_UserInterfaceScreenStateManager = userInterfaceScreenStateManager;

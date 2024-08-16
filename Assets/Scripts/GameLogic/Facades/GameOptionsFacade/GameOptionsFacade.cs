@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using ProjectExodus.Backend.Entities;
 using ProjectExodus.Backend.Repositories;
 using ProjectExodus.Backend.UseCases;
@@ -82,16 +84,16 @@ namespace ProjectExodus.GameLogic.Facades.GameOptionsFacade
         void IGameOptionsFacade.GetGameOptions() 
             => this.m_GetInteractor.Handle(new GetGameOptionsInputPort(), this);
 
-        void IGetGameOptionsOutputPort.PresentGameOptions(GameOptions gameOptions)
+        void IGetGameOptionsOutputPort.PresentGameOptions(IEnumerable<GameOptions> gameOptions)
         {
-            if (gameOptions == null)
+            if (gameOptions == null || !gameOptions.Any())
             {
                 Debug.LogWarning("[WARNING]: No game options were found.");
                 return;
             }
             
             var _GameOptionsModel = new GameOptionsModel();
-            this.m_Mapper.Map(gameOptions, _GameOptionsModel);
+            this.m_Mapper.Map(gameOptions.First(), _GameOptionsModel);
             this.m_GameSettings.SetGameOptions(_GameOptionsModel);
         }
 

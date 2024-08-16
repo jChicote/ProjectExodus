@@ -27,7 +27,6 @@ namespace ProjectExodus.Backend.Configuration
 
         void IConfigure.Configure()
         {
-            // Configure mappers
             _ = new CreateGameOptionsMapper(this.m_ObjectMapperRegister);
             _ = new GameOptionsRepositoryMapper(this.m_ObjectMapperRegister);
             _ = new UpdateGameOptionsMapper(this.m_ObjectMapperRegister);
