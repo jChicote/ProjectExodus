@@ -5,6 +5,7 @@ using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Models;
 using ProjectExodus.Management.UserInterfaceScreenStatesManager;
+using ProjectExodus.UserInterface.OptionsMenu.OptionsAudio;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -56,6 +57,8 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         private GameOptionsModel m_GameOptionsModel;
         private OptionsMenuViewModel m_ViewModel;
         
+        private OptionsAudioViewModel m_AudioViewModel;
+        
         #endregion Fields
 
         #region - - - - - - Unity Methods - - - - - -
@@ -63,18 +66,18 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         private void Start()
         {
             // Header tab event-bindings
-            this.m_AudioOptionTabButton.onClick.AddListener(this.OnShowAudioOptions);
-            this.m_InputOptionTabButton.onClick.AddListener(this.OnShowInputOptions);
-            this.m_UserInterfaceOptionTabButton.onClick.AddListener(this.OnShowUserInterfaceOptions);
-            this.m_GraphicsOptionTabButton.onClick.AddListener(this.OnShowGraphicsOptions);
+            // this.m_AudioOptionTabButton.onClick.AddListener(this.OnShowAudioOptions);
+            // this.m_InputOptionTabButton.onClick.AddListener(this.OnShowInputOptions);
+            // this.m_UserInterfaceOptionTabButton.onClick.AddListener(this.OnShowUserInterfaceOptions);
+            // this.m_GraphicsOptionTabButton.onClick.AddListener(this.OnShowGraphicsOptions);
             
             // Audio option event-bindings
-            this.m_EnvironmentFXVolumeSlider.onValueChanged.AddListener(this.OnEnvironmentVolumeChanged);
-            this.m_GameMusicVolumeSlider.onValueChanged.AddListener(this.OnGameMusicVolumeChanged);
-            this.m_MasterVolumeSlider.onValueChanged.AddListener(this.OnMasterVolumeChanged);
-            this.m_SoundFXVolumeSlider.onValueChanged.AddListener(this.OnSoundFXVolumeChanged);
-            this.m_UIVolumeSlider.onValueChanged.AddListener(this.OnUIVolumeChanged);
-            this.m_MuteButton.onClick.AddListener(this.OnToggleMute);
+            // this.m_EnvironmentFXVolumeSlider.onValueChanged.AddListener(this.OnEnvironmentVolumeChanged);
+            // this.m_GameMusicVolumeSlider.onValueChanged.AddListener(this.OnGameMusicVolumeChanged);
+            // this.m_MasterVolumeSlider.onValueChanged.AddListener(this.OnMasterVolumeChanged);
+            // this.m_SoundFXVolumeSlider.onValueChanged.AddListener(this.OnSoundFXVolumeChanged);
+            // this.m_UIVolumeSlider.onValueChanged.AddListener(this.OnUIVolumeChanged);
+            // this.m_MuteButton.onClick.AddListener(this.OnToggleMute);
             
             // User-Interface option event-bindings
             this.m_HUDVisibilityButton.onClick.AddListener(this.OnToggleHUDVisibility);
@@ -97,14 +100,14 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         // Header Tab Events
         // -----------------------------------
         
-        private void OnShowAudioOptions()
-        {
-            this.m_AudioOptionsContentGroup.SetActive(true);
-
-            this.m_GraphicsOptionsContentGroup.SetActive(false);
-            this.m_InputOptionsContentGroup.SetActive(false);
-            this.m_UserInterfaceOptionsContentGroup.SetActive(false);
-        }
+        // private void OnShowAudioOptions()
+        // {
+        //     this.m_AudioOptionsContentGroup.SetActive(true);
+        //
+        //     this.m_GraphicsOptionsContentGroup.SetActive(false);
+        //     this.m_InputOptionsContentGroup.SetActive(false);
+        //     this.m_UserInterfaceOptionsContentGroup.SetActive(false);
+        // }
 
         private void OnShowInputOptions()
         {
@@ -137,23 +140,23 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         // Audio Option Events
         // -----------------------------------
 
-        private void OnEnvironmentVolumeChanged(float sliderValue) 
-            => this.m_ViewModel.EnvironmentFXVolume = sliderValue;
-
-        private void OnGameMusicVolumeChanged(float sliderValue) 
-            => this.m_ViewModel.GameMusicVolume = sliderValue;
-
-        private void OnMasterVolumeChanged(float sliderValue) 
-            => this.m_ViewModel.MasterVolume = sliderValue;
-
-        private void OnSoundFXVolumeChanged(float sliderValue) 
-            => this.m_ViewModel.SoundFXVolume = sliderValue;
-
-        private void OnUIVolumeChanged(float sliderValue) 
-            => this.m_ViewModel.UIVolume = sliderValue;
-
-        private void OnToggleMute()
-            => this.m_ViewModel.IsMuted = !this.m_ViewModel.IsMuted;
+        // private void OnEnvironmentVolumeChanged(float sliderValue) 
+        //     => this.m_ViewModel.EnvironmentFXVolume = sliderValue;
+        //
+        // private void OnGameMusicVolumeChanged(float sliderValue) 
+        //     => this.m_ViewModel.GameMusicVolume = sliderValue;
+        //
+        // private void OnMasterVolumeChanged(float sliderValue) 
+        //     => this.m_ViewModel.MasterVolume = sliderValue;
+        //
+        // private void OnSoundFXVolumeChanged(float sliderValue) 
+        //     => this.m_ViewModel.SoundFXVolume = sliderValue;
+        //
+        // private void OnUIVolumeChanged(float sliderValue) 
+        //     => this.m_ViewModel.UIVolume = sliderValue;
+        //
+        // private void OnToggleMute()
+        //     => this.m_ViewModel.IsMuted = !this.m_ViewModel.IsMuted;
 
         // -----------------------------------
         // User-Interface Option Events
@@ -254,5 +257,87 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         #endregion Methods
 
     }
+    
+    // public struct OptionsAudioScreenViews 
+    // {
+    //
+    //     #region - - - - - - Properties - - - - - -
+    //
+    //     public GameObject AudioOptionsContentGroup { get; private set; }
+    //     
+    //     public Button AudioOptionTabButton { get; private set; }
+    //     
+    //     public Button MuteButton { get; private set; }
+    //     
+    //     public Slider EnvironmentFXVolumeSlider { get; private set; }
+    //     
+    //     public Slider GameMusicVolumeSlider { get; private set; }
+    //     
+    //     public Slider MasterVolumeSlider { get; private set; }
+    //     
+    //     public Slider SoundFXVolumeSlider { get; private set; }
+    //     
+    //     public Slider UIVolumeSlider { get; private set; }
+    //
+    //     #endregion Properties
+    //
+    //     #region - - - - - - Constructors - - - - - -
+    //
+    //     public OptionsAudioScreenViews(
+    //         GameObject audioOptionsContentGroup,
+    //         Button audioOptionTabButton,
+    //         Button muteButton,
+    //         Slider environmentFXVolumeSlider,
+    //         Slider gameMusicVolumeSlider,
+    //         Slider masterVolumeSlider,
+    //         Slider soundFXVolumeSlider,
+    //         Slider uiVolumeSlider)
+    //     {
+    //         this.AudioOptionsContentGroup = audioOptionsContentGroup;
+    //         this.AudioOptionTabButton = audioOptionTabButton;
+    //         this.MuteButton = muteButton;
+    //         this.EnvironmentFXVolumeSlider = environmentFXVolumeSlider;
+    //         this.GameMusicVolumeSlider = gameMusicVolumeSlider;
+    //         this.MasterVolumeSlider = masterVolumeSlider;
+    //         this.SoundFXVolumeSlider = soundFXVolumeSlider;
+    //         this.UIVolumeSlider = uiVolumeSlider;
+    //     }
+    //
+    //     #endregion Constructors
+    //
+    // }
+
+    // public struct OptionsMenuContentGroups
+    // {
+    //
+    //     #region - - - - - - Properties - - - - - -
+    //
+    //     public GameObject AudioOptionsContentGroup { get; private set; }
+    //     
+    //     public GameObject InputOptionsContentGroup { get; private set; }
+    //     
+    //     public GameObject GraphicsOptionsContentGroup { get; private set; }
+    //     
+    //     public GameObject UserInterfaceOptionsContentGroup { get; private set; }
+    //
+    //     #endregion Properties
+    //
+    //     #region - - - - - - Constructors - - - - - -
+    //
+    //     public OptionsMenuContentGroups(
+    //         GameObject audioOptionsContentGroup,
+    //         GameObject inputOptionsContentGroup,
+    //         GameObject graphicsOptionsContentGroup,
+    //         GameObject userInterfaceOptionsContentGroup)
+    //     {
+    //         this.AudioOptionsContentGroup = audioOptionsContentGroup;
+    //         this.InputOptionsContentGroup = inputOptionsContentGroup;
+    //         this.GraphicsOptionsContentGroup = graphicsOptionsContentGroup;
+    //         this.UserInterfaceOptionsContentGroup = userInterfaceOptionsContentGroup;
+    //     }
+    //
+    //     #endregion Constructors
+    //
+    // }
 
 }
