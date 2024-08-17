@@ -80,7 +80,7 @@ namespace ProjectExodus.UserInterface.OptionsMenu
             // this.m_MuteButton.onClick.AddListener(this.OnToggleMute);
             
             // User-Interface option event-bindings
-            this.m_HUDVisibilityButton.onClick.AddListener(this.OnToggleHUDVisibility);
+            // this.m_HUDVisibilityButton.onClick.AddListener(this.OnToggleHUDVisibility);
             
             // Graphics option event-bindings
             this.m_WidthInputField.onValueChanged.AddListener(this.OnDisplayWidthChanged);
@@ -127,14 +127,14 @@ namespace ProjectExodus.UserInterface.OptionsMenu
             this.m_UserInterfaceOptionsContentGroup.SetActive(false);
         }
 
-        private void OnShowUserInterfaceOptions()
-        {
-            this.m_UserInterfaceOptionsContentGroup.SetActive(true);
-
-            this.m_AudioOptionsContentGroup.SetActive(false);
-            this.m_GraphicsOptionsContentGroup.SetActive(false);
-            this.m_InputOptionsContentGroup.SetActive(false);
-        }
+        // private void OnShowUserInterfaceOptions()
+        // {
+        //     this.m_UserInterfaceOptionsContentGroup.SetActive(true);
+        //
+        //     this.m_AudioOptionsContentGroup.SetActive(false);
+        //     this.m_GraphicsOptionsContentGroup.SetActive(false);
+        //     this.m_InputOptionsContentGroup.SetActive(false);
+        // }
         
         // -----------------------------------
         // Audio Option Events
@@ -162,8 +162,8 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         // User-Interface Option Events
         // -----------------------------------
 
-        private void OnToggleHUDVisibility() 
-            => this.m_ViewModel.IsHUDVisible = !this.m_ViewModel.IsHUDVisible;
+        // private void OnToggleHUDVisibility() 
+        //     => this.m_ViewModel.IsHUDVisible = !this.m_ViewModel.IsHUDVisible;
 
         // -----------------------------------
         // Graphics Option Events

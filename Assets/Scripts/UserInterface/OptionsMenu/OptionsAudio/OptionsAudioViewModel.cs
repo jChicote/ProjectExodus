@@ -6,8 +6,8 @@ namespace ProjectExodus.UserInterface.OptionsMenu.OptionsAudio
 
         #region - - - - - - Fields - - - - - -
 
-        private OptionsAudioScreenViews m_OptionsAudioViews;
-        private OptionsMenuContentViews m_OptionsMenuContentGroups;
+        private readonly OptionsAudioScreenViews m_OptionsAudioViews;
+        private readonly OptionsMenuContentViews m_OptionsMenuContentGroups;
 
         #endregion Fields
   
