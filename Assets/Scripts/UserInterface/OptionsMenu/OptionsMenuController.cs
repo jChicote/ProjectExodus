@@ -5,7 +5,8 @@ using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Models;
 using ProjectExodus.Management.UserInterfaceScreenStatesManager;
-using ProjectExodus.UserInterface.OptionsMenu.OptionsAudio;
+using ProjectExodus.UserInterface.OptionsMenu.AudioOptions;
+using ProjectExodus.UserInterface.OptionsMenu.UserInterfaceOptions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -56,8 +57,9 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         
         private GameOptionsModel m_GameOptionsModel;
         private OptionsMenuViewModel m_ViewModel;
-        
-        private OptionsAudioViewModel m_AudioViewModel;
+
+        private AudioOptionsViewModel m_AudioOptionsViewModel;
+        private UserInterfaceOptionsViewModel m_UserInterfaceViewModel;
         
         #endregion Fields
 

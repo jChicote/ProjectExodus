@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ProjectExodus.UserInterface.OptionsMenu.OptionsAudio
+namespace ProjectExodus.UserInterface.OptionsMenu.AudioOptions
 {
 
-    public class OptionsAudioScreenViews
+    public class AudioOptionScreenViews
     {
         
         #region - - - - - - Properties - - - - - -
@@ -29,7 +29,7 @@ namespace ProjectExodus.UserInterface.OptionsMenu.OptionsAudio
 
         #region - - - - - - Constructors - - - - - -
 
-        public OptionsAudioScreenViews(
+        public AudioOptionScreenViews(
             GameObject audioOptionsContentGroup,
             Button audioOptionTabButton,
             Button muteButton,

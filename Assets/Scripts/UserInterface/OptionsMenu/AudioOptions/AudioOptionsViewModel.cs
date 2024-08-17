@@ -1,12 +1,12 @@
-namespace ProjectExodus.UserInterface.OptionsMenu.OptionsAudio
+namespace ProjectExodus.UserInterface.OptionsMenu.AudioOptions
 {
 
-    public class OptionsAudioViewModel
+    public class AudioOptionsViewModel
     {
 
         #region - - - - - - Fields - - - - - -
 
-        private readonly OptionsAudioScreenViews m_OptionsAudioViews;
+        private readonly AudioOptionScreenViews _mAudioOptionViews;
         private readonly OptionsMenuContentViews m_OptionsMenuContentGroups;
 
         #endregion Fields
@@ -29,21 +29,21 @@ namespace ProjectExodus.UserInterface.OptionsMenu.OptionsAudio
 
         #region - - - - - - Constructors - - - - - -
 
-        public OptionsAudioViewModel(
-            OptionsAudioScreenViews optionsAudioScreenViews, 
+        public AudioOptionsViewModel(
+            AudioOptionScreenViews audioOptionScreenViews, 
             OptionsMenuContentViews optionsMenuContentGroups)
         {
-            this.m_OptionsAudioViews = optionsAudioScreenViews;
+            this._mAudioOptionViews = audioOptionScreenViews;
             this.m_OptionsMenuContentGroups = optionsMenuContentGroups;
             
-            optionsAudioScreenViews.AudioOptionTabButton.onClick.AddListener(this.OnShowAudioOptions);
+            audioOptionScreenViews.AudioOptionTabButton.onClick.AddListener(this.OnShowAudioOptions);
             
-            optionsAudioScreenViews.EnvironmentFXVolumeSlider.onValueChanged.AddListener(this.OnEnvironmentVolumeChanged);
-            optionsAudioScreenViews.GameMusicVolumeSlider.onValueChanged.AddListener(this.OnGameMusicVolumeChanged);
-            optionsAudioScreenViews.MasterVolumeSlider.onValueChanged.AddListener(this.OnMasterVolumeChanged);
-            optionsAudioScreenViews.SoundFXVolumeSlider.onValueChanged.AddListener(this.OnSoundFXVolumeChanged);
-            optionsAudioScreenViews.UIVolumeSlider.onValueChanged.AddListener(this.OnUIVolumeChanged);
-            optionsAudioScreenViews.MuteButton.onClick.AddListener(this.OnToggleMute);
+            audioOptionScreenViews.EnvironmentFXVolumeSlider.onValueChanged.AddListener(this.OnEnvironmentVolumeChanged);
+            audioOptionScreenViews.GameMusicVolumeSlider.onValueChanged.AddListener(this.OnGameMusicVolumeChanged);
+            audioOptionScreenViews.MasterVolumeSlider.onValueChanged.AddListener(this.OnMasterVolumeChanged);
+            audioOptionScreenViews.SoundFXVolumeSlider.onValueChanged.AddListener(this.OnSoundFXVolumeChanged);
+            audioOptionScreenViews.UIVolumeSlider.onValueChanged.AddListener(this.OnUIVolumeChanged);
+            audioOptionScreenViews.MuteButton.onClick.AddListener(this.OnToggleMute);
         }
 
         #endregion Constructors
@@ -52,7 +52,7 @@ namespace ProjectExodus.UserInterface.OptionsMenu.OptionsAudio
         
         private void OnShowAudioOptions()
         {
-            this.m_OptionsAudioViews.AudioOptionsContentGroup.SetActive(true);
+            this._mAudioOptionViews.AudioOptionsContentGroup.SetActive(true);
 
             this.m_OptionsMenuContentGroups.GraphicsOptionsContentGroup.SetActive(false);
             this.m_OptionsMenuContentGroups.InputOptionsContentGroup.SetActive(false);
