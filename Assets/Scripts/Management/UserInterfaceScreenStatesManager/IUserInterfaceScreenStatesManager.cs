@@ -12,7 +12,9 @@ namespace ProjectExodus.Management.UserInterfaceScreenStatesManager
 
         void InitialiseUserInterfaceScreenStatesManager(GameScreens gameScreens);
         
-        void OpenMenu(UIScreenType uiScreenType);
+        void OpenScreen(UIScreenType uiScreenType);
+
+        void OpenPreviousScreen();
 
         #endregion Methods
 
