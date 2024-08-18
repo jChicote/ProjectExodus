@@ -3,29 +3,25 @@ using ProjectExodus.Backend.Entities;
 using ProjectExodus.GameLogic.Enumeration;
 using ProjectExodus.GameLogic.Models;
 
-namespace ProjectExodus.GameLogic.Mappers.GameOptionsMapper
+namespace ProjectExodus.GameLogic.Mappers.MappingProfiles
 {
 
-    public class GameOptionsMappingAction
+    public class GameOptionsMapper
     {
 
         #region - - - - - - Constructors - - - - - -
 
-        public GameOptionsMappingAction(IObjectMapperRegister objectMapperRegister)
-        {
-            objectMapperRegister.AddMappingAction<GameOptions, GameOptionsModel>(this.MapGameOptionsToGameOptionsModel);
-        }
+        public GameOptionsMapper(IObjectMapperRegister objectMapperRegister) 
+            => objectMapperRegister
+                .AddMappingAction<GameOptions, GameOptionsModel>(
+                    MapGameOptionsToGameOptionsModel);
 
         #endregion Constructors
 
         #region - - - - - - Methods - - - - - -
 
-        private void MapGameOptionsToGameOptionsModel(GameOptions source, GameOptionsModel destination)
+        private static void MapGameOptionsToGameOptionsModel(GameOptions source, GameOptionsModel destination)
         {
-            if (source == null || destination == null)
-                throw new ArgumentException($"Mapping objects of type: {source.GetType()}" +
-                                            $" and {destination.GetType()}, cannot both or either be null.");
-
             destination.ID = source.ID;
             destination.EnvironmentFXVolume = source.EnvironmentFXVolume;
             destination.IsMuted = source.IsMuted;

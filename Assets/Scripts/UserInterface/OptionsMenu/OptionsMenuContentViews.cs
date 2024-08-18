@@ -5,18 +5,6 @@ namespace ProjectExodus.UserInterface.OptionsMenu
 
     public class OptionsMenuContentViews
     {
-        
-        #region - - - - - - Properties - - - - - -
-
-        public GameObject AudioOptionsContentGroup { get; private set; }
-        
-        public GameObject InputOptionsContentGroup { get; private set; }
-        
-        public GameObject GraphicsOptionsContentGroup { get; private set; }
-        
-        public GameObject UserInterfaceOptionsContentGroup { get; private set; }
-
-        #endregion Properties
 
         #region - - - - - - Constructors - - - - - -
 
@@ -33,6 +21,18 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         }
 
         #endregion Constructors
+        
+        #region - - - - - - Properties - - - - - -
+
+        public GameObject AudioOptionsContentGroup { get; private set; }
+        
+        public GameObject InputOptionsContentGroup { get; private set; }
+        
+        public GameObject GraphicsOptionsContentGroup { get; private set; }
+        
+        public GameObject UserInterfaceOptionsContentGroup { get; private set; }
+
+        #endregion Properties
 
     }
 

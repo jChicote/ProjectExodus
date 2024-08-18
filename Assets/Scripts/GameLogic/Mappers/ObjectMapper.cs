@@ -9,7 +9,7 @@ namespace ProjectExodus.GameLogic.Mappers
 
         #region - - - - - - Fields - - - - - -
 
-        private Dictionary<(Type, Type), Action<object, object>> m_Mappings = new();
+        private readonly Dictionary<(Type, Type), Action<object, object>> m_Mappings = new();
 
         #endregion Fields
   

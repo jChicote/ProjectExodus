@@ -84,6 +84,7 @@ namespace ProjectExodus.UserInterface.OptionsMenu
             IObjectMapper mapper,
             IUserInterfaceScreenStateManager userInterfaceScreenStateManager)
         {
+            // Set model reference
             this.m_GameOptionsModel = gameOptionsModel;
 
             // Initialize Services
@@ -144,6 +145,7 @@ namespace ProjectExodus.UserInterface.OptionsMenu
                 )
             );
             
+            // Map starting values to View Models
             this.m_Mapper.Map(this.m_GameOptionsModel, this.m_AudioOptionViewModel);
             this.m_Mapper.Map(this.m_GameOptionsModel, this.m_GraphicsOptionViewModel);
             this.m_Mapper.Map(this.m_GameOptionsModel, this.m_UserInterfaceOptionViewModel);
@@ -158,15 +160,12 @@ namespace ProjectExodus.UserInterface.OptionsMenu
 
         private void OnApplyOptions()
         {
-            UpdateGameOptionsInputPort _InputPort = new UpdateGameOptionsInputPort
-            {
-                ID = m_GameOptionsModel.ID
-            };
+            UpdateGameOptionsInputPort _InputPort = new UpdateGameOptionsInputPort { ID = m_GameOptionsModel.ID };
             this.m_Mapper.Map(this.m_AudioOptionViewModel, _InputPort);
             this.m_Mapper.Map(this.m_GraphicsOptionViewModel, _InputPort);
             this.m_Mapper.Map(this.m_UserInterfaceOptionViewModel, _InputPort);
             this.m_GameOptionsFacade.UpdateGameOptions(_InputPort);
-            this.m_DataContext.SaveChanges();
+            this.m_DataContext.SaveChanges(); // Ticket #43 - Change this to use the Save Manager contract
             
             this.m_UserInterfaceScreenStateManager.OpenPreviousScreen();
         }

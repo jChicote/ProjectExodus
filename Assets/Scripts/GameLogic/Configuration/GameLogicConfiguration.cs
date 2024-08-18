@@ -1,7 +1,7 @@
 using System;
 using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Mappers;
-using ProjectExodus.GameLogic.Mappers.GameOptionsMapper;
+using ProjectExodus.GameLogic.Mappers.MappingProfiles;
 
 namespace ProjectExodus.GameLogic.Configuration
 {
@@ -26,7 +26,7 @@ namespace ProjectExodus.GameLogic.Configuration
 
         void IConfigure.Configure()
         {
-            _ = new GameOptionsMappingAction(this.m_ObjectMapperRegister);
+            _ = new GameOptionsMapper(this.m_ObjectMapperRegister);
         }
 
         #endregion Methods
