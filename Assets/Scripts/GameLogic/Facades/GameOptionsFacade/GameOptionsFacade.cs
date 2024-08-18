@@ -8,6 +8,7 @@ using ProjectExodus.Backend.UseCases.GameOptions.GetGameOptions;
 using ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Models;
+using ProjectExodus.GameLogic.Settings;
 using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Facades.GameOptionsFacade
@@ -26,7 +27,7 @@ namespace ProjectExodus.GameLogic.Facades.GameOptionsFacade
         private readonly IUseCaseInteractor<GetGameOptionsInputPort, IGetGameOptionsOutputPort> m_GetInteractor;
         private readonly IUseCaseInteractor<UpdateGameOptionsInputPort, IUpdateOptionsOutputPort> m_UpdateInteractor;
 
-        private readonly GameSettings.GameSettings m_GameSettings;
+        private readonly GameSettings m_GameSettings;
         private readonly IObjectMapper m_Mapper;
 
         #endregion Fields
@@ -35,7 +36,7 @@ namespace ProjectExodus.GameLogic.Facades.GameOptionsFacade
 
         public GameOptionsFacade(
             IDataRepository<GameOptions> repository, 
-            GameSettings.GameSettings gameSettings, 
+            GameSettings gameSettings, 
             IObjectMapper mapper)
         {
             this.m_GameSettings = gameSettings;

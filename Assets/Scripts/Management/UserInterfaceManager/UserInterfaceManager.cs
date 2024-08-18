@@ -42,6 +42,21 @@ namespace ProjectExodus.Management.UserInterfaceManager
         }
 
         #endregion Unity Methods
+
+        #region - - - - - - Initializers - - - - - -
+
+        private void InitialiseUserIterfaces()
+        {
+            ((IMainMenuController)this.m_MainMenuController).InitialiseMainMenuController();
+            ((IOptionsMenuController)this.m_OptionsMenuController).InitialiseOptionsMenu(
+                GameManager.Instance.DataContext,
+                GameManager.Instance.GameSettings.GameOptionsModel,
+                GameManager.Instance.GameOptionsFacade,
+                GameManager.Instance.Mapper,
+                this.m_UserInterfaceScreenStateManager);
+        }
+
+        #endregion Initializers
   
         #region - - - - - - Methods - - - - - -
 
@@ -54,17 +69,6 @@ namespace ProjectExodus.Management.UserInterfaceManager
                 this.m_OptionsMenuController);
             ((IUserInterfaceManager)this).UserInterfaceScreenStateManager
                 .InitialiseUserInterfaceScreenStatesManager(_GameScreens);
-        }
-
-        private void InitialiseUserIterfaces()
-        {
-            ((IMainMenuController)this.m_MainMenuController).InitialiseMainMenuController();
-            ((IOptionsMenuController)this.m_OptionsMenuController).InitialiseOptionsMenu(
-                GameManager.Instance.DataContext,
-                GameManager.Instance.GameSettings.GameOptionsModel,
-                GameManager.Instance.GameOptionsFacade,
-                GameManager.Instance.Mapper,
-                this.m_UserInterfaceScreenStateManager);
         }
 
         #endregion Methods

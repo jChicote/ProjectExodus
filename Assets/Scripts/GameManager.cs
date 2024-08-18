@@ -1,20 +1,14 @@
-using System.Threading.Tasks;
-using ProjectExodus.Backend.Configuration;
 using ProjectExodus.Backend.JsonDataContext;
-using ProjectExodus.Backend.Repositories.GameOptionsRepository;
-using ProjectExodus.Common.Services;
-using ProjectExodus.GameLogic.Configuration;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
-using ProjectExodus.GameLogic.GameSettings;
+using ProjectExodus.GameLogic.GameStartup;
 using ProjectExodus.GameLogic.Mappers;
-using ProjectExodus.GameLogic.Models;
+using ProjectExodus.GameLogic.Settings;
 using ProjectExodus.Management.AudioManager;
 using ProjectExodus.Management.EventManager;
 using ProjectExodus.Management.GameStateManager;
 using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.SceneManager;
 using ProjectExodus.Management.UserInterfaceManager;
-using ProjectExodus.UserInterface.Configuration;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -42,7 +36,7 @@ namespace ProjectExodus
         private IDataContext m_DataContext;
         private IGameOptionsFacade m_GameOptionsFacade;
         private GameSettings m_GameSettings;
-        private ObjectMapper m_ObjectMapper;
+        private IObjectMapper m_ObjectMapper;
 
         #endregion Fields
 
@@ -89,69 +83,28 @@ namespace ProjectExodus
             else
                 Object.Destroy(gameObject);
             
-            _ = this.SetupGame();
+            this.SetupGame();
         }
 
         #endregion Unity Methods
 
         #region - - - - - - Methods - - - - - -
 
-        private async Task SetupGame()
+        private void SetupGame()
         {
-            // Setup settings
-            // NOTE: This is temporary until a use case exists to initialise the settings option from a scriptable-object
-            this.m_GameSettings = new GameSettings();
-            
-            // Setup Services and Configuration
-            this.m_DataContext = new JsonDataContext(); // Temporarily be initialised here
-            this.m_ObjectMapper = new ObjectMapper();
-            ((IConfigure)new BackendConfiguration(this.m_ObjectMapper)).Configure();
-            ((IConfigure)new GameLogicConfiguration(this.m_ObjectMapper)).Configure();
-            ((IConfigure)new UserInterfaceConfiguration(this.m_ObjectMapper)).Configure();
-            
-            // Configure data for GameLogic, Management and UI
-            GameOptionsRepository _GameOptionsRepository = new GameOptionsRepository(
-                                                            this.m_DataContext, 
-                                                            this.m_ObjectMapper);
-            this.m_GameOptionsFacade = new GameOptionsFacade(
-                                        _GameOptionsRepository, 
-                                        this.m_GameSettings, 
-                                        this.m_ObjectMapper);
-            
-            // Load save data
-            await this.LoadData();
-            await this.ConfigureGameState();
-            await this.ConfigureManagers();
+            GameStartupHandler _GameStartHandler = this.GetComponent<GameStartupHandler>();
+            this.StartCoroutine(_GameStartHandler.ConfigureGame(this.ConfigureGameManagerValues));
         }
 
-        private async Task LoadData()
+        private void ConfigureGameManagerValues(GameSetupConfig setupConfig)
         {
-            await this.m_DataContext.Load();
-            Debug.Log("1. Loaded Data");
-        }
+            // Set game services
+            this.m_DataContext = setupConfig.DataContext;
+            this.m_GameSettings = setupConfig.GameSettings;
+            this.m_ObjectMapper = setupConfig.ObjectMapper;
 
-        private Task ConfigureGameState()
-        {
-            // Setup GameOptions and settings
-            this.m_GameOptionsFacade.GetGameOptions();
-            
-            if (this.m_GameSettings.GameOptionsModel == null)
-                this.m_GameOptionsFacade.CreateGameOptions();
-            
-            Debug.Log("2. Configured GameState");
-            return Task.CompletedTask;
-        }
-        
-        private Task ConfigureManagers()
-        {
-            this.AudioManager.InitialiseAudioManager();
-            this.InputManager.InitialiseInputManager();
-            this.UserInterfaceManager.InitialiseUserInterfaceManager();
-            this.GameStateManager.InitialiseGameStateManager();
-            this.SceneManager.InitialiseSceneManager();
-            
-            Debug.Log("3.Configured Managers");
-            return Task.CompletedTask;
+            // Set use case facades
+            this.m_GameOptionsFacade = setupConfig.GameOptionsFacade;
         }
 
         #endregion Methods
