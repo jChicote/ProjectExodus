@@ -32,7 +32,6 @@ namespace ProjectExodus.UserInterface.Configuration
         void IConfigure.Configure()
         {
             // Configure Mappers
-            _ = new OptionsMenuMapper(this.m_ObjectMapperRegister);
             _ = new AudioOptionsMapper(this.m_ObjectMapperRegister);
             _ = new GraphicsOptionsMapper(this.m_ObjectMapperRegister);
             _ = new UserInterfaceOptionsMapper(this.m_ObjectMapperRegister);
