@@ -1,6 +1,9 @@
 using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.UserInterface.OptionsMenu;
+using ProjectExodus.UserInterface.OptionsMenu.AudioOptions;
+using ProjectExodus.UserInterface.OptionsMenu.GraphicsOptions;
+using ProjectExodus.UserInterface.OptionsMenu.UserInterfaceOptions;
 
 namespace ProjectExodus.UserInterface.Configuration
 {
@@ -30,6 +33,9 @@ namespace ProjectExodus.UserInterface.Configuration
         {
             // Configure Mappers
             _ = new OptionsMenuMapper(this.m_ObjectMapperRegister);
+            _ = new AudioOptionsMapper(this.m_ObjectMapperRegister);
+            _ = new GraphicsOptionsMapper(this.m_ObjectMapperRegister);
+            _ = new UserInterfaceOptionsMapper(this.m_ObjectMapperRegister);
         }
 
         #endregion Methods

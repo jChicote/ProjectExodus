@@ -1,11 +1,12 @@
 using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions;
-using ProjectExodus.GameLogic.Enumeration;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Models;
 using ProjectExodus.Management.UserInterfaceScreenStatesManager;
 using ProjectExodus.UserInterface.OptionsMenu.AudioOptions;
+using ProjectExodus.UserInterface.OptionsMenu.GraphicsOptions;
+using ProjectExodus.UserInterface.OptionsMenu.InputOptions;
 using ProjectExodus.UserInterface.OptionsMenu.UserInterfaceOptions;
 using TMPro;
 using UnityEngine;
@@ -56,10 +57,10 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         private IUserInterfaceScreenStateManager m_UserInterfaceScreenStateManager;        
         
         private GameOptionsModel m_GameOptionsModel;
-        private OptionsMenuViewModel m_ViewModel;
-
-        private AudioOptionsViewModel m_AudioOptionsViewModel;
-        private UserInterfaceOptionsViewModel m_UserInterfaceViewModel;
+        private AudioOptionViewModel m_AudioOptionViewModel;
+        private InputOptionViewModel m_InputOptionViewModel;
+        private GraphicsOptionViewModel m_GraphicsOptionViewModel;
+        private UserInterfaceOptionViewModel m_UserInterfaceOptionViewModel;
         
         #endregion Fields
 
@@ -67,142 +68,103 @@ namespace ProjectExodus.UserInterface.OptionsMenu
 
         private void Start()
         {
-            // Header tab event-bindings
-            // this.m_AudioOptionTabButton.onClick.AddListener(this.OnShowAudioOptions);
-            // this.m_InputOptionTabButton.onClick.AddListener(this.OnShowInputOptions);
-            // this.m_UserInterfaceOptionTabButton.onClick.AddListener(this.OnShowUserInterfaceOptions);
-            // this.m_GraphicsOptionTabButton.onClick.AddListener(this.OnShowGraphicsOptions);
-            
-            // Audio option event-bindings
-            // this.m_EnvironmentFXVolumeSlider.onValueChanged.AddListener(this.OnEnvironmentVolumeChanged);
-            // this.m_GameMusicVolumeSlider.onValueChanged.AddListener(this.OnGameMusicVolumeChanged);
-            // this.m_MasterVolumeSlider.onValueChanged.AddListener(this.OnMasterVolumeChanged);
-            // this.m_SoundFXVolumeSlider.onValueChanged.AddListener(this.OnSoundFXVolumeChanged);
-            // this.m_UIVolumeSlider.onValueChanged.AddListener(this.OnUIVolumeChanged);
-            // this.m_MuteButton.onClick.AddListener(this.OnToggleMute);
-            
-            // User-Interface option event-bindings
-            // this.m_HUDVisibilityButton.onClick.AddListener(this.OnToggleHUDVisibility);
-            
-            // Graphics option event-bindings
-            this.m_WidthInputField.onValueChanged.AddListener(this.OnDisplayWidthChanged);
-            this.m_HeightInputField.onValueChanged.AddListener(this.OnDisplayHeightChanged);
-            this.m_DisplayDropdown.onValueChanged.AddListener(this.OnDisplayDropdownSelection);
-            
             // Options Menu view event-bindings
             this.m_ApplyButton.onClick.AddListener(this.OnApplyOptions);
             this.m_ExitButton.onClick.AddListener(this.OnExitOptions);
         }
 
         #endregion Unity Methods
-  
+
+        #region - - - - - - Initializers - - - - - -
+
+        void IOptionsMenuController.InitialiseOptionsMenu(
+            IDataContext dataContext,
+            GameOptionsModel gameOptionsModel, 
+            IGameOptionsFacade gameOptionsFacade,
+            IObjectMapper mapper,
+            IUserInterfaceScreenStateManager userInterfaceScreenStateManager)
+        {
+            this.m_GameOptionsModel = gameOptionsModel;
+
+            // Initialize Services
+            this.m_DataContext = dataContext; // Ticket #43 - Change this to use the Save Manager contract
+            this.m_GameOptionsFacade = gameOptionsFacade;
+            this.m_Mapper = mapper;
+            this.m_UserInterfaceScreenStateManager = userInterfaceScreenStateManager;
+
+            // Initialise View Models
+            OptionsMenuContentViews _OptionsMenuContentViews = new OptionsMenuContentViews
+            (
+                this.m_AudioOptionsContentGroup,
+                this.m_InputOptionsContentGroup,
+                this.m_GraphicsOptionsContentGroup,
+                this.m_UserInterfaceOptionsContentGroup
+            );
+
+            this.m_AudioOptionViewModel = new AudioOptionViewModel
+            (
+                new AudioOptionScreenViews
+                (
+                    this.m_AudioOptionTabButton,
+                    this.m_MuteButton,
+                    this.m_EnvironmentFXVolumeSlider,
+                    this.m_GameMusicVolumeSlider,
+                    this.m_MasterVolumeSlider,
+                    this.m_SoundFXVolumeSlider,
+                    this.m_UIVolumeSlider
+                ),
+                _OptionsMenuContentViews
+            );
+
+            this.m_InputOptionViewModel = new InputOptionViewModel
+            (
+                new InputOptionScreenViews(this.m_InputOptionTabButton),
+                _OptionsMenuContentViews
+            );
+
+            this.m_GraphicsOptionViewModel = new GraphicsOptionViewModel
+            (
+                _OptionsMenuContentViews,
+                new GraphicsOptionScreenViews
+                (
+                    this.m_GraphicsOptionTabButton,
+                    this.m_HeightInputField,
+                    this.m_WidthInputField,
+                    this.m_DisplayDropdown
+                )
+            );
+
+            this.m_UserInterfaceOptionViewModel = new UserInterfaceOptionViewModel
+            (
+                _OptionsMenuContentViews,
+                new UserInterfaceOptionScreenViews
+                (
+                    this.m_UserInterfaceOptionTabButton,
+                    this.m_HUDVisibilityButton
+                )
+            );
+            
+            this.m_Mapper.Map(this.m_GameOptionsModel, this.m_AudioOptionViewModel);
+            this.m_Mapper.Map(this.m_GameOptionsModel, this.m_GraphicsOptionViewModel);
+            this.m_Mapper.Map(this.m_GameOptionsModel, this.m_UserInterfaceOptionViewModel);
+        }
+
+        #endregion Initializers
+          
         #region - - - - - - Events - - - - - -
 
-        // -----------------------------------
-        // Header Tab Events
-        // -----------------------------------
-        
-        // private void OnShowAudioOptions()
-        // {
-        //     this.m_AudioOptionsContentGroup.SetActive(true);
-        //
-        //     this.m_GraphicsOptionsContentGroup.SetActive(false);
-        //     this.m_InputOptionsContentGroup.SetActive(false);
-        //     this.m_UserInterfaceOptionsContentGroup.SetActive(false);
-        // }
-
-        private void OnShowInputOptions()
-        {
-            this.m_InputOptionsContentGroup.SetActive(true);
-            
-            this.m_AudioOptionsContentGroup.SetActive(false);
-            this.m_GraphicsOptionsContentGroup.SetActive(false);
-            this.m_UserInterfaceOptionsContentGroup.SetActive(false);
-        }
-
-        private void OnShowGraphicsOptions()
-        {
-            this.m_GraphicsOptionsContentGroup.SetActive(true);
-
-            this.m_AudioOptionsContentGroup.SetActive(false);
-            this.m_InputOptionsContentGroup.SetActive(false);
-            this.m_UserInterfaceOptionsContentGroup.SetActive(false);
-        }
-
-        // private void OnShowUserInterfaceOptions()
-        // {
-        //     this.m_UserInterfaceOptionsContentGroup.SetActive(true);
-        //
-        //     this.m_AudioOptionsContentGroup.SetActive(false);
-        //     this.m_GraphicsOptionsContentGroup.SetActive(false);
-        //     this.m_InputOptionsContentGroup.SetActive(false);
-        // }
-        
-        // -----------------------------------
-        // Audio Option Events
-        // -----------------------------------
-
-        // private void OnEnvironmentVolumeChanged(float sliderValue) 
-        //     => this.m_ViewModel.EnvironmentFXVolume = sliderValue;
-        //
-        // private void OnGameMusicVolumeChanged(float sliderValue) 
-        //     => this.m_ViewModel.GameMusicVolume = sliderValue;
-        //
-        // private void OnMasterVolumeChanged(float sliderValue) 
-        //     => this.m_ViewModel.MasterVolume = sliderValue;
-        //
-        // private void OnSoundFXVolumeChanged(float sliderValue) 
-        //     => this.m_ViewModel.SoundFXVolume = sliderValue;
-        //
-        // private void OnUIVolumeChanged(float sliderValue) 
-        //     => this.m_ViewModel.UIVolume = sliderValue;
-        //
-        // private void OnToggleMute()
-        //     => this.m_ViewModel.IsMuted = !this.m_ViewModel.IsMuted;
-
-        // -----------------------------------
-        // User-Interface Option Events
-        // -----------------------------------
-
-        // private void OnToggleHUDVisibility() 
-        //     => this.m_ViewModel.IsHUDVisible = !this.m_ViewModel.IsHUDVisible;
-
-        // -----------------------------------
-        // Graphics Option Events
-        // -----------------------------------
-
-        private void OnDisplayWidthChanged(string widthValue)
-        {
-            if (!int.TryParse(widthValue, out int _Result))
-                return;
-            
-            this.m_ViewModel.DisplayWidth = _Result;
-        }
-
-        private void OnDisplayHeightChanged(string heightValue)
-        {
-            if (!int.TryParse(heightValue, out int _Result))
-                return;
-            
-            this.m_ViewModel.DisplayHeight = _Result;
-        }
-
-        private void OnDisplayDropdownSelection(int displaySelection) 
-            => this.m_ViewModel.DisplayOption = (DisplayOption)displaySelection;
-        
-        // -----------------------------------
-        // Confirmation Events
-        // -----------------------------------
-        
         private void OnExitOptions() 
             => this.m_UserInterfaceScreenStateManager.OpenPreviousScreen();
 
         private void OnApplyOptions()
         {
-            UpdateGameOptionsInputPort _InputPort = new UpdateGameOptionsInputPort();
-            _InputPort.ID = m_GameOptionsModel.ID;
-            
-            this.m_Mapper.Map(this.m_ViewModel, _InputPort);
+            UpdateGameOptionsInputPort _InputPort = new UpdateGameOptionsInputPort
+            {
+                ID = m_GameOptionsModel.ID
+            };
+            this.m_Mapper.Map(this.m_AudioOptionViewModel, _InputPort);
+            this.m_Mapper.Map(this.m_GraphicsOptionViewModel, _InputPort);
+            this.m_Mapper.Map(this.m_UserInterfaceOptionViewModel, _InputPort);
             this.m_GameOptionsFacade.UpdateGameOptions(_InputPort);
             this.m_DataContext.SaveChanges();
             
@@ -213,24 +175,6 @@ namespace ProjectExodus.UserInterface.OptionsMenu
   
         #region - - - - - - Methods - - - - - -
 
-        void IOptionsMenuController.InitialiseOptionsMenu(
-            IDataContext dataContext,
-            GameOptionsModel gameOptionsModel, 
-            IGameOptionsFacade gameOptionsFacade,
-            IObjectMapper mapper,
-            IUserInterfaceScreenStateManager userInterfaceScreenStateManager)
-        {
-            this.m_GameOptionsModel = gameOptionsModel;
-            this.m_ViewModel = new OptionsMenuViewModel();
-
-            this.m_DataContext = dataContext; // Ticket #43 - Change this to use the Save Manager contract
-            this.m_GameOptionsFacade = gameOptionsFacade;
-            this.m_Mapper = mapper;
-            this.m_UserInterfaceScreenStateManager = userInterfaceScreenStateManager;
-            
-            this.m_Mapper.Map(gameOptionsModel, this.m_ViewModel);
-        }
-
         void IScreenStateController.HideScreen() 
             => this.m_OptionsContentGroup.SetActive(false);
 
@@ -238,17 +182,11 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         {
             this.m_OptionsContentGroup.SetActive(true);
             
-            // Set screen form values
-            this.m_EnvironmentFXVolumeSlider.value = this.m_ViewModel.EnvironmentFXVolume;
-            this.m_GameMusicVolumeSlider.value = this.m_ViewModel.GameMusicVolume;
-            this.m_MasterVolumeSlider.value = this.m_ViewModel.MasterVolume;
-            this.m_SoundFXVolumeSlider.value = this.m_ViewModel.SoundFXVolume;
-            this.m_UIVolumeSlider.value = this.m_ViewModel.UIVolume;
-            
-            this.m_WidthInputField.text = this.m_ViewModel.DisplayWidth.ToString();
-            this.m_HeightInputField.text = this.m_ViewModel.DisplayHeight.ToString();
-            this.m_DisplayDropdown.value = (int)this.m_ViewModel.DisplayOption;
-            
+            // Update ViewModel values
+            this.m_Mapper.Map(this.m_GameOptionsModel, this.m_AudioOptionViewModel);
+            this.m_Mapper.Map(this.m_GameOptionsModel, this.m_GraphicsOptionViewModel);
+            this.m_Mapper.Map(this.m_GameOptionsModel, this.m_UserInterfaceOptionViewModel);
+
             // Reset active displayed tab to default
             this.m_AudioOptionsContentGroup.SetActive(true);
             this.m_GraphicsOptionsContentGroup.SetActive(false);
@@ -260,86 +198,4 @@ namespace ProjectExodus.UserInterface.OptionsMenu
 
     }
     
-    // public struct OptionsAudioScreenViews 
-    // {
-    //
-    //     #region - - - - - - Properties - - - - - -
-    //
-    //     public GameObject AudioOptionsContentGroup { get; private set; }
-    //     
-    //     public Button AudioOptionTabButton { get; private set; }
-    //     
-    //     public Button MuteButton { get; private set; }
-    //     
-    //     public Slider EnvironmentFXVolumeSlider { get; private set; }
-    //     
-    //     public Slider GameMusicVolumeSlider { get; private set; }
-    //     
-    //     public Slider MasterVolumeSlider { get; private set; }
-    //     
-    //     public Slider SoundFXVolumeSlider { get; private set; }
-    //     
-    //     public Slider UIVolumeSlider { get; private set; }
-    //
-    //     #endregion Properties
-    //
-    //     #region - - - - - - Constructors - - - - - -
-    //
-    //     public OptionsAudioScreenViews(
-    //         GameObject audioOptionsContentGroup,
-    //         Button audioOptionTabButton,
-    //         Button muteButton,
-    //         Slider environmentFXVolumeSlider,
-    //         Slider gameMusicVolumeSlider,
-    //         Slider masterVolumeSlider,
-    //         Slider soundFXVolumeSlider,
-    //         Slider uiVolumeSlider)
-    //     {
-    //         this.AudioOptionsContentGroup = audioOptionsContentGroup;
-    //         this.AudioOptionTabButton = audioOptionTabButton;
-    //         this.MuteButton = muteButton;
-    //         this.EnvironmentFXVolumeSlider = environmentFXVolumeSlider;
-    //         this.GameMusicVolumeSlider = gameMusicVolumeSlider;
-    //         this.MasterVolumeSlider = masterVolumeSlider;
-    //         this.SoundFXVolumeSlider = soundFXVolumeSlider;
-    //         this.UIVolumeSlider = uiVolumeSlider;
-    //     }
-    //
-    //     #endregion Constructors
-    //
-    // }
-
-    // public struct OptionsMenuContentGroups
-    // {
-    //
-    //     #region - - - - - - Properties - - - - - -
-    //
-    //     public GameObject AudioOptionsContentGroup { get; private set; }
-    //     
-    //     public GameObject InputOptionsContentGroup { get; private set; }
-    //     
-    //     public GameObject GraphicsOptionsContentGroup { get; private set; }
-    //     
-    //     public GameObject UserInterfaceOptionsContentGroup { get; private set; }
-    //
-    //     #endregion Properties
-    //
-    //     #region - - - - - - Constructors - - - - - -
-    //
-    //     public OptionsMenuContentGroups(
-    //         GameObject audioOptionsContentGroup,
-    //         GameObject inputOptionsContentGroup,
-    //         GameObject graphicsOptionsContentGroup,
-    //         GameObject userInterfaceOptionsContentGroup)
-    //     {
-    //         this.AudioOptionsContentGroup = audioOptionsContentGroup;
-    //         this.InputOptionsContentGroup = inputOptionsContentGroup;
-    //         this.GraphicsOptionsContentGroup = graphicsOptionsContentGroup;
-    //         this.UserInterfaceOptionsContentGroup = userInterfaceOptionsContentGroup;
-    //     }
-    //
-    //     #endregion Constructors
-    //
-    // }
-
 }

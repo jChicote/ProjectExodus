@@ -134,11 +134,9 @@ namespace ProjectExodus
         {
             // Setup GameOptions and settings
             this.m_GameOptionsFacade.GetGameOptions();
-            Debug.Log(this.m_GameSettings.GameOptionsModel);
             
             if (this.m_GameSettings.GameOptionsModel == null)
                 this.m_GameOptionsFacade.CreateGameOptions();
-            Debug.Log(this.m_GameSettings.GameOptionsModel);
             
             Debug.Log("2. Configured GameState");
             return Task.CompletedTask;

@@ -1,7 +1,7 @@
 namespace ProjectExodus.UserInterface.OptionsMenu.UserInterfaceOptions
 {
 
-    public class UserInterfaceOptionsViewModel
+    public class UserInterfaceOptionViewModel
     {
 
         #region - - - - - - Fields - - - - - -
@@ -19,20 +19,20 @@ namespace ProjectExodus.UserInterface.OptionsMenu.UserInterfaceOptions
 
         #region - - - - - - Constructors - - - - - -
 
-        public UserInterfaceOptionsViewModel(
+        public UserInterfaceOptionViewModel(
             OptionsMenuContentViews optionsMenuContentGroups,
             UserInterfaceOptionScreenViews userInterfaceOptionScreenViews)
         {
             this.m_OptionsMenuContentViews = optionsMenuContentGroups;
             this.m_UserInterfaceOptionScreenViews = userInterfaceOptionScreenViews;
             
-            userInterfaceOptionScreenViews.UserInterfaceOptionTabButton.onClick.AddListener(this.OnShowUserInterfaceOptions);
-            userInterfaceOptionScreenViews.HUDVisibilityButton.onClick.AddListener(this.OnToggleHUDVisibility);
+            this.m_UserInterfaceOptionScreenViews.UserInterfaceOptionTabButton.onClick.AddListener(this.OnShowUserInterfaceOptions);
+            this.m_UserInterfaceOptionScreenViews.HUDVisibilityButton.onClick.AddListener(this.OnToggleHUDVisibility);
         }
 
         #endregion Constructors
 
-        #region - - - - - - Methods - - - - - -
+        #region - - - - - - Events - - - - - -
         
         private void OnShowUserInterfaceOptions()
         {
@@ -46,7 +46,7 @@ namespace ProjectExodus.UserInterface.OptionsMenu.UserInterfaceOptions
         private void OnToggleHUDVisibility() 
             => this.IsHUDVisible = !this.IsHUDVisible;
 
-        #endregion Methods
+        #endregion Events
   
     }
 
