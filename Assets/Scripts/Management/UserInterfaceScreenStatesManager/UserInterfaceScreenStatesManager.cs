@@ -19,8 +19,8 @@ namespace ProjectExodus.Management.UserInterfaceScreenStatesManager
         private IScreenState m_PreviousScreenState;
 
         #endregion Fields
-        
-        #region - - - - - - Methods - - - - - -
+
+        #region - - - - - - Initializers - - - - - -
 
         void IUserInterfaceScreenStateManager.InitialiseUserInterfaceScreenStatesManager(GameScreens gameScreens)
         {
@@ -30,7 +30,11 @@ namespace ProjectExodus.Management.UserInterfaceScreenStatesManager
             // Default opening game screen
             ((IUserInterfaceScreenStateManager)this).OpenScreen(UIScreenType.MainMenu);
         }
-        
+
+        #endregion Initializers
+  
+        #region - - - - - - Methods - - - - - -
+
         void IUserInterfaceScreenStateManager.OpenScreen(UIScreenType uiScreenType)
         {
             this.m_PreviousScreenState = this.m_CurrentScreenState;

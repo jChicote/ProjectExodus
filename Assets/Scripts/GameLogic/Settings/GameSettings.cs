@@ -2,7 +2,7 @@ using System;
 using ProjectExodus.GameLogic.Models;
 using UnityEngine;
 
-namespace ProjectExodus.GameLogic.GameSettings
+namespace ProjectExodus.GameLogic.Settings
 {
 
     /// <summary>
