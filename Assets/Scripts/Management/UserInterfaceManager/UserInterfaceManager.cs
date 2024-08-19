@@ -1,5 +1,6 @@
 ﻿using ProjectExodus.Management.Models;
 using ProjectExodus.Management.UserInterfaceScreenStatesManager;
+using ProjectExodus.UserInterface.LoadingScreen;
 using ProjectExodus.UserInterface.MainMenu;
 using ProjectExodus.UserInterface.OptionsMenu;
 using UnityEngine;
@@ -18,6 +19,7 @@ namespace ProjectExodus.Management.UserInterfaceManager
         [Header("GUI Controllers")]
         [SerializeField] private MainMenuController m_MainMenuController;
         [SerializeField] private OptionsMenuController m_OptionsMenuController;
+        [SerializeField] private LoadingScreenController m_LoadingScreenController;
 
         [Header("Sub-Managers")]
         [SerializeField] private UserInterfaceScreenStateManager m_UserInterfaceScreenStateManager;
@@ -66,7 +68,8 @@ namespace ProjectExodus.Management.UserInterfaceManager
 
             GameScreens _GameScreens = new GameScreens(
                 this.m_MainMenuController,
-                this.m_OptionsMenuController);
+                this.m_OptionsMenuController,
+                this.m_LoadingScreenController);
             ((IUserInterfaceManager)this).UserInterfaceScreenStateManager
                 .InitialiseUserInterfaceScreenStatesManager(_GameScreens);
         }

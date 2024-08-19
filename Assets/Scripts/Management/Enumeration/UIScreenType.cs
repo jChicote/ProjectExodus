@@ -5,6 +5,7 @@
     {
         MainMenu,
         OptionsMenu,
+        LoadingScreen,
         GameplayHUD
     }
 

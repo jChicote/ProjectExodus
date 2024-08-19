@@ -23,6 +23,17 @@ namespace ProjectExodus.UserInterface.MainMenu
 
         #endregion Fields
 
+        #region - - - - - - Initializers - - - - - -
+
+        void IMainMenuController.InitialiseMainMenuController()
+        {
+            this.m_GameStateManager = GameManager.Instance.GameStateManager;
+            this.m_UserInterfaceScreenStateManager =
+                GameManager.Instance.UserInterfaceManager.UserInterfaceScreenStateManager;
+        }
+
+        #endregion Initializers
+  
         #region - - - - - - Unity Methods - - - - - -
 
         private void Start()
@@ -54,13 +65,6 @@ namespace ProjectExodus.UserInterface.MainMenu
         #endregion Events
 
         #region - - - - - - Methods - - - - - -
-
-        void IMainMenuController.InitialiseMainMenuController()
-        {
-            this.m_GameStateManager = GameManager.Instance.GameStateManager;
-            this.m_UserInterfaceScreenStateManager =
-                GameManager.Instance.UserInterfaceManager.UserInterfaceScreenStateManager;
-        }
 
         void IScreenStateController.HideScreen()
             => this.m_ContentGroup.SetActive(false);

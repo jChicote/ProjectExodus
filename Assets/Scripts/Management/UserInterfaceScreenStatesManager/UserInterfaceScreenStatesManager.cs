@@ -14,6 +14,7 @@ namespace ProjectExodus.Management.UserInterfaceScreenStatesManager
         // UI Screen States
         private MainMenuScreenState m_MainMenuScreenState;
         private OptionsMenuScreenState m_OptionsMenuScreenState;
+        private LoadingBarScreenState m_LoadingBarScreenState;
 
         private IScreenState m_CurrentScreenState;
         private IScreenState m_PreviousScreenState;
@@ -26,6 +27,7 @@ namespace ProjectExodus.Management.UserInterfaceScreenStatesManager
         {
             this.m_MainMenuScreenState = new MainMenuScreenState(gameScreens.MainMenuController);
             this.m_OptionsMenuScreenState = new OptionsMenuScreenState(gameScreens.OptionsMenuController);
+            this.m_LoadingBarScreenState = new LoadingBarScreenState(gameScreens.LoadingScreenController);
             
             // Default opening game screen
             ((IUserInterfaceScreenStateManager)this).OpenScreen(UIScreenType.MainMenu);
@@ -42,14 +44,17 @@ namespace ProjectExodus.Management.UserInterfaceScreenStatesManager
             
             switch (uiScreenType)
             {
-                case UIScreenType.GameplayHUD:
-                    Debug.LogWarning("[WARNING] - No behavior implemented.");
-                    break;
                 case UIScreenType.MainMenu:
                     this.m_CurrentScreenState = this.m_MainMenuScreenState;
                     break;
                 case UIScreenType.OptionsMenu:
                     this.m_CurrentScreenState = this.m_OptionsMenuScreenState;
+                    break;
+                case UIScreenType.LoadingScreen:
+                    this.m_CurrentScreenState = this.m_LoadingBarScreenState;
+                    break;
+                case UIScreenType.GameplayHUD:
+                    Debug.LogWarning("[WARNING] - No behavior implemented.");
                     break;
             }
             

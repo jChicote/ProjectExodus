@@ -3871,7 +3871,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d49fabab5bd84c60a7f92ebd4b28edf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ContentGroup: {fileID: 1734149582}
   m_LoadingBarSlider: {fileID: 1659363458}
+  m_LoadingLerpDuration: 2
 --- !u!114 &987961928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7078,6 +7080,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MainMenuController: {fileID: 992167621}
   m_OptionsMenuController: {fileID: 1917164360}
+  m_LoadingScreenController: {fileID: 987961927}
   m_UserInterfaceScreenStateManager: {fileID: 1430068216}
 --- !u!1 &1556117850
 GameObject:
