@@ -1,5 +1,6 @@
 ﻿using ProjectExodus.Management.Models;
 using ProjectExodus.Management.UserInterfaceScreenStatesManager;
+using ProjectExodus.UserInterface.GameplayHUD;
 using ProjectExodus.UserInterface.LoadingScreen;
 using ProjectExodus.UserInterface.MainMenu;
 using ProjectExodus.UserInterface.OptionsMenu;
@@ -20,6 +21,7 @@ namespace ProjectExodus.Management.UserInterfaceManager
         [SerializeField] private MainMenuController m_MainMenuController;
         [SerializeField] private OptionsMenuController m_OptionsMenuController;
         [SerializeField] private LoadingScreenController m_LoadingScreenController;
+        [SerializeField] private GameplayHUDController m_GameplayHUDController;
 
         [Header("Sub-Managers")]
         [SerializeField] private UserInterfaceScreenStateManager m_UserInterfaceScreenStateManager;
@@ -28,22 +30,13 @@ namespace ProjectExodus.Management.UserInterfaceManager
 
         #region - - - - - - Properties - - - - - -
 
+        ILoadingScreenController IUserInterfaceManager.LoadingScreenController
+            => this.m_LoadingScreenController;
+        
         IUserInterfaceScreenStateManager IUserInterfaceManager.UserInterfaceScreenStateManager
             => this.m_UserInterfaceScreenStateManager;
-
+        
         #endregion Properties
-  
-        #region - - - - - - Unity Methods - - - - - -
-
-        private void Awake()
-        {
-            UserInterfaceManager[] _UserInterfaceManager = Object.FindObjectsByType<UserInterfaceManager>(FindObjectsSortMode.None);
-            if (_UserInterfaceManager.Length > 1)
-                Debug.LogError($"Multiple {nameof(UserInterfaceManager)}s detected. " +
-                               $"Only one {nameof(UserInterfaceManager)} should exist, unexpected behaviour will occur.");
-        }
-
-        #endregion Unity Methods
 
         #region - - - - - - Initializers - - - - - -
 
@@ -60,6 +53,18 @@ namespace ProjectExodus.Management.UserInterfaceManager
 
         #endregion Initializers
   
+        #region - - - - - - Unity Methods - - - - - -
+
+        private void Awake()
+        {
+            UserInterfaceManager[] _UserInterfaceManager = Object.FindObjectsByType<UserInterfaceManager>(FindObjectsSortMode.None);
+            if (_UserInterfaceManager.Length > 1)
+                Debug.LogError($"Multiple {nameof(UserInterfaceManager)}s detected. " +
+                               $"Only one {nameof(UserInterfaceManager)} should exist, unexpected behaviour will occur.");
+        }
+
+        #endregion Unity Methods
+  
         #region - - - - - - Methods - - - - - -
 
         void IUserInterfaceManager.InitialiseUserInterfaceManager()
@@ -69,7 +74,8 @@ namespace ProjectExodus.Management.UserInterfaceManager
             GameScreens _GameScreens = new GameScreens(
                 this.m_MainMenuController,
                 this.m_OptionsMenuController,
-                this.m_LoadingScreenController);
+                this.m_LoadingScreenController,
+                this.m_GameplayHUDController);
             ((IUserInterfaceManager)this).UserInterfaceScreenStateManager
                 .InitialiseUserInterfaceScreenStatesManager(_GameScreens);
         }

@@ -1,4 +1,5 @@
 ﻿using ProjectExodus.GameLogic.Pause.PauseController;
+using ProjectExodus.GameLogic.Scene;
 using UnityEngine;
 
 namespace ProjectExodus.Management.SceneManager
@@ -13,9 +14,21 @@ namespace ProjectExodus.Management.SceneManager
         #region - - - - - - Fields - - - - - -
 
         [SerializeField] private PauseController m_PauseController;
+        
+        [Space]
         [SerializeField] private GameObject m_ActivePlayer; // Debug only
+        [SerializeField] private SceneController m_ActiveSceneController; // Debug Only
 
         #endregion Fields
+
+        #region - - - - - - Initialisers - - - - - -
+
+        void ISceneManager.InitialiseSceneManager()
+        {
+            Debug.Log("SceneManager initialised."); // Temp debug only
+        }
+
+        #endregion Initialisers
   
         #region - - - - - - Unity Methods - - - - - -
 
@@ -31,10 +44,8 @@ namespace ProjectExodus.Management.SceneManager
   
         #region - - - - - - Methods - - - - - -
 
-        void ISceneManager.InitialiseSceneManager()
-        {
-            Debug.Log("SceneManager initialised."); // Temp debug only
-        }
+        ISceneController ISceneManager.GetActiveSceneController() 
+            => this.m_ActiveSceneController;
 
         GameObject IPlayerProvider.GetActivePlayer()
             => this.m_ActivePlayer;

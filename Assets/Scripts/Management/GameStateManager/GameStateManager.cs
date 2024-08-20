@@ -3,6 +3,7 @@ using ProjectExodus.GameLogic.GameStates.GameplayState;
 using ProjectExodus.GameLogic.GameStates.MainMenuState;
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.InputManager;
+using ProjectExodus.Management.SceneManager;
 using ProjectExodus.Management.UserInterfaceScreenStatesManager;
 using UnityEngine;
 
@@ -27,9 +28,11 @@ namespace ProjectExodus.Management.GameStateManager
         void IGameStateManager.InitialiseGameStateManager()
         {
             IInputManager _InputManager = GameManager.Instance.InputManager;
+            ISceneManager _SceneManager = GameManager.Instance.SceneManager;
             IUserInterfaceScreenStateManager _UserInterfaceScreenStateManager =
                 GameManager.Instance.UserInterfaceManager.UserInterfaceScreenStateManager;
-            this.m_GameplayState = new GameplayState(_InputManager);
+            
+            this.m_GameplayState = new GameplayState(_InputManager, _SceneManager, _UserInterfaceScreenStateManager);
             this.m_MainMenuState = new MainMenuState(_InputManager, _UserInterfaceScreenStateManager);
             
             // Set the starting game state

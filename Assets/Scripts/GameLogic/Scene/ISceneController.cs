@@ -8,6 +8,8 @@ namespace ProjectExodus.GameLogic.Scene
 
         void InitialiseSceneController();
 
+        void RunSceneStartup();
+
         #endregion Methods
 
     }

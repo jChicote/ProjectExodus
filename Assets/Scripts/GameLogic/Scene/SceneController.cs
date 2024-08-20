@@ -15,17 +15,17 @@ namespace ProjectExodus.GameLogic.Scene
 
         #region - - - - - - Initialisers - - - - - -
 
-        void ISceneController.InitialiseSceneController()
-        {
-            this
-        }
+        void ISceneController.InitialiseSceneController() 
+            => this.m_SceneStartupController
+                .InitialiseSceneStartupController(GameManager.Instance.UserInterfaceManager.LoadingScreenController);
 
         #endregion Initialisers
 
         #region - - - - - - Methods - - - - - -
-  
-        
-        
+
+        void ISceneController.RunSceneStartup() 
+            => this.StartCoroutine(this.m_SceneStartupController.RunSceneStartup());
+
         #endregion Methods
   
     }

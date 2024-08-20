@@ -1,4 +1,5 @@
 ﻿using ProjectExodus.Management.UserInterfaceScreenStatesManager;
+using ProjectExodus.UserInterface.LoadingScreen;
 
 namespace ProjectExodus.Management.UserInterfaceManager
 {
@@ -7,6 +8,8 @@ namespace ProjectExodus.Management.UserInterfaceManager
     {
 
         #region - - - - - - Properties - - - - - -
+
+        ILoadingScreenController LoadingScreenController { get; }
 
         IUserInterfaceScreenStateManager UserInterfaceScreenStateManager { get; }
 
