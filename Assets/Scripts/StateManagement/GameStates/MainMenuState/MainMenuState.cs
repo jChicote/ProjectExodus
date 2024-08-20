@@ -3,7 +3,7 @@ using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.UserInterfaceScreenStatesManager;
 using UnityEngine;
 
-namespace ProjectExodus.GameLogic.GameStates.MainMenuState
+namespace ProjectExodus.StateManagement.GameStates.MainMenuState
 {
 
     public class MainMenuState : IGameState

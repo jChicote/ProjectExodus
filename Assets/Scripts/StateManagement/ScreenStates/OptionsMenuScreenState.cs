@@ -1,7 +1,8 @@
 using System;
+using ProjectExodus.StateManagement.ScreenStates;
 using ProjectExodus.UserInterface.OptionsMenu;
 
-namespace ProjectExodus.UserInterface.ScreenStates
+namespace ProjectExodus.StateManagement.ScreenStates
 {
 
     public class OptionsMenuScreenState : IScreenState

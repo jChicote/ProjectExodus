@@ -4,7 +4,7 @@ using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.SceneManager;
 using ProjectExodus.Management.UserInterfaceScreenStatesManager;
 
-namespace ProjectExodus.GameLogic.GameStates.GameplayState
+namespace ProjectExodus.StateManagement.GameStates.GameplayState
 {
 
     public class GameplayState : IGameState

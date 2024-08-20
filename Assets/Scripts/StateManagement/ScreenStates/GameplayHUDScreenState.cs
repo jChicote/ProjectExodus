@@ -1,7 +1,7 @@
 using ProjectExodus.UserInterface.GameplayHUD;
 using UnityEngine;
 
-namespace ProjectExodus.UserInterface.ScreenStates
+namespace ProjectExodus.StateManagement.ScreenStates
 {
 
     public class GameplayHUDScreenState : IScreenState
@@ -11,7 +11,6 @@ namespace ProjectExodus.UserInterface.ScreenStates
 
         public GameplayHUDScreenState(IGameplayHUDController gameplayHUDController)
         {
-            
         }
 
         #endregion Constructors

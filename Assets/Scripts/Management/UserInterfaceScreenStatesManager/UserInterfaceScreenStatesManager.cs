@@ -1,6 +1,6 @@
 ﻿using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.Models;
-using ProjectExodus.UserInterface.ScreenStates;
+using ProjectExodus.StateManagement.ScreenStates;
 using UnityEngine;
 
 namespace ProjectExodus.Management.UserInterfaceScreenStatesManager

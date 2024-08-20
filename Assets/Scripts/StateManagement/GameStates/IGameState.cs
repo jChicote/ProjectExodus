@@ -1,4 +1,4 @@
-﻿namespace ProjectExodus.GameLogic.GameStates
+﻿namespace ProjectExodus.StateManagement.GameStates
 {
 
     public interface IGameState

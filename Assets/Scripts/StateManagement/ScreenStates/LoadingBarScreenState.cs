@@ -1,6 +1,6 @@
 using ProjectExodus.UserInterface.LoadingScreen;
 
-namespace ProjectExodus.UserInterface.ScreenStates
+namespace ProjectExodus.StateManagement.ScreenStates
 {
 
     public class LoadingBarScreenState : IScreenState

@@ -1,10 +1,10 @@
-﻿using ProjectExodus.GameLogic.GameStates;
-using ProjectExodus.GameLogic.GameStates.GameplayState;
-using ProjectExodus.GameLogic.GameStates.MainMenuState;
-using ProjectExodus.Management.Enumeration;
+﻿using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.SceneManager;
 using ProjectExodus.Management.UserInterfaceScreenStatesManager;
+using ProjectExodus.StateManagement.GameStates;
+using ProjectExodus.StateManagement.GameStates.GameplayState;
+using ProjectExodus.StateManagement.GameStates.MainMenuState;
 using UnityEngine;
 
 namespace ProjectExodus.Management.GameStateManager

@@ -1,6 +1,7 @@
-﻿using ProjectExodus.UserInterface.MainMenu;
+﻿using ProjectExodus.StateManagement.ScreenStates;
+using ProjectExodus.UserInterface.MainMenu;
 
-namespace ProjectExodus.UserInterface.ScreenStates
+namespace ProjectExodus.StateManagement.ScreenStates
 {
 
     public class MainMenuScreenState : IScreenState
