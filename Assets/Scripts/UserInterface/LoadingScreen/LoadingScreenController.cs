@@ -23,6 +23,7 @@ namespace ProjectExodus.UserInterface.LoadingScreen
         #endregion Fields
   
         #region - - - - - - Methods - - - - - -
+        
         void ILoadingScreenController.UpdateLoadProgress(float progress) 
             => this.StartCoroutine(AnimateLoadProgress(
                 this.m_LoadProgress,
@@ -60,6 +61,7 @@ namespace ProjectExodus.UserInterface.LoadingScreen
         }
 
         #endregion Methods
+        
     }
 
 }

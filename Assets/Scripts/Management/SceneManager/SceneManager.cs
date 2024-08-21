@@ -25,10 +25,8 @@ namespace ProjectExodus.Management.SceneManager
 
         #region - - - - - - Initialisers - - - - - -
 
-        void ISceneManager.InitialiseSceneManager()
-        {
-            Debug.Log("SceneManager initialised."); // Temp debug only
-        }
+        void ISceneManager.InitialiseSceneManager() 
+            => Debug.Log("SceneManager initialised."); // Temp debug only
 
         #endregion Initialisers
   
