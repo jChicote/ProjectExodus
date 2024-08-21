@@ -1,4 +1,4 @@
-﻿namespace ProjectExodus.UserInterface.ScreenStates
+﻿namespace ProjectExodus.StateManagement.ScreenStates
 {
 
     /// <remarks>

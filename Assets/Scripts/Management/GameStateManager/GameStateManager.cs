@@ -1,14 +1,20 @@
-﻿using ProjectExodus.GameLogic.GameStates;
-using ProjectExodus.GameLogic.GameStates.GameplayState;
-using ProjectExodus.GameLogic.GameStates.MainMenuState;
-using ProjectExodus.Management.Enumeration;
+﻿using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.InputManager;
+using ProjectExodus.Management.SceneManager;
 using ProjectExodus.Management.UserInterfaceScreenStatesManager;
+using ProjectExodus.StateManagement.GameStates;
+using ProjectExodus.StateManagement.GameStates.GameplayState;
+using ProjectExodus.StateManagement.GameStates.MainMenuState;
 using UnityEngine;
 
 namespace ProjectExodus.Management.GameStateManager
 {
 
+    /// <summary>
+    /// Manages the defined game states used in the game.
+    /// </summary>
+    /// <remarks>Mostly these states are defined on scenes or what defined stage the game is in. If the state is not
+    /// well-defined enough, it will be too vague to be handled as a state.</remarks>
     public class GameStateManager : MonoBehaviour, IGameStateManager
     {
 
@@ -27,9 +33,12 @@ namespace ProjectExodus.Management.GameStateManager
         void IGameStateManager.InitialiseGameStateManager()
         {
             IInputManager _InputManager = GameManager.Instance.InputManager;
+            ISceneManager _SceneManager = GameManager.Instance.SceneManager;
             IUserInterfaceScreenStateManager _UserInterfaceScreenStateManager =
                 GameManager.Instance.UserInterfaceManager.UserInterfaceScreenStateManager;
-            this.m_GameplayState = new GameplayState(_InputManager);
+            
+            // Initialise States
+            this.m_GameplayState = new GameplayState(_InputManager, _SceneManager, _UserInterfaceScreenStateManager);
             this.m_MainMenuState = new MainMenuState(_InputManager, _UserInterfaceScreenStateManager);
             
             // Set the starting game state

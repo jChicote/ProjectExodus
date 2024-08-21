@@ -105,7 +105,6 @@ namespace ProjectExodus.GameLogic.GameStartup
 
         #endregion Methods
   
-  
     }
 
 }
