@@ -8,6 +8,10 @@
 
         void InitialiseInputManager();
 
+        void DisableActiveInputControl();
+
+        void EnableActiveInputControl();
+
         void PossesGameplayInputControls();
 
         void PossesUserInterfaceInputControls();

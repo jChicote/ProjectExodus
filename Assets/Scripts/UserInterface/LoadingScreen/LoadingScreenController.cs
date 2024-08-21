@@ -13,6 +13,7 @@ namespace ProjectExodus.UserInterface.LoadingScreen
 
         private const float SCALING_FACTOR = 100f;
 
+        [Header("Views")]
         [SerializeField] private GameObject m_ContentGroup;
         [SerializeField] private Slider m_LoadingBarSlider;
         [SerializeField] private float m_LoadingLerpDuration = 2f;
@@ -21,15 +22,6 @@ namespace ProjectExodus.UserInterface.LoadingScreen
 
         #endregion Fields
   
-        #region - - - - - - Initializers - - - - - -
-
-        public void InitialiseLoadingScreenController()
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion Initializers
-
         #region - - - - - - Methods - - - - - -
         void ILoadingScreenController.UpdateLoadProgress(float progress) 
             => this.StartCoroutine(AnimateLoadProgress(

@@ -6,8 +6,6 @@ namespace ProjectExodus.UserInterface.LoadingScreen
 
         #region - - - - - - Methods - - - - - -
 
-        void InitialiseLoadingScreenController();
-
         void ResetLoadingScreen();
 
         void UpdateLoadProgress(float progress);

@@ -6,6 +6,9 @@ using UnityEngine;
 namespace ProjectExodus.Management.UserInterfaceScreenStatesManager
 {
 
+    /// <summary>
+    /// Manages the defined screens of the game.
+    /// </summary>
     public class UserInterfaceScreenStateManager : MonoBehaviour, IUserInterfaceScreenStateManager
     {
 

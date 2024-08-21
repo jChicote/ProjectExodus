@@ -17,7 +17,9 @@ namespace ProjectExodus.GameLogic.Scene
 
         void ISceneController.InitialiseSceneController() 
             => this.m_SceneStartupController
-                .InitialiseSceneStartupController(GameManager.Instance.UserInterfaceManager.LoadingScreenController);
+                .InitialiseSceneStartupController(
+                    GameManager.Instance.InputManager,
+                    GameManager.Instance.UserInterfaceManager.LoadingScreenController);
 
         #endregion Initialisers
 

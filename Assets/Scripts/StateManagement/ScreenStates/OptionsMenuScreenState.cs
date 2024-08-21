@@ -1,5 +1,4 @@
 using System;
-using ProjectExodus.StateManagement.ScreenStates;
 using ProjectExodus.UserInterface.OptionsMenu;
 
 namespace ProjectExodus.StateManagement.ScreenStates
@@ -10,14 +9,15 @@ namespace ProjectExodus.StateManagement.ScreenStates
 
         #region - - - - - - Fields - - - - - -
 
-        private IOptionsMenuController m_OptionsMenuController;
+        private readonly IOptionsMenuController m_OptionsMenuController;
 
         #endregion Fields
 
         #region - - - - - - Constructors - - - - - -
 
-        public OptionsMenuScreenState(IOptionsMenuController optionsMenuController) 
-            => this.m_OptionsMenuController = optionsMenuController;
+        public OptionsMenuScreenState(IOptionsMenuController optionsMenuController)
+            => this.m_OptionsMenuController = optionsMenuController ?? 
+                                                throw new ArgumentNullException(nameof(optionsMenuController));
 
         #endregion Constructors
   

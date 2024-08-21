@@ -8,6 +8,8 @@ namespace ProjectExodus.Management.SceneManager
     /// <summary>
     /// Responsible for managing the high-level aspects of gameplay and control of the scene's state.
     /// </summary>
+    /// <remarks>This is a persistent manager and should not exist to any specific scene. Use the 'SceneController'
+    /// class for control and high-level operation of a scene.</remarks>
     public class SceneManager : MonoBehaviour, ISceneManager, IPlayerProvider
     {
 

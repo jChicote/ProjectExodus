@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using ProjectExodus.Management.InputManager;
 using ProjectExodus.UserInterface.LoadingScreen;
 using UnityEngine;
 
@@ -10,14 +12,21 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
 
         #region - - - - - - Fields - - - - - -
 
+        private IInputManager m_InputManager;
         private ILoadingScreenController m_LoadingScreenController;
 
         #endregion Fields
 
         #region - - - - - - Initialisers - - - - - -
 
-        public void InitialiseSceneStartupController(ILoadingScreenController loadingScreenController) 
-            => this.m_LoadingScreenController = loadingScreenController;
+        public void InitialiseSceneStartupController(
+            IInputManager inputManager,
+            ILoadingScreenController loadingScreenController)
+        {
+            this.m_InputManager = inputManager ?? throw new ArgumentNullException(nameof(inputManager));
+            this.m_LoadingScreenController = loadingScreenController
+                                                ?? throw new ArgumentException(nameof(loadingScreenController));
+        }
 
         #endregion Initialisers
           
@@ -26,7 +35,8 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
         public IEnumerator RunSceneStartup()
         {
             this.m_LoadingScreenController.ShowScreen();
-            
+
+            yield return this.StartCoroutine(this.StartSceneStartup());
             yield return this.StartCoroutine(this.SetupSceneData());
             yield return this.StartCoroutine(this.SetupSceneServicesAndControllers());
             yield return this.StartCoroutine(this.SetupPlayer());
@@ -35,6 +45,12 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
             yield return this.StartCoroutine(this.CompleteGameStartup());
             
             Debug.Log("[LOG]: The scene is now prepared.");
+        }
+
+        private IEnumerator StartSceneStartup()
+        {
+            this.m_InputManager.DisableActiveInputControl();
+            yield return new WaitForSeconds(2); // Debug
         }
 
         private IEnumerator SetupSceneData()
@@ -73,6 +89,8 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
         {
             this.m_LoadingScreenController.HideScreen();
             this.m_LoadingScreenController.ResetLoadingScreen();
+            
+            this.m_InputManager.EnableActiveInputControl();
             
             yield return null;
         }

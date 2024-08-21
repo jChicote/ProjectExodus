@@ -1,4 +1,5 @@
-﻿using ProjectExodus.GameLogic.Scene;
+﻿using System;
+using ProjectExodus.GameLogic.Scene;
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.SceneManager;
@@ -25,9 +26,11 @@ namespace ProjectExodus.StateManagement.GameStates.GameplayState
             ISceneManager sceneManager,
             IUserInterfaceScreenStateManager userInterfaceScreenStateManager)
         {
-            this.m_InputManager = inputManager;
-            this.m_SceneManager = sceneManager;
-            this.m_UserInterfaceStateManager = userInterfaceScreenStateManager;
+            this.m_InputManager = inputManager ?? throw new ArgumentNullException(nameof(inputManager));
+            this.m_SceneManager = sceneManager ?? throw new ArgumentNullException(nameof(sceneManager));
+            this.m_UserInterfaceStateManager = userInterfaceScreenStateManager ??
+                                                throw new ArgumentNullException(
+                                                    nameof(userInterfaceScreenStateManager));
         }
 
         #endregion Constructor

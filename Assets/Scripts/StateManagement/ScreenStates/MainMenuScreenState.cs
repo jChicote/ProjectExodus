@@ -1,4 +1,5 @@
-﻿using ProjectExodus.StateManagement.ScreenStates;
+﻿using System;
+using ProjectExodus.StateManagement.ScreenStates;
 using ProjectExodus.UserInterface.MainMenu;
 
 namespace ProjectExodus.StateManagement.ScreenStates
@@ -15,8 +16,9 @@ namespace ProjectExodus.StateManagement.ScreenStates
   
         #region - - - - - - Constructors - - - - - -
 
-        public MainMenuScreenState(IMainMenuController mainMenuStateController) 
-            => this.m_MainMenuController = mainMenuStateController;
+        public MainMenuScreenState(IMainMenuController mainMenuStateController)
+            => this.m_MainMenuController = mainMenuStateController ??
+                                            throw new ArgumentNullException(nameof(mainMenuStateController));
 
         #endregion Constructors
   

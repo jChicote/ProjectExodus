@@ -10,6 +10,11 @@ using UnityEngine;
 namespace ProjectExodus.Management.GameStateManager
 {
 
+    /// <summary>
+    /// Manages the defined game states used in the game.
+    /// </summary>
+    /// <remarks>Mostly these states are defined on scenes or what defined stage the game is in. If the state is not
+    /// well-defined enough, it will be too vague to be handled as a state.</remarks>
     public class GameStateManager : MonoBehaviour, IGameStateManager
     {
 

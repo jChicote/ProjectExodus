@@ -26,6 +26,7 @@ namespace ProjectExodus.Management.InputManager
         [SerializeField] private InputControlSchema m_CurrentInputControlSchema = InputControlSchema.KeyboardAndMouse;
         
         private IPlayerProvider m_PlayerProvider;
+        private IInputControl m_CurrentInputControl;
         private IInputControl m_GameplayInputControl;
         private IInputControl m_UserInterfaceInputControl;
 
@@ -54,6 +55,12 @@ namespace ProjectExodus.Management.InputManager
             
             Debug.Log("InputManager initialised."); // Temp debug only
         }
+
+        void IInputManager.DisableActiveInputControl()
+            => this.m_CurrentInputControl?.DisableInputControl();
+
+        void IInputManager.EnableActiveInputControl()
+            => this.m_CurrentInputControl?.EnableInputControl();
         
         // --------------------------------------
         // InputControl Possession Behavior
@@ -77,6 +84,7 @@ namespace ProjectExodus.Management.InputManager
             }
             
             this.m_GameplayInputControl.BindInputControls(this.m_PlayerInput);
+            this.m_CurrentInputControl = this.m_GameplayInputControl;
         }
 
         void IInputManager.PossesUserInterfaceInputControls()
@@ -97,6 +105,7 @@ namespace ProjectExodus.Management.InputManager
             }
             
             this.m_UserInterfaceInputControl.BindInputControls(this.m_PlayerInput);
+            this.m_CurrentInputControl = this.m_UserInterfaceInputControl;
         }
 
         void IInputManager.UnpossesGameplayInputControls() 

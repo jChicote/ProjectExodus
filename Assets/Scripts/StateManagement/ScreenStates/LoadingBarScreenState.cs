@@ -1,3 +1,4 @@
+using System;
 using ProjectExodus.UserInterface.LoadingScreen;
 
 namespace ProjectExodus.StateManagement.ScreenStates
@@ -14,8 +15,9 @@ namespace ProjectExodus.StateManagement.ScreenStates
 
         #region - - - - - - Constructors - - - - - -
 
-        public LoadingBarScreenState(ILoadingScreenController loadingScreenController) 
-            => this.m_LoadingScreenController = loadingScreenController;
+        public LoadingBarScreenState(ILoadingScreenController loadingScreenController)
+            => this.m_LoadingScreenController = loadingScreenController ??
+                                                    throw new ArgumentNullException(nameof(loadingScreenController));
 
         #endregion Constructors
   
