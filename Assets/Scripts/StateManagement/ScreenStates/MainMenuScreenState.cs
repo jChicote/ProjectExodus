@@ -1,5 +1,4 @@
 ﻿using System;
-using ProjectExodus.StateManagement.ScreenStates;
 using ProjectExodus.UserInterface.MainMenu;
 
 namespace ProjectExodus.StateManagement.ScreenStates

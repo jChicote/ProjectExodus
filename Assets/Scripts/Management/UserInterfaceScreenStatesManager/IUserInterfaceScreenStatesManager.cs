@@ -1,5 +1,4 @@
-﻿
-using ProjectExodus.Management.Enumeration;
+﻿using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.Models;
 
 namespace ProjectExodus.Management.UserInterfaceScreenStatesManager

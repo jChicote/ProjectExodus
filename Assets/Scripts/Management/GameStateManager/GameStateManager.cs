@@ -37,6 +37,7 @@ namespace ProjectExodus.Management.GameStateManager
             IUserInterfaceScreenStateManager _UserInterfaceScreenStateManager =
                 GameManager.Instance.UserInterfaceManager.UserInterfaceScreenStateManager;
             
+            // Initialise States
             this.m_GameplayState = new GameplayState(_InputManager, _SceneManager, _UserInterfaceScreenStateManager);
             this.m_MainMenuState = new MainMenuState(_InputManager, _UserInterfaceScreenStateManager);
             
