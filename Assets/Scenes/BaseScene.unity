@@ -590,6 +590,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ContentGroup: {fileID: 1685726645}
+  m_GameSaveSlot1: {fileID: 1150673973}
+  m_GameSaveSlot2: {fileID: 1171781043}
+  m_GameSaveSlot3: {fileID: 1507497633}
+  m_ClearButton: {fileID: 2101056168}
+  m_NewGameButton: {fileID: 498508893}
+  m_QuitButton: {fileID: 550142417}
 --- !u!1 &134905119
 GameObject:
   m_ObjectHideFlags: 0
@@ -2074,7 +2080,7 @@ GameObject:
   - component: {fileID: 498508894}
   - component: {fileID: 498508893}
   m_Layer: 5
-  m_Name: Button
+  m_Name: NewGame-Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6408,6 +6414,7 @@ GameObject:
   - component: {fileID: 1150673971}
   - component: {fileID: 1150673970}
   - component: {fileID: 1150673972}
+  - component: {fileID: 1150673973}
   m_Layer: 5
   m_Name: GameSlot_1
   m_TagString: Untagged
@@ -6518,6 +6525,23 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1150673973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1150673968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1a2f4b884624dd29618d9f77d8b7181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SlotProfileImage: {fileID: 969051568}
+  m_SlotButton: {fileID: 1150673972}
+  m_SlotTitle: {fileID: 704418708}
+  m_SlotLastAccessedDate: {fileID: 1400665816}
+  m_SlotPercentage: {fileID: 731354745}
 --- !u!1 &1152702508
 GameObject:
   m_ObjectHideFlags: 0
@@ -6566,6 +6590,7 @@ GameObject:
   - component: {fileID: 1171781041}
   - component: {fileID: 1171781040}
   - component: {fileID: 1171781042}
+  - component: {fileID: 1171781043}
   m_Layer: 5
   m_Name: Empty-Slot-2
   m_TagString: Untagged
@@ -6674,6 +6699,23 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1171781043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171781038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1a2f4b884624dd29618d9f77d8b7181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SlotProfileImage: {fileID: 0}
+  m_SlotButton: {fileID: 1171781042}
+  m_SlotTitle: {fileID: 0}
+  m_SlotLastAccessedDate: {fileID: 0}
+  m_SlotPercentage: {fileID: 0}
 --- !u!1 &1175780792
 GameObject:
   m_ObjectHideFlags: 0
@@ -9311,6 +9353,7 @@ GameObject:
   - component: {fileID: 1507497631}
   - component: {fileID: 1507497630}
   - component: {fileID: 1507497632}
+  - component: {fileID: 1507497633}
   m_Layer: 5
   m_Name: Empty-Slot-3
   m_TagString: Untagged
@@ -9419,6 +9462,23 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1507497633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507497628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1a2f4b884624dd29618d9f77d8b7181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SlotProfileImage: {fileID: 0}
+  m_SlotButton: {fileID: 1507497632}
+  m_SlotTitle: {fileID: 0}
+  m_SlotLastAccessedDate: {fileID: 0}
+  m_SlotPercentage: {fileID: 0}
 --- !u!1 &1527183128
 GameObject:
   m_ObjectHideFlags: 0

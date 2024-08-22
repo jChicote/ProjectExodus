@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ProjectExodus.UserInterface.GameSaveSelectionMenuController
 {
@@ -10,7 +11,16 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenuController
 
         [Header("GameSave Selection Menu View")] 
         [SerializeField] private GameObject m_ContentGroup;
+
+        [Header("Game Slots")]
+        [SerializeField] private GameSaveSlotView m_GameSaveSlot1;
+        [SerializeField] private GameSaveSlotView m_GameSaveSlot2;
+        [SerializeField] private GameSaveSlotView m_GameSaveSlot3;
         
+        [Header("Buttons")]
+        [SerializeField] private Button m_ClearButton;
+        [SerializeField] private Button m_NewGameButton;
+        [SerializeField] private Button m_QuitButton;
 
         #endregion Fields
   
