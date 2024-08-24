@@ -20,6 +20,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenuController
         [Header("Buttons")]
         [SerializeField] private Button m_ClearButton;
         [SerializeField] private Button m_NewGameButton;
+        [SerializeField] private Button m_EditButton;
         [SerializeField] private Button m_QuitButton;
 
         #endregion Fields
