@@ -1,8 +1,9 @@
 using System.Linq;
 using ProjectExodus.Backend.Repositories;
+using ProjectExodus.Domain.Entities;
 using ProjectExodus.GameLogic.Mappers;
 
-namespace ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions
+namespace ProjectExodus.Backend.UseCases.GameOptionsUseCases.UpdateGameOptions
 {
 
     public class UpdateGameOptionsInteractor : 
@@ -11,8 +12,8 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions
 
         #region - - - - - - Fields - - - - - -
 
-        private IDataRepository<Entities.GameOptions> m_Repository;
-        private IObjectMapper m_Mapper;
+        private readonly IDataRepository<GameOptions> m_Repository;
+        private readonly IObjectMapper m_Mapper;
         
         #endregion Fields
 
@@ -20,7 +21,7 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions
 
         public UpdateGameOptionsInteractor(
             IObjectMapper mapper,
-            IDataRepository<Entities.GameOptions> repository)
+            IDataRepository<GameOptions> repository)
         {
             this.m_Repository = repository;
             this.m_Mapper = mapper;

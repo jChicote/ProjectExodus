@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ProjectExodus.Backend.Entities;
 using ProjectExodus.Backend.JsonDataContext;
+using ProjectExodus.Domain.Entities;
 using ProjectExodus.GameLogic.Mappers;
 
 namespace ProjectExodus.Backend.Repositories.GameOptionsRepository

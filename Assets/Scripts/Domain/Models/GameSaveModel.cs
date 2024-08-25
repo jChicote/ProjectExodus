@@ -1,6 +1,6 @@
 using System;
 
-namespace ProjectExodus.GameLogic.Models
+namespace ProjectExodus.Domain.Models
 {
 
     public class GameSaveModel

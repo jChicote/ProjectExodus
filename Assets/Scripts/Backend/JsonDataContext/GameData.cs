@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using ProjectExodus.Backend.Entities;
+using ProjectExodus.Domain.Entities;
 
 namespace ProjectExodus.Backend.JsonDataContext
 {

@@ -1,7 +1,7 @@
 using System;
 using ProjectExodus.GameLogic.Enumeration;
 
-namespace ProjectExodus.GameLogic.Models
+namespace ProjectExodus.Domain.Models
 {
 
     public class GameOptionsModel

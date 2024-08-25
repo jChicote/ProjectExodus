@@ -1,4 +1,6 @@
-namespace ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions
+using ProjectExodus.Domain.Entities;
+
+namespace ProjectExodus.Backend.UseCases.GameOptionsUseCases.UpdateGameOptions
 {
 
     public interface IUpdateOptionsOutputPort
@@ -8,7 +10,7 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions
 
         void PresentFailedUpdateOfGameOptions();
         
-        void PresentSuccessfulUpdate(Entities.GameOptions gameOptions);
+        void PresentSuccessfulUpdate(GameOptions gameOptions);
 
         #endregion Methods
 

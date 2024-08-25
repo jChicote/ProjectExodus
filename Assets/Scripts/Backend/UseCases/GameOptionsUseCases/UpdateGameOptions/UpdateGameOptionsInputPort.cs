@@ -1,13 +1,16 @@
+using System;
 using ProjectExodus.GameLogic.Enumeration;
 
-namespace ProjectExodus.Backend.UseCases.GameOptions.CreateGameOptions
+namespace ProjectExodus.Backend.UseCases.GameOptionsUseCases.UpdateGameOptions
 {
 
-    public class CreateGameOptionsInputPort
+    public class UpdateGameOptionsInputPort
     {
-        
+
         #region - - - - - - Properties - - - - - -
 
+        public Guid ID { get; set; }
+        
         public DisplayOption DisplayOption { get; set; }
         
         public int DisplayHeight { get; set; }
@@ -29,7 +32,7 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.CreateGameOptions
         public float UIVolume { get; set; }
 
         #endregion Properties
-        
+  
     }
 
 }

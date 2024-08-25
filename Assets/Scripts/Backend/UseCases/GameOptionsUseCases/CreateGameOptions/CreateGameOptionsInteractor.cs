@@ -1,7 +1,8 @@
 using ProjectExodus.Backend.Repositories;
+using ProjectExodus.Domain.Entities;
 using ProjectExodus.GameLogic.Mappers;
 
-namespace ProjectExodus.Backend.UseCases.GameOptions.CreateGameOptions
+namespace ProjectExodus.Backend.UseCases.GameOptionsUseCases.CreateGameOptions
 {
 
     public class CreateGameOptionsInteractor : 
@@ -11,13 +12,13 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.CreateGameOptions
         #region - - - - - - Fields - - - - - -
 
         private readonly IObjectMapper m_Mapper;
-        private readonly IDataRepository<Entities.GameOptions> m_Repository;
+        private readonly IDataRepository<GameOptions> m_Repository;
 
         #endregion Fields
 
         #region - - - - - - Constructors - - - - - -
 
-        public CreateGameOptionsInteractor(IObjectMapper mapper, IDataRepository<Entities.GameOptions> repository)
+        public CreateGameOptionsInteractor(IObjectMapper mapper, IDataRepository<GameOptions> repository)
         {
             this.m_Mapper = mapper;
             this.m_Repository = repository;
@@ -31,7 +32,7 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.CreateGameOptions
             CreateGameOptionsInputPort inputPort, 
             ICreateGameOptionsOutputPort outputPort)
         {
-            Entities.GameOptions _GameOptions = new Entities.GameOptions();
+            GameOptions _GameOptions = new GameOptions();
             
             this.m_Mapper.Map(inputPort, _GameOptions);
             this.m_Repository.Create(_GameOptions);

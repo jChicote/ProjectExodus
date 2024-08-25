@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using ProjectExodus.Backend.Entities;
+using ProjectExodus.Domain.Entities;
 using UnityEngine;
-using UnityEngine.Rendering.UI;
 using Application = UnityEngine.Device.Application;
 
 namespace ProjectExodus.Backend.JsonDataContext

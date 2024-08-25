@@ -1,6 +1,6 @@
 using ProjectExodus.Backend.Repositories.GameOptionsRepository;
-using ProjectExodus.Backend.UseCases.GameOptions.CreateGameOptions;
-using ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions;
+using ProjectExodus.Backend.UseCases.GameOptionsUseCases.CreateGameOptions;
+using ProjectExodus.Backend.UseCases.GameOptionsUseCases.UpdateGameOptions;
 using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Mappers;
 

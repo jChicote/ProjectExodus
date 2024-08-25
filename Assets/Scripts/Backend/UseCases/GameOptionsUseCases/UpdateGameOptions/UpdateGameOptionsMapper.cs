@@ -1,6 +1,7 @@
+using ProjectExodus.Domain.Entities;
 using ProjectExodus.GameLogic.Mappers;
 
-namespace ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions
+namespace ProjectExodus.Backend.UseCases.GameOptionsUseCases.UpdateGameOptions
 {
 
     public class UpdateGameOptionsMapper
@@ -10,16 +11,16 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions
 
         public UpdateGameOptionsMapper(IObjectMapperRegister objectMapperRegister) 
             => objectMapperRegister
-                .AddMappingAction<UpdateGameOptionsInputPort, Entities.GameOptions>(
-                    this.MapUpdateGameOptionsInputPortToGameOptions);
+                .AddMappingAction<UpdateGameOptionsInputPort, GameOptions>(
+                    MapUpdateGameOptionsInputPortToGameOptions);
 
         #endregion Constructors
 
         #region - - - - - - Methods - - - - - -
 
-        private void MapUpdateGameOptionsInputPortToGameOptions(
+        private static void MapUpdateGameOptionsInputPortToGameOptions(
             UpdateGameOptionsInputPort source,
-            Entities.GameOptions destination)
+            GameOptions destination)
         {
             destination.EnvironmentFXVolume = source.EnvironmentFXVolume;
             destination.IsMuted = source.IsMuted;

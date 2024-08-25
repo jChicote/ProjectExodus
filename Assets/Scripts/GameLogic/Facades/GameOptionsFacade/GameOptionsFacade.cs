@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
-using ProjectExodus.Backend.Entities;
 using ProjectExodus.Backend.Repositories;
 using ProjectExodus.Backend.UseCases;
-using ProjectExodus.Backend.UseCases.GameOptions.CreateGameOptions;
-using ProjectExodus.Backend.UseCases.GameOptions.GetGameOptions;
-using ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions;
+using ProjectExodus.Backend.UseCases.GameOptionsUseCases.CreateGameOptions;
+using ProjectExodus.Backend.UseCases.GameOptionsUseCases.GetGameOptions;
+using ProjectExodus.Backend.UseCases.GameOptionsUseCases.UpdateGameOptions;
+using ProjectExodus.Domain.Entities;
+using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Mappers;
-using ProjectExodus.GameLogic.Models;
 using ProjectExodus.GameLogic.Settings;
 using UnityEngine;
 

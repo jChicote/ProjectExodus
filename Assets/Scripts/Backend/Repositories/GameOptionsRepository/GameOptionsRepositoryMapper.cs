@@ -1,5 +1,5 @@
 using System;
-using ProjectExodus.Backend.Entities;
+using ProjectExodus.Domain.Entities;
 using ProjectExodus.GameLogic.Mappers;
 
 namespace ProjectExodus.Backend.Repositories.GameOptionsRepository

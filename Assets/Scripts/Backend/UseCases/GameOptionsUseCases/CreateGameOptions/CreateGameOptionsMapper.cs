@@ -1,7 +1,8 @@
 using System;
+using ProjectExodus.Domain.Entities;
 using ProjectExodus.GameLogic.Mappers;
 
-namespace ProjectExodus.Backend.UseCases.GameOptions.CreateGameOptions
+namespace ProjectExodus.Backend.UseCases.GameOptionsUseCases.CreateGameOptions
 {
 
     public class CreateGameOptionsMapper
@@ -11,7 +12,7 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.CreateGameOptions
 
         public CreateGameOptionsMapper(IObjectMapperRegister objectMapperRegister) 
             => objectMapperRegister.
-                    AddMappingAction<CreateGameOptionsInputPort, Entities.GameOptions>(
+                    AddMappingAction<CreateGameOptionsInputPort, GameOptions>(
                         this.MapCreateGameOptionsInputPortToGameOptions);
 
         #endregion Constructors
@@ -20,11 +21,11 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.CreateGameOptions
 
         private void MapCreateGameOptionsInputPortToGameOptions(
             CreateGameOptionsInputPort source,
-            Entities.GameOptions destination)
+            GameOptions destination)
         {
             if (source == null || destination == null)
                 throw new ArgumentException($"Mapping objects of type: {typeof(CreateGameOptionsInputPort)}" +
-                                            $" and {typeof(Entities.GameOptions)}, cannot both or either be null.");
+                                            $" and {typeof(GameOptions)}, cannot both or either be null.");
 
             destination.ID = new Guid();
             destination.EnvironmentFXVolume = source.EnvironmentFXVolume;

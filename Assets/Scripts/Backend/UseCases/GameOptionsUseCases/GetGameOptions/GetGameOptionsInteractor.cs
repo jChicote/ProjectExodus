@@ -1,7 +1,8 @@
 using System.Linq;
 using ProjectExodus.Backend.Repositories;
+using ProjectExodus.Domain.Entities;
 
-namespace ProjectExodus.Backend.UseCases.GameOptions.GetGameOptions
+namespace ProjectExodus.Backend.UseCases.GameOptionsUseCases.GetGameOptions
 {
 
     public class GetGameOptionsInteractor : 
@@ -10,13 +11,13 @@ namespace ProjectExodus.Backend.UseCases.GameOptions.GetGameOptions
 
         #region - - - - - - Fields - - - - - -
 
-        private readonly IDataRepository<Entities.GameOptions> m_Repository;
+        private readonly IDataRepository<GameOptions> m_Repository;
 
         #endregion Fields
   
         #region - - - - - - Constructors - - - - - -
 
-        public GetGameOptionsInteractor(IDataRepository<Entities.GameOptions> dataRepository) 
+        public GetGameOptionsInteractor(IDataRepository<GameOptions> dataRepository) 
             => this.m_Repository = dataRepository;
 
         #endregion Constructors

@@ -1,6 +1,6 @@
 using System;
 
-namespace ProjectExodus.Backend.Entities
+namespace ProjectExodus.Domain.Entities
 {
 
     [Serializable]

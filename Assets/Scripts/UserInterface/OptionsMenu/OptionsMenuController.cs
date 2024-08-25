@@ -1,8 +1,8 @@
 using ProjectExodus.Backend.JsonDataContext;
-using ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions;
+using ProjectExodus.Backend.UseCases.GameOptionsUseCases.UpdateGameOptions;
+using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
 using ProjectExodus.GameLogic.Mappers;
-using ProjectExodus.GameLogic.Models;
 using ProjectExodus.Management.UserInterfaceScreenStatesManager;
 using ProjectExodus.UserInterface.OptionsMenu.AudioOptions;
 using ProjectExodus.UserInterface.OptionsMenu.GraphicsOptions;
