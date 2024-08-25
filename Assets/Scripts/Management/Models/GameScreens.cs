@@ -1,4 +1,5 @@
 ﻿using ProjectExodus.UserInterface.GameplayHUD;
+using ProjectExodus.UserInterface.GameSaveSelectionMenu;
 using ProjectExodus.UserInterface.LoadingScreen;
 using ProjectExodus.UserInterface.MainMenu;
 using ProjectExodus.UserInterface.OptionsMenu;
@@ -10,6 +11,8 @@ namespace ProjectExodus.Management.Models
     {
         
         #region - - - - - - Properties - - - - - -
+        
+        public IGameSaveSelectionMenuController GameSaveSelectionMenuController { get; private set;  }
 
         public IMainMenuController MainMenuController { get; private set; }
         
@@ -24,11 +27,13 @@ namespace ProjectExodus.Management.Models
         #region - - - - - - Constructors - - - - - -
 
         public GameScreens(
+            IGameSaveSelectionMenuController gameSaveSelectionMenuController,
             IMainMenuController mainMenuController, 
             IOptionsMenuController optionsMenuController,
             ILoadingScreenController loadingScreenController,
             IGameplayHUDController gameplayHUDController)
         {
+            this.GameSaveSelectionMenuController = gameSaveSelectionMenuController;
             this.MainMenuController = mainMenuController;
             this.OptionsMenuController = optionsMenuController;
             this.LoadingScreenController = loadingScreenController;

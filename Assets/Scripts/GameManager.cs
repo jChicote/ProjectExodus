@@ -1,5 +1,6 @@
 using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
+using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.GameStartup;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Settings;
@@ -33,8 +34,10 @@ namespace ProjectExodus
         [SerializeField] private SceneManager m_SceneManager;
         [SerializeField] private UserInterfaceManager m_UserInterfaceManager;
 
-        private IDataContext m_DataContext;
         private IGameOptionsFacade m_GameOptionsFacade;
+        private IGameSaveFacade m_GameSaveFacade;
+        
+        private IDataContext m_DataContext;
         private GameSettings m_GameSettings;
         private IObjectMapper m_ObjectMapper;
 
@@ -56,6 +59,9 @@ namespace ProjectExodus
 
         public IGameOptionsFacade GameOptionsFacade
             => this.m_GameOptionsFacade;
+
+        public IGameSaveFacade GameSaveFacade
+            => this.m_GameSaveFacade;
 
         public GameSettings GameSettings
             => this.m_GameSettings;

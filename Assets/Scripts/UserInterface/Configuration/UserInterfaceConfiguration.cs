@@ -4,6 +4,7 @@ using ProjectExodus.UserInterface.OptionsMenu;
 using ProjectExodus.UserInterface.OptionsMenu.AudioOptions;
 using ProjectExodus.UserInterface.OptionsMenu.GraphicsOptions;
 using ProjectExodus.UserInterface.OptionsMenu.UserInterfaceOptions;
+using UserInterface.GameSaveSelectionMenu;
 
 namespace ProjectExodus.UserInterface.Configuration
 {
@@ -35,6 +36,8 @@ namespace ProjectExodus.UserInterface.Configuration
             _ = new AudioOptionsMapper(this.m_ObjectMapperRegister);
             _ = new GraphicsOptionsMapper(this.m_ObjectMapperRegister);
             _ = new UserInterfaceOptionsMapper(this.m_ObjectMapperRegister);
+            
+            _ = new GameSaveSelectionMenuMapper(this.m_ObjectMapperRegister);
         }
 
         #endregion Methods

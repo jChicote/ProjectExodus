@@ -10,6 +10,10 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 
         #region - - - - - - Fields - - - - - -
 
+        [Header("Content Groups")]
+        [SerializeField] GameObject m_GameSlotContentGroup;
+        [SerializeField] GameObject m_EmptySlotContentGroup;
+        
         [Header("Views")] 
         [SerializeField] private Image m_SlotProfileImage;
         [SerializeField] private Button m_SlotButton;
@@ -20,6 +24,10 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
         #endregion Fields
 
         #region - - - - - - Properties - - - - - -
+
+        public GameObject GameSlotContentGroup => this.m_GameSlotContentGroup;
+
+        public GameObject EmptySlotContentGroup => this.m_EmptySlotContentGroup;
 
         public Image SlotProfileImage => this.m_SlotProfileImage;
 
