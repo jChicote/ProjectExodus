@@ -75,11 +75,12 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
         #region - - - - - - Methods - - - - - -
         void IGetGameSavesOutputPort.PresentGameSaves(IEnumerable<GameSaveModel> gameSaves)
         {
-            int _SlotIndex = 1;
+            int _SlotIndex = 0;
             foreach (GameSaveSlotViewModel _ViewModel in this.m_GameSaveViewModelCollection)
             {
-                if (_SlotIndex <= gameSaves.Count())
+                if (_SlotIndex < gameSaves.Count())
                 {
+                    Debug.Log(gameSaves.Count());
                     GameSaveModel _Model = gameSaves.ElementAt(_SlotIndex);
                     this.m_Mapper.Map(_Model, _ViewModel);
                     _ViewModel.DisplayGameSaveSlot();

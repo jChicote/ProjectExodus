@@ -24,6 +24,15 @@ namespace ProjectExodus.GameLogic.Facades.GameSaveFacade
                     ID = Guid.NewGuid(),
                     LastAccessedDate = DateTime.Now,
                     ProfileImageID = Guid.NewGuid()
+                },
+                new GameSaveModel()
+                {
+                    CompletionProgress = 60f,
+                    GameSaveName = "Test Name B",
+                    GameSlotDisplayIndex = 1,
+                    ID = Guid.NewGuid(),
+                    LastAccessedDate = DateTime.Now,
+                    ProfileImageID = Guid.NewGuid()
                 }
             };
             

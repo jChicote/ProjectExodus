@@ -36,6 +36,8 @@ namespace ProjectExodus.GameLogic.GameStartup
         
         public GameOptionsFacade GameOptionsFacade { get; private set; }
         
+        public GameSaveFacade GameSaveFacade { get; private set; }
+        
         #endregion Properties
 
         #region - - - - - - Methods - - - - - -
@@ -53,8 +55,13 @@ namespace ProjectExodus.GameLogic.GameStartup
         public void SetupRepositories(IDataRepository<GameOptions> gameOptionsRepository) 
             => this.GameOptionsRepository = gameOptionsRepository;
 
-        public void SetupUseCaseFacades(GameOptionsFacade gameOptionsFacade) 
-            => this.GameOptionsFacade = gameOptionsFacade;
+        public void SetupUseCaseFacades(
+            GameOptionsFacade gameOptionsFacade,
+            GameSaveFacade gameSaveFacade)
+        {
+            this.GameOptionsFacade = gameOptionsFacade;
+            this.GameSaveFacade = gameSaveFacade;
+        }
 
         #endregion Methods
           

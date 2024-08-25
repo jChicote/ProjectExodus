@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 {
@@ -16,6 +17,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
         private string m_GameSaveName;
         private int m_DisplayIndex;
         private DateTime m_LastAccessedDate;
+        private Sprite m_ProfileImage; // Temporarily won't display image
 
         private bool m_IsSlotEmpty;
         
@@ -45,6 +47,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
             set
             {
                 this.m_CompletionProgress = value;
+                this.m_GameSaveSlotView.SlotPercentage.text = $"{this.m_CompletionProgress}%";
             }
         }
 
@@ -54,6 +57,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
             set
             {
                 this.m_GameSaveName = value;
+                this.m_GameSaveSlotView.SlotTitle.text = this.GameSaveName;
             }
         }
 
@@ -72,6 +76,8 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
             set
             {
                 this.m_LastAccessedDate = value;
+                this.m_GameSaveSlotView.SlotLastAccessedDate.text =
+                    $"{this.m_LastAccessedDate.Day}/{this.m_LastAccessedDate.Month}/{this.m_LastAccessedDate.Year}";
             }
         }
 
@@ -83,13 +89,15 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
         {
             if (this.m_IsSlotEmpty)
             {
-                this.m_ButtonsView.ClearButton.enabled = false;
-                this.m_ButtonsView.EditButton.enabled = false;
+                this.m_ButtonsView.ClearButton.interactable = false;
+                this.m_ButtonsView.EditButton.interactable = false;
+                this.m_ButtonsView.NewGameButton.interactable = true;
             }
             else
             {
-                this.m_ButtonsView.ClearButton.enabled = false;
-                this.m_ButtonsView.NewGameButton.enabled = false;
+                this.m_ButtonsView.ClearButton.interactable = true;
+                this.m_ButtonsView.EditButton.interactable = true;
+                this.m_ButtonsView.NewGameButton.interactable = false;
             }
         }
 

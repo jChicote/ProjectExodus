@@ -7,6 +7,7 @@ using ProjectExodus.Backend.Repositories.GameOptionsRepository;
 using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Configuration;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
+using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Settings;
 using ProjectExodus.UserInterface.Configuration;
@@ -66,8 +67,12 @@ namespace ProjectExodus.GameLogic.GameStartup
             
             if (setupConfig.GameSettings.GameOptionsModel == null)
                 ((IGameOptionsFacade)setupConfig.GameOptionsFacade).CreateGameOptions();
+            
+            // Setup GameSave
+            GameSaveFacade _GameSaveFacade = new GameSaveFacade();
 
-            setupConfig.SetupUseCaseFacades(_GameOptionsFacade);
+            // Assign to setup configuration
+            setupConfig.SetupUseCaseFacades(_GameOptionsFacade, _GameSaveFacade);
             
             yield return null;
         }

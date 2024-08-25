@@ -111,6 +111,7 @@ namespace ProjectExodus
 
             // Set use case facades
             this.m_GameOptionsFacade = setupConfig.GameOptionsFacade;
+            this.m_GameSaveFacade = setupConfig.GameSaveFacade;
         }
 
         #endregion Methods
