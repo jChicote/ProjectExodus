@@ -1,4 +1,4 @@
-namespace ProjectExodus.UserInterface.GameSaveSelectionMenuController
+namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 {
 
     public interface IGameSaveSelectionMenuController : IScreenStateController

@@ -1,7 +1,8 @@
+using ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ProjectExodus.UserInterface.GameSaveSelectionMenuController
+namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 {
 
     public class GameSaveSelectionMenuController : MonoBehaviour, IGameSaveSelectionMenuController
@@ -22,6 +23,10 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenuController
         [SerializeField] private Button m_NewGameButton;
         [SerializeField] private Button m_EditButton;
         [SerializeField] private Button m_QuitButton;
+
+        [Header("Modals")] 
+        [SerializeField] private EditGameSlotView m_EditGameSlotView;
+        // [SerializeField] private 
 
         #endregion Fields
   

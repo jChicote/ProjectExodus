@@ -1,12 +1,11 @@
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ProjectExodus.UserInterface.GameSaveSelectionMenuController
+namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
 {
 
-    public class EditGameSlotView
+    public class EditGameSlotView : MonoBehaviour
     {
 
         #region - - - - - - Fields - - - - - -

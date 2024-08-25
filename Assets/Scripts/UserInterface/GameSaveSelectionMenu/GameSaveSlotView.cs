@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ProjectExodus.UserInterface.GameSaveSelectionMenuController
+namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 {
 
     public class GameSaveSlotView : MonoBehaviour
