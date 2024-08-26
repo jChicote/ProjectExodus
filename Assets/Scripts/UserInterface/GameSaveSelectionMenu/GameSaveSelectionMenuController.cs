@@ -20,28 +20,14 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 
         [Header("GameSave Selection Menu View")] 
         [SerializeField] private GameObject m_ContentGroup;
-
-        // [Header("Game Slots")]
-        // [SerializeField] private GameSaveSlotView m_GameSaveSlot1;
-        // [SerializeField] private GameSaveSlotView m_GameSaveSlot2;
-        // [SerializeField] private GameSaveSlotView m_GameSaveSlot3;
-        
-        // [Header("Buttons")]
-        // [SerializeField] private Button m_ClearButton;
-        // [SerializeField] private Button m_NewGameButton;
-        // [SerializeField] private Button m_EditButton;
-        // [SerializeField] private Button m_QuitButton;
-
         [SerializeField] private GameSaveSelectionMenuView m_GameSaveSelectionMenuView;
 
         [Header("Modals")] 
         [SerializeField] private EditGameSlotView m_EditGameSlotView;
-
-        // private GameSaveSlotViewModel m_GameSaveViewModel1;
-        // private GameSaveSlotViewModel m_GameSaveViewModel2;
-        // private GameSaveSlotViewModel m_GameSaveViewModel3;
-
+        private EditGameSlotViewModel m_EditGameSlotViewModel;
+        
         private List<GameSaveSlotViewModel> m_GameSaveViewModelCollection;
+        private GameSaveSlotViewModel m_CurrentlySelectedGameSaveSlot;
         
         private IGameSaveFacade m_GameSaveFacade;
         private IObjectMapper m_Mapper;
@@ -71,8 +57,19 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
         }
 
         #endregion Initializers
+
+        #region - - - - - - Unity Methods - - - - - -
+
+        private void Start()
+        {
+            this.m_GameSaveSelectionMenuView.MenuButtons.NewGameButton.onClick.AddListener(this.OpenEditModal);
+            this.m_GameSaveSelectionMenuView.MenuButtons.EditButton.onClick.AddListener(this.OpenEditModal);
+        }
+
+        #endregion Unity Methods
   
         #region - - - - - - Methods - - - - - -
+
         void IGetGameSavesOutputPort.PresentGameSaves(IEnumerable<GameSaveModel> gameSaves)
         {
             int _SlotIndex = 0;
@@ -80,7 +77,6 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
             {
                 if (_SlotIndex < gameSaves.Count())
                 {
-                    Debug.Log(gameSaves.Count());
                     GameSaveModel _Model = gameSaves.ElementAt(_SlotIndex);
                     this.m_Mapper.Map(_Model, _ViewModel);
                     _ViewModel.DisplayGameSaveSlot();
@@ -99,6 +95,12 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 
         void IScreenStateController.ShowScreen() 
             => this.m_ContentGroup.SetActive(true);
+
+        private void OpenEditModal()
+        {
+            if (this.m_CurrentlySelectedGameSaveSlot == null) return;
+            this.m_EditGameSlotViewModel.ShowModal(this.m_CurrentlySelectedGameSaveSlot);
+        }
 
         #endregion Methods
 
