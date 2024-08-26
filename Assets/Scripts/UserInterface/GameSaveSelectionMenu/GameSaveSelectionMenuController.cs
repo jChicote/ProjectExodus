@@ -52,26 +52,24 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
                 new(this.m_GameSaveSelectionMenuView.GameSaveSlotCollection.ElementAt(2),
                     this.m_GameSaveSelectionMenuView.MenuButtons)
             };
+
+            this.m_EditGameSlotViewModel = new EditGameSlotViewModel(this.m_EditGameSlotView);
             
             this.m_GameSaveFacade.GetGameSaves(this);
+            
+            this.m_GameSaveSelectionMenuView.MenuButtons.NewGameButton.onClick.AddListener(this.CreateNewGameSlot);
+            this.m_GameSaveSelectionMenuView.MenuButtons.EditButton.onClick.AddListener(this.OpenEditModal);
         }
 
         #endregion Initializers
 
-        #region - - - - - - Unity Methods - - - - - -
-
-        private void Start()
-        {
-            this.m_GameSaveSelectionMenuView.MenuButtons.NewGameButton.onClick.AddListener(this.OpenEditModal);
-            this.m_GameSaveSelectionMenuView.MenuButtons.EditButton.onClick.AddListener(this.OpenEditModal);
-        }
-
-        #endregion Unity Methods
-  
         #region - - - - - - Methods - - - - - -
 
         void IGetGameSavesOutputPort.PresentGameSaves(IEnumerable<GameSaveModel> gameSaves)
         {
+            // 1. This should be changed. Instead it should load the existing slots to vm through index.
+            // 2. Then seperately populate remaining view models with empty slots.
+            
             int _SlotIndex = 0;
             foreach (GameSaveSlotViewModel _ViewModel in this.m_GameSaveViewModelCollection)
             {
@@ -83,6 +81,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
                 }
                 else
                 {
+                    _ViewModel.DisplayIndex = _SlotIndex;
                     _ViewModel.DisplayEmptySlot();
                 }
 
@@ -96,12 +95,17 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
         void IScreenStateController.ShowScreen() 
             => this.m_ContentGroup.SetActive(true);
 
+        private void CreateNewGameSlot()
+        {
+            this.m_EditGameSlotViewModel.ShowModal(this.m_CurrentlySelectedGameSaveSlot, true);
+        }
+
         private void OpenEditModal()
         {
             if (this.m_CurrentlySelectedGameSaveSlot == null) return;
-            this.m_EditGameSlotViewModel.ShowModal(this.m_CurrentlySelectedGameSaveSlot);
+            this.m_EditGameSlotViewModel.ShowModal(this.m_CurrentlySelectedGameSaveSlot, false);
         }
-
+        
         #endregion Methods
 
     }

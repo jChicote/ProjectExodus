@@ -10,9 +10,15 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
 
         #region - - - - - - Fields - - - - - -
 
-        [Header("Views")] 
+        [Header("Content")] 
         [SerializeField] private GameObject m_ContentGroup;
+        
+        [Header("Modal Buttons")]
+        [SerializeField] private Button m_CreateButton;
+        [SerializeField] private Button m_SaveButton;
         [SerializeField] private Button m_ExitButton;
+        
+        [Header("Game Save Details")]
         [SerializeField] private TMP_InputField m_DisplayNameInputField;
         [SerializeField] private Image m_SelectedProfileImage;
         [SerializeField] private Button m_SelectedProfileImageButton;
@@ -22,6 +28,10 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         #region - - - - - - Properties - - - - - -
 
         public GameObject ContentGroup => this.m_ContentGroup;
+
+        public Button CreateButton => this.m_CreateButton;
+
+        public Button SaveButton => this.m_SaveButton;
 
         public Button ExitButton => this.m_ExitButton;
 

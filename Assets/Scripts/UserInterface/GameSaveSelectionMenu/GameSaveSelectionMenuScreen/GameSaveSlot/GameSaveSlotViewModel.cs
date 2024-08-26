@@ -81,6 +81,16 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
             }
         }
 
+        public Sprite ProfileImage
+        {
+            get => this.m_ProfileImage;
+            set
+            {
+                this.m_ProfileImage = value;
+                this.m_GameSaveSlotView.SlotProfileImage.sprite = this.m_ProfileImage;
+            }
+        }
+
         #endregion Properties
 
         #region - - - - - - Events - - - - - -
@@ -121,8 +131,11 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
             this.m_GameSaveSlotView.EmptySlotContentGroup.SetActive(true);
         }
 
+        public bool IsGameSaveSlotEmpty()
+            => this.m_IsSlotEmpty;
+
         #endregion Methods
-  
+
     }
 
 }
