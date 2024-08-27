@@ -45,20 +45,17 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 
             this.m_GameSaveViewModelCollection = new List<GameSaveSlotViewModel>
             {
-                new(this.m_GameSaveSelectionMenuView.GameSaveSlotCollection.ElementAt(0),
-                    this.m_GameSaveSelectionMenuView.MenuButtons),
-                new(this.m_GameSaveSelectionMenuView.GameSaveSlotCollection.ElementAt(1),
-                    this.m_GameSaveSelectionMenuView.MenuButtons),
-                new(this.m_GameSaveSelectionMenuView.GameSaveSlotCollection.ElementAt(2),
-                    this.m_GameSaveSelectionMenuView.MenuButtons)
+                // new(this.m_GameSaveSelectionMenuView.GameSaveSlotCollection.ElementAt(0),
+                //     this.m_GameSaveSelectionMenuView.MenuButtons),
+                // new(this.m_GameSaveSelectionMenuView.GameSaveSlotCollection.ElementAt(1),
+                //     this.m_GameSaveSelectionMenuView.MenuButtons),
+                // new(this.m_GameSaveSelectionMenuView.GameSaveSlotCollection.ElementAt(2),
+                //     this.m_GameSaveSelectionMenuView.MenuButtons)
             };
 
-            this.m_EditGameSlotViewModel = new EditGameSlotViewModel(this.m_EditGameSlotView);
+            // this.m_EditGameSlotViewModel = new EditGameSlotViewModel(this.m_EditGameSlotView);
             
             this.m_GameSaveFacade.GetGameSaves(this);
-            
-            this.m_GameSaveSelectionMenuView.MenuButtons.NewGameButton.onClick.AddListener(this.CreateNewGameSlot);
-            this.m_GameSaveSelectionMenuView.MenuButtons.EditButton.onClick.AddListener(this.OpenEditModal);
         }
 
         #endregion Initializers
@@ -95,16 +92,16 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
         void IScreenStateController.ShowScreen() 
             => this.m_ContentGroup.SetActive(true);
 
-        private void CreateNewGameSlot()
-        {
-            this.m_EditGameSlotViewModel.ShowModal(this.m_CurrentlySelectedGameSaveSlot, true);
-        }
-
-        private void OpenEditModal()
-        {
-            if (this.m_CurrentlySelectedGameSaveSlot == null) return;
-            this.m_EditGameSlotViewModel.ShowModal(this.m_CurrentlySelectedGameSaveSlot, false);
-        }
+        // private void CreateNewGameSlot()
+        // {
+        //     this.m_EditGameSlotViewModel.ShowModal(this.m_CurrentlySelectedGameSaveSlot, true);
+        // }
+        //
+        // private void OpenEditModal()
+        // {
+        //     if (this.m_CurrentlySelectedGameSaveSlot == null) return;
+        //     this.m_EditGameSlotViewModel.ShowModal(this.m_CurrentlySelectedGameSaveSlot, false);
+        // }
         
         #endregion Methods
 

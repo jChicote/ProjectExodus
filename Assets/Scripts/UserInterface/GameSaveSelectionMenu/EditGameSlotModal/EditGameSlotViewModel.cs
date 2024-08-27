@@ -1,5 +1,7 @@
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using UnityEngine;
+using UserInterface.GameSaveSelectionMenu.Dtos;
+using UserInterface.GameSaveSelectionMenu.Mediator;
 
 namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
 {
@@ -11,23 +13,34 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
 
         private readonly EditGameSlotView m_EditGameSlotView;
         private readonly IGameSaveFacade m_GameSaveFacade;
+        private readonly IGameSaveSelectionMenuMediator m_Mediator;
 
-        private string m_DisplayName;
-        private Sprite m_SelectedProfileImage;
-
-        private int m_EditedGameIndex;
+        private GameSaveSlotDto m_GameSaveSlotDto; // Cache dto to simplify data handling
         
         #endregion Fields
   
         #region - - - - - - Constructors - - - - - -
 
-        public EditGameSlotViewModel(EditGameSlotView editGameSlotView)
+        public EditGameSlotViewModel(
+            IGameSaveSelectionMenuMediator gameSaveSelectionMenuMediator,
+            EditGameSlotView editGameSlotView)
         {
             this.m_EditGameSlotView = editGameSlotView;
+            this.m_Mediator = gameSaveSelectionMenuMediator;
             
-            this.m_EditGameSlotView.CreateButton.onClick.AddListener(this.CreateGameSlot);
-            this.m_EditGameSlotView.SaveButton.onClick.AddListener(this.UpdateGameSlot);
-            this.m_EditGameSlotView.ExitButton.onClick.AddListener(this.ExitModalMenu);
+            // Register Handlers
+            this.m_Mediator.Register(
+                                GameSaveMenuEventType.StartCreatingNewGameSlot,
+                                this.ShowCreateSlotModal);
+            this.m_Mediator.Register<GameSaveSlotDto>(
+                                GameSaveMenuEventType.StartEditingGameSlot,
+                                this.ShowEditSlotModal);
+            
+            // Bind Views
+            this.m_EditGameSlotView.CreateButton.onClick.AddListener(this.OnCreateGameSlot);
+            this.m_EditGameSlotView.SaveButton.onClick.AddListener(this.OnSaveGameSlot);
+            this.m_EditGameSlotView.ExitButton.onClick.AddListener(this.OnExitModalMenu);
+            this.m_EditGameSlotView.SelectedProfileImageButton.onClick.AddListener(this.OnProfileSelection);
         }
 
         #endregion Constructors
@@ -36,60 +49,70 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
 
         public string DisplayName
         {
-            get => this.m_DisplayName;
+            get => this.m_GameSaveSlotDto.DisplayName;
             set
             {
-                this.m_DisplayName = value;
+                this.m_GameSaveSlotDto.DisplayName = value;
             }
         }
 
         public Sprite SelectedProfileImage
         {
-            get => this.m_SelectedProfileImage;
+            get => this.m_GameSaveSlotDto.ProfileImage;
             set
             {
-                this.m_SelectedProfileImage = value;
+                this.m_GameSaveSlotDto.ProfileImage = value;
             }
         }
 
         #endregion Properties
-  
-        #region - - - - - - Methods - - - - - -
 
-        public void ShowModal(GameSaveSlotViewModel gameSaveSlotViewModel, bool isNewGameSave)
+        #region - - - - - - Events - - - - - -
+
+        private void OnCreateGameSlot()
         {
-            this.m_EditedGameIndex = gameSaveSlotViewModel.DisplayIndex;
-
-            if (isNewGameSave)
-            {
-                this.DisplayName = "Game Save";
-                this.SelectedProfileImage = default(Sprite);
-                this.m_EditGameSlotView.CreateButton.gameObject.SetActive(true);
-            }
-            else
-            {
-                this.DisplayName = gameSaveSlotViewModel.GameSaveName;
-                this.SelectedProfileImage = gameSaveSlotViewModel.ProfileImage;
-                this.m_EditGameSlotView.CreateButton.gameObject.SetActive(false);
-            }
-            
-            this.m_EditGameSlotView.ContentGroup.SetActive(true);
+            this.m_Mediator.Invoke(GameSaveMenuEventType.CreateGameSaveSlot, this.m_GameSaveSlotDto);
+            this.m_EditGameSlotView.ContentGroup.SetActive(false);
         }
 
-        public void CreateGameSlot()
+        private void OnSaveGameSlot()
         {
-            Debug.Log("[LOG] - Create game slot");
+            this.m_Mediator.Invoke(GameSaveMenuEventType.UpdateGameSaveSlot, this.m_GameSaveSlotDto);
+            this.m_EditGameSlotView.ContentGroup.SetActive(false);
         }
-
-        public void UpdateGameSlot()
-        {
-            Debug.Log("[LOG] - Update game slot");
-        }
-
-        public void ExitModalMenu()
+        
+        private void OnExitModalMenu()
         {
             Debug.Log("[LOG] - Exit modal menu");
             this.m_EditGameSlotView.ContentGroup.SetActive(false);
+            this.m_GameSaveSlotDto = default;
+        }
+
+        private void OnProfileSelection()
+        {
+            Debug.LogWarning("[WARNING] - Exit modal menu. Data has been thrown out.");
+        }
+
+        #endregion Events
+  
+        #region - - - - - - Methods - - - - - -
+
+        private void ShowCreateSlotModal()
+        {
+            this.m_GameSaveSlotDto = new();
+            this.m_GameSaveSlotDto.DisplayName = "Game Save";
+            this.m_GameSaveSlotDto.ProfileImage = default(Sprite);
+            this.m_EditGameSlotView.CreateButton.gameObject.SetActive(true);
+            this.m_EditGameSlotView.SaveButton.gameObject.SetActive(false);
+            this.m_EditGameSlotView.ContentGroup.SetActive(true);
+        }
+
+        private void ShowEditSlotModal(GameSaveSlotDto gameSaveSlotDto)
+        {
+            this.m_GameSaveSlotDto = gameSaveSlotDto;
+            this.m_EditGameSlotView.CreateButton.gameObject.SetActive(false);
+            this.m_EditGameSlotView.SaveButton.gameObject.SetActive(true);
+            this.m_EditGameSlotView.ContentGroup.SetActive(true);
         }
 
         #endregion Methods

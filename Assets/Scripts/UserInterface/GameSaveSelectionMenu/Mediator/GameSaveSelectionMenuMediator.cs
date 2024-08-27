@@ -1,30 +1,73 @@
 using System;
-using UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace UserInterface.GameSaveSelectionMenu.Mediator
 {
 
     public class GameSaveSelectionMenuMediator : IGameSaveSelectionMenuMediator
     {
-        private GameSaveSelectionMenuViewModel m_GameSaveSelectionMenuViewModel;
 
-        public GameSaveSelectionMenuMediator(
-            GameSaveSelectionMenuViewModel gameSaveSelectionMenuViewModel)
+        #region - - - - - - Fields - - - - - -
+
+        private readonly Dictionary<GameSaveMenuEventType, Action> m_ParameterlessHandlers = new();
+        private readonly Dictionary<GameSaveMenuEventType, Action<object>> m_ParameterizedHandlers = new();
+
+        #endregion Fields
+
+        #region - - - - - - Methods - - - - - -
+
+        void IGameSaveSelectionMenuMediator.Register(GameSaveMenuEventType eventType, Action handler)
         {
-            this.m_GameSaveSelectionMenuViewModel = gameSaveSelectionMenuViewModel ??
-                                                        throw new ArgumentNullException(
-                                                            nameof(gameSaveSelectionMenuViewModel));
+            if (this.m_ParameterlessHandlers.TryAdd(eventType, handler))
+                return;
+                    
+            Debug.LogError("[Error]: You cannot log the handler more than once.");
         }
 
-        public void Execute()
+        // Action handler expects parameter objects
+        void IGameSaveSelectionMenuMediator.Register<TParameter>(
+            GameSaveMenuEventType eventType, 
+            Action<TParameter> handler)
         {
+            // Wrap handler to handle parameter casting
+            void WrappedHandler(object parameter)
+                => handler((TParameter)parameter);
+
+            if (this.m_ParameterizedHandlers.TryAdd(eventType, WrappedHandler));
+        }
+
+        void IGameSaveSelectionMenuMediator.Invoke(GameSaveMenuEventType eventType)
+        {
+            if (!this.m_ParameterlessHandlers.TryGetValue(eventType, out var _Action))
+                Debug.LogWarning($"[WARNING]: Cannot find mediator event '{eventType.ToString()}'.");
             
+            _Action.Invoke();
         }
+
+        void IGameSaveSelectionMenuMediator.Invoke<TParameter>(
+            GameSaveMenuEventType eventType, 
+            TParameter parameter)
+        {
+            if (!this.m_ParameterizedHandlers.TryGetValue(eventType, out var _Action))
+                Debug.LogWarning($"[WARNING]: Cannot find mediator event '{eventType.ToString()}'.");
+            
+            _Action.Invoke(parameter);
+        }
+
+        #endregion Methods
+  
     }
 
-    public class GameSaveSelectionMenuMediatorConfig
+    public enum GameSaveMenuEventType
     {
-        
+        OnGameSaveSlotSelection,
+        OnEmptySlotSelection,
+        StartCreatingNewGameSlot,
+        StartEditingGameSlot,
+        StartDeletingGameSlot,
+        CreateGameSaveSlot,
+        UpdateGameSaveSlot
     }
 
 }

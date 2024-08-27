@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
 using ProjectExodus.Domain.Models;
+using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Facades.GameSaveFacade
 {
@@ -23,7 +24,7 @@ namespace ProjectExodus.GameLogic.Facades.GameSaveFacade
                     GameSlotDisplayIndex = 1,
                     ID = Guid.NewGuid(),
                     LastAccessedDate = DateTime.Now,
-                    ProfileImageID = Guid.NewGuid()
+                    ProfileImage = default(Sprite)
                 },
                 new GameSaveModel()
                 {
@@ -32,7 +33,7 @@ namespace ProjectExodus.GameLogic.Facades.GameSaveFacade
                     GameSlotDisplayIndex = 1,
                     ID = Guid.NewGuid(),
                     LastAccessedDate = DateTime.Now,
-                    ProfileImageID = Guid.NewGuid()
+                    ProfileImage = default(Sprite)
                 }
             };
             

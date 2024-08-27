@@ -1,5 +1,7 @@
 using System;
+using ProjectExodus.Domain.Models;
 using UnityEngine;
+using UserInterface.GameSaveSelectionMenu.Mediator;
 
 namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 {
@@ -9,16 +11,10 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 
         #region - - - - - - Fields - - - - - -
 
-        // Views
         private readonly GameSaveSlotView m_GameSaveSlotView;
-        private readonly GameSaveSelectionMenuButtonsView m_ButtonsView;
-
-        private float m_CompletionProgress;
-        private string m_GameSaveName;
-        private int m_DisplayIndex;
-        private DateTime m_LastAccessedDate;
-        private Sprite m_ProfileImage; // Temporarily won't display image
-
+        private readonly IGameSaveSelectionMenuMediator m_Mediator;
+        
+        private GameSaveModel m_GameSaveModel;
         private bool m_IsSlotEmpty;
         
         #endregion Fields
@@ -26,11 +22,16 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
         #region - - - - - - Constructors - - - - - -
 
         public GameSaveSlotViewModel(
-            GameSaveSlotView gameSaveSlotView, 
-            GameSaveSelectionMenuButtonsView buttonsView)
+            GameSaveModel gameSaveModel,
+            GameSaveSlotView gameSaveSlotView,
+            IGameSaveSelectionMenuMediator gameSaveSelectionMenuMediator)
         {
+            if (gameSaveModel == null)
+                this.m_IsSlotEmpty = true;
+            
+            this.m_GameSaveModel = gameSaveModel;
             this.m_GameSaveSlotView = gameSaveSlotView;
-            this.m_ButtonsView = buttonsView;
+            this.m_Mediator = gameSaveSelectionMenuMediator;
             
             this.m_GameSaveSlotView.SlotButton.onClick.AddListener(this.OnSlotSelection);
         }
@@ -43,51 +44,53 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 
         public float CompletionProgress
         {
-            get => this.m_CompletionProgress;
+            get => this.m_GameSaveModel.CompletionProgress;
             set
             {
-                this.m_CompletionProgress = value;
-                this.m_GameSaveSlotView.SlotPercentage.text = $"{this.m_CompletionProgress}%";
+                this.m_GameSaveModel.CompletionProgress = value;
+                this.m_GameSaveSlotView.SlotPercentage.text = $"{this.m_GameSaveModel.CompletionProgress}%";
             }
         }
 
         public string GameSaveName
         {
-            get => this.m_GameSaveName;
+            get => this.m_GameSaveModel.GameSaveName;
             set
             {
-                this.m_GameSaveName = value;
+                this.m_GameSaveModel.GameSaveName = value;
                 this.m_GameSaveSlotView.SlotTitle.text = this.GameSaveName;
             }
         }
 
         public int DisplayIndex
         {
-            get => this.m_DisplayIndex;
+            get => this.m_GameSaveModel.GameSlotDisplayIndex;
             set
             {
-                this.m_DisplayIndex = value;
+                this.m_GameSaveModel.GameSlotDisplayIndex = value;
             }
         }
 
         public DateTime LastAccessedDate
         {
-            get => this.m_LastAccessedDate;
+            get => this.m_GameSaveModel.LastAccessedDate;
             set
             {
-                this.m_LastAccessedDate = value;
+                this.m_GameSaveModel.LastAccessedDate = value;
                 this.m_GameSaveSlotView.SlotLastAccessedDate.text =
-                    $"{this.m_LastAccessedDate.Day}/{this.m_LastAccessedDate.Month}/{this.m_LastAccessedDate.Year}";
+                    $"{this.m_GameSaveModel.LastAccessedDate.Day}/" +
+                    $"{this.m_GameSaveModel.LastAccessedDate.Month}/" +
+                    $"{this.m_GameSaveModel.LastAccessedDate.Year}";
             }
         }
 
         public Sprite ProfileImage
         {
-            get => this.m_ProfileImage;
+            get => default(Sprite); // Will be default until scriptable object exists.
             set
             {
-                this.m_ProfileImage = value;
-                this.m_GameSaveSlotView.SlotProfileImage.sprite = this.m_ProfileImage;
+                this.m_GameSaveModel.ProfileImage = value;
+                this.m_GameSaveSlotView.SlotProfileImage.sprite = this.m_GameSaveModel.ProfileImage;
             }
         }
 
@@ -95,21 +98,10 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 
         #region - - - - - - Events - - - - - -
 
-        private void OnSlotSelection()
-        {
-            if (this.m_IsSlotEmpty)
-            {
-                this.m_ButtonsView.ClearButton.interactable = false;
-                this.m_ButtonsView.EditButton.interactable = false;
-                this.m_ButtonsView.NewGameButton.interactable = true;
-            }
-            else
-            {
-                this.m_ButtonsView.ClearButton.interactable = true;
-                this.m_ButtonsView.EditButton.interactable = true;
-                this.m_ButtonsView.NewGameButton.interactable = false;
-            }
-        }
+        private void OnSlotSelection() 
+            => this.m_Mediator.Invoke(this.m_IsSlotEmpty
+                ? GameSaveMenuEventType.OnEmptySlotSelection
+                : GameSaveMenuEventType.OnGameSaveSlotSelection);
 
         #endregion Events
 
@@ -130,9 +122,6 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
             this.m_GameSaveSlotView.GameSlotContentGroup.SetActive(false);
             this.m_GameSaveSlotView.EmptySlotContentGroup.SetActive(true);
         }
-
-        public bool IsGameSaveSlotEmpty()
-            => this.m_IsSlotEmpty;
 
         #endregion Methods
 

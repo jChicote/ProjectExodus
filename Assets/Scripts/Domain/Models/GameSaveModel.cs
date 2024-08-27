@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace ProjectExodus.Domain.Models
 {
@@ -18,7 +19,7 @@ namespace ProjectExodus.Domain.Models
         
         public DateTime LastAccessedDate { get; set; }
         
-        public Guid ProfileImageID { get; set; }
+        public Sprite ProfileImage { get; set; }
 
         #endregion Properties
   
