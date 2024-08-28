@@ -5,7 +5,7 @@ using UnityEngine;
 using UserInterface.GameSaveSelectionMenu.Dtos;
 using UserInterface.GameSaveSelectionMenu.Mediator;
 
-namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
+namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
 {
 
     public class GameSaveSlotViewModel

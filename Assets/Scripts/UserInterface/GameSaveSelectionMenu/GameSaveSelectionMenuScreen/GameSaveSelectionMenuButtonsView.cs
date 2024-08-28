@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ProjectExodus.UserInterface
+namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
 {
 
     [Serializable]

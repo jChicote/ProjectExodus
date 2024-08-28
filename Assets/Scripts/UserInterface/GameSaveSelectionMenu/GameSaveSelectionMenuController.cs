@@ -6,7 +6,8 @@ using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal;
-using UnityEditor;
+using ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen;
+using ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot;
 using UnityEngine;
 using UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen;
 using UserInterface.GameSaveSelectionMenu.Mediator;
@@ -28,8 +29,8 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 
         [Header("Modals")] 
         [SerializeField] private EditGameSlotView m_EditGameSlotView;
-        private EditGameSlotViewModel m_EditGameSlotViewModel;
         
+        private EditGameSlotViewModel m_EditGameSlotViewModel;
         private List<GameSaveSlotViewModel> m_GameSaveViewModelCollection;
         private GameSaveSelectionMenuViewModel m_GameSaveSelectionMenuViewModel;
         
@@ -50,11 +51,11 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 
             this.m_Mediator = new GameSaveSelectionMenuMediator();
             this.m_GameSaveSelectionMenuViewModel = new GameSaveSelectionMenuViewModel(
-                this.m_GameSaveFacade,
                 this.m_Mediator,
                 this.m_GameSaveSelectionMenuView);
             this.m_EditGameSlotViewModel = new EditGameSlotViewModel(this.m_EditGameSlotView, this.m_Mediator, this.m_Mapper);
             
+            // Load game data
             this.m_GameSaveFacade.GetGameSaves(this);
         }
 
@@ -62,33 +63,39 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 
         #region - - - - - - Methods - - - - - -
 
+        // -----------------------------------
+        // Populate View methods
+        // -----------------------------------
+        
         void IGetGameSavesOutputPort.PresentGameSaves(IEnumerable<GameSaveModel> gameSaves)
         {
             var _OrderedSlots = gameSaves.OrderBy(gsm => gsm.GameSlotDisplayIndex).ToList();
-            for (int _I = 0 ; _I < this.m_GameSaveSelectionMenuView.GameSaveSlotCollection.Count(); _I++)
+            for (int _Index = 0 ; _Index < this.m_GameSaveSelectionMenuView.GameSaveSlotCollection.Count; _Index++)
             {
-                if (_I < _OrderedSlots.Count())
+                if (_Index < _OrderedSlots.Count)
                 {
-                    GameSaveModel _Model = gameSaves.ElementAt(_I);
-                    var _ViewModel = new GameSaveSlotViewModel(
-                                        _Model,
-                                        this.m_GameSaveSelectionMenuView.GameSaveSlotCollection.ElementAt(_I),
-                                        this.m_Mediator,
-                                        this.m_Mapper);
+                    GameSaveModel _Model = _OrderedSlots.ElementAt(_Index);
+                    GameSaveSlotViewModel _ViewModel = this.CreateGameSaveSlotViewModels(_Model, _Index);
                     _ViewModel.DisplayGameSaveSlot();
                 }
                 else
                 {
-                    var _ViewModel = new GameSaveSlotViewModel(
-                                        new GameSaveModel(), 
-                                        this.m_GameSaveSelectionMenuView.GameSaveSlotCollection.ElementAt(_I),
-                                        this.m_Mediator,
-                                        this.m_Mapper);
-                    _ViewModel.DisplayIndex = _I;
+                    GameSaveSlotViewModel _ViewModel = this.CreateGameSaveSlotViewModels(new GameSaveModel(), _Index);
+                    _ViewModel.DisplayIndex = _Index;
                     _ViewModel.DisplayEmptySlot();
                 }
             }
         }
+
+        private GameSaveSlotViewModel CreateGameSaveSlotViewModels(GameSaveModel model, int gameSlotIndex)
+            => new(model, 
+                this.m_GameSaveSelectionMenuView.GameSaveSlotCollection.ElementAt(gameSlotIndex),
+                this.m_Mediator,
+                this.m_Mapper);
+        
+        // -----------------------------------
+        // Screen visibility methods
+        // -----------------------------------
 
         void IScreenStateController.HideScreen() 
             => this.m_ContentGroup.SetActive(false);
@@ -96,17 +103,6 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
         void IScreenStateController.ShowScreen() 
             => this.m_ContentGroup.SetActive(true);
 
-        // private void CreateNewGameSlot()
-        // {
-        //     this.m_EditGameSlotViewModel.ShowModal(this.m_CurrentlySelectedGameSaveSlot, true);
-        // }
-        //
-        // private void OpenEditModal()
-        // {
-        //     if (this.m_CurrentlySelectedGameSaveSlot == null) return;
-        //     this.m_EditGameSlotViewModel.ShowModal(this.m_CurrentlySelectedGameSaveSlot, false);
-        // }
-        
         #endregion Methods
 
     }

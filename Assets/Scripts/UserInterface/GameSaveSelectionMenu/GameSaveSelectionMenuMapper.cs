@@ -1,6 +1,6 @@
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Mappers;
-using ProjectExodus.UserInterface.GameSaveSelectionMenu;
+using ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot;
 using UserInterface.GameSaveSelectionMenu.Dtos;
 
 namespace UserInterface.GameSaveSelectionMenu

@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot;
 using UnityEngine;
 
-namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
+namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
 {
 
     public class GameSaveSelectionMenuView : MonoBehaviour
