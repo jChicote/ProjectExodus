@@ -1,6 +1,7 @@
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu;
+using UserInterface.GameSaveSelectionMenu.Dtos;
 
 namespace UserInterface.GameSaveSelectionMenu
 {
@@ -15,6 +16,12 @@ namespace UserInterface.GameSaveSelectionMenu
             objectMapperRegister
                 .AddMappingAction<GameSaveModel, GameSaveSlotViewModel>(
                     MapGameSaveModelToGameSaveSlotViewModel);
+            objectMapperRegister
+                .AddMappingAction<GameSaveModel, GameSaveSlotDto>(
+                    MapGameSaveModelToGameSaveSlotDto);
+            objectMapperRegister
+                .AddMappingAction<GameSaveSlotDto, GameSaveModel>(
+                    MapGameSaveSlotDtoToGameSaveModel);
         }
 
         #endregion Constructors
@@ -30,6 +37,22 @@ namespace UserInterface.GameSaveSelectionMenu
             destination.DisplayIndex = source.GameSlotDisplayIndex;
             destination.LastAccessedDate = source.LastAccessedDate;
             destination.GameSaveName = source.GameSaveName;
+        }
+
+        private static void MapGameSaveModelToGameSaveSlotDto(
+            GameSaveModel source,
+            GameSaveSlotDto destination)
+        {
+            destination.DisplayName = source.GameSaveName;
+            destination.ProfileImage = source.ProfileImage;
+        }
+
+        private static void MapGameSaveSlotDtoToGameSaveModel(
+            GameSaveSlotDto source,
+            GameSaveModel destination)
+        {
+            destination.GameSaveName = source.DisplayName;
+            destination.ProfileImage = source.ProfileImage;
         }
 
         #endregion Methods

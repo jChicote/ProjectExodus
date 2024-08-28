@@ -1,5 +1,6 @@
 using System;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
+using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.UserInterface;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu;
 using UserInterface.GameSaveSelectionMenu.Mediator;
@@ -14,6 +15,7 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
 
         private readonly IGameSaveFacade m_GameSaveFacade;
         private readonly GameSaveSelectionMenuView m_GameSaveSelectionMenuView;
+        private readonly IObjectMapper m_Mapper;
         private readonly IGameSaveSelectionMenuMediator m_Mediator;
 
         private int m_SelectedIndex = -1; // Set to negative so that no selection is valid.
@@ -29,9 +31,9 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
         {
             this.m_GameSaveFacade = gameSaveFacade ?? throw new ArgumentNullException(nameof(gameSaveFacade));
             this.m_GameSaveSelectionMenuView = gameSaveSelectionMenuView ??
-                                               throw new ArgumentNullException(nameof(gameSaveSelectionMenuView));
+                                                throw new ArgumentNullException(nameof(gameSaveSelectionMenuView));
             this.m_Mediator = gameSaveSelectionMenuMediator ??
-                              throw new ArgumentNullException(nameof(gameSaveSelectionMenuMediator));
+                                throw new ArgumentNullException(nameof(gameSaveSelectionMenuMediator));
             
             // Register Handlers
             this.m_Mediator.Register(GameSaveMenuEventType.OnEmptySlotSelection, this.RevealEmptySlotMenuActionButtons);
@@ -49,15 +51,11 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
 
         #region - - - - - - Events - - - - - -
 
-        private void OnNewGameSlot()
-        {
-            
-        }
+        private void OnNewGameSlot() 
+            => this.m_Mediator.Invoke(GameSaveMenuEventType.StartCreatingNewGameSlot);
 
-        private void OnEditGameSlot()
-        {
-            
-        }
+        private void OnEditGameSlot() 
+            => this.m_Mediator.Invoke(GameSaveMenuEventType.StartEditingGameSlot);
 
         private void OnClearGame()
         {

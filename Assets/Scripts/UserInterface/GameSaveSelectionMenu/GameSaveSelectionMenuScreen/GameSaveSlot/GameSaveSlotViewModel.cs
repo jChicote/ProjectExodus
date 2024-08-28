@@ -1,6 +1,8 @@
 using System;
 using ProjectExodus.Domain.Models;
+using ProjectExodus.GameLogic.Mappers;
 using UnityEngine;
+using UserInterface.GameSaveSelectionMenu.Dtos;
 using UserInterface.GameSaveSelectionMenu.Mediator;
 
 namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
@@ -12,6 +14,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
         #region - - - - - - Fields - - - - - -
 
         private readonly GameSaveSlotView m_GameSaveSlotView;
+        private readonly IObjectMapper m_Mapper;
         private readonly IGameSaveSelectionMenuMediator m_Mediator;
         
         private GameSaveModel m_GameSaveModel;
@@ -24,15 +27,18 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
         public GameSaveSlotViewModel(
             GameSaveModel gameSaveModel,
             GameSaveSlotView gameSaveSlotView,
-            IGameSaveSelectionMenuMediator gameSaveSelectionMenuMediator)
+            IGameSaveSelectionMenuMediator gameSaveSelectionMenuMediator,
+            IObjectMapper objectMapper)
         {
-            if (gameSaveModel == null)
-                this.m_IsSlotEmpty = true;
+            this.m_GameSaveSlotView = gameSaveSlotView ?? throw new ArgumentNullException(nameof(gameSaveSlotView));
+            this.m_Mapper = objectMapper ?? throw new ArgumentNullException(nameof(objectMapper));
+            this.m_Mediator = gameSaveSelectionMenuMediator ?? 
+                                throw new ArgumentNullException(nameof(gameSaveSelectionMenuMediator));
             
-            this.m_GameSaveModel = gameSaveModel;
-            this.m_GameSaveSlotView = gameSaveSlotView;
-            this.m_Mediator = gameSaveSelectionMenuMediator;
+            if (gameSaveModel == null) this.m_IsSlotEmpty = true;
+            this.m_GameSaveModel = gameSaveModel ?? new GameSaveModel();
             
+            // Bind slot button
             this.m_GameSaveSlotView.SlotButton.onClick.AddListener(this.OnSlotSelection);
         }
 
@@ -52,6 +58,12 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
             }
         }
 
+        public int DisplayIndex
+        {
+            get => this.m_GameSaveModel.GameSlotDisplayIndex;
+            set => this.m_GameSaveModel.GameSlotDisplayIndex = value;
+        }
+
         public string GameSaveName
         {
             get => this.m_GameSaveModel.GameSaveName;
@@ -59,15 +71,6 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
             {
                 this.m_GameSaveModel.GameSaveName = value;
                 this.m_GameSaveSlotView.SlotTitle.text = this.GameSaveName;
-            }
-        }
-
-        public int DisplayIndex
-        {
-            get => this.m_GameSaveModel.GameSlotDisplayIndex;
-            set
-            {
-                this.m_GameSaveModel.GameSlotDisplayIndex = value;
             }
         }
 
@@ -86,7 +89,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 
         public Sprite ProfileImage
         {
-            get => default(Sprite); // Will be default until scriptable object exists.
+            get => default;
             set
             {
                 this.m_GameSaveModel.ProfileImage = value;
@@ -98,10 +101,16 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 
         #region - - - - - - Events - - - - - -
 
-        private void OnSlotSelection() 
-            => this.m_Mediator.Invoke(this.m_IsSlotEmpty
+        private void OnSlotSelection()
+        {
+            GameSaveSlotDto _GameSaveSlotDto = new GameSaveSlotDto();
+            this.m_Mapper.Map(this.m_GameSaveModel, _GameSaveSlotDto);
+            
+            this.m_Mediator.Invoke(this.m_IsSlotEmpty
                 ? GameSaveMenuEventType.OnEmptySlotSelection
                 : GameSaveMenuEventType.OnGameSaveSlotSelection);
+            this.m_Mediator.Invoke(GameSaveMenuEventType.OnGameSaveSlotSelection, _GameSaveSlotDto);
+        }
 
         #endregion Events
 
