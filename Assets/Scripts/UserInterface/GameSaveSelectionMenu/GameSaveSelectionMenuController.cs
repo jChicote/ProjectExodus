@@ -6,6 +6,7 @@ using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal;
 using UnityEngine;
+using UserInterface.GameSaveSelectionMenu.Mediator;
 
 namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 {
@@ -31,6 +32,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
         
         private IGameSaveFacade m_GameSaveFacade;
         private IObjectMapper m_Mapper;
+        private IGameSaveSelectionMenuMediator m_Mediator;
 
         #endregion Fields
 
@@ -43,15 +45,22 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
             this.m_GameSaveFacade = gameSaveFacade;
             this.m_Mapper = objectMapper;
 
+            this.m_Mediator = new GameSaveSelectionMenuMediator();
+
             this.m_GameSaveViewModelCollection = new List<GameSaveSlotViewModel>
             {
-                // new(this.m_GameSaveSelectionMenuView.GameSaveSlotCollection.ElementAt(0),
-                //     this.m_GameSaveSelectionMenuView.MenuButtons),
+                // new (this.,
+                //     this.m_GameSaveSelectionMenuView.GameSaveSlotCollection.ElementAt(1),
+                //     _Mediator),
                 // new(this.m_GameSaveSelectionMenuView.GameSaveSlotCollection.ElementAt(1),
+                //     _Mediator,
                 //     this.m_GameSaveSelectionMenuView.MenuButtons),
                 // new(this.m_GameSaveSelectionMenuView.GameSaveSlotCollection.ElementAt(2),
+                //     _Mediator,
                 //     this.m_GameSaveSelectionMenuView.MenuButtons)
             };
+            
+            
 
             // this.m_EditGameSlotViewModel = new EditGameSlotViewModel(this.m_EditGameSlotView);
             
@@ -66,18 +75,22 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
         {
             // 1. This should be changed. Instead it should load the existing slots to vm through index.
             // 2. Then seperately populate remaining view models with empty slots.
+
+            var _OrderedSlots = gameSaves.OrderBy(gsm => gsm.GameSlotDisplayIndex).ToList();
             
-            int _SlotIndex = 0;
-            foreach (GameSaveSlotViewModel _ViewModel in this.m_GameSaveViewModelCollection)
+            for (int _I = 0 ; _I < this.m_GameSaveSelectionMenuView.GameSaveSlotCollection.Count(); _I++)
             {
-                if (_SlotIndex < gameSaves.Count())
+                if (_I < _OrderedSlots.Count())
                 {
-                    GameSaveModel _Model = gameSaves.ElementAt(_SlotIndex);
-                    this.m_Mapper.Map(_Model, _ViewModel);
+                    GameSaveModel _Model = gameSaves.ElementAt(_I);
+                    var _ViewModel = new GameSaveSlotViewModel(_Model,
+                                        this.m_GameSaveSelectionMenuView.GameSaveSlotCollection.ElementAt(1),
+                                        this.m_Mediator);
                     _ViewModel.DisplayGameSaveSlot();
                 }
                 else
                 {
+                    new GameSaveSlotViewModel(null, 
                     _ViewModel.DisplayIndex = _SlotIndex;
                     _ViewModel.DisplayEmptySlot();
                 }
