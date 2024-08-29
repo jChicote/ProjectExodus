@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Mappers;
 using UnityEngine;
@@ -20,6 +21,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
 
         private string m_DisplayName;
         private Sprite m_SelectedProfileImage;
+        private bool m_IsNewGameSlot;
         
         #endregion Fields
   
@@ -91,6 +93,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         private void OnExitModalMenu()
         {
             Debug.Log("[LOG] - Exit modal menu");
+            
             this.m_EditGameSlotView.ContentGroup.SetActive(false);
         }
 
@@ -137,6 +140,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         {
             this.DisplayName = "Game Save";
             this.SelectedProfileImage = default;
+            this.m_IsNewGameSlot = true;
             this.m_EditGameSlotView.CreateButton.gameObject.SetActive(true);
             this.m_EditGameSlotView.SaveButton.gameObject.SetActive(false);
             this.m_EditGameSlotView.ContentGroup.SetActive(true);
@@ -144,21 +148,25 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
 
         private void ShowEditSlotModal()
         {
+            this.m_IsNewGameSlot = false;
             this.m_EditGameSlotView.CreateButton.gameObject.SetActive(false);
             this.m_EditGameSlotView.SaveButton.gameObject.SetActive(true);
             this.m_EditGameSlotView.ContentGroup.SetActive(true);
         }
 
-        // private IEnumerator SaveGameSaveSlot()
-        // {
-        //     // Check whether to update or create
-        //     
-        //     // Invoke use case
-        //     
-        //     // Update the rest of the views on the screen
-        //     
-        //     
-        // }
+        private void SaveGameSaveSlot()
+        {
+            // Check whether to update or create
+            if (this.m_IsNewGameSlot)
+            {
+                this.m_GameSaveFacade.CreateGameSave();
+            }
+            // Invoke use case
+            
+            // Update the rest of the views on the screen
+            
+            
+        }
 
         #endregion Methods
   

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
+using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
 using ProjectExodus.Domain.Models;
 using UnityEngine;
 
@@ -9,6 +11,11 @@ namespace ProjectExodus.GameLogic.Facades.GameSaveFacade
 
     public class GameSaveFacade : IGameSaveFacade
     {
+
+        void IGameSaveFacade.CreateGameSave(ICreateGameSaveOutputPort outputPort)
+        {
+            throw new NotImplementedException();
+        }
 
         #region - - - - - - Get GameSave Methods - - - - - -
 
@@ -41,6 +48,11 @@ namespace ProjectExodus.GameLogic.Facades.GameSaveFacade
         }
 
         #endregion Get GameSave Methods
+
+        void IGameSaveFacade.UpdateGameSave(IUpdateGameSaveOutputPort outputPort)
+        {
+            throw new NotImplementedException();
+        }
   
     }
 

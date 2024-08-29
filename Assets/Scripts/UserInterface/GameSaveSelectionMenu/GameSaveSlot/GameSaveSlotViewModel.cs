@@ -1,4 +1,6 @@
 using System;
+using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
+using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Mappers;
 using UnityEngine;
@@ -8,7 +10,9 @@ using UserInterface.GameSaveSelectionMenu.Mediator;
 namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
 {
 
-    public class GameSaveSlotViewModel
+    public class GameSaveSlotViewModel :
+        ICreateGameSaveOutputPort,
+        IUpdateGameSaveOutputPort
     {
 
         #region - - - - - - Fields - - - - - -
@@ -130,6 +134,16 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
             
             this.m_GameSaveSlotView.GameSlotContentGroup.SetActive(false);
             this.m_GameSaveSlotView.EmptySlotContentGroup.SetActive(true);
+        }
+
+        void ICreateGameSaveOutputPort.PresentCreatedGameSave(GameSaveModel gameSaveModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IUpdateGameSaveOutputPort.PresentUpdatedGameSave(GameSaveModel gameSaveModel)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion Methods
