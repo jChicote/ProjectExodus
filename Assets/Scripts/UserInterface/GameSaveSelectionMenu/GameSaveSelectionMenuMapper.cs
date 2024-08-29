@@ -1,6 +1,9 @@
+using System;
+using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
+using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Mappers;
-using ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot;
+using ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal;
 using UserInterface.GameSaveSelectionMenu.Dtos;
 
 namespace UserInterface.GameSaveSelectionMenu
@@ -14,8 +17,11 @@ namespace UserInterface.GameSaveSelectionMenu
         public GameSaveSelectionMenuMapper(IObjectMapperRegister objectMapperRegister)
         {
             objectMapperRegister
-                .AddMappingAction<GameSaveModel, GameSaveSlotViewModel>(
-                    MapGameSaveModelToGameSaveSlotViewModel);
+                .AddMappingAction<EditGameSlotViewModel, CreateGameSaveInputPort>(
+                    MapEditGameSlotViewModelToCreateGameSaveInputPort);
+            objectMapperRegister
+                .AddMappingAction<EditGameSlotViewModel, UpdateGameSaveInputPort>(
+                    MapEditGameSlotViewModelToUpdateGameSaveInputPort);
             objectMapperRegister
                 .AddMappingAction<GameSaveModel, GameSaveSlotDto>(
                     MapGameSaveModelToGameSaveSlotDto);
@@ -28,15 +34,23 @@ namespace UserInterface.GameSaveSelectionMenu
 
         #region - - - - - - Methods - - - - - -
 
-        private static void MapGameSaveModelToGameSaveSlotViewModel(
-            GameSaveModel source,
-            GameSaveSlotViewModel destination)
+        private static void MapEditGameSlotViewModelToCreateGameSaveInputPort(
+            EditGameSlotViewModel source,
+            CreateGameSaveInputPort destination)
         {
-            destination.ID = source.ID;
-            destination.CompletionProgress = source.CompletionProgress;
-            destination.DisplayIndex = source.GameSlotDisplayIndex;
-            destination.LastAccessedDate = source.LastAccessedDate;
-            destination.GameSaveName = source.GameSaveName;
+            destination.CompletionProgress = 0f;
+            destination.GameSlotDisplayIndex = source.DisplayIndex;
+            destination.LastAccessedDate = DateTime.Now;
+            destination.GameSaveName = source.DisplayName;
+            destination.ProfileImage = source.SelectedProfileImage;
+        }
+
+        private static void MapEditGameSlotViewModelToUpdateGameSaveInputPort(
+            EditGameSlotViewModel source,
+            UpdateGameSaveInputPort destination)
+        {
+            destination.GameSaveName = source.DisplayName;
+            destination.SelectedProfileImage = source.SelectedProfileImage;
         }
 
         private static void MapGameSaveModelToGameSaveSlotDto(

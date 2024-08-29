@@ -3,6 +3,7 @@ using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Mappers;
+using ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal;
 using UnityEngine;
 using UserInterface.GameSaveSelectionMenu.Dtos;
 using UserInterface.GameSaveSelectionMenu.Mediator;
@@ -17,6 +18,8 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
 
         #region - - - - - - Fields - - - - - -
 
+        private const int MAX_DISPLAYNAME_LENGTH = 10;
+        
         private readonly GameSaveSlotView m_GameSaveSlotView;
         private readonly IObjectMapper m_Mapper;
         private readonly IGameSaveSelectionMenuMediator m_Mediator;
@@ -40,7 +43,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
                                 throw new ArgumentNullException(nameof(gameSaveSelectionMenuMediator));
             
             if (gameSaveModel == null) this.m_IsSlotEmpty = true;
-            this.m_GameSaveModel = gameSaveModel ?? new GameSaveModel();
+            this.GameSaveModel = gameSaveModel ?? new GameSaveModel();
             
             // Bind slot button
             this.m_GameSaveSlotView.SlotButton.onClick.AddListener(this.OnSlotSelection);
@@ -52,51 +55,24 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
 
         public Guid ID { get; set; }
 
-        public float CompletionProgress
+        public GameSaveModel GameSaveModel
         {
-            get => this.m_GameSaveModel.CompletionProgress;
-            set
+            get => this.m_GameSaveModel;
+            private set
             {
-                this.m_GameSaveModel.CompletionProgress = value;
+                if (value == null) return;
+
+                this.m_GameSaveModel = value;
+                
                 this.m_GameSaveSlotView.SlotPercentage.text = $"{this.m_GameSaveModel.CompletionProgress}%";
-            }
-        }
-
-        public int DisplayIndex
-        {
-            get => this.m_GameSaveModel.GameSlotDisplayIndex;
-            set => this.m_GameSaveModel.GameSlotDisplayIndex = value;
-        }
-
-        public string GameSaveName
-        {
-            get => this.m_GameSaveModel.GameSaveName;
-            set
-            {
-                this.m_GameSaveModel.GameSaveName = value;
-                this.m_GameSaveSlotView.SlotTitle.text = this.GameSaveName;
-            }
-        }
-
-        public DateTime LastAccessedDate
-        {
-            get => this.m_GameSaveModel.LastAccessedDate;
-            set
-            {
-                this.m_GameSaveModel.LastAccessedDate = value;
+                this.m_GameSaveSlotView.SlotTitle.text = this.m_GameSaveModel.GameSaveName.Length > MAX_DISPLAYNAME_LENGTH 
+                                                            ? this.m_GameSaveModel.GameSaveName
+                                                                .Substring(0, MAX_DISPLAYNAME_LENGTH) + "..." 
+                                                            : this.m_GameSaveModel.GameSaveName;
                 this.m_GameSaveSlotView.SlotLastAccessedDate.text =
                     $"{this.m_GameSaveModel.LastAccessedDate.Day}/" +
                     $"{this.m_GameSaveModel.LastAccessedDate.Month}/" +
                     $"{this.m_GameSaveModel.LastAccessedDate.Year}";
-            }
-        }
-
-        public Sprite ProfileImage
-        {
-            get => default;
-            set
-            {
-                this.m_GameSaveModel.ProfileImage = value;
                 this.m_GameSaveSlotView.SlotProfileImage.sprite = this.m_GameSaveModel.ProfileImage;
             }
         }
@@ -109,11 +85,13 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
         {
             GameSaveSlotDto _GameSaveSlotDto = new GameSaveSlotDto();
             this.m_Mapper.Map(this.m_GameSaveModel, _GameSaveSlotDto);
+
+            EditGameSaveSlotDisplayWrapper _DisplayWrapper = new(_GameSaveSlotDto, this, this);
             
             this.m_Mediator.Invoke(this.m_IsSlotEmpty
                 ? GameSaveMenuEventType.OnEmptySlotSelection
                 : GameSaveMenuEventType.OnGameSaveSlotSelection);
-            this.m_Mediator.Invoke(GameSaveMenuEventType.OnGameSaveSlotSelection, _GameSaveSlotDto);
+            this.m_Mediator.Invoke(GameSaveMenuEventType.OnGameSaveSlotSelection, _DisplayWrapper);
         }
 
         #endregion Events
@@ -135,15 +113,22 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
             this.m_GameSaveSlotView.GameSlotContentGroup.SetActive(false);
             this.m_GameSaveSlotView.EmptySlotContentGroup.SetActive(true);
         }
+        
+        // ----------------------------------
+        // OutputPort Presentation Methods
+        // ----------------------------------
 
         void ICreateGameSaveOutputPort.PresentCreatedGameSave(GameSaveModel gameSaveModel)
         {
-            throw new NotImplementedException();
+            this.GameSaveModel = gameSaveModel;
+            this.DisplayGameSaveSlot();
+            Debug.Log("[LOG]: Created GameSaveModel loaded to GameSlot");
         }
 
         void IUpdateGameSaveOutputPort.PresentUpdatedGameSave(GameSaveModel gameSaveModel)
         {
-            throw new NotImplementedException();
+            this.GameSaveModel = gameSaveModel;
+            Debug.Log("[LOG]: Updated GameSaveModel loaded to GameSlot");
         }
 
         #endregion Methods

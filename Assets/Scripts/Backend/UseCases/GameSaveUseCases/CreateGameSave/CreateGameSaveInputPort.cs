@@ -1,20 +1,18 @@
 using System;
 using UnityEngine;
 
-namespace ProjectExodus.Domain.Models
+namespace ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave
 {
 
-    public class GameSaveModel
+    public class CreateGameSaveInputPort
     {
 
         #region - - - - - - Properties - - - - - -
-        
-        public Guid ID { get; set; }
-        
+
         public float CompletionProgress { get; set; }
         
-        public string GameSaveName { get; set; } = string.Empty;
-
+        public string GameSaveName { get; set; }
+        
         public int GameSlotDisplayIndex { get; set; }
         
         public DateTime LastAccessedDate { get; set; }
@@ -22,7 +20,7 @@ namespace ProjectExodus.Domain.Models
         public Sprite ProfileImage { get; set; }
 
         #endregion Properties
-
+  
     }
 
 }

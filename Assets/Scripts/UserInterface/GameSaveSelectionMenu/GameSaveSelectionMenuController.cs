@@ -51,9 +51,13 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 
             this.m_Mediator = new GameSaveSelectionMenuMediator();
             this.m_GameSaveSelectionMenuViewModel = new GameSaveSelectionMenuViewModel(
-                this.m_Mediator,
-                this.m_GameSaveSelectionMenuView);
-            this.m_EditGameSlotViewModel = new EditGameSlotViewModel(this.m_EditGameSlotView, this.m_Mediator, this.m_Mapper);
+                                                        this.m_Mediator,
+                                                        this.m_GameSaveSelectionMenuView);
+            this.m_EditGameSlotViewModel = new EditGameSlotViewModel(
+                                            this.m_EditGameSlotView, 
+                                            this.m_GameSaveFacade,
+                                            this.m_Mediator, 
+                                            this.m_Mapper);
             
             // Load game data
             this.m_GameSaveFacade.GetGameSaves(this);
@@ -80,8 +84,8 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
                 }
                 else
                 {
-                    GameSaveSlotViewModel _ViewModel = this.CreateGameSaveSlotViewModels(new GameSaveModel(), _Index);
-                    _ViewModel.DisplayIndex = _Index;
+                    GameSaveModel _Model = new() { GameSlotDisplayIndex = _Index };
+                    GameSaveSlotViewModel _ViewModel = this.CreateGameSaveSlotViewModels(_Model, _Index);
                     _ViewModel.DisplayEmptySlot();
                 }
             }

@@ -9,6 +9,8 @@ namespace UserInterface.GameSaveSelectionMenu.Dtos
         #region - - - - - - Properties - - - - - -
 
         public string DisplayName { get; set; }
+        
+        public int DisplayIndex { get; set; }
 
         public Sprite ProfileImage { get; set; }
 

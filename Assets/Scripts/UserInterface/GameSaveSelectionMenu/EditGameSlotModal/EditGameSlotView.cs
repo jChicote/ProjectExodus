@@ -43,6 +43,44 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
 
         #endregion Properties
 
+        #region - - - - - - Unity Methods - - - - - -
+
+        private void Awake()
+        {
+            this.m_DisplayNameInputField.onSubmit.AddListener(OnDisplayNameInputSubmission);
+        }
+
+        #endregion Unity Methods
+  
+        #region - - - - - - Methods - - - - - -
+
+        public void BindToViewModel(EditGameSlotViewModel viewModel)
+        {
+            viewModel.DisplayNameChanged += this.OnDisplayNameChanged;
+            viewModel.SelectedImageChanged += this.OnSelectedProfileImageChanged;
+        }
+        
+        // ----------------------------
+        // ViewModel subscribed methods
+        // ----------------------------
+        
+        private void OnDisplayNameChanged(string displayName)
+            => this.DisplayNameInputField.text = displayName;
+
+        private void OnSelectedProfileImageChanged(Sprite selectedImage)
+            => this.SelectedProfileImage.sprite = selectedImage;
+        
+        // ----------------------------
+        // View subscribed methods
+        // ----------------------------
+
+        private static void OnDisplayNameInputSubmission(string newValue)
+        {
+            
+        }
+
+        #endregion Methods
+
     }
 
 }

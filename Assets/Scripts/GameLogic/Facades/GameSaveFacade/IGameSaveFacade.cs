@@ -1,6 +1,7 @@
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
+using ProjectExodus.Domain.Models;
 
 namespace ProjectExodus.GameLogic.Facades.GameSaveFacade
 {
@@ -10,11 +11,11 @@ namespace ProjectExodus.GameLogic.Facades.GameSaveFacade
 
         #region - - - - - - Methods - - - - - -
 
-        void CreateGameSave(ICreateGameSaveOutputPort outputPort);
+        void CreateGameSave(CreateGameSaveInputPort inputPort, ICreateGameSaveOutputPort outputPort);
 
         void GetGameSaves(IGetGameSavesOutputPort outputPort);
 
-        void UpdateGameSave(IUpdateGameSaveOutputPort outputPort);
+        void UpdateGameSave(UpdateGameSaveInputPort inputPort, IUpdateGameSaveOutputPort outputPort);
 
         #endregion Methods
 

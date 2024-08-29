@@ -12,9 +12,19 @@ namespace ProjectExodus.GameLogic.Facades.GameSaveFacade
     public class GameSaveFacade : IGameSaveFacade
     {
 
-        void IGameSaveFacade.CreateGameSave(ICreateGameSaveOutputPort outputPort)
+        void IGameSaveFacade.CreateGameSave(CreateGameSaveInputPort inputPort, ICreateGameSaveOutputPort outputPort)
         {
-            throw new NotImplementedException();
+            // Temporary returned result
+            outputPort.PresentCreatedGameSave(new GameSaveModel()
+            {
+                CompletionProgress = 99f,
+                GameSaveName = "Success Create 99",
+                GameSlotDisplayIndex = 1,
+                ID = Guid.NewGuid(),
+                LastAccessedDate = DateTime.Now,
+                ProfileImage = default(Sprite)
+            });
+            Debug.Log("[LOG]: Invoked CreateGameSaveSlot usecase");
         }
 
         #region - - - - - - Get GameSave Methods - - - - - -
@@ -49,9 +59,19 @@ namespace ProjectExodus.GameLogic.Facades.GameSaveFacade
 
         #endregion Get GameSave Methods
 
-        void IGameSaveFacade.UpdateGameSave(IUpdateGameSaveOutputPort outputPort)
+        void IGameSaveFacade.UpdateGameSave(UpdateGameSaveInputPort inputPort, IUpdateGameSaveOutputPort outputPort)
         {
-            throw new NotImplementedException();
+            // Temporary returned result
+            outputPort.PresentUpdatedGameSave(new GameSaveModel()
+            {
+                CompletionProgress = 88f,
+                GameSaveName = "Success Update",
+                GameSlotDisplayIndex = 1,
+                ID = Guid.NewGuid(),
+                LastAccessedDate = DateTime.Now,
+                ProfileImage = default(Sprite)
+            });
+            Debug.Log("[LOG]: Invoked UpdateGameSaveSlot usecase");
         }
   
     }
