@@ -65,9 +65,8 @@ namespace UserInterface.GameSaveSelectionMenu.Mediator
         OnEmptySlotSelection,
         StartCreatingNewGameSlot,
         StartEditingGameSlot,
-        StartDeletingGameSlot,
-        CreateGameSaveSlot,
-        UpdateGameSaveSlot
+        ShowProfileImageSelectionMenu,
+        UpdateProfileImageSelection
     }
 
 }

@@ -5,9 +5,11 @@ using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Mappers;
+using ProjectExodus.ScriptableObjects;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot;
+using ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectionModal;
 using UnityEngine;
 using UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen;
 using UserInterface.GameSaveSelectionMenu.Mediator;
@@ -29,8 +31,13 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 
         [Header("Modals")] 
         [SerializeField] private EditGameSlotView m_EditGameSlotView;
+        [SerializeField] private ProfileImageSelectionView m_ProfileImageSelectionView;
+
+        [Header("Settings")] 
+        [SerializeField] private UserInterfaceSettings m_UserInterfaceSettings;
         
         private EditGameSlotViewModel m_EditGameSlotViewModel;
+        private ProfileImageSelectionViewModel m_ProfileImageSelectionViewModel;
         private List<GameSaveSlotViewModel> m_GameSaveViewModelCollection;
         private GameSaveSelectionMenuViewModel m_GameSaveSelectionMenuViewModel;
         
@@ -50,14 +57,24 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
             this.m_Mapper = objectMapper ?? throw new ArgumentNullException(nameof(objectMapper));
 
             this.m_Mediator = new GameSaveSelectionMenuMediator();
-            this.m_GameSaveSelectionMenuViewModel = new GameSaveSelectionMenuViewModel(
-                                                        this.m_Mediator,
-                                                        this.m_GameSaveSelectionMenuView);
-            this.m_EditGameSlotViewModel = new EditGameSlotViewModel(
-                                            this.m_EditGameSlotView, 
-                                            this.m_GameSaveFacade,
-                                            this.m_Mediator, 
-                                            this.m_Mapper);
+            this.m_GameSaveSelectionMenuViewModel = 
+                new GameSaveSelectionMenuViewModel(
+                    this.m_Mediator,
+                    this.m_GameSaveSelectionMenuView);
+            
+            this.m_EditGameSlotViewModel = 
+                new EditGameSlotViewModel(
+                    this.m_EditGameSlotView, 
+                    this.m_GameSaveFacade,
+                    this.m_Mediator, 
+                    this.m_Mapper,
+                    this.m_UserInterfaceSettings);
+
+            this.m_ProfileImageSelectionViewModel = 
+                new ProfileImageSelectionViewModel(
+                    this.m_Mediator,
+                    this.m_ProfileImageSelectionView,
+                    this.m_UserInterfaceSettings);
             
             // Load game data
             this.m_GameSaveFacade.GetGameSaves(this);

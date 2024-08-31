@@ -16,7 +16,15 @@ namespace ProjectExodus.Common.Services
     
     public interface ICommand
     {
-        
+
+        #region - - - - - - Methods - - - - - -
+
+        void Execute();
+
+        bool CanExecute();
+
+        #endregion Methods
+
     }
 
 }

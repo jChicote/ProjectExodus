@@ -42,29 +42,24 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         public Button SelectedProfileImageButton => this.m_SelectedProfileImageButton;
 
         #endregion Properties
-
-        #region - - - - - - Unity Methods - - - - - -
-
-        private void Awake()
-        {
-            this.m_DisplayNameInputField.onSubmit.AddListener(OnDisplayNameInputSubmission);
-        }
-
-        #endregion Unity Methods
   
         #region - - - - - - Methods - - - - - -
 
         public void BindToViewModel(EditGameSlotViewModel viewModel)
         {
-            viewModel.DisplayNameChanged += this.OnDisplayNameChanged;
-            viewModel.SelectedImageChanged += this.OnSelectedProfileImageChanged;
+            viewModel.OnDisplayNameChanged += this.OnDisplayNameChanged;
+            viewModel.OnSelectedImageChanged += this.OnSelectedProfileImageChanged;
             
-            viewModel.OnCreateGameSlot += this.OnC
+            this.m_CreateButton.onClick.AddListener(viewModel.CreateGameSlotCommand.Execute);
+            this.m_SaveButton.onClick.AddListener(viewModel.SaveGameSlotCommand.Execute);
+            this.m_ExitButton.onClick.AddListener(viewModel.ExitModalCommand.Execute);
+            this.m_SelectedProfileImageButton.onClick.AddListener(viewModel.SelectProfileImageCommand.Execute);
+            this.m_DisplayNameInputField.onSubmit.AddListener(viewModel.EditDisplayNameCommand.Execute);
         }
         
-        // ----------------------------
-        // ViewModel subscribed methods
-        // ----------------------------
+        // --------------------------------
+        // View subscribed methods
+        // --------------------------------
         
         private void OnDisplayNameChanged(string displayName)
             => this.DisplayNameInputField.text = displayName;
@@ -72,15 +67,6 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         private void OnSelectedProfileImageChanged(Sprite selectedImage)
             => this.SelectedProfileImage.sprite = selectedImage;
         
-        // ----------------------------
-        // View subscribed methods
-        // ----------------------------
-
-        private static void OnDisplayNameInputSubmission(string newValue)
-        {
-            
-        }
-
         #endregion Methods
 
     }

@@ -1,7 +1,6 @@
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
-using ProjectExodus.Domain.Models;
 
 namespace ProjectExodus.GameLogic.Facades.GameSaveFacade
 {

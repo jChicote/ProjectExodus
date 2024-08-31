@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6979ea3b9c974b799beebe8d52963381, type: 3}
+  m_Name: UserInterfaceSettings
+  m_EditorClassIdentifier: 
+  m_ProfileImages:
+  - Key: 0
+    Image: {fileID: -2448118414708797893, guid: 128e3e1661f6eb641ba3f73db3c29306, type: 3}
+  - Key: 1
+    Image: {fileID: 4927717588086118135, guid: 871c655b88b5e734caa159e7641632da, type: 3}
+  - Key: 2
+    Image: {fileID: -5392472282939631479, guid: a5260c45a9f22e04fbf445e1741539cf, type: 3}
+  - Key: 3
+    Image: {fileID: 808043518881168409, guid: c48279977ea8efc4db14a6c891d550e1, type: 3}
+  - Key: 4
+    Image: {fileID: 5607603774425885531, guid: 2c5b80e864ce16b4fa13ed5946d2c214, type: 3}
+  - Key: 5
+    Image: {fileID: 1240914476451751708, guid: 2be75e28d2675bb4a8b7b778971a5e66, type: 3}
+  - Key: 6
+    Image: {fileID: 2113741607202675874, guid: 76130a97a0ca1454b8bdc4a16d9f27e4, type: 3}
+  - Key: 7
+    Image: {fileID: 7049981877192592992, guid: aa87e4655057e184c80687d73cf8cd4b, type: 3}
