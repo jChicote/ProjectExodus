@@ -1,7 +1,10 @@
 using System;
 using System.Windows.Input;
+using Palmmedia.ReportGenerator.Core.Reporting.Builders;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
+using ProjectExodus.Common.Infrastructure;
+using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Mappers;
 using UnityEngine;
@@ -14,6 +17,12 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
     {
 
         #region - - - - - - Fields - - - - - -
+
+        public ICommand<string> EditDisplayName;
+        public ICommand OnCreateGameSlot;
+        public ICommand OnSaveGameSlot;
+        public ICommand OnExitModal;
+        public ICommand OnSelectProfileImage;
         
         private readonly EditGameSlotView m_EditGameSlotView;
         private readonly IGameSaveFacade m_GameSaveFacade;
@@ -41,9 +50,13 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
             this.m_Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.m_Mediator = gameSaveSelectionMenuMediator ??
                                 throw new ArgumentNullException(nameof(gameSaveSelectionMenuMediator));
+
+            this.EditDisplayName = new RelayCommand<string>(name => { this.DisplayName = name; } );
+            this.OnCreateGameSlot = new RelayCommand(() => this.CreateNewGameSlot());
             
-            this.BindViewEvents();
             this.RegisterMediatorActions();
+            
+            this.m_EditGameSlotView.BindToViewModel(this);
         }
 
         #endregion Constructors
@@ -91,14 +104,6 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         // Initialization methods
         // -----------------------------------------
         
-        private void BindViewEvents()
-        {
-            this.m_EditGameSlotView.CreateButton.onClick.AddListener(this.OnCreateGameSlot);
-            this.m_EditGameSlotView.SaveButton.onClick.AddListener(this.OnSaveGameSlot);
-            this.m_EditGameSlotView.ExitButton.onClick.AddListener(this.OnExitModalMenu);
-            this.m_EditGameSlotView.SelectedProfileImageButton.onClick.AddListener(this.OnProfileSelection);
-        }
-
         private void RegisterMediatorActions()
         {
             this.m_Mediator.Register<EditGameSaveSlotDisplayWrapper>(
@@ -116,7 +121,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         // Subscribed methods
         // -----------------------------------------
         
-        private void OnCreateGameSlot()
+        private void CreateNewGameSlot()
         {
             CreateGameSaveInputPort _InputPort = new();
             this.m_Mapper.Map(this, _InputPort);
@@ -124,7 +129,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
             this.m_EditGameSlotView.ContentGroup.SetActive(false);
         }
 
-        private void OnSaveGameSlot()
+        private void SaveGameSlot()
         {
             UpdateGameSaveInputPort _InputPort = new();
             this.m_Mapper.Map(this, _InputPort);
@@ -132,10 +137,10 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
             this.m_EditGameSlotView.ContentGroup.SetActive(false);
         }
 
-        private void OnProfileSelection() 
+        private void ProfileSelection() 
             => Debug.LogWarning("[WARNING] - Behavior not implemented");
 
-        private void OnExitModalMenu()
+        private void ExitModalMenu()
         {
             Debug.Log("[LOG] - Exit modal menu");
             this.m_EditGameSlotView.ContentGroup.SetActive(false);
@@ -169,6 +174,10 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
             this.m_EditGameSlotView.SaveButton.gameObject.SetActive(true);
             this.m_EditGameSlotView.ContentGroup.SetActive(true);
         }
+
+
+        private void UpdateDisplayName(string name)
+            => this.DisplayName = name;
 
         #endregion Methods
     }

@@ -58,6 +58,8 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         {
             viewModel.DisplayNameChanged += this.OnDisplayNameChanged;
             viewModel.SelectedImageChanged += this.OnSelectedProfileImageChanged;
+            
+            viewModel.OnCreateGameSlot += this.OnC
         }
         
         // ----------------------------

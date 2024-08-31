@@ -13,5 +13,10 @@ namespace ProjectExodus.Common.Services
         #endregion Methods
 
     }
+    
+    public interface ICommand
+    {
+        
+    }
 
 }

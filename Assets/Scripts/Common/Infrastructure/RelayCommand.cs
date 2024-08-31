@@ -21,7 +21,6 @@ namespace ProjectExodus.Common.Infrastructure
 
         #endregion Fields
 
-
         #region - - - - - - Constructors - - - - - -
 
         public RelayCommand(Action<T> execute, Func<T, bool> canExecute = null)
@@ -40,6 +39,11 @@ namespace ProjectExodus.Common.Infrastructure
 
         #endregion Methods
   
+    }
+
+    public class RelayCommand : ICommand
+    {
+        
     }
 
 }
