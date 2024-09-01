@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace ProjectExodus.ScriptableObjects
@@ -13,26 +12,10 @@ namespace ProjectExodus.ScriptableObjects
         #region - - - - - - Fields - - - - - -
 
         [Header("Image Sources")]
-        [SerializeField] private List<ProfileImageIDPair> m_ProfileImages;
+        public List<ProfileImageIDPair> ProfileImages;
 
         #endregion Fields
 
-        #region - - - - - - Properties - - - - - -
-
-        public Dictionary<int, Sprite> ProfileImages
-        {
-            get
-            {
-                Dictionary<int, Sprite> _DictProfileImages = new Dictionary<int, Sprite>();
-                foreach (ProfileImageIDPair _Pair in this.m_ProfileImages)
-                    _DictProfileImages[_Pair.Key] = _Pair.Image;
-
-                return _DictProfileImages;
-            }
-        }
-
-        #endregion Properties
-  
     }
 
     [Serializable]
@@ -41,7 +24,7 @@ namespace ProjectExodus.ScriptableObjects
 
         #region - - - - - - Fields - - - - - -
 
-        public int Key;
+        public int ID;
         public Sprite Image;
 
         #endregion Fields

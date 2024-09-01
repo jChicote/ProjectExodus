@@ -49,6 +49,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         {
             viewModel.OnDisplayNameChanged += this.OnDisplayNameChanged;
             viewModel.OnSelectedImageChanged += this.OnSelectedProfileImageChanged;
+            viewModel.OnShowEditGameSlotModal += this.ShowSlotModal;
             
             this.m_CreateButton.onClick.AddListener(viewModel.CreateGameSlotCommand.Execute);
             this.m_SaveButton.onClick.AddListener(viewModel.SaveGameSlotCommand.Execute);
@@ -60,6 +61,13 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         // --------------------------------
         // View subscribed methods
         // --------------------------------
+
+        private void ShowSlotModal(bool isCreatingSave)
+        {
+            this.CreateButton.gameObject.SetActive(isCreatingSave);
+            this.SaveButton.gameObject.SetActive(!isCreatingSave);
+            this.ContentGroup.SetActive(true);
+        }
         
         private void OnDisplayNameChanged(string displayName)
             => this.DisplayNameInputField.text = displayName;

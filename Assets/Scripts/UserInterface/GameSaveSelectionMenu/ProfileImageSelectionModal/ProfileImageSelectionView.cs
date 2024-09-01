@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using ProjectExodus.Domain.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -42,13 +43,14 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
                 _ImageOptionView.BindToViewModel(viewModelCommands);
         }
         
-        private void ShowProfileImageSelectionModal(Dictionary<int, Sprite> profileImages)
+        private void ShowProfileImageSelectionModal(List<ProfileImageModel> profileImages)
         {
-            for (int _Index = 0; _Index < this.m_ImageOptions.Count; _Index++)
+            for (int _Identifier = 0; _Identifier < this.m_ImageOptions.Count; _Identifier++)
             {
-                ProfileImageView _ImageOption = this.m_ImageOptions.ElementAt(_Index);
-                _ImageOption.SetView(_Index, profileImages
-                                        .FirstOrDefault(pi => pi.Key == _Index).Value);
+                ProfileImageView _ImageOption = this.m_ImageOptions.ElementAt(_Identifier);
+                _ImageOption.SetView(
+                                _Identifier, 
+                                profileImages.FirstOrDefault(pi => pi.ID == _Identifier)?.Image);
             }
             
             this.m_ContentGroup.SetActive(true);

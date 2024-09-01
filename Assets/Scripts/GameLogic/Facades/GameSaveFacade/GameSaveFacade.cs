@@ -22,7 +22,11 @@ namespace ProjectExodus.GameLogic.Facades.GameSaveFacade
                 GameSlotDisplayIndex = 1,
                 ID = Guid.NewGuid(),
                 LastAccessedDate = DateTime.Now,
-                ProfileImage = default(Sprite)
+                ProfileImage = new ProfileImageModel()
+                {
+                    ID = 1,
+                    Image = default(Sprite)
+                }
             });
             Debug.Log("[LOG]: Invoked CreateGameSaveSlot usecase");
         }
@@ -41,7 +45,11 @@ namespace ProjectExodus.GameLogic.Facades.GameSaveFacade
                     GameSlotDisplayIndex = 1,
                     ID = Guid.NewGuid(),
                     LastAccessedDate = DateTime.Now,
-                    ProfileImage = default(Sprite)
+                    ProfileImage = new ProfileImageModel()
+                    {
+                        ID = 1,
+                        Image = default(Sprite)
+                    }
                 },
                 new GameSaveModel()
                 {
@@ -50,7 +58,11 @@ namespace ProjectExodus.GameLogic.Facades.GameSaveFacade
                     GameSlotDisplayIndex = 1,
                     ID = Guid.NewGuid(),
                     LastAccessedDate = DateTime.Now,
-                    ProfileImage = default(Sprite)
+                    ProfileImage = new ProfileImageModel()
+                    {
+                        ID = 0,
+                        Image = default(Sprite)
+                    }
                 }
             };
             
@@ -69,7 +81,11 @@ namespace ProjectExodus.GameLogic.Facades.GameSaveFacade
                 GameSlotDisplayIndex = 1,
                 ID = Guid.NewGuid(),
                 LastAccessedDate = DateTime.Now,
-                ProfileImage = default(Sprite)
+                ProfileImage = new ProfileImageModel()
+                {
+                    ID = 3,
+                    Image = default(Sprite)
+                }
             });
             Debug.Log("[LOG]: Invoked UpdateGameSaveSlot usecase");
         }

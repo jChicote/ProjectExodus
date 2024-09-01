@@ -73,7 +73,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
                     $"{this.m_GameSaveModel.LastAccessedDate.Day}/" +
                     $"{this.m_GameSaveModel.LastAccessedDate.Month}/" +
                     $"{this.m_GameSaveModel.LastAccessedDate.Year}";
-                this.m_GameSaveSlotView.SlotProfileImage.sprite = this.m_GameSaveModel.ProfileImage;
+                this.m_GameSaveSlotView.SlotProfileImage.sprite = this.m_GameSaveModel.ProfileImage.Image;
             }
         }
 

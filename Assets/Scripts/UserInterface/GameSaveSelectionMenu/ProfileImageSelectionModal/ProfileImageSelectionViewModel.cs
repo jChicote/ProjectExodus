@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using ProjectExodus.Common.Infrastructure;
 using ProjectExodus.Common.Services;
-using ProjectExodus.ScriptableObjects;
-using UnityEngine;
+using ProjectExodus.Domain.Models;
+using ProjectExodus.Domain.Services;
 using UserInterface.GameSaveSelectionMenu.Mediator;
 
 namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectionModal
@@ -19,8 +19,8 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
         private ICommand m_ExitModalCommand;
 
         private readonly IGameSaveSelectionMenuMediator m_Mediator;
+        private readonly IProfileImageModelProvider m_ProfileImageProvider;
         private readonly IProfileImageSelectionView m_ProfileImageSelectionView;
-        private readonly UserInterfaceSettings m_UserInterfaceSettings;
 
         private int m_SelectedImageID;
 
@@ -30,15 +30,15 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
 
         public ProfileImageSelectionViewModel(
             IGameSaveSelectionMenuMediator gameSaveSelectionMenuMediator,
-            IProfileImageSelectionView profileImageSelectionView,
-            UserInterfaceSettings userInterfaceSettings)
+            IProfileImageModelProvider profileImageModelProvider,
+            IProfileImageSelectionView profileImageSelectionView)
         {
             this.m_Mediator = gameSaveSelectionMenuMediator ??
                                 throw new ArgumentNullException(nameof(gameSaveSelectionMenuMediator));
+            this.m_ProfileImageProvider =
+                profileImageModelProvider ?? throw new ArgumentNullException(nameof(profileImageModelProvider));
 ;           this.m_ProfileImageSelectionView = 
                 profileImageSelectionView ?? throw new ArgumentNullException(nameof(profileImageSelectionView));
-            this.m_UserInterfaceSettings =
-                userInterfaceSettings ?? throw new ArgumentNullException(nameof(userInterfaceSettings));
 
             this.BindInteractionMethodsToCommands();
             this.RegisterViewModelActions();
@@ -48,7 +48,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
 
         #region - - - - - - Events - - - - - -
         
-        public event Action<Dictionary<int, Sprite>> OnShowMenuModalWithImage;
+        public event Action<List<ProfileImageModel>> OnShowMenuModalWithImage;
 
         #endregion Events
   
@@ -83,7 +83,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
             => this.m_Mediator.Register(GameSaveMenuEventType.ShowProfileImageSelectionMenu, this.ShowModal);
 
         // -------------------------------------
-        // Interaction Command Methods
+        // Command Methods
         // -------------------------------------
 
         private void SelectProfileImage(int imageID) 
@@ -93,11 +93,11 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
             => this.m_Mediator.Invoke(GameSaveMenuEventType.UpdateProfileImageSelection, this.m_SelectedImageID);
 
         // -------------------------------------
-        // View Model Action Methods
+        // ViewModel Action Methods
         // -------------------------------------
 
         private void ShowModal() 
-            => this.OnShowMenuModalWithImage?.Invoke(this.m_UserInterfaceSettings.ProfileImages);
+            => this.OnShowMenuModalWithImage?.Invoke(this.m_ProfileImageProvider.ProvideAll());
 
         #endregion Methods
   

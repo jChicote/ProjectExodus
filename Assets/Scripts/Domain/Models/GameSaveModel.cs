@@ -19,7 +19,7 @@ namespace ProjectExodus.Domain.Models
         
         public DateTime LastAccessedDate { get; set; }
         
-        public Sprite ProfileImage { get; set; }
+        public ProfileImageModel ProfileImage { get; set; }
 
         #endregion Properties
 

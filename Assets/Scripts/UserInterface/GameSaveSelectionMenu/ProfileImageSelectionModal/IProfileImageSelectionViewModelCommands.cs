@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using ProjectExodus.Common.Services;
-using UnityEngine;
+using ProjectExodus.Domain.Models;
 
 namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectionModal
 {
@@ -11,7 +11,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
 
         #region - - - - - - Events - - - - - -
 
-        event Action<Dictionary<int, Sprite>> OnShowMenuModalWithImage;
+        event Action<List<ProfileImageModel>> OnShowMenuModalWithImage;
 
         #endregion Events
   

@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Windows.Input;
-using Palmmedia.ReportGenerator.Core.Reporting.Builders;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
 using ProjectExodus.Common.Infrastructure;
@@ -10,9 +7,7 @@ using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.ScriptableObjects;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UserInterface.GameSaveSelectionMenu.Mediator;
-using ICommand = ProjectExodus.Common.Services.ICommand;
 
 namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
 {
@@ -71,6 +66,8 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         public event Action<string> OnDisplayNameChanged;
         
         public event Action<Sprite> OnSelectedImageChanged;
+
+        public event Action<bool> OnShowEditGameSlotModal;
 
         #endregion Events
   
@@ -166,7 +163,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         }
         
         // -----------------------------------------
-        // View Model Actions
+        // ViewModel Actions Methods
         // -----------------------------------------
 
         private void SetSlotSelectionValuesToModal(EditGameSaveSlotDisplayWrapper displayWrapper)
@@ -178,26 +175,14 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
             this.m_UpdateOutputPort = displayWrapper.UpdateOutputPort;
 
             this.m_EditGameSlotView.BindToViewModel(this);
-            
-            if (this.m_UserInterfaceSettings.ProfileImages.TryGetValue(this.DisplayIndex, out Sprite _Image))
-                this.OnSelectedImageChanged?.Invoke(_Image); // TODO: Move this to a seperate provider
         }
 
-        private void ShowCreateSlotModal()
-        {
-            if (this.m_UserInterfaceSettings.ProfileImages.TryGetValue(0, out Sprite _Image))
-                this.OnSelectedImageChanged?.Invoke(_Image); // TODO: Move this to a seperate provider
-            
-            this.m_EditGameSlotView.CreateButton.gameObject.SetActive(true);
-            this.m_EditGameSlotView.SaveButton.gameObject.SetActive(false);
-            this.m_EditGameSlotView.ContentGroup.SetActive(true);
-        }
+        private void ShowCreateSlotModal() 
+            => this.OnShowEditGameSlotModal?.Invoke(true);
 
         private void ShowEditSlotModal()
         {
-            this.m_EditGameSlotView.CreateButton.gameObject.SetActive(false);
-            this.m_EditGameSlotView.SaveButton.gameObject.SetActive(true);
-            this.m_EditGameSlotView.ContentGroup.SetActive(true);
+            this.OnShowEditGameSlotModal?.Invoke(false);
         }
 
         private void UpdateProfileImage(int imageIndex)

@@ -58,7 +58,7 @@ namespace UserInterface.GameSaveSelectionMenu
             GameSaveSlotDto destination)
         {
             destination.DisplayName = source.GameSaveName;
-            destination.ProfileImage = source.ProfileImage;
+            destination.ProfileImage = source.ProfileImage.Image;
         }
 
         private static void MapGameSaveSlotDtoToGameSaveModel(
@@ -66,7 +66,7 @@ namespace UserInterface.GameSaveSelectionMenu
             GameSaveModel destination)
         {
             destination.GameSaveName = source.DisplayName;
-            destination.ProfileImage = source.ProfileImage;
+            destination.ProfileImage.Image = source.ProfileImage;
         }
 
         #endregion Methods
