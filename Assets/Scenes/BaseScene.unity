@@ -1139,6 +1139,7 @@ MonoBehaviour:
   m_EditGameSlotView: {fileID: 458790905}
   m_ProfileImageSelectionView: {fileID: 853203669}
   m_UserInterfaceSettings: {fileID: 11400000, guid: 621b35aba753e70478d8ecdb280e1e32, type: 2}
+  m_ServiceLocator: {fileID: 377184482}
 --- !u!114 &121483328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8318,6 +8319,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c4ff0665bb48149ae98d20e5a9763a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ServiceLocator: {fileID: 377184482}
+  m_UserInterfaceSettings: {fileID: 11400000, guid: 621b35aba753e70478d8ecdb280e1e32, type: 2}
 --- !u!1 &1068497897
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,8 +18,8 @@ namespace ProjectExodus.Domain.Models
         public int GameSlotDisplayIndex { get; set; }
         
         public DateTime LastAccessedDate { get; set; }
-        
-        public ProfileImageModel ProfileImage { get; set; }
+
+        public ProfileImageModel ProfileImage { get; set; } = new(); // Provide default incase of incorrect load
 
         #endregion Properties
 

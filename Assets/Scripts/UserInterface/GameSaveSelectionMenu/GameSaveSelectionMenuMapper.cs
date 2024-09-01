@@ -42,7 +42,7 @@ namespace UserInterface.GameSaveSelectionMenu
             destination.GameSlotDisplayIndex = source.DisplayIndex;
             destination.LastAccessedDate = DateTime.Now;
             destination.GameSaveName = source.DisplayName;
-            destination.ProfileImage = source.SelectedProfileImage;
+            destination.ProfileImageID = source.SelectedProfileImage.ID;
         }
 
         private static void MapEditGameSlotViewModelToUpdateGameSaveInputPort(
@@ -50,7 +50,7 @@ namespace UserInterface.GameSaveSelectionMenu
             UpdateGameSaveInputPort destination)
         {
             destination.GameSaveName = source.DisplayName;
-            destination.SelectedProfileImage = source.SelectedProfileImage;
+            destination.SelectedProfileImageID = source.SelectedProfileImage.ID;
         }
 
         private static void MapGameSaveModelToGameSaveSlotDto(
@@ -58,7 +58,7 @@ namespace UserInterface.GameSaveSelectionMenu
             GameSaveSlotDto destination)
         {
             destination.DisplayName = source.GameSaveName;
-            destination.ProfileImage = source.ProfileImage.Image;
+            destination.ProfileImage = source.ProfileImage;
         }
 
         private static void MapGameSaveSlotDtoToGameSaveModel(
@@ -66,7 +66,7 @@ namespace UserInterface.GameSaveSelectionMenu
             GameSaveModel destination)
         {
             destination.GameSaveName = source.DisplayName;
-            destination.ProfileImage.Image = source.ProfileImage;
+            destination.ProfileImage = source.ProfileImage;
         }
 
         #endregion Methods

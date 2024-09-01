@@ -1,3 +1,4 @@
+using ProjectExodus.Domain.Models;
 using UnityEngine;
 
 namespace UserInterface.GameSaveSelectionMenu.Dtos
@@ -12,7 +13,7 @@ namespace UserInterface.GameSaveSelectionMenu.Dtos
         
         public int DisplayIndex { get; set; }
 
-        public Sprite ProfileImage { get; set; }
+        public ProfileImageModel ProfileImage { get; set; }
 
         #endregion Properties
         

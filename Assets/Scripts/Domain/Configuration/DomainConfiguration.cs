@@ -1,6 +1,7 @@
 using System;
 using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Infrastructure.Providers;
+using ProjectExodus.Domain.Services;
 using ProjectExodus.GameLogic.GameStartup;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.ScriptableObjects;
@@ -24,6 +25,9 @@ namespace ProjectExodus.Domain.Configuration
 
         public DomainConfiguration(SetupGameServicesOptions setupGameServicesOptions)
         {
+            this.m_Mapper = 
+                setupGameServicesOptions.Mapper 
+                    ?? throw new ArgumentNullException(nameof(setupGameServicesOptions.Mapper));
             this.m_MapperRegister =
                 setupGameServicesOptions.MapperRegister 
                     ?? throw new ArgumentNullException(nameof(setupGameServicesOptions.MapperRegister));
@@ -45,7 +49,7 @@ namespace ProjectExodus.Domain.Configuration
             
             // Configure Services
             this.m_ServiceLocator.RegisterService(
-                new ProfileImageModelProvider(this.m_Mapper, this.m_UserInterfaceSettings));
+                (IProfileImageModelProvider) new ProfileImageModelProvider(this.m_Mapper, this.m_UserInterfaceSettings));
         }
 
         #endregion Methods

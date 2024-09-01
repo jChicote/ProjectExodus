@@ -1,3 +1,4 @@
+using ProjectExodus.Domain.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,25 +18,24 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
 
         #endregion Fields
 
-        #region - - - - - - Properties - - - - - -
-
-        public Button Button => this.m_Button;
-
-        public Image Image => this.m_Image;
-
-        #endregion Properties
-
         #region - - - - - - Methods - - - - - -
 
         public void BindToViewModel(IProfileImageSelectionViewModelCommands viewModelCommands) 
             => this.m_Button.onClick.AddListener(() 
-                => viewModelCommands.SelectProfileImageCommand.Execute(this.m_ImageID));
+                => viewModelCommands.SelectProfileImageCommand.Execute(this.GetModelFromViewDetails()));
 
         public void SetView(int imageID, Sprite image)
         {
             this.m_ImageID = imageID;
             this.m_Image.sprite = image;
         }
+
+        private ProfileImageModel GetModelFromViewDetails()
+            => new()
+            {
+                ID = this.m_ImageID,
+                Image = this.m_Image.sprite
+            };
 
         #endregion Methods
   

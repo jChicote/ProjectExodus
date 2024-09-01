@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
+using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Models;
+using ProjectExodus.Domain.Services;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
+using ProjectExodus.GameLogic.Infrastructure;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.ScriptableObjects;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal;
@@ -35,6 +38,9 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 
         [Header("Settings")] 
         [SerializeField] private UserInterfaceSettings m_UserInterfaceSettings;
+
+        [Space] 
+        [SerializeField] private ServiceLocator m_ServiceLocator;
         
         private EditGameSlotViewModel m_EditGameSlotViewModel;
         private ProfileImageSelectionViewModel m_ProfileImageSelectionViewModel;
@@ -67,14 +73,13 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
                     this.m_EditGameSlotView, 
                     this.m_GameSaveFacade,
                     this.m_Mediator, 
-                    this.m_Mapper,
-                    this.m_UserInterfaceSettings);
-            //
-            // this.m_ProfileImageSelectionViewModel = 
-            //     new ProfileImageSelectionViewModel(
-            //         this.m_Mediator,
-            //         this.m_ProfileImageSelectionView,
-            //         this.m_UserInterfaceSettings);
+                    this.m_Mapper);
+            
+            this.m_ProfileImageSelectionViewModel = 
+                new ProfileImageSelectionViewModel(
+                    this.m_Mediator,
+                    ((IServiceLocator)this.m_ServiceLocator).GetService<IProfileImageModelProvider>(),
+                    this.m_ProfileImageSelectionView);
             
             // Load game data
             this.m_GameSaveFacade.GetGameSaves(this);

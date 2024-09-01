@@ -14,7 +14,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
 
         #region - - - - - - Fields - - - - - -
 
-        private ICommand<int> m_SelectProfileImageCommand;
+        private ICommand<ProfileImageModel> m_SelectProfileImageCommand;
         private ICommand m_SaveSelectionCommand;
         private ICommand m_ExitModalCommand;
 
@@ -22,7 +22,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
         private readonly IProfileImageModelProvider m_ProfileImageProvider;
         private readonly IProfileImageSelectionView m_ProfileImageSelectionView;
 
-        private int m_SelectedImageID;
+        private ProfileImageModel m_SelectedImage;
 
         #endregion Fields
 
@@ -54,7 +54,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
   
         #region - - - - - - Properties - - - - - -
 
-        ICommand<int> IProfileImageSelectionViewModelCommands.SelectProfileImageCommand
+        ICommand<ProfileImageModel> IProfileImageSelectionViewModelCommands.SelectProfileImageCommand
             => this.m_SelectProfileImageCommand;
 
         ICommand IProfileImageSelectionViewModelCommands.SaveSelectionCommand
@@ -73,7 +73,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
         
         private void BindInteractionMethodsToCommands()
         {
-            this.m_SelectProfileImageCommand = new RelayCommand<int>(this.SelectProfileImage);
+            this.m_SelectProfileImageCommand = new RelayCommand<ProfileImageModel>(this.SelectProfileImage);
             this.m_SaveSelectionCommand = new RelayCommand(this.SaveProfileImageSelection);
             
             this.m_ProfileImageSelectionView.BindToViewModel(this);
@@ -86,11 +86,11 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
         // Command Methods
         // -------------------------------------
 
-        private void SelectProfileImage(int imageID) 
-            => this.m_SelectedImageID = imageID;
+        private void SelectProfileImage(ProfileImageModel profileImageModel) 
+            => this.m_SelectedImage = profileImageModel;
 
         private void SaveProfileImageSelection() 
-            => this.m_Mediator.Invoke(GameSaveMenuEventType.UpdateProfileImageSelection, this.m_SelectedImageID);
+            => this.m_Mediator.Invoke(GameSaveMenuEventType.UpdateProfileImageSelection, this.m_SelectedImage);
 
         // -------------------------------------
         // ViewModel Action Methods

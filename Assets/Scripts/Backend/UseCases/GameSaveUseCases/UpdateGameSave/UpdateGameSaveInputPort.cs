@@ -12,7 +12,7 @@ namespace ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave
         
         public string GameSaveName { get; set; }
         
-        public Sprite SelectedProfileImage { get; set; }
+        public int SelectedProfileImageID { get; set; }
 
         #endregion Properties
   

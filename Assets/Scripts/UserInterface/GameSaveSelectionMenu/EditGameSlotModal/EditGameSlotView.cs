@@ -1,3 +1,4 @@
+using ProjectExodus.Domain.Models;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -70,10 +71,12 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         }
         
         private void OnDisplayNameChanged(string displayName)
-            => this.DisplayNameInputField.text = displayName;
+            => this.DisplayNameInputField.text = !string.IsNullOrWhiteSpace(displayName) 
+                                                    ? displayName
+                                                    : "My Game Save";
 
-        private void OnSelectedProfileImageChanged(Sprite selectedImage)
-            => this.SelectedProfileImage.sprite = selectedImage;
+        private void OnSelectedProfileImageChanged(ProfileImageModel selectedImage)
+            => this.SelectedProfileImage.sprite = selectedImage.Image;
         
         #endregion Methods
 
