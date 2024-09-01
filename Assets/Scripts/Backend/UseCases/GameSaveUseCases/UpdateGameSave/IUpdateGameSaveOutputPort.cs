@@ -10,6 +10,8 @@ namespace ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave
 
         void PresentUpdatedGameSave(GameSaveModel gameSaveModel);
 
+        void PresentFailedUpdateOfGameSave();
+
         #endregion Methods
 
     }

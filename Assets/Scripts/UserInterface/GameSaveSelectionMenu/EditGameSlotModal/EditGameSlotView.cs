@@ -56,7 +56,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
             this.m_SaveButton.onClick.AddListener(viewModel.SaveGameSlotCommand.Execute);
             this.m_ExitButton.onClick.AddListener(viewModel.ExitModalCommand.Execute);
             this.m_SelectedProfileImageButton.onClick.AddListener(viewModel.SelectProfileImageCommand.Execute);
-            this.m_DisplayNameInputField.onSubmit.AddListener(viewModel.EditDisplayNameCommand.Execute);
+            this.m_DisplayNameInputField.onValueChanged.AddListener(viewModel.EditDisplayNameCommand.Execute);
         }
         
         // --------------------------------

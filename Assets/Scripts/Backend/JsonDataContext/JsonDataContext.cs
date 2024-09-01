@@ -29,6 +29,8 @@ namespace ProjectExodus.Backend.JsonDataContext
         {
             if (typeof(TEntity) == typeof(GameOptions))
                 this.m_GameData.GameOptions.Add(newObject as GameOptions);
+            else if (typeof(TEntity) == typeof(GameSave))
+                this.m_GameData.GameSaves.Add(newObject as GameSave);
             else
                 throw new NotSupportedException($"The entity type '{typeof(TEntity)}' is not supported.");
         }
@@ -41,6 +43,9 @@ namespace ProjectExodus.Backend.JsonDataContext
             if (typeof(TEntity) == typeof(GameOptions))
                 return (ICollection<TEntity>)this.m_GameData.GameOptions;
             
+            if (typeof(TEntity) == typeof(GameSave))
+                return (ICollection<TEntity>)this.m_GameData.GameSaves;
+
             throw new NotSupportedException($"The entity type '{typeof(TEntity)}' is not supported.");
         }
 
@@ -52,12 +57,22 @@ namespace ProjectExodus.Backend.JsonDataContext
             if (typeof(TEntity) == typeof(GameOptions))
             {
                 int _Index = this.m_GameData.GameOptions
-                    .Select((go, index) => new { go, index })
-                    .Where(goi => goi.go.ID == searchID)
-                    .Select(goi => goi.index)
-                    .FirstOrDefault();
+                                .Select((go, index) => new { go, index })
+                                .Where(goi => goi.go.ID == searchID)
+                                .Select(goi => goi.index)
+                                .FirstOrDefault();
                 
                 this.m_GameData.GameOptions[_Index] = objectToUpdate as GameOptions;
+            }
+            else if (typeof(TEntity) == typeof(GameSave))
+            {
+                int _Index = this.m_GameData.GameSaves
+                                .Select((gs, index) => new { gs, index })
+                                .Where(gsi => gsi.gs.ID == searchID)
+                                .Select(gsi => gsi.index)
+                                .FirstOrDefault();
+
+                this.m_GameData.GameSaves[_Index] = objectToUpdate as GameSave;
             }
             else
             {

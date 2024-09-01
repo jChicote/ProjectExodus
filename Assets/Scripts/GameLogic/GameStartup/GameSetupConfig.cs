@@ -24,6 +24,8 @@ namespace ProjectExodus.GameLogic.GameStartup
         
         public IObjectMapper ObjectMapper { get; private set; }
         
+        public IObjectMapperRegister ObjectMapperRegister { get; private set; }
+        
         // --------------------------------
         // Data Repositories
         // --------------------------------
@@ -45,15 +47,19 @@ namespace ProjectExodus.GameLogic.GameStartup
         public void SetupGameServices(
             IDataContext dataContext,
             GameSettings gameSettings,
-            IObjectMapper objectMapper)
+            IObjectMapper objectMapper,
+            IObjectMapperRegister objectMapperRegister)
         {
             this.DataContext = dataContext;
             this.GameSettings = gameSettings;
             this.ObjectMapper = objectMapper;
+            this.ObjectMapperRegister = objectMapperRegister;
         }
 
-        public void SetupRepositories(IDataRepository<GameOptions> gameOptionsRepository) 
-            => this.GameOptionsRepository = gameOptionsRepository;
+        public void SetupRepositories(IDataRepository<GameOptions> gameOptionsRepository)
+        {
+            this.GameOptionsRepository = gameOptionsRepository;
+        }
 
         public void SetupUseCaseFacades(
             GameOptionsFacade gameOptionsFacade,

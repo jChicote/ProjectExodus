@@ -131,6 +131,9 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
             Debug.Log("[LOG]: Updated GameSaveModel loaded to GameSlot");
         }
 
+        void IUpdateGameSaveOutputPort.PresentFailedUpdateOfGameSave() 
+            => Debug.LogError("[ERROR]: Cannot find the Game Save.");
+
         #endregion Methods
 
     }

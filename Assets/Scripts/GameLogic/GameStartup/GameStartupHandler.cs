@@ -3,9 +3,16 @@ using System.Collections;
 using System.Threading.Tasks;
 using ProjectExodus.Backend.Configuration;
 using ProjectExodus.Backend.JsonDataContext;
+using ProjectExodus.Backend.Repositories;
 using ProjectExodus.Backend.Repositories.GameOptionsRepository;
+using ProjectExodus.Backend.Repositories.GameSaveRepository;
+using ProjectExodus.Backend.UseCases;
+using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
+using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
+using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
 using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Configuration;
+using ProjectExodus.Domain.Entities;
 using ProjectExodus.GameLogic.Configuration;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
@@ -55,25 +62,49 @@ namespace ProjectExodus.GameLogic.GameStartup
             // Setup Services and Configuration
             JsonDataContext _DataContext = new JsonDataContext(); // Temporarily be initialised here
             ObjectMapper _ObjectMapper = new ObjectMapper();
+            
+            setupConfig.SetupGameServices(_DataContext, _GameSettings, _ObjectMapper, _ObjectMapper);
+            
+            yield return null;
+        }
+        
+        private IEnumerator SetupGameData(GameSetupConfig setupConfig)
+        {
+            // Configure data for GameLogic, Management and UI
+            GameOptionsRepository _GameOptionsRepository = new GameOptionsRepository(
+                setupConfig.DataContext, 
+                setupConfig.ObjectMapper);
+            
+            GameSaveRepository _GameSaveRepository = new GameSaveRepository(
+                setupConfig.DataContext);
+            
+            setupConfig.SetupRepositories(_GameOptionsRepository);
+            
+            ((IServiceLocator)this.m_ServiceLocator).RegisterService((IDataRepository<GameSave>)_GameSaveRepository);
+            
+            // Load and await completion of loading data
+            Task _LoadTask = setupConfig.DataContext.Load();
+            while (!_LoadTask.IsCompleted)
+            {
+                yield return null;
+            }
 
+            yield return null;
+        }
+
+        private IEnumerator SetupUseCaseFacades(GameSetupConfig setupConfig)
+        {
             SetupGameServicesOptions _Options = new SetupGameServicesOptions();
-            _Options.Mapper = _ObjectMapper;
-            _Options.MapperRegister = _ObjectMapper;
+            _Options.Mapper = setupConfig.ObjectMapper;
+            _Options.MapperRegister = setupConfig.ObjectMapperRegister;
             _Options.ServiceLocator = this.m_ServiceLocator;
             _Options.UserInterfaceSettings = this.m_UserInterfaceSettings;
             
             ((IConfigure)new DomainConfiguration(_Options)).Configure();
-            ((IConfigure)new BackendConfiguration(_ObjectMapper)).Configure();
-            ((IConfigure)new GameLogicConfiguration(_ObjectMapper)).Configure();
-            ((IConfigure)new UserInterfaceConfiguration(_ObjectMapper)).Configure();
+            ((IConfigure)new BackendConfiguration(_Options)).Configure();
+            ((IConfigure)new GameLogicConfiguration(setupConfig.ObjectMapperRegister)).Configure();
+            ((IConfigure)new UserInterfaceConfiguration(setupConfig.ObjectMapperRegister)).Configure();
             
-            setupConfig.SetupGameServices(_DataContext, _GameSettings, _ObjectMapper);
-            
-            yield return null;
-        }
-
-        private static IEnumerator SetupUseCaseFacades(GameSetupConfig setupConfig)
-        {
             // Setup GameOptions
             GameOptionsFacade _GameOptionsFacade = new GameOptionsFacade(
                 setupConfig.GameOptionsRepository, 
@@ -85,31 +116,18 @@ namespace ProjectExodus.GameLogic.GameStartup
             if (setupConfig.GameSettings.GameOptionsModel == null)
                 ((IGameOptionsFacade)setupConfig.GameOptionsFacade).CreateGameOptions();
             
-            // Setup GameSave
-            GameSaveFacade _GameSaveFacade = new GameSaveFacade();
+            // Setup GameSave       
+            GameSaveFacade _GameSaveFacade = new GameSaveFacade(
+                ((IServiceLocator)this.m_ServiceLocator)
+                    .GetService<IUseCaseInteractor<CreateGameSaveInputPort, ICreateGameSaveOutputPort>>(),
+                ((IServiceLocator)this.m_ServiceLocator)
+                    .GetService<IUseCaseInteractor<GetGameSavesInputPort, IGetGameSavesOutputPort>>(),
+                ((IServiceLocator)this.m_ServiceLocator)
+                    .GetService<IUseCaseInteractor<UpdateGameSaveInputPort, IUpdateGameSaveOutputPort>>());
 
             // Assign to setup configuration
             setupConfig.SetupUseCaseFacades(_GameOptionsFacade, _GameSaveFacade);
             
-            yield return null;
-        }
-
-        private static IEnumerator SetupGameData(GameSetupConfig setupConfig)
-        {
-            // Configure data for GameLogic, Management and UI
-            GameOptionsRepository _GameOptionsRepository = new GameOptionsRepository(
-                setupConfig.DataContext, 
-                setupConfig.ObjectMapper);
-            
-            setupConfig.SetupRepositories(_GameOptionsRepository);
-            
-            // Load and await completion of loading data
-            Task _LoadTask = setupConfig.DataContext.Load();
-            while (!_LoadTask.IsCompleted)
-            {
-                yield return null;
-            }
-
             yield return null;
         }
 

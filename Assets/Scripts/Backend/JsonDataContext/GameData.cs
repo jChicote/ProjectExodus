@@ -13,6 +13,8 @@ namespace ProjectExodus.Backend.JsonDataContext
 
         public List<GameOptions> GameOptions = new();
 
+        public List<GameSave> GameSaves = new();
+
         #endregion Fields
 
     }

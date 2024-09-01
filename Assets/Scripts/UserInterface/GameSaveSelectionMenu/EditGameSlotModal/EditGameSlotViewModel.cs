@@ -3,9 +3,9 @@ using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
 using ProjectExodus.Common.Infrastructure;
 using ProjectExodus.Common.Services;
+using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Mappers;
-using ProjectExodus.ScriptableObjects;
 using UnityEngine;
 using UserInterface.GameSaveSelectionMenu.Mediator;
 
@@ -28,13 +28,12 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         private readonly IGameSaveFacade m_GameSaveFacade;
         private readonly IObjectMapper m_Mapper;
         private readonly IGameSaveSelectionMenuMediator m_Mediator;
-        private readonly UserInterfaceSettings m_UserInterfaceSettings;
 
         private ICreateGameSaveOutputPort m_CreateOutputPort;
         private IUpdateGameSaveOutputPort m_UpdateOutputPort;
 
         private string m_DisplayName;
-        private Sprite m_ProfileImage;
+        private ProfileImageModel m_ProfileImage;
         
         #endregion Fields
   
@@ -44,16 +43,13 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
             EditGameSlotView editGameSlotView,
             IGameSaveFacade gameSaveFacade,
             IGameSaveSelectionMenuMediator gameSaveSelectionMenuMediator,
-            IObjectMapper mapper,
-            UserInterfaceSettings userInterfaceSettings)
+            IObjectMapper mapper)
         {
             this.m_EditGameSlotView = editGameSlotView ?? throw new ArgumentNullException(nameof(editGameSlotView));
             this.m_GameSaveFacade = gameSaveFacade ?? throw new ArgumentNullException(nameof(gameSaveFacade));
             this.m_Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.m_Mediator = gameSaveSelectionMenuMediator ??
                                 throw new ArgumentNullException(nameof(gameSaveSelectionMenuMediator));
-            this.m_UserInterfaceSettings =
-                userInterfaceSettings ?? throw new ArgumentNullException(nameof(userInterfaceSettings));
 
             this.BindInteractionMethodsToCommands();
             this.RegisterMediatorActions();
@@ -65,7 +61,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
 
         public event Action<string> OnDisplayNameChanged;
         
-        public event Action<Sprite> OnSelectedImageChanged;
+        public event Action<ProfileImageModel> OnSelectedImageChanged;
 
         public event Action<bool> OnShowEditGameSlotModal;
 
@@ -85,7 +81,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
             }
         }
 
-        public Sprite SelectedProfileImage
+        public ProfileImageModel SelectedProfileImage
         {
             get => this.m_ProfileImage;
             private set
@@ -128,7 +124,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
             this.m_Mediator.Register(
                 GameSaveMenuEventType.StartEditingGameSlot,
                 this.ShowEditSlotModal);
-            this.m_Mediator.Register<int>(
+            this.m_Mediator.Register<ProfileImageModel>(
                 GameSaveMenuEventType.UpdateProfileImageSelection,
                 this.UpdateProfileImage);
         }
@@ -180,20 +176,11 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         private void ShowCreateSlotModal() 
             => this.OnShowEditGameSlotModal?.Invoke(true);
 
-        private void ShowEditSlotModal()
-        {
-            this.OnShowEditGameSlotModal?.Invoke(false);
-        }
+        private void ShowEditSlotModal() 
+            => this.OnShowEditGameSlotModal?.Invoke(false);
 
-        private void UpdateProfileImage(int imageIndex)
-        {
-            this.DisplayIndex = imageIndex;
-
-            if (this.m_UserInterfaceSettings.ProfileImages.TryGetValue(imageIndex, out Sprite _Image))
-                this.OnSelectedImageChanged?.Invoke(_Image);
-            else
-                Debug.LogError("[Error] Could not find the profile image.");
-        }
+        private void UpdateProfileImage(ProfileImageModel profileImageModel) 
+            => this.SelectedProfileImage = profileImageModel;
 
         #endregion Methods
         

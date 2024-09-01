@@ -10,8 +10,8 @@ namespace ProjectExodus.GameLogic.Mappers
 
         #region - - - - - - Methods - - - - - -
 
-        void Map<TSource, TDestination>(TSource sourceObject, TDestination destinationObject);
-
+        TDestination Map<TSource, TDestination>(TSource sourceObject, TDestination destinationObject);
+        
         #endregion Methods
 
     }

@@ -14,7 +14,7 @@ namespace ProjectExodus.Domain.Entities
 
         public string GameSaveName;
 
-        public int GameSlotDisplayInndex;
+        public int GameSlotDisplayIndex;
 
         public DateTime LastAccessedDate;
 

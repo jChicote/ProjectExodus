@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
+using ProjectExodus.Backend.UseCases;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
-using ProjectExodus.Domain.Models;
-using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Facades.GameSaveFacade
 {
@@ -12,83 +10,49 @@ namespace ProjectExodus.GameLogic.Facades.GameSaveFacade
     public class GameSaveFacade : IGameSaveFacade
     {
 
-        void IGameSaveFacade.CreateGameSave(CreateGameSaveInputPort inputPort, ICreateGameSaveOutputPort outputPort)
+        #region - - - - - - Fields - - - - - -
+
+        private readonly IUseCaseInteractor<CreateGameSaveInputPort, ICreateGameSaveOutputPort> m_CreateInteractor;
+        private readonly IUseCaseInteractor<GetGameSavesInputPort, IGetGameSavesOutputPort> m_GetInteractor;
+        private readonly IUseCaseInteractor<UpdateGameSaveInputPort, IUpdateGameSaveOutputPort> m_UpdateInteractor;
+
+        #endregion Fields
+  
+        #region - - - - - - Constructors - - - - - -
+
+        public GameSaveFacade(
+            IUseCaseInteractor<CreateGameSaveInputPort, ICreateGameSaveOutputPort> createInteractor,
+            IUseCaseInteractor<GetGameSavesInputPort, IGetGameSavesOutputPort> getInteractor,
+            IUseCaseInteractor<UpdateGameSaveInputPort, IUpdateGameSaveOutputPort> updateInteractor)
         {
-            // Temporary returned result
-            outputPort.PresentCreatedGameSave(new GameSaveModel()
-            {
-                CompletionProgress = 99f,
-                GameSaveName = "Success Create 99",
-                GameSlotDisplayIndex = 1,
-                ID = Guid.NewGuid(),
-                LastAccessedDate = DateTime.Now,
-                ProfileImage = new ProfileImageModel()
-                {
-                    ID = 1,
-                    Image = default(Sprite)
-                }
-            });
-            Debug.Log("[LOG]: Invoked CreateGameSaveSlot usecase");
+            this.m_CreateInteractor = createInteractor ?? throw new ArgumentNullException(nameof(createInteractor));
+            this.m_GetInteractor = getInteractor ?? throw new ArgumentNullException(nameof(getInteractor));
+            this.m_UpdateInteractor = updateInteractor ?? throw new ArgumentNullException(nameof(updateInteractor));
         }
+
+        #endregion Constructors
+  
+        #region - - - - - - Create GameSave Methods - - - - - -
+
+        void IGameSaveFacade.CreateGameSave(CreateGameSaveInputPort inputPort, ICreateGameSaveOutputPort outputPort) 
+            => this.m_CreateInteractor.Handle(inputPort, outputPort);
+
+        #endregion Create GameSave Methods
 
         #region - - - - - - Get GameSave Methods - - - - - -
 
-        void IGameSaveFacade.GetGameSaves(IGetGameSavesOutputPort outputPort)
-        {
-            // TEMPORARY: Debug output for now
-            var _TempListOfSaves = new List<GameSaveModel>()
-            {
-                new GameSaveModel()
-                {
-                    CompletionProgress = 20f,
-                    GameSaveName = "Test Name A",
-                    GameSlotDisplayIndex = 1,
-                    ID = Guid.NewGuid(),
-                    LastAccessedDate = DateTime.Now,
-                    ProfileImage = new ProfileImageModel()
-                    {
-                        ID = 1,
-                        Image = default(Sprite)
-                    }
-                },
-                new GameSaveModel()
-                {
-                    CompletionProgress = 60f,
-                    GameSaveName = "Test Name B",
-                    GameSlotDisplayIndex = 1,
-                    ID = Guid.NewGuid(),
-                    LastAccessedDate = DateTime.Now,
-                    ProfileImage = new ProfileImageModel()
-                    {
-                        ID = 0,
-                        Image = default(Sprite)
-                    }
-                }
-            };
-            
-            outputPort.PresentGameSaves(_TempListOfSaves);
-        }
+        void IGameSaveFacade.GetGameSaves(IGetGameSavesOutputPort outputPort) 
+            => this.m_GetInteractor.Handle(new GetGameSavesInputPort(), outputPort);
 
         #endregion Get GameSave Methods
 
-        void IGameSaveFacade.UpdateGameSave(UpdateGameSaveInputPort inputPort, IUpdateGameSaveOutputPort outputPort)
-        {
-            // Temporary returned result
-            outputPort.PresentUpdatedGameSave(new GameSaveModel()
-            {
-                CompletionProgress = 88f,
-                GameSaveName = "Success Update",
-                GameSlotDisplayIndex = 1,
-                ID = Guid.NewGuid(),
-                LastAccessedDate = DateTime.Now,
-                ProfileImage = new ProfileImageModel()
-                {
-                    ID = 3,
-                    Image = default(Sprite)
-                }
-            });
-            Debug.Log("[LOG]: Invoked UpdateGameSaveSlot usecase");
-        }
+        #region - - - - - - Update GameSave Methods - - - - - -
+
+        void IGameSaveFacade.UpdateGameSave(UpdateGameSaveInputPort inputPort, IUpdateGameSaveOutputPort outputPort) 
+            => this.m_UpdateInteractor.Handle(inputPort, outputPort);
+
+        #endregion Update GameSave Methods
+  
   
     }
 

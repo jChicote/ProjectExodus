@@ -1,4 +1,4 @@
-using UnityEngine;
+using System;
 
 namespace ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave
 {
@@ -7,6 +7,8 @@ namespace ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave
     {
 
         #region - - - - - - Properties - - - - - -
+        
+        public Guid ID { get; set; }
 
         public float CompletionProgress { get; set; }
         
