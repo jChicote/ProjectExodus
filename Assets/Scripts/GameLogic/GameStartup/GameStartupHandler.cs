@@ -5,11 +5,14 @@ using ProjectExodus.Backend.Configuration;
 using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Backend.Repositories.GameOptionsRepository;
 using ProjectExodus.Common.Services;
+using ProjectExodus.Domain.Configuration;
 using ProjectExodus.GameLogic.Configuration;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
+using ProjectExodus.GameLogic.Infrastructure;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Settings;
+using ProjectExodus.ScriptableObjects;
 using ProjectExodus.UserInterface.Configuration;
 using UnityEngine;
 
@@ -19,6 +22,13 @@ namespace ProjectExodus.GameLogic.GameStartup
     public class GameStartupHandler : MonoBehaviour
     {
 
+        #region - - - - - - Fields - - - - - -
+
+        [SerializeField] private ServiceLocator m_ServiceLocator;
+        [SerializeField] private UserInterfaceSettings m_UserInterfaceSettings;
+
+        #endregion Fields
+  
         #region - - - - - - Methods - - - - - -
 
         public IEnumerator ConfigureGame(Action<GameSetupConfig> onConfigLoaded)
@@ -37,7 +47,7 @@ namespace ProjectExodus.GameLogic.GameStartup
             yield return null;
         }
 
-        private static IEnumerator SetupGameServices(GameSetupConfig setupConfig)
+        private IEnumerator SetupGameServices(GameSetupConfig setupConfig)
         {
             // Setup settings
             GameSettings _GameSettings = new GameSettings();
@@ -45,7 +55,14 @@ namespace ProjectExodus.GameLogic.GameStartup
             // Setup Services and Configuration
             JsonDataContext _DataContext = new JsonDataContext(); // Temporarily be initialised here
             ObjectMapper _ObjectMapper = new ObjectMapper();
+
+            SetupGameServicesOptions _Options = new SetupGameServicesOptions();
+            _Options.Mapper = _ObjectMapper;
+            _Options.MapperRegister = _ObjectMapper;
+            _Options.ServiceLocator = this.m_ServiceLocator;
+            _Options.UserInterfaceSettings = this.m_UserInterfaceSettings;
             
+            ((IConfigure)new DomainConfiguration(_Options)).Configure();
             ((IConfigure)new BackendConfiguration(_ObjectMapper)).Configure();
             ((IConfigure)new GameLogicConfiguration(_ObjectMapper)).Configure();
             ((IConfigure)new UserInterfaceConfiguration(_ObjectMapper)).Configure();
@@ -109,6 +126,23 @@ namespace ProjectExodus.GameLogic.GameStartup
         }
 
         #endregion Methods
+  
+    }
+
+    public class SetupGameServicesOptions
+    {
+
+        #region - - - - - - Properties - - - - - -
+
+        public IObjectMapper Mapper { get; set; }
+        
+        public IObjectMapperRegister MapperRegister { get; set; }
+        
+        public IServiceLocator ServiceLocator { get; set; }
+        
+        public UserInterfaceSettings UserInterfaceSettings { get; set; }
+
+        #endregion Properties
   
     }
 

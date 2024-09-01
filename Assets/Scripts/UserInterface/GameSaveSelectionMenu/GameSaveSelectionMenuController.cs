@@ -69,12 +69,12 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
                     this.m_Mediator, 
                     this.m_Mapper,
                     this.m_UserInterfaceSettings);
-
-            this.m_ProfileImageSelectionViewModel = 
-                new ProfileImageSelectionViewModel(
-                    this.m_Mediator,
-                    this.m_ProfileImageSelectionView,
-                    this.m_UserInterfaceSettings);
+            //
+            // this.m_ProfileImageSelectionViewModel = 
+            //     new ProfileImageSelectionViewModel(
+            //         this.m_Mediator,
+            //         this.m_ProfileImageSelectionView,
+            //         this.m_UserInterfaceSettings);
             
             // Load game data
             this.m_GameSaveFacade.GetGameSaves(this);
