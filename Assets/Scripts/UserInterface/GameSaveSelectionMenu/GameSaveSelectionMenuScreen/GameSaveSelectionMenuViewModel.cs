@@ -1,18 +1,24 @@
 using System;
+using ProjectExodus.Common.Infrastructure;
+using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Mappers;
-using ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen;
 using UnityEngine;
 using UserInterface.GameSaveSelectionMenu.Mediator;
 
 namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
 {
 
-    public class GameSaveSelectionMenuViewModel
+    public class GameSaveSelectionMenuViewModel : IGameSaveSelectionNotifier
     {
 
         #region - - - - - - Fields - - - - - -
-
-        private readonly GameSaveSelectionMenuView m_GameSaveSelectionMenuView;
+        
+        private ICommand m_CreateNewGameCommand;
+        private ICommand m_ClearGameSaveSlotCommand;
+        private ICommand m_EditGameSaveSlotCommand;
+        private ICommand m_QuitGameCommand;
+        
+        private readonly IGameSaveSelectionView m_GameSaveSelectionView;
         private readonly IObjectMapper m_Mapper;
         private readonly IGameSaveSelectionMenuMediator m_Mediator;
 
@@ -22,10 +28,10 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
 
         public GameSaveSelectionMenuViewModel(
             IGameSaveSelectionMenuMediator gameSaveSelectionMenuMediator,
-            GameSaveSelectionMenuView gameSaveSelectionMenuView)
+            IGameSaveSelectionView gameSaveSelectionView)
         {
-            this.m_GameSaveSelectionMenuView = gameSaveSelectionMenuView ??
-                                                throw new ArgumentNullException(nameof(gameSaveSelectionMenuView));
+            this.m_GameSaveSelectionView = gameSaveSelectionView ??
+                                                throw new ArgumentNullException(nameof(gameSaveSelectionView));
             this.m_Mediator = gameSaveSelectionMenuMediator ??
                                 throw new ArgumentNullException(nameof(gameSaveSelectionMenuMediator));
 
@@ -35,19 +41,27 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
 
         #endregion Constructors
 
+        #region - - - - - - Properties - - - - - -
+
+        public ICommand CreateNewGameCommand => this.m_CreateNewGameCommand;
+
+        public ICommand ClearGameSaveSlotCommand => this.m_ClearGameSaveSlotCommand;
+
+        public ICommand EditGameSaveSlotCommand => this.m_EditGameSaveSlotCommand;
+
+        public ICommand QuitGameCommand => this.m_QuitGameCommand;
+
+        #endregion Properties
+  
         #region - - - - - - Events - - - - - -
 
-        private void OnNewGameSlot() 
-            => this.m_Mediator.Invoke(GameSaveMenuEventType.StartCreatingNewGameSlot);
+        public event Action OnDisableViewInteraction;
 
-        private void OnEditGameSlot() 
-            => this.m_Mediator.Invoke(GameSaveMenuEventType.StartEditingGameSlot);
+        public event Action OnEnableViewInteraction;
 
-        private void OnClearGame() 
-            => Debug.LogWarning("[WARNING]: Behavior is not implemented.");
+        public event Action OnShowEmptySlotButtonOptions;
 
-        private void OnQuiteGame() 
-            => Debug.LogWarning("[WARNING]: Behavior is not implemented.");
+        public event Action OnShowEditSlotButtonOptions;
 
         #endregion Events
   
@@ -59,11 +73,12 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
 
         private void BindViewEvents()
         {
-            GameSaveSelectionMenuButtonsView _MenuButtons = this.m_GameSaveSelectionMenuView.MenuButtons;
-            _MenuButtons.NewGameButton.onClick.AddListener(this.OnNewGameSlot);
-            _MenuButtons.EditButton.onClick.AddListener(this.OnEditGameSlot);
-            _MenuButtons.ClearButton.onClick.AddListener(this.OnClearGame);
-            _MenuButtons.QuitButton.onClick.AddListener(this.OnQuiteGame);
+            this.m_CreateNewGameCommand = new RelayCommand(this.NewGameSlot);
+            this.m_ClearGameSaveSlotCommand = new RelayCommand(this.ClearGameSaveSlot);
+            this.m_EditGameSaveSlotCommand = new RelayCommand(this.EditGameSaveSlot);
+            this.m_QuitGameCommand = new RelayCommand(this.QuiteGame);
+            
+            this.m_GameSaveSelectionView.BindToViewModel(this);
         }
 
         private void RegisterMediatorActions()
@@ -73,27 +88,38 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
         }
         
         // -----------------------------------------
-        // Action specific methods
+        // Command Actions
+        // -----------------------------------------
+        
+        private void NewGameSlot()
+        {
+            this.OnDisableViewInteraction?.Invoke();
+            this.m_Mediator.Invoke(GameSaveMenuEventType.StartCreatingNewGameSlot);
+        }
+
+        private void ClearGameSaveSlot() 
+            => Debug.LogWarning("[WARNING]: Behavior is not implemented.");
+
+        private void EditGameSaveSlot()
+        {this.OnDisableViewInteraction?.Invoke();
+            this.m_Mediator.Invoke(GameSaveMenuEventType.StartEditingGameSlot);
+        }
+
+        private void QuiteGame() 
+            => Debug.LogWarning("[WARNING]: Behavior is not implemented.");
+        
+        // -----------------------------------------
+        // Event Invokers
         // -----------------------------------------
 
         private void RevealEmptySlotMenuActionButtons()
-        {
-            GameSaveSelectionMenuButtonsView _MenuButtons = this.m_GameSaveSelectionMenuView.MenuButtons;
-            _MenuButtons.ClearButton.interactable = false;
-            _MenuButtons.EditButton.interactable = false;
-            _MenuButtons.NewGameButton.interactable = true;
-        }
+            => this.OnShowEmptySlotButtonOptions?.Invoke();
 
         private void RevealGameSaveSlotMenuActionButtons()
-        {
-            GameSaveSelectionMenuButtonsView _MenuButtons = this.m_GameSaveSelectionMenuView.MenuButtons;
-            _MenuButtons.ClearButton.interactable = true;
-            _MenuButtons.EditButton.interactable = true;
-            _MenuButtons.NewGameButton.interactable = false;
-        }
+            => this.OnShowEditSlotButtonOptions?.Invoke();
 
         #endregion Methods
-  
+
     }
 
 }

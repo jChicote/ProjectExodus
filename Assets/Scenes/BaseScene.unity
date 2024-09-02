@@ -1092,7 +1092,6 @@ GameObject:
   m_Component:
   - component: {fileID: 121483326}
   - component: {fileID: 121483327}
-  - component: {fileID: 121483328}
   m_Layer: 5
   m_Name: GameSave-Menu
   m_TagString: Untagged
@@ -1135,33 +1134,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ContentGroup: {fileID: 1685726645}
-  m_GameSaveSelectionMenuView: {fileID: 121483328}
+  m_GameSaveSelectionMenuView: {fileID: 1685726650}
   m_EditGameSlotView: {fileID: 458790905}
   m_ProfileImageSelectionView: {fileID: 853203669}
   m_UserInterfaceSettings: {fileID: 11400000, guid: 621b35aba753e70478d8ecdb280e1e32, type: 2}
   m_ServiceLocator: {fileID: 377184482}
---- !u!114 &121483328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 121483325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2f1f0a8235147258cea2a59a1e31714, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ContentGroup: {fileID: 1685726645}
-  m_GameSaveSlotCollection:
-  - {fileID: 1150673973}
-  - {fileID: 437063542}
-  - {fileID: 759733669}
-  m_MenuButtons:
-    m_ClearButton: {fileID: 2101056168}
-    m_NewGameButton: {fileID: 498508893}
-    m_EditButton: {fileID: 2092793771}
-    m_QuitButton: {fileID: 550142417}
 --- !u!1 &134905119
 GameObject:
   m_ObjectHideFlags: 0
@@ -3212,6 +3189,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 458790904}
+  - component: {fileID: 458790906}
   - component: {fileID: 458790905}
   m_Layer: 5
   m_Name: GameSlotEdit-Modal
@@ -3253,12 +3231,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ContentGroup: {fileID: 415558811}
+  m_CanvasGroup: {fileID: 458790906}
   m_CreateButton: {fileID: 1230483786}
   m_SaveButton: {fileID: 137611925}
   m_ExitButton: {fileID: 946302725}
   m_DisplayNameInputField: {fileID: 1098888168}
   m_SelectedProfileImage: {fileID: 546066273}
   m_SelectedProfileImageButton: {fileID: 546066272}
+--- !u!225 &458790906
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458790903}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &478008563
 GameObject:
   m_ObjectHideFlags: 0
@@ -6900,6 +6891,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 853203668}
+  - component: {fileID: 853203670}
   - component: {fileID: 853203669}
   m_Layer: 5
   m_Name: GameSlotImageSelection-Modal
@@ -6952,6 +6944,18 @@ MonoBehaviour:
   - {fileID: 1719567401}
   m_SaveButton: {fileID: 273281553}
   m_ExitButton: {fileID: 614668911}
+--- !u!225 &853203670
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853203667}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &860643032
 GameObject:
   m_ObjectHideFlags: 0
@@ -13239,6 +13243,8 @@ GameObject:
   - component: {fileID: 1685726649}
   - component: {fileID: 1685726648}
   - component: {fileID: 1685726647}
+  - component: {fileID: 1685726651}
+  - component: {fileID: 1685726650}
   m_Layer: 5
   m_Name: GameSaveMenu-Content
   m_TagString: Untagged
@@ -13332,6 +13338,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1685726645}
   m_CullTransparentMesh: 1
+--- !u!114 &1685726650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685726645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2f1f0a8235147258cea2a59a1e31714, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ContentGroup: {fileID: 1685726645}
+  m_CanvasGroup: {fileID: 1685726651}
+  m_GameSaveSlotCollection:
+  - {fileID: 1150673973}
+  - {fileID: 437063542}
+  - {fileID: 759733669}
+  m_MenuButtons:
+    m_ClearButton: {fileID: 2101056168}
+    m_NewGameButton: {fileID: 498508893}
+    m_EditButton: {fileID: 2092793771}
+    m_QuitButton: {fileID: 550142417}
+--- !u!225 &1685726651
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685726645}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1719567399
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -49,6 +49,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
         #region - - - - - - Events - - - - - -
         
         public event Action<List<ProfileImageModel>> OnShowMenuModalWithImage;
+        
 
         #endregion Events
   

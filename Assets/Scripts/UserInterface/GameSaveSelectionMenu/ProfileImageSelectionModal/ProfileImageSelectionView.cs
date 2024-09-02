@@ -58,7 +58,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
 
         private void HideProfileImageSelectorModal() 
             => this.m_ContentGroup.SetActive(false);
-
+        
         #endregion Methods
   
     }

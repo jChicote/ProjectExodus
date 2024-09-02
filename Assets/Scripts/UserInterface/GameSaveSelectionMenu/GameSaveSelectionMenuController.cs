@@ -96,7 +96,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
         void IGetGameSavesOutputPort.PresentGameSaves(IEnumerable<GameSaveModel> gameSaves)
         {
             var _OrderedSlots = gameSaves.OrderBy(gsm => gsm.GameSlotDisplayIndex).ToList();
-            for (int _Index = 0 ; _Index < this.m_GameSaveSelectionMenuView.GameSaveSlotCollection.Count; _Index++)
+            for (int _Index = 0 ; _Index < ((IGameSaveSelectionView)this.m_GameSaveSelectionMenuView).GetAllGameSlotCount(); _Index++)
             {
                 if (_Index < _OrderedSlots.Count)
                 {
@@ -115,7 +115,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 
         private GameSaveSlotViewModel CreateGameSaveSlotViewModels(GameSaveModel model, int gameSlotIndex)
             => new(model, 
-                this.m_GameSaveSelectionMenuView.GameSaveSlotCollection.ElementAt(gameSlotIndex),
+                ((IGameSaveSelectionView)this.m_GameSaveSelectionMenuView).GetGameSaveSlotViewAtIndex(gameSlotIndex),
                 this.m_Mediator,
                 this.m_Mapper);
         

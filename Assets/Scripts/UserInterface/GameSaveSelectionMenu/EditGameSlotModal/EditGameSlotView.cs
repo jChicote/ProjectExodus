@@ -13,6 +13,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
 
         [Header("Content")] 
         [SerializeField] private GameObject m_ContentGroup;
+        [SerializeField] private CanvasGroup m_CanvasGroup;
         
         [Header("Modal Buttons")]
         [SerializeField] private Button m_CreateButton;
