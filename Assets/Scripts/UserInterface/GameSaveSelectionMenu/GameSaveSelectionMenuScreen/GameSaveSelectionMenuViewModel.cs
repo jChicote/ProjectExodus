@@ -35,8 +35,9 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
             this.m_Mediator = gameSaveSelectionMenuMediator ??
                                 throw new ArgumentNullException(nameof(gameSaveSelectionMenuMediator));
 
-            this.BindViewEvents();
+            this.BindLogicToCommands();
             this.RegisterMediatorActions();
+            this.m_GameSaveSelectionView.BindToViewModel(this);
         }
 
         #endregion Constructors
@@ -68,30 +69,29 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
         #region - - - - - - Methods - - - - - -
         
         // -----------------------------------------
-        // Initialization methods
+        // Setup Methods
         // -----------------------------------------
 
-        private void BindViewEvents()
+        private void BindLogicToCommands()
         {
-            this.m_CreateNewGameCommand = new RelayCommand(this.NewGameSlot);
+            this.m_CreateNewGameCommand = new RelayCommand(this.NewGameSaveSlot);
             this.m_ClearGameSaveSlotCommand = new RelayCommand(this.ClearGameSaveSlot);
             this.m_EditGameSaveSlotCommand = new RelayCommand(this.EditGameSaveSlot);
             this.m_QuitGameCommand = new RelayCommand(this.QuiteGame);
-            
-            this.m_GameSaveSelectionView.BindToViewModel(this);
         }
 
         private void RegisterMediatorActions()
         {
-            this.m_Mediator.Register(GameSaveMenuEventType.OnEmptySlotSelection, this.RevealEmptySlotMenuActionButtons);
-            this.m_Mediator.Register(GameSaveMenuEventType.OnGameSaveSlotSelection, this.RevealGameSaveSlotMenuActionButtons);
+            this.m_Mediator.Register(GameSaveMenuEventType.OnEmptySlotSelection, this.DisplayEmptySaveSlotMenuButtons);
+            this.m_Mediator.Register(GameSaveMenuEventType.OnGameSaveSlotSelection, this.DisplayEditGameSaveSlotMenuButtons);
+            this.m_Mediator.Register(GameSaveMenuEventType.ShowGameSaveSlotSelectionMenu, this.ShowGameSaveSelectionMenu);
         }
         
         // -----------------------------------------
         // Command Actions
         // -----------------------------------------
         
-        private void NewGameSlot()
+        private void NewGameSaveSlot()
         {
             this.OnDisableViewInteraction?.Invoke();
             this.m_Mediator.Invoke(GameSaveMenuEventType.StartCreatingNewGameSlot);
@@ -101,7 +101,8 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
             => Debug.LogWarning("[WARNING]: Behavior is not implemented.");
 
         private void EditGameSaveSlot()
-        {this.OnDisableViewInteraction?.Invoke();
+        {
+            this.OnDisableViewInteraction?.Invoke();
             this.m_Mediator.Invoke(GameSaveMenuEventType.StartEditingGameSlot);
         }
 
@@ -109,14 +110,17 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
             => Debug.LogWarning("[WARNING]: Behavior is not implemented.");
         
         // -----------------------------------------
-        // Event Invokers
+        // View Model Actions
         // -----------------------------------------
 
-        private void RevealEmptySlotMenuActionButtons()
+        private void DisplayEmptySaveSlotMenuButtons()
             => this.OnShowEmptySlotButtonOptions?.Invoke();
 
-        private void RevealGameSaveSlotMenuActionButtons()
+        private void DisplayEditGameSaveSlotMenuButtons()
             => this.OnShowEditSlotButtonOptions?.Invoke();
+
+        private void ShowGameSaveSelectionMenu() 
+            => this.OnEnableViewInteraction?.Invoke();
 
         #endregion Methods
 

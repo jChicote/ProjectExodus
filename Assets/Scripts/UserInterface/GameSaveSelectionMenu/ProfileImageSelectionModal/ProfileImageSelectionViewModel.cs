@@ -40,8 +40,9 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
 ;           this.m_ProfileImageSelectionView = 
                 profileImageSelectionView ?? throw new ArgumentNullException(nameof(profileImageSelectionView));
 
-            this.BindInteractionMethodsToCommands();
+            this.BindLogicToCommands();
             this.RegisterViewModelActions();
+            this.m_ProfileImageSelectionView.BindToViewModel(this);
         }
 
         #endregion Constructors
@@ -69,15 +70,13 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
         #region - - - - - - Methods - - - - - -
 
         // -------------------------------------
-        // Initialization Methods
+        // Setup Methods
         // -------------------------------------
         
-        private void BindInteractionMethodsToCommands()
+        private void BindLogicToCommands()
         {
             this.m_SelectProfileImageCommand = new RelayCommand<ProfileImageModel>(this.SelectProfileImage);
             this.m_SaveSelectionCommand = new RelayCommand(this.SaveProfileImageSelection);
-            
-            this.m_ProfileImageSelectionView.BindToViewModel(this);
         }
 
         private void RegisterViewModelActions() 
@@ -94,7 +93,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
             => this.m_Mediator.Invoke(GameSaveMenuEventType.UpdateProfileImageSelection, this.m_SelectedImage);
 
         // -------------------------------------
-        // ViewModel Action Methods
+        // ViewModel Actions
         // -------------------------------------
 
         private void ShowModal() 

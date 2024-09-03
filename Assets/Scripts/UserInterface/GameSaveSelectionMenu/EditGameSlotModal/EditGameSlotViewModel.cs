@@ -6,7 +6,6 @@ using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Mappers;
-using UnityEngine;
 using UserInterface.GameSaveSelectionMenu.Mediator;
 
 namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
@@ -17,7 +16,6 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
 
         #region - - - - - - Fields - - - - - -
 
-        // Incoming Commands
         public ICommand<string> EditDisplayNameCommand;
         public ICommand SaveGameSlotCommand;
         public ICommand CreateGameSlotCommand;
@@ -51,21 +49,12 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
             this.m_Mediator = gameSaveSelectionMenuMediator ??
                                 throw new ArgumentNullException(nameof(gameSaveSelectionMenuMediator));
 
-            this.BindInteractionMethodsToCommands();
+            this.BindLogicToCommands();
             this.RegisterMediatorActions();
+            this.m_EditGameSlotView.BindToViewModel(this);
         }
 
         #endregion Constructors
-
-        #region - - - - - - Events - - - - - -
-
-        public event Action<string> OnDisplayNameChanged;
-        
-        public event Action<ProfileImageModel> OnSelectedImageChanged;
-
-        public event Action<bool> OnShowEditGameSlotModal;
-
-        #endregion Events
   
         #region - - - - - - Properties - - - - - -
 
@@ -95,22 +84,30 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         }
 
         #endregion Properties
+
+        #region - - - - - - Events - - - - - -
+
+        public event Action<string> OnDisplayNameChanged;
+        
+        public event Action<ProfileImageModel> OnSelectedImageChanged;
+
+        public event Action<bool> OnShowEditGameSlotModal;
+
+        #endregion Events
   
         #region - - - - - - Methods - - - - - -
 
         // -----------------------------------------
-        // Initialization methods
+        // Setup Methods
         // -----------------------------------------
 
-        private void BindInteractionMethodsToCommands()
+        private void BindLogicToCommands()
         {
             this.EditDisplayNameCommand = new RelayCommand<string>(name => { this.DisplayName = name; } );
             this.CreateGameSlotCommand = new RelayCommand(this.CreateNewGameSlot);
             this.SaveGameSlotCommand = new RelayCommand(this.SaveGameSlot);
             this.ExitModalCommand = new RelayCommand(this.ExitModalMenu);
             this.SelectProfileImageCommand = new RelayCommand(this.ShowProfileSelectionModal);
-            
-            this.m_EditGameSlotView.BindToViewModel(this);
         }
         
         private void RegisterMediatorActions()
@@ -130,7 +127,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         }
         
         // -----------------------------------------
-        // Command methods
+        // Command Methods
         // -----------------------------------------
         
         private void CreateNewGameSlot()
@@ -138,7 +135,8 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
             CreateGameSaveInputPort _InputPort = new();
             this.m_Mapper.Map(this, _InputPort);
             this.m_GameSaveFacade.CreateGameSave(_InputPort, this.m_CreateOutputPort);
-            this.m_EditGameSlotView.ContentGroup.SetActive(false);
+            
+            this.m_Mediator.Invoke(GameSaveMenuEventType.ShowGameSaveSlotSelectionMenu);
         }
 
         private void SaveGameSlot()
@@ -146,20 +144,18 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
             UpdateGameSaveInputPort _InputPort = new();
             this.m_Mapper.Map(this, _InputPort);
             this.m_GameSaveFacade.UpdateGameSave(_InputPort, this.m_UpdateOutputPort);
-            this.m_EditGameSlotView.ContentGroup.SetActive(false);
+            
+            this.m_Mediator.Invoke(GameSaveMenuEventType.ShowGameSaveSlotSelectionMenu);
         }
 
         private void ShowProfileSelectionModal()
             => this.m_Mediator.Invoke(GameSaveMenuEventType.ShowProfileImageSelectionMenu);
 
-        private void ExitModalMenu()
-        {
-            Debug.Log("[LOG] - Exit modal menu");
-            this.m_EditGameSlotView.ContentGroup.SetActive(false);
-        }
-        
+        private void ExitModalMenu() 
+            => this.m_Mediator.Invoke(GameSaveMenuEventType.ShowGameSaveSlotSelectionMenu);
+
         // -----------------------------------------
-        // ViewModel Actions Methods
+        // View Model Actions
         // -----------------------------------------
 
         private void SetSlotSelectionValuesToModal(EditGameSaveSlotDisplayWrapper displayWrapper)

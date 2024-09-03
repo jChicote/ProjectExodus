@@ -27,24 +27,6 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
 
         #endregion Fields
 
-        #region - - - - - - Properties - - - - - -
-
-        public GameObject ContentGroup => this.m_ContentGroup;
-
-        public Button CreateButton => this.m_CreateButton;
-
-        public Button SaveButton => this.m_SaveButton;
-
-        public Button ExitButton => this.m_ExitButton;
-
-        public TMP_InputField DisplayNameInputField => this.m_DisplayNameInputField;
-
-        public Image SelectedProfileImage => this.m_SelectedProfileImage;
-
-        public Button SelectedProfileImageButton => this.m_SelectedProfileImageButton;
-
-        #endregion Properties
-  
         #region - - - - - - Methods - - - - - -
 
         public void BindToViewModel(EditGameSlotViewModel viewModel)
@@ -54,31 +36,55 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
             viewModel.OnShowEditGameSlotModal += this.ShowSlotModal;
             
             this.m_CreateButton.onClick.AddListener(viewModel.CreateGameSlotCommand.Execute);
+            this.m_CreateButton.onClick.AddListener(this.HideModal);
             this.m_SaveButton.onClick.AddListener(viewModel.SaveGameSlotCommand.Execute);
+            this.m_SaveButton.onClick.AddListener(this.HideModal);
             this.m_ExitButton.onClick.AddListener(viewModel.ExitModalCommand.Execute);
+            this.m_ExitButton.onClick.AddListener(this.HideModal);
             this.m_SelectedProfileImageButton.onClick.AddListener(viewModel.SelectProfileImageCommand.Execute);
+            this.m_SelectedProfileImageButton.onClick.AddListener(this.DisableViewInteraction);
             this.m_DisplayNameInputField.onValueChanged.AddListener(viewModel.EditDisplayNameCommand.Execute);
         }
         
-        // --------------------------------
-        // View subscribed methods
-        // --------------------------------
+        // -------------------------------------
+        // Event Handlers
+        // -------------------------------------
+        
+        private void EnableViewInteraction()
+        {
+            this.m_CanvasGroup.interactable = true;
+            this.m_CanvasGroup.blocksRaycasts = true;
+        }
+        
+        private void DisableViewInteraction()
+        {
+            this.m_CanvasGroup.interactable = false;
+            this.m_CanvasGroup.blocksRaycasts = false;
+        }
 
         private void ShowSlotModal(bool isCreatingSave)
         {
-            this.CreateButton.gameObject.SetActive(isCreatingSave);
-            this.SaveButton.gameObject.SetActive(!isCreatingSave);
-            this.ContentGroup.SetActive(true);
+            this.EnableViewInteraction();
+            
+            this.m_CreateButton.gameObject.SetActive(isCreatingSave);
+            this.m_SaveButton.gameObject.SetActive(!isCreatingSave);
+            this.m_ContentGroup.SetActive(true);
         }
         
         private void OnDisplayNameChanged(string displayName)
-            => this.DisplayNameInputField.text = !string.IsNullOrWhiteSpace(displayName) 
+            => this.m_DisplayNameInputField.text = !string.IsNullOrWhiteSpace(displayName) 
                                                     ? displayName
                                                     : "My Game Save";
 
         private void OnSelectedProfileImageChanged(ProfileImageModel selectedImage)
-            => this.SelectedProfileImage.sprite = selectedImage.Image;
-        
+        {
+            this.m_SelectedProfileImage.sprite = selectedImage.Image;
+            this.EnableViewInteraction();
+        }
+
+        private void HideModal() 
+            => this.m_ContentGroup.SetActive(false);
+
         #endregion Methods
 
     }
