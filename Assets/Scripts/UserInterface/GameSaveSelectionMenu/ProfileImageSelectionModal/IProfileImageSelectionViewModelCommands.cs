@@ -6,7 +6,7 @@ using ProjectExodus.Domain.Models;
 namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectionModal
 {
 
-    public interface IProfileImageSelectionViewModelCommands
+    public interface IProfileImageSelectionModalNotifyEvents
     {
 
         #region - - - - - - Events - - - - - -

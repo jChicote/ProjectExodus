@@ -89,9 +89,9 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
             EditGameSaveSlotDisplayWrapper _DisplayWrapper = new(_GameSaveSlotDto, this, this);
             
             this.m_Mediator.Invoke(this.m_IsSlotEmpty
-                ? GameSaveMenuEventType.OnEmptySlotSelection
-                : GameSaveMenuEventType.OnGameSaveSlotSelection);
-            this.m_Mediator.Invoke(GameSaveMenuEventType.OnGameSaveSlotSelection, _DisplayWrapper);
+                ? GameSaveMenuEventType.EmptySaveSlot_Selected
+                : GameSaveMenuEventType.GameSaveSlot_Selected);
+            this.m_Mediator.Invoke(GameSaveMenuEventType.GameSaveSlot_Selected, _DisplayWrapper);
         }
 
         #endregion Events

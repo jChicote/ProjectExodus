@@ -12,6 +12,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
 
         #region - - - - - - Fields - - - - - -
 
+        [Header("Content Group")]
         [SerializeField] private GameObject m_ContentGroup;
         
         [Header("Views")] 
@@ -25,6 +26,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
 
         private void Awake()
         {
+            // Subscribe listeners from view methods
             this.m_SaveButton.onClick.AddListener(this.HideProfileImageSelectorModal);
             this.m_ExitButton.onClick.AddListener(this.HideProfileImageSelectorModal);
         }
@@ -33,15 +35,21 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
   
         #region - - - - - - Methods - - - - - -
 
-        void IProfileImageSelectionView.BindToViewModel(IProfileImageSelectionViewModelCommands viewModelCommands)
+        void IProfileImageSelectionView.BindToViewModel(IProfileImageSelectionModalNotifyEvents viewModelCommands)
         {
             viewModelCommands.OnShowMenuModalWithImage += this.ShowProfileImageSelectionModal;
             this.m_SaveButton.onClick.AddListener(viewModelCommands.SaveSelectionCommand.Execute);
+            this.m_SaveButton.onClick.AddListener(viewModelCommands.ExitModalCommand.Execute);
+            this.m_ExitButton.onClick.AddListener(viewModelCommands.ExitModalCommand.Execute);
 
             // Bind Sub-Views
             foreach (ProfileImageView _ImageOptionView in this.m_ImageOptions)
                 _ImageOptionView.BindToViewModel(viewModelCommands);
         }
+        
+        // -------------------------------------
+        // Event Handlers
+        // -------------------------------------
         
         private void ShowProfileImageSelectionModal(List<ProfileImageModel> profileImages)
         {

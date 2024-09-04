@@ -9,7 +9,7 @@ using UserInterface.GameSaveSelectionMenu.Mediator;
 namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectionModal
 {
 
-    public class ProfileImageSelectionViewModel : IProfileImageSelectionViewModelCommands
+    public class ProfileImageSelectionViewModel : IProfileImageSelectionModalNotifyEvents
     {
 
         #region - - - - - - Fields - - - - - -
@@ -37,35 +37,35 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
                                 throw new ArgumentNullException(nameof(gameSaveSelectionMenuMediator));
             this.m_ProfileImageProvider =
                 profileImageModelProvider ?? throw new ArgumentNullException(nameof(profileImageModelProvider));
-;           this.m_ProfileImageSelectionView = 
-                profileImageSelectionView ?? throw new ArgumentNullException(nameof(profileImageSelectionView));
+            
+            if (profileImageSelectionView == null)
+                throw new ArgumentNullException(nameof(profileImageSelectionView));
 
             this.BindLogicToCommands();
             this.RegisterViewModelActions();
-            this.m_ProfileImageSelectionView.BindToViewModel(this);
+            profileImageSelectionView.BindToViewModel(this);
         }
 
         #endregion Constructors
+  
+        #region - - - - - - Properties - - - - - -
+
+        ICommand<ProfileImageModel> IProfileImageSelectionModalNotifyEvents.SelectProfileImageCommand
+            => this.m_SelectProfileImageCommand;
+
+        ICommand IProfileImageSelectionModalNotifyEvents.SaveSelectionCommand
+            => this.m_SaveSelectionCommand;
+
+        ICommand IProfileImageSelectionModalNotifyEvents.ExitModalCommand
+            => this.m_ExitModalCommand;
+
+        #endregion Properties
 
         #region - - - - - - Events - - - - - -
         
         public event Action<List<ProfileImageModel>> OnShowMenuModalWithImage;
-        
 
         #endregion Events
-  
-        #region - - - - - - Properties - - - - - -
-
-        ICommand<ProfileImageModel> IProfileImageSelectionViewModelCommands.SelectProfileImageCommand
-            => this.m_SelectProfileImageCommand;
-
-        ICommand IProfileImageSelectionViewModelCommands.SaveSelectionCommand
-            => this.m_SaveSelectionCommand;
-
-        ICommand IProfileImageSelectionViewModelCommands.ExitModalCommand
-            => this.m_ExitModalCommand;
-
-        #endregion Properties
   
         #region - - - - - - Methods - - - - - -
 
@@ -80,7 +80,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
         }
 
         private void RegisterViewModelActions() 
-            => this.m_Mediator.Register(GameSaveMenuEventType.ShowProfileImageSelectionMenu, this.ShowModal);
+            => this.m_Mediator.Register(GameSaveMenuEventType.ProfileImageSelectionModal_Open, this.ShowModal);
 
         // -------------------------------------
         // Command Methods
@@ -90,7 +90,10 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
             => this.m_SelectedImage = profileImageModel;
 
         private void SaveProfileImageSelection() 
-            => this.m_Mediator.Invoke(GameSaveMenuEventType.UpdateProfileImageSelection, this.m_SelectedImage);
+            => this.m_Mediator.Invoke(GameSaveMenuEventType.EditGameSlotImage_Update, this.m_SelectedImage);
+
+        private void ResetScreenStateAndSelection() 
+            => this.m_SelectedImage = default;
 
         // -------------------------------------
         // ViewModel Actions
@@ -100,7 +103,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
             => this.OnShowMenuModalWithImage?.Invoke(this.m_ProfileImageProvider.ProvideAll());
 
         #endregion Methods
-  
+        
     }
 
 }

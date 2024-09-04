@@ -7,7 +7,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
 
         #region - - - - - - Methods - - - - - -
 
-        void BindToViewModel(IProfileImageSelectionViewModelCommands viewModelCommands);
+        void BindToViewModel(IProfileImageSelectionModalNotifyEvents viewModelCommands);
 
         #endregion Methods
 

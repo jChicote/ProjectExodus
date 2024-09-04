@@ -61,13 +61,18 @@ namespace UserInterface.GameSaveSelectionMenu.Mediator
 
     public enum GameSaveMenuEventType
     {
-        OnGameSaveSlotSelection,
-        OnEmptySlotSelection,
-        StartCreatingNewGameSlot,
-        StartEditingGameSlot,
-        ShowProfileImageSelectionMenu,
-        UpdateProfileImageSelection,
-        ShowGameSaveSlotSelectionMenu
+        // Game Save Screen
+        GameSaveSlot_Selected,
+        EmptySaveSlot_Selected,
+        GameSaveMenuInteraction_Enabled,
+        
+        // Edit Game Slot Modal
+        CreateNewGameSlot_Open,
+        EditGameSlot_Open,
+        EditGameSlotImage_Update,
+        
+        // Profile Image Selection Modal
+        ProfileImageSelectionModal_Open
     }
 
 }

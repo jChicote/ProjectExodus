@@ -113,16 +113,16 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         private void RegisterMediatorActions()
         {
             this.m_Mediator.Register<EditGameSaveSlotDisplayWrapper>(
-                GameSaveMenuEventType.OnGameSaveSlotSelection,
+                GameSaveMenuEventType.GameSaveSlot_Selected,
                 this.SetSlotSelectionValuesToModal);
             this.m_Mediator.Register(
-                GameSaveMenuEventType.StartCreatingNewGameSlot,
+                GameSaveMenuEventType.CreateNewGameSlot_Open,
                 this.ShowCreateSlotModal);
             this.m_Mediator.Register(
-                GameSaveMenuEventType.StartEditingGameSlot,
+                GameSaveMenuEventType.EditGameSlot_Open,
                 this.ShowEditSlotModal);
             this.m_Mediator.Register<ProfileImageModel>(
-                GameSaveMenuEventType.UpdateProfileImageSelection,
+                GameSaveMenuEventType.EditGameSlotImage_Update,
                 this.UpdateProfileImage);
         }
         
@@ -136,7 +136,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
             this.m_Mapper.Map(this, _InputPort);
             this.m_GameSaveFacade.CreateGameSave(_InputPort, this.m_CreateOutputPort);
             
-            this.m_Mediator.Invoke(GameSaveMenuEventType.ShowGameSaveSlotSelectionMenu);
+            this.m_Mediator.Invoke(GameSaveMenuEventType.GameSaveMenuInteraction_Enabled);
         }
 
         private void SaveGameSlot()
@@ -145,14 +145,14 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
             this.m_Mapper.Map(this, _InputPort);
             this.m_GameSaveFacade.UpdateGameSave(_InputPort, this.m_UpdateOutputPort);
             
-            this.m_Mediator.Invoke(GameSaveMenuEventType.ShowGameSaveSlotSelectionMenu);
+            this.m_Mediator.Invoke(GameSaveMenuEventType.GameSaveMenuInteraction_Enabled);
         }
 
         private void ShowProfileSelectionModal()
-            => this.m_Mediator.Invoke(GameSaveMenuEventType.ShowProfileImageSelectionMenu);
+            => this.m_Mediator.Invoke(GameSaveMenuEventType.ProfileImageSelectionModal_Open);
 
         private void ExitModalMenu() 
-            => this.m_Mediator.Invoke(GameSaveMenuEventType.ShowGameSaveSlotSelectionMenu);
+            => this.m_Mediator.Invoke(GameSaveMenuEventType.GameSaveMenuInteraction_Enabled);
 
         // -----------------------------------------
         // View Model Actions

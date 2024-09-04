@@ -82,9 +82,9 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
 
         private void RegisterMediatorActions()
         {
-            this.m_Mediator.Register(GameSaveMenuEventType.OnEmptySlotSelection, this.DisplayEmptySaveSlotMenuButtons);
-            this.m_Mediator.Register(GameSaveMenuEventType.OnGameSaveSlotSelection, this.DisplayEditGameSaveSlotMenuButtons);
-            this.m_Mediator.Register(GameSaveMenuEventType.ShowGameSaveSlotSelectionMenu, this.ShowGameSaveSelectionMenu);
+            this.m_Mediator.Register(GameSaveMenuEventType.EmptySaveSlot_Selected, this.DisplayEmptySaveSlotMenuButtons);
+            this.m_Mediator.Register(GameSaveMenuEventType.GameSaveSlot_Selected, this.DisplayEditGameSaveSlotMenuButtons);
+            this.m_Mediator.Register(GameSaveMenuEventType.GameSaveMenuInteraction_Enabled, this.ShowGameSaveSelectionMenu);
         }
         
         // -----------------------------------------
@@ -94,7 +94,7 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
         private void NewGameSaveSlot()
         {
             this.OnDisableViewInteraction?.Invoke();
-            this.m_Mediator.Invoke(GameSaveMenuEventType.StartCreatingNewGameSlot);
+            this.m_Mediator.Invoke(GameSaveMenuEventType.CreateNewGameSlot_Open);
         }
 
         private void ClearGameSaveSlot() 
@@ -103,7 +103,7 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
         private void EditGameSaveSlot()
         {
             this.OnDisableViewInteraction?.Invoke();
-            this.m_Mediator.Invoke(GameSaveMenuEventType.StartEditingGameSlot);
+            this.m_Mediator.Invoke(GameSaveMenuEventType.EditGameSlot_Open);
         }
 
         private void QuiteGame() 
