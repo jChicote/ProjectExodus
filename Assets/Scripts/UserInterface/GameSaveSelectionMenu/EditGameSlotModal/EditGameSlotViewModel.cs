@@ -16,13 +16,12 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
 
         #region - - - - - - Fields - - - - - -
 
-        public ICommand<string> EditDisplayNameCommand;
-        public ICommand SaveGameSlotCommand;
         public ICommand CreateGameSlotCommand;
+        public ICommand<string> EditDisplayNameCommand;
         public ICommand ExitModalCommand;
+        public ICommand SaveGameSlotCommand;
         public ICommand SelectProfileImageCommand;
         
-        private readonly EditGameSlotView m_EditGameSlotView;
         private readonly IGameSaveFacade m_GameSaveFacade;
         private readonly IObjectMapper m_Mapper;
         private readonly IGameSaveSelectionMenuMediator m_Mediator;
@@ -43,7 +42,6 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
             IGameSaveSelectionMenuMediator gameSaveSelectionMenuMediator,
             IObjectMapper mapper)
         {
-            this.m_EditGameSlotView = editGameSlotView ?? throw new ArgumentNullException(nameof(editGameSlotView));
             this.m_GameSaveFacade = gameSaveFacade ?? throw new ArgumentNullException(nameof(gameSaveFacade));
             this.m_Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.m_Mediator = gameSaveSelectionMenuMediator ??
@@ -51,7 +49,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
 
             this.BindLogicToCommands();
             this.RegisterMediatorActions();
-            this.m_EditGameSlotView.BindToViewModel(this);
+            editGameSlotView.BindToViewModel(this);
         }
 
         #endregion Constructors
@@ -165,8 +163,6 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
             this.SelectedProfileImage = displayWrapper.GameSaveSlotDto.ProfileImage;
             this.m_CreateOutputPort = displayWrapper.CreateOutputPort;
             this.m_UpdateOutputPort = displayWrapper.UpdateOutputPort;
-
-            this.m_EditGameSlotView.BindToViewModel(this);
         }
 
         private void ShowCreateSlotModal() 

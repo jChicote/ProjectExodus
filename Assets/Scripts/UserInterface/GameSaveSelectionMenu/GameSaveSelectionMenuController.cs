@@ -102,13 +102,13 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
                 {
                     GameSaveModel _Model = _OrderedSlots.ElementAt(_Index);
                     GameSaveSlotViewModel _ViewModel = this.CreateGameSaveSlotViewModels(_Model, _Index);
-                    _ViewModel.DisplayGameSaveSlot();
+                    _ViewModel.DisplayUsedGameSlot();
                 }
                 else
                 {
                     GameSaveModel _Model = new() { GameSlotDisplayIndex = _Index };
                     GameSaveSlotViewModel _ViewModel = this.CreateGameSaveSlotViewModels(_Model, _Index);
-                    _ViewModel.DisplayEmptySlot();
+                    _ViewModel.DisplayEmptyGameSlot();
                 }
             }
         }

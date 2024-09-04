@@ -77,6 +77,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
         {
             this.m_SelectProfileImageCommand = new RelayCommand<ProfileImageModel>(this.SelectProfileImage);
             this.m_SaveSelectionCommand = new RelayCommand(this.SaveProfileImageSelection);
+            this.m_ExitModalCommand = new RelayCommand(this.ResetScreenStateAndSelection);
         }
 
         private void RegisterViewModelActions() 

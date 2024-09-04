@@ -1,6 +1,8 @@
 using System;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
+using ProjectExodus.Common.Infrastructure;
+using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal;
@@ -13,14 +15,16 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
 
     public class GameSaveSlotViewModel :
         ICreateGameSaveOutputPort,
+        IGameSaveSlotNotifyEvents,
         IUpdateGameSaveOutputPort
     {
 
         #region - - - - - - Fields - - - - - -
 
         private const int MAX_DISPLAYNAME_LENGTH = 10;
+
+        private ICommand m_SlotSelectionCommand;
         
-        private readonly GameSaveSlotView m_GameSaveSlotView;
         private readonly IObjectMapper m_Mapper;
         private readonly IGameSaveSelectionMenuMediator m_Mediator;
         
@@ -33,11 +37,10 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
 
         public GameSaveSlotViewModel(
             GameSaveModel gameSaveModel,
-            GameSaveSlotView gameSaveSlotView,
+            IGameSaveSlotView gameSaveSlotView,
             IGameSaveSelectionMenuMediator gameSaveSelectionMenuMediator,
             IObjectMapper objectMapper)
         {
-            this.m_GameSaveSlotView = gameSaveSlotView ?? throw new ArgumentNullException(nameof(gameSaveSlotView));
             this.m_Mapper = objectMapper ?? throw new ArgumentNullException(nameof(objectMapper));
             this.m_Mediator = gameSaveSelectionMenuMediator ?? 
                                 throw new ArgumentNullException(nameof(gameSaveSelectionMenuMediator));
@@ -45,8 +48,8 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
             if (gameSaveModel == null) this.m_IsSlotEmpty = true;
             this.GameSaveModel = gameSaveModel ?? new GameSaveModel();
             
-            // Bind slot button
-            this.m_GameSaveSlotView.SlotButton.onClick.AddListener(this.OnSlotSelection);
+            this.BindLogicToCommands();
+            gameSaveSlotView.BindToViewModel(this);
         }
 
         #endregion Constructors
@@ -63,24 +66,31 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
                 if (value == null) return;
 
                 this.m_GameSaveModel = value;
-                
-                this.m_GameSaveSlotView.SlotPercentage.text = $"{this.m_GameSaveModel.CompletionProgress}%";
-                this.m_GameSaveSlotView.SlotTitle.text = this.m_GameSaveModel.GameSaveName.Length > MAX_DISPLAYNAME_LENGTH 
-                                                            ? this.m_GameSaveModel.GameSaveName
-                                                                .Substring(0, MAX_DISPLAYNAME_LENGTH) + "..." 
-                                                            : this.m_GameSaveModel.GameSaveName;
-                this.m_GameSaveSlotView.SlotLastAccessedDate.text =
-                    $"{this.m_GameSaveModel.LastAccessedDate.Day}/" +
-                    $"{this.m_GameSaveModel.LastAccessedDate.Month}/" +
-                    $"{this.m_GameSaveModel.LastAccessedDate.Year}";
-                this.m_GameSaveSlotView.SlotProfileImage.sprite = this.m_GameSaveModel.ProfileImage.Image;
+
+                this.OnPropertyChangeEvent?.Invoke("SlotPercentage", this.m_GameSaveModel.CompletionProgress);
+                this.OnPropertyChangeEvent?.Invoke("SlotTitle", this.m_GameSaveModel.GameSaveName);
+                this.OnPropertyChangeEvent?.Invoke("SlotLastAccessedDate", this.m_GameSaveModel.LastAccessedDate);
+                this.OnPropertyChangeEvent?.Invoke("SlotProfileImage", this.m_GameSaveModel.ProfileImage.Image);
             }
         }
+
+        ICommand IGameSaveSlotNotifyEvents.SlotSelectionCommand => this.m_SlotSelectionCommand;
 
         #endregion Properties
 
         #region - - - - - - Events - - - - - -
 
+        public event Action<bool> OnDisplayGameSaveSlot;
+
+        public event Action<string, object> OnPropertyChangeEvent;
+        
+        #endregion Events
+
+        #region - - - - - - Methods - - - - - -
+        
+        private void BindLogicToCommands() 
+            => this.m_SlotSelectionCommand = new RelayCommand(this.OnSlotSelection);
+        
         private void OnSlotSelection()
         {
             GameSaveSlotDto _GameSaveSlotDto = new GameSaveSlotDto();
@@ -94,26 +104,20 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
             this.m_Mediator.Invoke(GameSaveMenuEventType.GameSaveSlot_Selected, _DisplayWrapper);
         }
 
-        #endregion Events
-
-        #region - - - - - - Methods - - - - - -
-
-        public void DisplayGameSaveSlot()
+        // This is a hack solution. These game slots should really belong to the GameSaveSlot screen.
+        public void DisplayEmptyGameSlot()
         {
-            this.m_IsSlotEmpty = false;
-
-            this.m_GameSaveSlotView.GameSlotContentGroup.SetActive(true);
-            this.m_GameSaveSlotView.EmptySlotContentGroup.SetActive(false);
+            this.OnDisplayGameSaveSlot?.Invoke(true);
+            this.m_Mediator.Invoke(GameSaveMenuEventType.EmptySaveSlot_Selected);
         }
 
-        public void DisplayEmptySlot()
+        // This is a hack solution. These game slots should really belong to the GameSaveSlot screen.
+        public void DisplayUsedGameSlot()
         {
-            this.m_IsSlotEmpty = true;
-            
-            this.m_GameSaveSlotView.GameSlotContentGroup.SetActive(false);
-            this.m_GameSaveSlotView.EmptySlotContentGroup.SetActive(true);
+            this.OnDisplayGameSaveSlot?.Invoke(false);
+            this.m_Mediator.Invoke(GameSaveMenuEventType.GameSaveSlot_Selected);
         }
-        
+
         // ----------------------------------
         // OutputPort Presentation Methods
         // ----------------------------------
@@ -121,15 +125,11 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
         void ICreateGameSaveOutputPort.PresentCreatedGameSave(GameSaveModel gameSaveModel)
         {
             this.GameSaveModel = gameSaveModel;
-            this.DisplayGameSaveSlot();
-            Debug.Log("[LOG]: Created GameSaveModel loaded to GameSlot");
+            this.OnDisplayGameSaveSlot?.Invoke(false);
         }
 
-        void IUpdateGameSaveOutputPort.PresentUpdatedGameSave(GameSaveModel gameSaveModel)
-        {
-            this.GameSaveModel = gameSaveModel;
-            Debug.Log("[LOG]: Updated GameSaveModel loaded to GameSlot");
-        }
+        void IUpdateGameSaveOutputPort.PresentUpdatedGameSave(GameSaveModel gameSaveModel) 
+            => this.GameSaveModel = gameSaveModel;
 
         void IUpdateGameSaveOutputPort.PresentFailedUpdateOfGameSave() 
             => Debug.LogError("[ERROR]: Cannot find the Game Save.");

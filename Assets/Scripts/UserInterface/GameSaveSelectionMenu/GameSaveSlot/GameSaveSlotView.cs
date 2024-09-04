@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,10 +6,12 @@ using UnityEngine.UI;
 namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
 {
 
-    public class GameSaveSlotView : MonoBehaviour
+    public class GameSaveSlotView : MonoBehaviour, IGameSaveSlotView
     {
 
         #region - - - - - - Fields - - - - - -
+        
+        private const int MAX_DISPLAYNAME_LENGTH = 10;
 
         [Header("Content Groups")]
         [SerializeField] GameObject m_GameSlotContentGroup;
@@ -23,24 +26,59 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
 
         #endregion Fields
 
-        #region - - - - - - Properties - - - - - -
+        #region - - - - - - Methods - - - - - -
 
-        public GameObject GameSlotContentGroup => this.m_GameSlotContentGroup;
+        void IGameSaveSlotView.BindToViewModel(IGameSaveSlotNotifyEvents viewModelNotify)
+        {
+            viewModelNotify.OnDisplayGameSaveSlot += this.DisplayGameSaveSlot;
+            viewModelNotify.OnPropertyChangeEvent += this.OnPropertyChanged;
+            
+            this.m_SlotButton.onClick.AddListener(viewModelNotify.SlotSelectionCommand.Execute);
+        }
+            
+        private void DisplayGameSaveSlot(bool isEmpty)
+        {
+            if (isEmpty)
+            {
+                // This will be ideal to invoke when the user clears a slot
+                this.m_GameSlotContentGroup.SetActive(false);
+                this.m_EmptySlotContentGroup.SetActive(true);
+                return;
+            }
+            
+            this.m_GameSlotContentGroup.SetActive(true);
+            this.m_EmptySlotContentGroup.SetActive(false);
+        }
 
-        public GameObject EmptySlotContentGroup => this.m_EmptySlotContentGroup;
-
-        public Image SlotProfileImage => this.m_SlotProfileImage;
-
-        public Button SlotButton => this.m_SlotButton;
-
-        public TMP_Text SlotTitle => this.m_SlotTitle;
-
-        public TMP_Text SlotLastAccessedDate => this.m_SlotLastAccessedDate;
-
-        public TMP_Text SlotPercentage => this.m_SlotPercentage;
-
-        #endregion Properties
-
+        private void OnPropertyChanged(string updateType, object sender)
+        {
+            switch (updateType)
+            {
+                case "SlotPercentage":
+                    this.m_SlotPercentage.text = $"{(float)sender}%";
+                    break;
+                case "SlotTitle":
+                    var _GameSaveName = (string)sender;
+                    this.m_SlotTitle.text = _GameSaveName.Length > MAX_DISPLAYNAME_LENGTH 
+                        ? _GameSaveName.Substring(0, MAX_DISPLAYNAME_LENGTH) + "..." 
+                        : _GameSaveName;
+                    this.m_SlotTitle.text = (string)sender;
+                    break;
+                case "SlotLastAccessedDate":
+                    DateTime _LastAccessedDate = ((DateTime)sender);
+                    this.m_SlotLastAccessedDate.text =
+                        $"{_LastAccessedDate.Day}/" +
+                        $"{_LastAccessedDate.Month}/" +
+                        $"{_LastAccessedDate.Year}";
+                    break;
+                case "SlotProfileImage":
+                    this.m_SlotProfileImage.sprite = ((Sprite)sender);
+                    break;
+            }
+        }
+            
+        #endregion Methods
+  
     }
 
 }
