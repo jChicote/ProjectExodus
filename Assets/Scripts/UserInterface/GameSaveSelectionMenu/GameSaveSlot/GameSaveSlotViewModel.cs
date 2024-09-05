@@ -21,8 +21,6 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
 
         #region - - - - - - Fields - - - - - -
 
-        private const int MAX_DISPLAYNAME_LENGTH = 10;
-
         private ICommand m_SlotSelectionCommand;
         
         private readonly IObjectMapper m_Mapper;
@@ -108,14 +106,14 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
         public void DisplayEmptyGameSlot()
         {
             this.OnDisplayGameSaveSlot?.Invoke(true);
-            this.m_Mediator.Invoke(GameSaveMenuEventType.EmptySaveSlot_Selected);
+            this.m_IsSlotEmpty = true;
         }
 
         // This is a hack solution. These game slots should really belong to the GameSaveSlot screen.
         public void DisplayUsedGameSlot()
         {
             this.OnDisplayGameSaveSlot?.Invoke(false);
-            this.m_Mediator.Invoke(GameSaveMenuEventType.GameSaveSlot_Selected);
+            this.m_IsSlotEmpty = false;
         }
 
         // ----------------------------------

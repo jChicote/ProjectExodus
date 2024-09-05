@@ -62,7 +62,6 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
                     this.m_SlotTitle.text = _GameSaveName.Length > MAX_DISPLAYNAME_LENGTH 
                         ? _GameSaveName.Substring(0, MAX_DISPLAYNAME_LENGTH) + "..." 
                         : _GameSaveName;
-                    this.m_SlotTitle.text = (string)sender;
                     break;
                 case "SlotLastAccessedDate":
                     DateTime _LastAccessedDate = ((DateTime)sender);
