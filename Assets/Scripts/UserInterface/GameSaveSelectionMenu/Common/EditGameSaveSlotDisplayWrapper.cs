@@ -3,10 +3,10 @@ using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
 using UserInterface.GameSaveSelectionMenu.Dtos;
 
-namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
+namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.Common
 {
 
-    public class EditGameSaveSlotDisplayWrapper
+    public class GameSaveSlotModelWrapper
     {
 
         #region - - - - - - Fields - - - - - -
@@ -29,7 +29,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
 
         #region - - - - - - Constructors - - - - - -
 
-        public EditGameSaveSlotDisplayWrapper(
+        public GameSaveSlotModelWrapper(
             GameSaveSlotDto gameSaveSlotDto, 
             ICreateGameSaveOutputPort createOutputPort,
             IUpdateGameSaveOutputPort updateOutputPort)

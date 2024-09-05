@@ -2,6 +2,7 @@ using System;
 using ProjectExodus.Common.Infrastructure;
 using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Mappers;
+using ProjectExodus.UserInterface.GameSaveSelectionMenu.Common;
 using UnityEngine;
 using UserInterface.GameSaveSelectionMenu.Mediator;
 
@@ -20,6 +21,8 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
         private ICommand m_ClearGameSaveSlotCommand;
         private ICommand m_EditGameSaveSlotCommand;
         private ICommand m_QuitGameCommand;
+
+        private Guid? m_CurrentlySelectedGameSaveID;
 
         #endregion Fields
 
@@ -74,14 +77,23 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
             this.m_CreateNewGameCommand = new RelayCommand(this.NewGameSaveSlot);
             this.m_ClearGameSaveSlotCommand = new RelayCommand(this.ClearGameSaveSlot);
             this.m_EditGameSaveSlotCommand = new RelayCommand(this.EditGameSaveSlot);
-            this.m_QuitGameCommand = new RelayCommand(this.QuiteGame);
+            this.m_QuitGameCommand = new RelayCommand(this.QuitGame);
         }
 
         private void RegisterMediatorActions()
         {
-            this.m_Mediator.Register(GameSaveMenuEventType.EmptySaveSlot_Selected, this.DisplayEmptySaveSlotMenuButtons);
-            this.m_Mediator.Register(GameSaveMenuEventType.GameSaveSlot_Selected, this.DisplayEditGameSaveSlotMenuButtons);
-            this.m_Mediator.Register(GameSaveMenuEventType.GameSaveMenuInteraction_Enabled, this.ShowGameSaveSelectionMenu);
+            this.m_Mediator.Register(
+                GameSaveMenuEventType.EmptySaveSlot_Selected, 
+                this.DisplayEmptySaveSlotMenuButtons);
+            this.m_Mediator.Register(
+                GameSaveMenuEventType.GameSaveSlot_Selected, 
+                this.DisplayEditGameSaveSlotMenuButtons);
+            this.m_Mediator.Register<GameSaveSlotModelWrapper>(
+                GameSaveMenuEventType.GameSaveSlot_Selected,
+                this.SetCurrentSlotSelection);
+            this.m_Mediator.Register(
+                GameSaveMenuEventType.GameSaveMenuInteraction_Enabled, 
+                this.ShowGameSaveSelectionMenu);
         }
         
         // -----------------------------------------
@@ -94,8 +106,9 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
             this.m_Mediator.Invoke(GameSaveMenuEventType.CreateNewGameSlot_Open);
         }
 
-        private void ClearGameSaveSlot() 
-            => Debug.LogWarning("[WARNING]: Behavior is not implemented.");
+        private void ClearGameSaveSlot()
+        {
+        }
 
         private void EditGameSaveSlot()
         {
@@ -103,9 +116,16 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
             this.m_Mediator.Invoke(GameSaveMenuEventType.EditGameSlot_Open);
         }
 
-        private void QuiteGame() 
-            => Debug.LogWarning("[WARNING]: Behavior is not implemented.");
-        
+        private void QuitGame()
+        {
+            #if UNITY_STANDALONE
+                Application.Quit();
+            #endif
+            #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+            #endif
+        }
+
         // -----------------------------------------
         // View Model Actions
         // -----------------------------------------
@@ -115,6 +135,9 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
 
         private void DisplayEditGameSaveSlotMenuButtons()
             => this.OnShowEditSlotButtonOptions?.Invoke();
+
+        private void SetCurrentSlotSelection(GameSaveSlotModelWrapper gameSaveSlotDisplayWrapper) 
+            => this.m_CurrentlySelectedGameSaveID = gameSaveSlotDisplayWrapper.GameSaveSlotDto.ID;
 
         private void ShowGameSaveSelectionMenu() 
             => this.OnEnableViewInteraction?.Invoke();

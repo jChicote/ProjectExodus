@@ -1,5 +1,5 @@
+using System;
 using ProjectExodus.Domain.Models;
-using UnityEngine;
 
 namespace UserInterface.GameSaveSelectionMenu.Dtos
 {
@@ -8,6 +8,8 @@ namespace UserInterface.GameSaveSelectionMenu.Dtos
     {
         
         #region - - - - - - Properties - - - - - -
+
+        public Guid ID;
 
         public string DisplayName { get; set; }
         

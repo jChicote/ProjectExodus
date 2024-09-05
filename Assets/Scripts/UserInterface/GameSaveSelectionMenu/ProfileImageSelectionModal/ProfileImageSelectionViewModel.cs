@@ -77,7 +77,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
         {
             this.m_SelectProfileImageCommand = new RelayCommand<ProfileImageModel>(this.SelectProfileImage);
             this.m_SaveSelectionCommand = new RelayCommand(this.SaveProfileImageSelection);
-            this.m_ExitModalCommand = new RelayCommand(this.ResetScreenStateAndSelection);
+            this.m_ExitModalCommand = new RelayCommand(this.ExitModal);
         }
 
         private void RegisterViewModelActions() 
@@ -93,8 +93,11 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
         private void SaveProfileImageSelection() 
             => this.m_Mediator.Invoke(GameSaveMenuEventType.EditGameSlotImage_Update, this.m_SelectedImage);
 
-        private void ResetScreenStateAndSelection() 
-            => this.m_SelectedImage = default;
+        private void ExitModal()
+        {
+            this.m_SelectedImage = default;
+            this.m_Mediator.Invoke(GameSaveMenuEventType.EditGameSlot_Open);
+        }
 
         // -------------------------------------
         // ViewModel Actions

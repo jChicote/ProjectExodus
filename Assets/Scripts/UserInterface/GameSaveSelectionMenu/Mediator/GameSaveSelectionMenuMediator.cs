@@ -10,8 +10,8 @@ namespace UserInterface.GameSaveSelectionMenu.Mediator
 
         #region - - - - - - Fields - - - - - -
 
-        private readonly Dictionary<GameSaveMenuEventType, Action> m_ParameterlessHandlers = new();
-        private readonly Dictionary<GameSaveMenuEventType, Action<object>> m_ParameterizedHandlers = new();
+        private readonly Dictionary<GameSaveMenuEventType, List<Action>> m_ParameterlessHandlers = new();
+        private readonly Dictionary<GameSaveMenuEventType, List<Action<object>>> m_ParameterizedHandlers = new();
 
         #endregion Fields
 
@@ -19,10 +19,14 @@ namespace UserInterface.GameSaveSelectionMenu.Mediator
 
         void IGameSaveSelectionMenuMediator.Register(GameSaveMenuEventType eventType, Action handler)
         {
-            if (this.m_ParameterlessHandlers.TryAdd(eventType, handler))
+            if (this.m_ParameterlessHandlers.TryGetValue(eventType, out var _Action))
+            {
+                _Action.Add(handler);
                 return;
-                    
-            Debug.LogError("[Error]: You cannot log the handler more than once.");
+            }
+            
+            if (!this.m_ParameterlessHandlers.TryAdd(eventType, new List<Action> { handler }))
+                Debug.LogError("[Error]: Registered handler cannot be added.");
         }
 
         // Action handler expects parameter objects
@@ -33,26 +37,35 @@ namespace UserInterface.GameSaveSelectionMenu.Mediator
             // Wrap handler to handle parameter casting
             void WrappedHandler(object parameter)
                 => handler((TParameter)parameter);
+            
+            if (this.m_ParameterizedHandlers.TryGetValue(eventType, out var _Action))
+            {
+                _Action.Add(WrappedHandler);
+                return;
+            }
 
-            if (this.m_ParameterizedHandlers.TryAdd(eventType, WrappedHandler));
+            if (!this.m_ParameterizedHandlers.TryAdd(eventType, new List<Action<object>> { WrappedHandler }))
+                Debug.LogError("[Error]: Registered handler cannot be added.");
         }
 
         void IGameSaveSelectionMenuMediator.Invoke(GameSaveMenuEventType eventType)
         {
-            if (!this.m_ParameterlessHandlers.TryGetValue(eventType, out var _Action))
+            if (!this.m_ParameterlessHandlers.TryGetValue(eventType, out var _Actions))
                 Debug.LogWarning($"[WARNING]: Cannot find mediator event '{eventType.ToString()}'.");
-            
-            _Action.Invoke();
+
+            foreach (Action _ActionHandler in _Actions) 
+                _ActionHandler.Invoke();
         }
 
         void IGameSaveSelectionMenuMediator.Invoke<TParameter>(
             GameSaveMenuEventType eventType, 
             TParameter parameter)
         {
-            if (!this.m_ParameterizedHandlers.TryGetValue(eventType, out var _Action))
+            if (!this.m_ParameterizedHandlers.TryGetValue(eventType, out var _Actions))
                 Debug.LogWarning($"[WARNING]: Cannot find mediator event '{eventType.ToString()}'.");
             
-            _Action.Invoke(parameter);
+            foreach (Action<object> _ActionHandler in _Actions) 
+                _ActionHandler.Invoke(parameter);
         }
 
         #endregion Methods

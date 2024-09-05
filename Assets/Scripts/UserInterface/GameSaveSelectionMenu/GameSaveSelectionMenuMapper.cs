@@ -57,6 +57,7 @@ namespace UserInterface.GameSaveSelectionMenu
             GameSaveModel source,
             GameSaveSlotDto destination)
         {
+            destination.ID = source.ID;
             destination.DisplayName = source.GameSaveName;
             destination.ProfileImage = source.ProfileImage;
         }

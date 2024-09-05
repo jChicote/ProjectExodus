@@ -44,6 +44,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         void IEditGameSlotView.BindToViewModel(IEditGameSlotNotifyEvents viewModelNotifier)
         {
             viewModelNotifier.OnDisplayNameChanged += this.OnDisplayNameChanged;
+            viewModelNotifier.OnEnableEditGameSlotModal += this.EnableViewInteraction;
             viewModelNotifier.OnSelectedImageChanged += this.OnSelectedProfileImageChanged;
             viewModelNotifier.OnShowEditGameSlotModal += this.ShowSlotModal;
             

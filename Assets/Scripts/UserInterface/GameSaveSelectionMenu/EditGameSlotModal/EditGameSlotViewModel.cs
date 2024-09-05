@@ -6,6 +6,7 @@ using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Mappers;
+using ProjectExodus.UserInterface.GameSaveSelectionMenu.Common;
 using UserInterface.GameSaveSelectionMenu.Mediator;
 using Random = UnityEngine.Random;
 
@@ -99,6 +100,8 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         #region - - - - - - Events - - - - - -
 
         public event Action<string> OnDisplayNameChanged;
+
+        public event Action OnEnableEditGameSlotModal;
         
         public event Action<ProfileImageModel> OnSelectedImageChanged;
 
@@ -123,18 +126,21 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         
         private void RegisterMediatorActions()
         {
-            this.m_Mediator.Register<EditGameSaveSlotDisplayWrapper>(
-                GameSaveMenuEventType.GameSaveSlot_Selected,
-                this.SetSlotSelectionValuesToModal);
             this.m_Mediator.Register(
                 GameSaveMenuEventType.CreateNewGameSlot_Open,
                 this.ShowCreateSlotModal);
             this.m_Mediator.Register(
                 GameSaveMenuEventType.EditGameSlot_Open,
                 this.ShowEditSlotModal);
+            this.m_Mediator.Register(
+                GameSaveMenuEventType.EditGameSlot_Open,
+                () => { this.OnEnableEditGameSlotModal?.Invoke(); });
             this.m_Mediator.Register<ProfileImageModel>(
                 GameSaveMenuEventType.EditGameSlotImage_Update,
                 this.UpdateProfileImage);
+            this.m_Mediator.Register<GameSaveSlotModelWrapper>(
+                GameSaveMenuEventType.GameSaveSlot_Selected,
+                this.SetSlotSelectionValuesToModal);
         }
         
         // -----------------------------------------
@@ -169,7 +175,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         // View Model Actions
         // -----------------------------------------
 
-        private void SetSlotSelectionValuesToModal(EditGameSaveSlotDisplayWrapper displayWrapper)
+        private void SetSlotSelectionValuesToModal(GameSaveSlotModelWrapper displayWrapper)
         {
             this.DisplayIndex = displayWrapper.GameSaveSlotDto.DisplayIndex;
             this.DisplayName = displayWrapper.GameSaveSlotDto.DisplayName;

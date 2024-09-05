@@ -5,7 +5,7 @@ using ProjectExodus.Common.Infrastructure;
 using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Mappers;
-using ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal;
+using ProjectExodus.UserInterface.GameSaveSelectionMenu.Common;
 using UnityEngine;
 using UserInterface.GameSaveSelectionMenu.Dtos;
 using UserInterface.GameSaveSelectionMenu.Mediator;
@@ -94,7 +94,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
             GameSaveSlotDto _GameSaveSlotDto = new GameSaveSlotDto();
             this.m_Mapper.Map(this.m_GameSaveModel, _GameSaveSlotDto);
 
-            EditGameSaveSlotDisplayWrapper _DisplayWrapper = new(_GameSaveSlotDto, this, this);
+            GameSaveSlotModelWrapper _DisplayWrapper = new(_GameSaveSlotDto, this, this);
             
             this.m_Mediator.Invoke(this.m_IsSlotEmpty
                 ? GameSaveMenuEventType.EmptySaveSlot_Selected
