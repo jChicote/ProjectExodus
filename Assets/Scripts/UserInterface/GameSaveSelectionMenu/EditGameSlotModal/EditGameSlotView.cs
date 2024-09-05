@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
 {
 
-    public class EditGameSlotView : MonoBehaviour
+    public class EditGameSlotView : MonoBehaviour, IEditGameSlotView
     {
 
         #region - - - - - - Fields - - - - - -
@@ -27,23 +27,31 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
 
         #endregion Fields
 
+        #region - - - - - - Unity Methods - - - - - -
+
+        private void Awake()
+        {
+            this.m_CreateButton.onClick.AddListener(this.HideModal);
+            this.m_ExitButton.onClick.AddListener(this.HideModal);
+            this.m_SaveButton.onClick.AddListener(this.HideModal);
+            this.m_SelectedProfileImageButton.onClick.AddListener(this.DisableViewInteraction);
+        }
+
+        #endregion Unity Methods
+  
         #region - - - - - - Methods - - - - - -
 
-        public void BindToViewModel(EditGameSlotViewModel viewModel)
+        void IEditGameSlotView.BindToViewModel(IEditGameSlotNotifyEvents viewModelNotifier)
         {
-            viewModel.OnDisplayNameChanged += this.OnDisplayNameChanged;
-            viewModel.OnSelectedImageChanged += this.OnSelectedProfileImageChanged;
-            viewModel.OnShowEditGameSlotModal += this.ShowSlotModal;
+            viewModelNotifier.OnDisplayNameChanged += this.OnDisplayNameChanged;
+            viewModelNotifier.OnSelectedImageChanged += this.OnSelectedProfileImageChanged;
+            viewModelNotifier.OnShowEditGameSlotModal += this.ShowSlotModal;
             
-            this.m_CreateButton.onClick.AddListener(viewModel.CreateGameSlotCommand.Execute);
-            this.m_CreateButton.onClick.AddListener(this.HideModal);
-            this.m_SaveButton.onClick.AddListener(viewModel.SaveGameSlotCommand.Execute);
-            this.m_SaveButton.onClick.AddListener(this.HideModal);
-            this.m_ExitButton.onClick.AddListener(viewModel.ExitModalCommand.Execute);
-            this.m_ExitButton.onClick.AddListener(this.HideModal);
-            this.m_SelectedProfileImageButton.onClick.AddListener(viewModel.SelectProfileImageCommand.Execute);
-            this.m_SelectedProfileImageButton.onClick.AddListener(this.DisableViewInteraction);
-            this.m_DisplayNameInputField.onValueChanged.AddListener(viewModel.EditDisplayNameCommand.Execute);
+            this.m_CreateButton.onClick.AddListener(viewModelNotifier.CreateGameSlotCommand.Execute);
+            this.m_ExitButton.onClick.AddListener(viewModelNotifier.ExitModalCommand.Execute);
+            this.m_SaveButton.onClick.AddListener(viewModelNotifier.SaveGameSlotCommand.Execute);
+            this.m_SelectedProfileImageButton.onClick.AddListener(viewModelNotifier.SelectProfileImageCommand.Execute);
+            this.m_DisplayNameInputField.onValueChanged.AddListener(viewModelNotifier.EditDisplayNameCommand.Execute);
         }
         
         // -------------------------------------
@@ -72,9 +80,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         }
         
         private void OnDisplayNameChanged(string displayName)
-            => this.m_DisplayNameInputField.text = !string.IsNullOrWhiteSpace(displayName) 
-                                                    ? displayName
-                                                    : "My Game Save";
+            => this.m_DisplayNameInputField.text = displayName;
 
         private void OnSelectedProfileImageChanged(ProfileImageModel selectedImage)
         {

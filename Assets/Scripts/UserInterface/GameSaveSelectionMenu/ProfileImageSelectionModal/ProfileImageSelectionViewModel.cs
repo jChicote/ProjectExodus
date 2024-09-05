@@ -14,13 +14,13 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
 
         #region - - - - - - Fields - - - - - -
 
-        private ICommand<ProfileImageModel> m_SelectProfileImageCommand;
-        private ICommand m_SaveSelectionCommand;
-        private ICommand m_ExitModalCommand;
-
         private readonly IGameSaveSelectionMenuMediator m_Mediator;
         private readonly IProfileImageModelProvider m_ProfileImageProvider;
         private readonly IProfileImageSelectionView m_ProfileImageSelectionView;
+
+        private ICommand<ProfileImageModel> m_SelectProfileImageCommand;
+        private ICommand m_SaveSelectionCommand;
+        private ICommand m_ExitModalCommand;
 
         private ProfileImageModel m_SelectedImage;
 

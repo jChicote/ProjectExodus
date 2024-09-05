@@ -14,16 +14,20 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
         private const int MAX_DISPLAYNAME_LENGTH = 10;
 
         [Header("Content Groups")]
-        [SerializeField] GameObject m_GameSlotContentGroup;
-        [SerializeField] GameObject m_EmptySlotContentGroup;
+        [SerializeField] private GameObject m_GameSlotContentGroup;
         
         [Header("Views")] 
+        [SerializeField] private Image m_BackgroundImage;
         [SerializeField] private Image m_SlotProfileImage;
         [SerializeField] private Button m_SlotButton;
         [SerializeField] private TMP_Text m_SlotTitle;
         [SerializeField] private TMP_Text m_SlotLastAccessedDate;
         [SerializeField] private TMP_Text m_SlotPercentage;
 
+        [Header("View Parameters")]
+        [SerializeField] private Color m_BackgroundColor;
+        [SerializeField] private Color m_EmptyBackgroundColor;
+        
         #endregion Fields
 
         #region - - - - - - Methods - - - - - -
@@ -42,12 +46,12 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
             {
                 // This will be ideal to invoke when the user clears a slot
                 this.m_GameSlotContentGroup.SetActive(false);
-                this.m_EmptySlotContentGroup.SetActive(true);
+                this.m_BackgroundImage.color = this.m_EmptyBackgroundColor;
                 return;
             }
             
             this.m_GameSlotContentGroup.SetActive(true);
-            this.m_EmptySlotContentGroup.SetActive(false);
+            this.m_BackgroundImage.color = this.m_BackgroundColor;
         }
 
         private void OnPropertyChanged(string updateType, object sender)

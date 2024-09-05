@@ -13,14 +13,13 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
 
         #region - - - - - - Fields - - - - - -
         
+        private readonly IObjectMapper m_Mapper;
+        private readonly IGameSaveSelectionMenuMediator m_Mediator;
+        
         private ICommand m_CreateNewGameCommand;
         private ICommand m_ClearGameSaveSlotCommand;
         private ICommand m_EditGameSaveSlotCommand;
         private ICommand m_QuitGameCommand;
-        
-        private readonly IGameSaveSelectionView m_GameSaveSelectionView;
-        private readonly IObjectMapper m_Mapper;
-        private readonly IGameSaveSelectionMenuMediator m_Mediator;
 
         #endregion Fields
 
@@ -30,14 +29,12 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
             IGameSaveSelectionMenuMediator gameSaveSelectionMenuMediator,
             IGameSaveSelectionView gameSaveSelectionView)
         {
-            this.m_GameSaveSelectionView = gameSaveSelectionView ??
-                                                throw new ArgumentNullException(nameof(gameSaveSelectionView));
             this.m_Mediator = gameSaveSelectionMenuMediator ??
                                 throw new ArgumentNullException(nameof(gameSaveSelectionMenuMediator));
 
             this.BindLogicToCommands();
             this.RegisterMediatorActions();
-            this.m_GameSaveSelectionView.BindToViewModel(this);
+            gameSaveSelectionView.BindToViewModel(this);
         }
 
         #endregion Constructors

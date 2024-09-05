@@ -20,11 +20,11 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
     {
 
         #region - - - - - - Fields - - - - - -
-
-        private ICommand m_SlotSelectionCommand;
         
         private readonly IObjectMapper m_Mapper;
         private readonly IGameSaveSelectionMenuMediator m_Mediator;
+
+        private ICommand m_SlotSelectionCommand;
         
         private GameSaveModel m_GameSaveModel;
         private bool m_IsSlotEmpty;
@@ -123,11 +123,14 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
         void ICreateGameSaveOutputPort.PresentCreatedGameSave(GameSaveModel gameSaveModel)
         {
             this.GameSaveModel = gameSaveModel;
-            this.OnDisplayGameSaveSlot?.Invoke(false);
+            this.DisplayUsedGameSlot();
         }
 
-        void IUpdateGameSaveOutputPort.PresentUpdatedGameSave(GameSaveModel gameSaveModel) 
-            => this.GameSaveModel = gameSaveModel;
+        void IUpdateGameSaveOutputPort.PresentUpdatedGameSave(GameSaveModel gameSaveModel)
+        {
+            this.GameSaveModel = gameSaveModel;
+            this.DisplayUsedGameSlot();
+        }
 
         void IUpdateGameSaveOutputPort.PresentFailedUpdateOfGameSave() 
             => Debug.LogError("[ERROR]: Cannot find the Game Save.");

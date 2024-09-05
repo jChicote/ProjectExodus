@@ -7,24 +7,25 @@ using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Mappers;
 using UserInterface.GameSaveSelectionMenu.Mediator;
+using Random = UnityEngine.Random;
 
 namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
 {
 
-    public class EditGameSlotViewModel
+    public class EditGameSlotViewModel : IEditGameSlotNotifyEvents
     {
 
         #region - - - - - - Fields - - - - - -
-
-        public ICommand CreateGameSlotCommand;
-        public ICommand<string> EditDisplayNameCommand;
-        public ICommand ExitModalCommand;
-        public ICommand SaveGameSlotCommand;
-        public ICommand SelectProfileImageCommand;
         
         private readonly IGameSaveFacade m_GameSaveFacade;
         private readonly IObjectMapper m_Mapper;
         private readonly IGameSaveSelectionMenuMediator m_Mediator;
+
+        private ICommand m_CreateGameSlotCommand;
+        private ICommand<string> m_EditDisplayNameCommand;
+        private ICommand m_ExitModalCommand;
+        private ICommand m_SaveGameSlotCommand;
+        private ICommand m_SelectProfileImageCommand;
 
         private ICreateGameSaveOutputPort m_CreateOutputPort;
         private IUpdateGameSaveOutputPort m_UpdateOutputPort;
@@ -37,7 +38,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         #region - - - - - - Constructors - - - - - -
 
         public EditGameSlotViewModel(
-            EditGameSlotView editGameSlotView,
+            IEditGameSlotView editGameSlotView,
             IGameSaveFacade gameSaveFacade,
             IGameSaveSelectionMenuMediator gameSaveSelectionMenuMediator,
             IObjectMapper mapper)
@@ -63,8 +64,10 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
             get => this.m_DisplayName;
             private set
             {
-                this.m_DisplayName = value;
-                this.OnDisplayNameChanged?.Invoke(value);
+                this.m_DisplayName = !string.IsNullOrWhiteSpace(value) 
+                                        ? value
+                                        : $"Game Save {Random.Range(1, 10)}";
+                this.OnDisplayNameChanged?.Invoke(this.m_DisplayName);
             }
         }
 
@@ -80,6 +83,16 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
                 this.OnSelectedImageChanged?.Invoke(value);
             }
         }
+        
+        ICommand IEditGameSlotNotifyEvents.CreateGameSlotCommand => this.m_CreateGameSlotCommand;
+
+        ICommand<string> IEditGameSlotNotifyEvents.EditDisplayNameCommand => this.m_EditDisplayNameCommand;
+
+        ICommand IEditGameSlotNotifyEvents.ExitModalCommand => this.m_ExitModalCommand;
+
+        ICommand IEditGameSlotNotifyEvents.SaveGameSlotCommand => this.m_SaveGameSlotCommand;
+
+        ICommand IEditGameSlotNotifyEvents.SelectProfileImageCommand => this.m_SelectProfileImageCommand;
 
         #endregion Properties
 
@@ -101,11 +114,11 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
 
         private void BindLogicToCommands()
         {
-            this.EditDisplayNameCommand = new RelayCommand<string>(name => { this.DisplayName = name; } );
-            this.CreateGameSlotCommand = new RelayCommand(this.CreateNewGameSlot);
-            this.SaveGameSlotCommand = new RelayCommand(this.SaveGameSlot);
-            this.ExitModalCommand = new RelayCommand(this.ExitModalMenu);
-            this.SelectProfileImageCommand = new RelayCommand(this.ShowProfileSelectionModal);
+            this.m_EditDisplayNameCommand = new RelayCommand<string>(name => { this.DisplayName = name; } );
+            this.m_CreateGameSlotCommand = new RelayCommand(this.CreateNewGameSlot);
+            this.m_SaveGameSlotCommand = new RelayCommand(this.SaveGameSlot);
+            this.m_ExitModalCommand = new RelayCommand(this.ExitModalMenu);
+            this.m_SelectProfileImageCommand = new RelayCommand(this.ShowProfileSelectionModal);
         }
         
         private void RegisterMediatorActions()
