@@ -49,8 +49,10 @@ namespace ProjectExodus.Backend.JsonDataContext
             throw new NotSupportedException($"The entity type '{typeof(TEntity)}' is not supported.");
         }
 
-        void IDataContext.Remove<TEntity>(TEntity objectToRemove) 
-            => throw new NotImplementedException();
+        void IDataContext.Delete<TEntity>(TEntity objectToRemove)
+        {
+            throw new NotImplementedException();
+        }
 
         void IDataContext.Update<TEntity>(Guid searchID, TEntity objectToUpdate)
         {

@@ -20,7 +20,7 @@ namespace ProjectExodus.Backend.JsonDataContext
         /// <remarks>Invoking this method replaces any instance of the GameData.</remarks>
         Task Load();
 
-        void Remove<TEntity>(TEntity objectToRemove) where TEntity : class;
+        void Delete<TEntity>(TEntity objectToRemove) where TEntity : class;
 
         void Update<TEntity>(Guid ID, TEntity objectToUpdate) where TEntity : class;
 

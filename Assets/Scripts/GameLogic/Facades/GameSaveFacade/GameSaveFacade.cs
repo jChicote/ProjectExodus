@@ -1,6 +1,7 @@
 using System;
 using ProjectExodus.Backend.UseCases;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
+using ProjectExodus.Backend.UseCases.GameSaveUseCases.DeleteGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
 
@@ -13,6 +14,7 @@ namespace ProjectExodus.GameLogic.Facades.GameSaveFacade
         #region - - - - - - Fields - - - - - -
 
         private readonly IUseCaseInteractor<CreateGameSaveInputPort, ICreateGameSaveOutputPort> m_CreateInteractor;
+        private readonly IUseCaseInteractor<DeleteGameSaveInputPort, IDeleteGameSaveOutputPort> m_DeleteInteractor;
         private readonly IUseCaseInteractor<GetGameSavesInputPort, IGetGameSavesOutputPort> m_GetInteractor;
         private readonly IUseCaseInteractor<UpdateGameSaveInputPort, IUpdateGameSaveOutputPort> m_UpdateInteractor;
 
@@ -22,10 +24,12 @@ namespace ProjectExodus.GameLogic.Facades.GameSaveFacade
 
         public GameSaveFacade(
             IUseCaseInteractor<CreateGameSaveInputPort, ICreateGameSaveOutputPort> createInteractor,
+            IUseCaseInteractor<DeleteGameSaveInputPort, IDeleteGameSaveOutputPort> deleteInteractor,
             IUseCaseInteractor<GetGameSavesInputPort, IGetGameSavesOutputPort> getInteractor,
             IUseCaseInteractor<UpdateGameSaveInputPort, IUpdateGameSaveOutputPort> updateInteractor)
         {
             this.m_CreateInteractor = createInteractor ?? throw new ArgumentNullException(nameof(createInteractor));
+            this.m_DeleteInteractor = deleteInteractor ?? throw new ArgumentNullException(nameof(deleteInteractor));
             this.m_GetInteractor = getInteractor ?? throw new ArgumentNullException(nameof(getInteractor));
             this.m_UpdateInteractor = updateInteractor ?? throw new ArgumentNullException(nameof(updateInteractor));
         }
@@ -39,6 +43,13 @@ namespace ProjectExodus.GameLogic.Facades.GameSaveFacade
 
         #endregion Create GameSave Methods
 
+        #region - - - - - - Delete GameSave Methods - - - - - -
+
+        void IGameSaveFacade.DeleteGameSave(DeleteGameSaveInputPort inputPort, IDeleteGameSaveOutputPort outputPort)
+            => this.m_DeleteInteractor.Handle(inputPort, outputPort);
+
+        #endregion Delete GameSave Methods
+  
         #region - - - - - - Get GameSave Methods - - - - - -
 
         void IGameSaveFacade.GetGameSaves(IGetGameSavesOutputPort outputPort) 
@@ -52,7 +63,6 @@ namespace ProjectExodus.GameLogic.Facades.GameSaveFacade
             => this.m_UpdateInteractor.Handle(inputPort, outputPort);
 
         #endregion Update GameSave Methods
-  
   
     }
 
