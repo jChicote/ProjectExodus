@@ -33,6 +33,9 @@ namespace ProjectExodus.Backend.Repositories.GameOptionsRepository
         void IDataRepository<GameOptions>.Create(GameOptions entityToCreate) 
             => this.m_DataContext.Add(entityToCreate);
 
+        void IDataRepository<GameOptions>.Delete(Guid id)
+            => this.m_DataContext.Delete<GameOptions>(id);
+
         IEnumerable<GameOptions> IDataRepository<GameOptions>.GetEntities()
             => this.m_DataContext
                 .GetEntities<GameOptions>()

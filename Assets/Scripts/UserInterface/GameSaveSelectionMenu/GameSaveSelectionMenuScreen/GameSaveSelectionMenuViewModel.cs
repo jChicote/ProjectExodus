@@ -1,6 +1,8 @@
 using System;
+using ProjectExodus.Backend.UseCases.GameSaveUseCases.DeleteGameSave;
 using ProjectExodus.Common.Infrastructure;
 using ProjectExodus.Common.Services;
+using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu.Common;
 using UnityEngine;
@@ -15,6 +17,7 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
         #region - - - - - - Fields - - - - - -
         
         private readonly IObjectMapper m_Mapper;
+        private readonly IGameSaveFacade m_GameSaveFacade;
         private readonly IGameSaveSelectionMenuMediator m_Mediator;
         
         private ICommand m_CreateNewGameCommand;
@@ -22,16 +25,19 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
         private ICommand m_EditGameSaveSlotCommand;
         private ICommand m_QuitGameCommand;
 
-        private Guid? m_CurrentlySelectedGameSaveID;
+        private Guid m_CurrentlySelectedGameSaveID;
+        private IDeleteGameSaveOutputPort m_CurrentlySelectedDeleteOutputPort;
 
         #endregion Fields
 
         #region - - - - - - Constructors - - - - - -
 
         public GameSaveSelectionMenuViewModel(
+            IGameSaveFacade gameSaveFacade,
             IGameSaveSelectionMenuMediator gameSaveSelectionMenuMediator,
             IGameSaveSelectionView gameSaveSelectionView)
         {
+            this.m_GameSaveFacade = gameSaveFacade ?? throw new ArgumentNullException(nameof(gameSaveFacade));
             this.m_Mediator = gameSaveSelectionMenuMediator ??
                                 throw new ArgumentNullException(nameof(gameSaveSelectionMenuMediator));
 
@@ -107,8 +113,9 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
         }
 
         private void ClearGameSaveSlot()
-        {
-        }
+            => this.m_GameSaveFacade.DeleteGameSave(
+                new DeleteGameSaveInputPort { ID = this.m_CurrentlySelectedGameSaveID },
+                this.m_CurrentlySelectedDeleteOutputPort);
 
         private void EditGameSaveSlot()
         {
@@ -136,14 +143,16 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
         private void DisplayEditGameSaveSlotMenuButtons()
             => this.OnShowEditSlotButtonOptions?.Invoke();
 
-        private void SetCurrentSlotSelection(GameSaveSlotModelWrapper gameSaveSlotDisplayWrapper) 
-            => this.m_CurrentlySelectedGameSaveID = gameSaveSlotDisplayWrapper.GameSaveSlotDto.ID;
+        private void SetCurrentSlotSelection(GameSaveSlotModelWrapper gameSaveSlotDisplayWrapper)
+        {
+            this.m_CurrentlySelectedGameSaveID = gameSaveSlotDisplayWrapper.GameSaveSlotDto.ID;
+            this.m_CurrentlySelectedDeleteOutputPort = gameSaveSlotDisplayWrapper.DeleteOutputPort;
+        }
 
         private void ShowGameSaveSelectionMenu() 
             => this.OnEnableViewInteraction?.Invoke();
 
         #endregion Methods
-
     }
 
 }

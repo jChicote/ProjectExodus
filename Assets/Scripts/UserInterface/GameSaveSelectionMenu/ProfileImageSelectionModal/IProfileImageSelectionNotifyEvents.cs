@@ -21,8 +21,6 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
         
         ICommand SaveSelectionCommand { get; }
         
-        ICommand ExitModalCommand { get; }
-        
         #endregion Properties
 
     }

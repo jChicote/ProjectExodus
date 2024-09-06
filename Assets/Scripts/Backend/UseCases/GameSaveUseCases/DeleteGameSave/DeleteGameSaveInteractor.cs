@@ -29,7 +29,8 @@ namespace ProjectExodus.Backend.UseCases.GameSaveUseCases.DeleteGameSave
             DeleteGameSaveInputPort inputPort, 
             IDeleteGameSaveOutputPort outputPort)
         {
-            throw new NotImplementedException();
+            this.m_DataRepository.Delete(inputPort.ID);
+            outputPort.PresentSuccessfulDeletion();
         }
 
         #endregion Methods

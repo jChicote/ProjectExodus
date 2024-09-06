@@ -5,6 +5,7 @@ using ProjectExodus.Backend.UseCases;
 using ProjectExodus.Backend.UseCases.GameOptionsUseCases.CreateGameOptions;
 using ProjectExodus.Backend.UseCases.GameOptionsUseCases.UpdateGameOptions;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
+using ProjectExodus.Backend.UseCases.GameSaveUseCases.DeleteGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
 using ProjectExodus.Common.Services;
@@ -74,6 +75,9 @@ namespace ProjectExodus.Backend.Configuration
             this.m_ServiceLocator.RegisterService(
                 (IUseCaseInteractor<CreateGameSaveInputPort, ICreateGameSaveOutputPort>) 
                     new CreateGameSaveInteractor(this.m_Mapper, _GameSaveRepository));
+            this.m_ServiceLocator.RegisterService(
+                (IUseCaseInteractor<DeleteGameSaveInputPort, IDeleteGameSaveOutputPort>)
+                    new DeleteGameSaveInteractor(_GameSaveRepository));
             this.m_ServiceLocator.RegisterService(
                 (IUseCaseInteractor<GetGameSavesInputPort, IGetGameSavesOutputPort>)
                     new GetGameSavesInteractor(this.m_Mapper, _GameSaveRepository));

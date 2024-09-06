@@ -65,6 +65,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
             this.m_Mediator = new GameSaveSelectionMenuMediator();
             this.m_GameSaveSelectionMenuViewModel = 
                 new GameSaveSelectionMenuViewModel(
+                    this.m_GameSaveFacade,
                     this.m_Mediator,
                     this.m_GameSaveSelectionMenuView);
             

@@ -39,8 +39,6 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
         {
             viewModelCommands.OnShowMenuModalWithImage += this.ShowProfileImageSelectionModal;
             this.m_SaveButton.onClick.AddListener(viewModelCommands.SaveSelectionCommand.Execute);
-            this.m_SaveButton.onClick.AddListener(viewModelCommands.ExitModalCommand.Execute);
-            this.m_ExitButton.onClick.AddListener(viewModelCommands.ExitModalCommand.Execute);
 
             // Bind Sub-Views
             foreach (ProfileImageView _ImageOptionView in this.m_ImageOptions)

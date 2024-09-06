@@ -49,6 +49,7 @@ namespace UserInterface.GameSaveSelectionMenu
             EditGameSlotViewModel source,
             UpdateGameSaveInputPort destination)
         {
+            destination.ID = source.ID;
             destination.GameSaveName = source.DisplayName;
             destination.SelectedProfileImageID = source.SelectedProfileImage.ID;
         }

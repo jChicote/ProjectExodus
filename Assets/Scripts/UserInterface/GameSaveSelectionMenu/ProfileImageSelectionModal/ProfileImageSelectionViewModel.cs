@@ -20,7 +20,6 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
 
         private ICommand<ProfileImageModel> m_SelectProfileImageCommand;
         private ICommand m_SaveSelectionCommand;
-        private ICommand m_ExitModalCommand;
 
         private ProfileImageModel m_SelectedImage;
 
@@ -56,9 +55,6 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
         ICommand IProfileImageSelectionModalNotifyEvents.SaveSelectionCommand
             => this.m_SaveSelectionCommand;
 
-        ICommand IProfileImageSelectionModalNotifyEvents.ExitModalCommand
-            => this.m_ExitModalCommand;
-
         #endregion Properties
 
         #region - - - - - - Events - - - - - -
@@ -77,7 +73,6 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
         {
             this.m_SelectProfileImageCommand = new RelayCommand<ProfileImageModel>(this.SelectProfileImage);
             this.m_SaveSelectionCommand = new RelayCommand(this.SaveProfileImageSelection);
-            this.m_ExitModalCommand = new RelayCommand(this.ExitModal);
         }
 
         private void RegisterViewModelActions() 
@@ -90,13 +85,10 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
         private void SelectProfileImage(ProfileImageModel profileImageModel) 
             => this.m_SelectedImage = profileImageModel;
 
-        private void SaveProfileImageSelection() 
-            => this.m_Mediator.Invoke(GameSaveMenuEventType.EditGameSlotImage_Update, this.m_SelectedImage);
-
-        private void ExitModal()
+        private void SaveProfileImageSelection()
         {
+            this.m_Mediator.Invoke(GameSaveMenuEventType.EditGameSlotImage_Update, this.m_SelectedImage);
             this.m_SelectedImage = default;
-            this.m_Mediator.Invoke(GameSaveMenuEventType.EditGameSlot_Open);
         }
 
         // -------------------------------------

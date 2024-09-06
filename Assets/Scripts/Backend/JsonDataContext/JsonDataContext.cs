@@ -49,9 +49,20 @@ namespace ProjectExodus.Backend.JsonDataContext
             throw new NotSupportedException($"The entity type '{typeof(TEntity)}' is not supported.");
         }
 
-        void IDataContext.Delete<TEntity>(TEntity objectToRemove)
+        void IDataContext.Delete<TEntity>(Guid id)
         {
-            throw new NotImplementedException();
+            if (typeof(TEntity) == typeof(GameOptions))
+            {
+                GameOptions _GameOptionToDelete = this.m_GameData.GameOptions
+                                                    .SingleOrDefault(go => go.ID == id);
+                this.m_GameData.GameOptions.Remove(_GameOptionToDelete);
+            }
+            else if (typeof(TEntity) == typeof(GameSave))
+            {
+                GameSave _GameSaveToDelete = this.m_GameData.GameSaves
+                                                .SingleOrDefault(gs => gs.ID == id);
+                this.m_GameData.GameSaves.Remove(_GameSaveToDelete);
+            }
         }
 
         void IDataContext.Update<TEntity>(Guid searchID, TEntity objectToUpdate)

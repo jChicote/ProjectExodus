@@ -1,5 +1,6 @@
 using System;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
+using ProjectExodus.Backend.UseCases.GameSaveUseCases.DeleteGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
 using ProjectExodus.Common.Infrastructure;
 using ProjectExodus.Common.Services;
@@ -15,6 +16,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
 
     public class GameSaveSlotViewModel :
         ICreateGameSaveOutputPort,
+        IDeleteGameSaveOutputPort,
         IGameSaveSlotNotifyEvents,
         IUpdateGameSaveOutputPort
     {
@@ -94,7 +96,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
             GameSaveSlotDto _GameSaveSlotDto = new GameSaveSlotDto();
             this.m_Mapper.Map(this.m_GameSaveModel, _GameSaveSlotDto);
 
-            GameSaveSlotModelWrapper _DisplayWrapper = new(_GameSaveSlotDto, this, this);
+            GameSaveSlotModelWrapper _DisplayWrapper = new(_GameSaveSlotDto, this, this, this);
             
             this.m_Mediator.Invoke(this.m_IsSlotEmpty
                 ? GameSaveMenuEventType.EmptySaveSlot_Selected
@@ -126,6 +128,12 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
             this.DisplayUsedGameSlot();
         }
 
+        void IDeleteGameSaveOutputPort.PresentSuccessfulDeletion()
+        {
+            this.GameSaveModel = new GameSaveModel();
+            this.DisplayEmptyGameSlot();
+        }
+
         void IUpdateGameSaveOutputPort.PresentUpdatedGameSave(GameSaveModel gameSaveModel)
         {
             this.GameSaveModel = gameSaveModel;
@@ -136,7 +144,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
             => Debug.LogError("[ERROR]: Cannot find the Game Save.");
 
         #endregion Methods
-
+        
     }
 
 }

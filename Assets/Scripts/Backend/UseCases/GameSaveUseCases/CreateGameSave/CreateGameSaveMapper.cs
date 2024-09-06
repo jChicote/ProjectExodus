@@ -44,7 +44,7 @@ namespace ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave
                 throw new ArgumentNullException($"Mapping objects of type: {typeof(CreateGameOptionsInputPort)}" +
                                                 $" and {typeof(GameOptions)}, cannot both or either be null.");
 
-            destination.ID = new Guid();
+            destination.ID = Guid.NewGuid();
             destination.CompletionProgress = source.CompletionProgress;
             destination.GameSaveName = source.GameSaveName;
             destination.GameSlotDisplayIndex = source.GameSlotDisplayIndex;

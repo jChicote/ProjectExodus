@@ -8,6 +8,7 @@ using ProjectExodus.Backend.Repositories.GameOptionsRepository;
 using ProjectExodus.Backend.Repositories.GameSaveRepository;
 using ProjectExodus.Backend.UseCases;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
+using ProjectExodus.Backend.UseCases.GameSaveUseCases.DeleteGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
 using ProjectExodus.Common.Services;
@@ -120,6 +121,8 @@ namespace ProjectExodus.GameLogic.GameStartup
             GameSaveFacade _GameSaveFacade = new GameSaveFacade(
                 ((IServiceLocator)this.m_ServiceLocator)
                     .GetService<IUseCaseInteractor<CreateGameSaveInputPort, ICreateGameSaveOutputPort>>(),
+                ((IServiceLocator)this.m_ServiceLocator)
+                    .GetService<IUseCaseInteractor<DeleteGameSaveInputPort, IDeleteGameSaveOutputPort>>(),
                 ((IServiceLocator)this.m_ServiceLocator)
                     .GetService<IUseCaseInteractor<GetGameSavesInputPort, IGetGameSavesOutputPort>>(),
                 ((IServiceLocator)this.m_ServiceLocator)

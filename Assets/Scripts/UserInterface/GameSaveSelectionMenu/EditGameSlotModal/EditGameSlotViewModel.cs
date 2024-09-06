@@ -57,6 +57,8 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         #endregion Constructors
   
         #region - - - - - - Properties - - - - - -
+        
+        public Guid ID { get; set; }
 
         public int DisplayIndex { get; private set; }
         
@@ -133,7 +135,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
                 GameSaveMenuEventType.EditGameSlot_Open,
                 this.ShowEditSlotModal);
             this.m_Mediator.Register(
-                GameSaveMenuEventType.EditGameSlot_Open,
+                GameSaveMenuEventType.EditGameSlotImage_Update,
                 () => { this.OnEnableEditGameSlotModal?.Invoke(); });
             this.m_Mediator.Register<ProfileImageModel>(
                 GameSaveMenuEventType.EditGameSlotImage_Update,
@@ -177,6 +179,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
 
         private void SetSlotSelectionValuesToModal(GameSaveSlotModelWrapper displayWrapper)
         {
+            this.ID = displayWrapper.GameSaveSlotDto.ID;
             this.DisplayIndex = displayWrapper.GameSaveSlotDto.DisplayIndex;
             this.DisplayName = displayWrapper.GameSaveSlotDto.DisplayName;
             this.SelectedProfileImage = displayWrapper.GameSaveSlotDto.ProfileImage;

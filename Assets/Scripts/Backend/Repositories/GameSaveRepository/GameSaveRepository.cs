@@ -27,14 +27,11 @@ namespace ProjectExodus.Backend.Repositories.GameSaveRepository
         void IDataRepository<GameSave>.Create(GameSave entityToCreate)
             => this.m_DataContext.Add(entityToCreate);
 
-        void IDataRepository<GameSave>.Delete(Guid idToDelete)
-        {
-            
-        }
+        void IDataRepository<GameSave>.Delete(Guid id)
+            => this.m_DataContext.Delete<GameSave>(id);
 
         IEnumerable<GameSave> IDataRepository<GameSave>.GetEntities()
-            => this.m_DataContext
-                .GetEntities<GameSave>();
+            => this.m_DataContext.GetEntities<GameSave>();
 
         void IDataRepository<GameSave>.Update(Guid ID, GameSave entityToUpdate) 
             => this.m_DataContext.Update(ID, entityToUpdate);
