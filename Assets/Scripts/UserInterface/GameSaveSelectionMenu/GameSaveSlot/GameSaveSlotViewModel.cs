@@ -1,5 +1,4 @@
 using System;
-using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.DeleteGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
@@ -7,6 +6,9 @@ using ProjectExodus.Common.Infrastructure;
 using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Mappers;
+using ProjectExodus.Management.Enumeration;
+using ProjectExodus.Management.GameSaveManager;
+using ProjectExodus.Management.UserInterfaceScreenStatesManager;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu.Common;
 using UnityEngine;
 using UserInterface.GameSaveSelectionMenu.Dtos;
@@ -24,10 +26,12 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
 
         #region - - - - - - Fields - - - - - -
 
-        private readonly IDataContext m_DataContext;
+        private readonly IGameSaveManager m_GameSaveManager;
         private readonly IObjectMapper m_Mapper;
         private readonly IGameSaveSelectionMenuMediator m_Mediator;
+        private readonly IUserInterfaceScreenStateManager m_UserInterfaceScreenStateManager;
 
+        private ICommand m_PlayGameSaveCommand;
         private ICommand m_SlotSelectionCommand;
         
         private GameSaveModel m_GameSaveModel;
@@ -38,16 +42,19 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
         #region - - - - - - Constructors - - - - - -
 
         public GameSaveSlotViewModel(
-            IDataContext dataContext,
+            IGameSaveManager gameSaveManager,
             GameSaveModel gameSaveModel,
             IGameSaveSlotView gameSaveSlotView,
             IGameSaveSelectionMenuMediator gameSaveSelectionMenuMediator,
-            IObjectMapper objectMapper)
+            IObjectMapper objectMapper,
+            IUserInterfaceScreenStateManager userInterfaceScreenStateManager)
         {
-            this.m_DataContext = dataContext ?? throw new ArgumentNullException(nameof(objectMapper));
+            this.m_GameSaveManager = gameSaveManager ?? throw new ArgumentNullException(nameof(gameSaveManager));
             this.m_Mapper = objectMapper ?? throw new ArgumentNullException(nameof(objectMapper));
             this.m_Mediator = gameSaveSelectionMenuMediator ?? 
                                 throw new ArgumentNullException(nameof(gameSaveSelectionMenuMediator));
+            this.m_UserInterfaceScreenStateManager = userInterfaceScreenStateManager ??
+                                                        throw new ArgumentNullException(nameof(userInterfaceScreenStateManager));
             
             // 1. Setup view model
             this.BindLogicToCommands();
@@ -80,6 +87,8 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
             }
         }
 
+        ICommand IGameSaveSlotNotifyEvents.PlayGameSaveCommand => this.m_PlayGameSaveCommand;
+
         ICommand IGameSaveSlotNotifyEvents.SlotSelectionCommand => this.m_SlotSelectionCommand;
 
         #endregion Properties
@@ -94,10 +103,27 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
 
         #region - - - - - - Methods - - - - - -
         
-        private void BindLogicToCommands() 
-            => this.m_SlotSelectionCommand = new RelayCommand(this.OnSlotSelection);
+        // ----------------------------------
+        // Setup Methods
+        // ----------------------------------
         
-        private void OnSlotSelection()
+        private void BindLogicToCommands()
+        {
+            this.m_PlayGameSaveCommand = new RelayCommand(this.PlayGameSave);
+            this.m_SlotSelectionCommand = new RelayCommand(this.SelectSlot);
+        }
+        
+        // ----------------------------------
+        // Command Methods
+        // ----------------------------------
+
+        private void PlayGameSave()
+        {
+            this.m_GameSaveManager.SetGameSave(this.m_GameSaveModel);
+            this.m_UserInterfaceScreenStateManager.OpenScreen(UIScreenType.MainMenu);
+        }
+
+        private void SelectSlot()
         {
             GameSaveSlotDto _GameSaveSlotDto = new GameSaveSlotDto();
             this.m_Mapper.Map(this.m_GameSaveModel, _GameSaveSlotDto);
@@ -133,7 +159,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
             this.GameSaveModel = gameSaveModel;
             this.DisplayUsedGameSlot();
 
-            this.m_DataContext.SaveChanges();
+            this.m_GameSaveManager.SaveGameSave();
         }
 
         void IDeleteGameSaveOutputPort.PresentSuccessfulDeletion()
@@ -141,7 +167,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
             this.GameSaveModel = new GameSaveModel();
             this.DisplayEmptyGameSlot();
             
-            this.m_DataContext.SaveChanges();
+            this.m_GameSaveManager.SaveGameSave();
         }
 
         void IUpdateGameSaveOutputPort.PresentUpdatedGameSave(GameSaveModel gameSaveModel)
@@ -149,7 +175,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
             this.GameSaveModel = gameSaveModel;
             this.DisplayUsedGameSlot();
             
-            this.m_DataContext.SaveChanges();
+            this.m_GameSaveManager.SaveGameSave();
         }
 
         void IUpdateGameSaveOutputPort.PresentFailedUpdateOfGameSave() 

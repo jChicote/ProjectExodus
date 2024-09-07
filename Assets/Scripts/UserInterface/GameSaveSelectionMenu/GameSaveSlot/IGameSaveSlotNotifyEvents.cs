@@ -8,6 +8,8 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
     {
 
         #region - - - - - - Properties - - - - - -
+        
+        ICommand PlayGameSaveCommand { get;  }
 
         ICommand SlotSelectionCommand { get; }
 

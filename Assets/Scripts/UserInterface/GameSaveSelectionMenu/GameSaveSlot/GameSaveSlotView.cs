@@ -18,6 +18,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
         
         [Header("Views")] 
         [SerializeField] private Image m_BackgroundImage;
+        [SerializeField] private Slider m_SelectionSlider;
         [SerializeField] private Image m_SlotProfileImage;
         [SerializeField] private Button m_SlotButton;
         [SerializeField] private TMP_Text m_SlotTitle;

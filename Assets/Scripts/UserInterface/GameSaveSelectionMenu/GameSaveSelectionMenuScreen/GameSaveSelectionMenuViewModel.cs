@@ -4,6 +4,7 @@ using ProjectExodus.Common.Infrastructure;
 using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Mappers;
+using ProjectExodus.Management.GameSaveManager;
 using ProjectExodus.UserInterface;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu.Common;
 using UnityEngine;
@@ -16,9 +17,10 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
     {
 
         #region - - - - - - Fields - - - - - -
-        
-        private readonly IObjectMapper m_Mapper;
+
         private readonly IGameSaveFacade m_GameSaveFacade;
+        private readonly IGameSaveManager m_GameSaveManager;
+        private readonly IObjectMapper m_Mapper;
         private readonly IGameSaveSelectionMenuMediator m_Mediator;
         
         private ICommand m_CreateNewGameCommand;
@@ -35,10 +37,12 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
 
         public GameSaveSelectionMenuViewModel(
             IGameSaveFacade gameSaveFacade,
+            IGameSaveManager gameSaveManager,
             IGameSaveSelectionMenuMediator gameSaveSelectionMenuMediator,
             IGameSaveSelectionView gameSaveSelectionView)
         {
             this.m_GameSaveFacade = gameSaveFacade ?? throw new ArgumentNullException(nameof(gameSaveFacade));
+            this.m_GameSaveManager = gameSaveManager ?? throw new ArgumentNullException(nameof(gameSaveManager));
             this.m_Mediator = gameSaveSelectionMenuMediator ??
                                 throw new ArgumentNullException(nameof(gameSaveSelectionMenuMediator));
 
