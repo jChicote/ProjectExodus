@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using ProjectExodus.Domain.Entities;
 using UnityEngine;
 using Application = UnityEngine.Device.Application;
@@ -111,7 +112,7 @@ namespace ProjectExodus.Backend.JsonDataContext
             {
                 // This creates a new GameData object.
                 var _StringJson = await _Reader.ReadToEndAsync();
-                this.m_GameData = JsonUtility.FromJson<GameData>(_StringJson);
+                this.m_GameData = JsonConvert.DeserializeObject<GameData>(_StringJson);
             }
             catch (FileNotFoundException ex)
             {
@@ -129,8 +130,8 @@ namespace ProjectExodus.Backend.JsonDataContext
         {
             try
             {
-                string _StringJson = JsonUtility.ToJson(this.m_GameData);
-                await using  var _Writer = new StreamWriter(FILEPATH);
+                string _StringJson = JsonConvert.SerializeObject(this.m_GameData);
+                await using var _Writer = new StreamWriter(FILEPATH);
                 await _Writer.WriteAsync(_StringJson);
                 _Writer.Close();
             }

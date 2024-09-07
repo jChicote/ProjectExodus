@@ -115,7 +115,7 @@ namespace ProjectExodus.GameLogic.GameStartup
             ((IGameOptionsFacade)_GameOptionsFacade).GetGameOptions();
             
             if (setupConfig.GameSettings.GameOptionsModel == null)
-                ((IGameOptionsFacade)setupConfig.GameOptionsFacade).CreateGameOptions();
+                ((IGameOptionsFacade)_GameOptionsFacade).CreateGameOptions();
             
             // Setup GameSave       
             GameSaveFacade _GameSaveFacade = new GameSaveFacade(

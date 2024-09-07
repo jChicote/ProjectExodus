@@ -1,4 +1,5 @@
 using System;
+using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.DeleteGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
@@ -22,7 +23,8 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
     {
 
         #region - - - - - - Fields - - - - - -
-        
+
+        private readonly IDataContext m_DataContext;
         private readonly IObjectMapper m_Mapper;
         private readonly IGameSaveSelectionMenuMediator m_Mediator;
 
@@ -36,20 +38,24 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
         #region - - - - - - Constructors - - - - - -
 
         public GameSaveSlotViewModel(
+            IDataContext dataContext,
             GameSaveModel gameSaveModel,
             IGameSaveSlotView gameSaveSlotView,
             IGameSaveSelectionMenuMediator gameSaveSelectionMenuMediator,
             IObjectMapper objectMapper)
         {
+            this.m_DataContext = dataContext ?? throw new ArgumentNullException(nameof(objectMapper));
             this.m_Mapper = objectMapper ?? throw new ArgumentNullException(nameof(objectMapper));
             this.m_Mediator = gameSaveSelectionMenuMediator ?? 
                                 throw new ArgumentNullException(nameof(gameSaveSelectionMenuMediator));
             
-            if (gameSaveModel == null) this.m_IsSlotEmpty = true;
-            this.GameSaveModel = gameSaveModel ?? new GameSaveModel();
-            
+            // 1. Setup view model
             this.BindLogicToCommands();
             gameSaveSlotView.BindToViewModel(this);
+            
+            // 2. Set initial data
+            if (gameSaveModel == null) this.m_IsSlotEmpty = true;
+            this.GameSaveModel = gameSaveModel ?? new GameSaveModel();
         }
 
         #endregion Constructors
@@ -126,18 +132,24 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
         {
             this.GameSaveModel = gameSaveModel;
             this.DisplayUsedGameSlot();
+
+            this.m_DataContext.SaveChanges();
         }
 
         void IDeleteGameSaveOutputPort.PresentSuccessfulDeletion()
         {
             this.GameSaveModel = new GameSaveModel();
             this.DisplayEmptyGameSlot();
+            
+            this.m_DataContext.SaveChanges();
         }
 
         void IUpdateGameSaveOutputPort.PresentUpdatedGameSave(GameSaveModel gameSaveModel)
         {
             this.GameSaveModel = gameSaveModel;
             this.DisplayUsedGameSlot();
+            
+            this.m_DataContext.SaveChanges();
         }
 
         void IUpdateGameSaveOutputPort.PresentFailedUpdateOfGameSave() 

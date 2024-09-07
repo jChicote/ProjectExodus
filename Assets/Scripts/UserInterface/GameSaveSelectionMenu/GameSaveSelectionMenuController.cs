@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
 using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Models;
@@ -46,7 +47,8 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
         private ProfileImageSelectionViewModel m_ProfileImageSelectionViewModel;
         private List<GameSaveSlotViewModel> m_GameSaveViewModelCollection;
         private GameSaveSelectionMenuViewModel m_GameSaveSelectionMenuViewModel;
-        
+
+        private IDataContext m_DataContext;
         private IGameSaveFacade m_GameSaveFacade;
         private IObjectMapper m_Mapper;
         private IGameSaveSelectionMenuMediator m_Mediator;
@@ -56,9 +58,11 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
         #region - - - - - - Initializers - - - - - -
 
         void IGameSaveSelectionMenuController.InitializeGameSelectionMenuController(
+            IDataContext dataContext,
             IGameSaveFacade gameSaveFacade,
             IObjectMapper objectMapper)
         {
+            this.m_DataContext = dataContext ?? throw new ArgumentNullException(nameof(dataContext));
             this.m_GameSaveFacade = gameSaveFacade ?? throw new ArgumentNullException(nameof(gameSaveFacade));
             this.m_Mapper = objectMapper ?? throw new ArgumentNullException(nameof(objectMapper));
 
@@ -115,7 +119,9 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
         }
 
         private GameSaveSlotViewModel CreateGameSaveSlotViewModels(GameSaveModel model, int gameSlotIndex)
-            => new(model, 
+            => new(
+                this.m_DataContext,
+                model, 
                 ((IGameSaveSelectionView)this.m_GameSaveSelectionMenuView).GetGameSaveSlotViewAtIndex(gameSlotIndex),
                 this.m_Mediator,
                 this.m_Mapper);

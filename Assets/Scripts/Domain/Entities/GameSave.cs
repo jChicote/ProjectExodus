@@ -3,6 +3,7 @@ using System;
 namespace ProjectExodus.Domain.Entities
 {
 
+    [Serializable]
     public class GameSave
     {
 

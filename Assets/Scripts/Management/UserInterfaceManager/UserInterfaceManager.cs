@@ -46,6 +46,7 @@ namespace ProjectExodus.Management.UserInterfaceManager
         {
             ((IGameSaveSelectionMenuController)this.m_GameSaveSelectionMenuController)
                 .InitializeGameSelectionMenuController(
+                    GameManager.Instance.DataContext,
                     GameManager.Instance.GameSaveFacade,
                     GameManager.Instance.Mapper
                     );

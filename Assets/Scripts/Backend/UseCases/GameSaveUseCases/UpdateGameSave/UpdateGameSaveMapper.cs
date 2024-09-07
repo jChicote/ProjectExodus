@@ -21,6 +21,7 @@ namespace ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave
             UpdateGameSaveInputPort source, 
             GameSave destination)
         {
+            destination.ID = source.ID;
             destination.CompletionProgress = source.CompletionProgress;
             destination.GameSaveName = source.GameSaveName;
             destination.ProfileImageID = source.SelectedProfileImageID;
