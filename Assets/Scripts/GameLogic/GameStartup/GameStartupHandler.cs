@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using System.Threading.Tasks;
 using ProjectExodus.Backend.Configuration;
 using ProjectExodus.Backend.JsonDataContext;
@@ -20,6 +21,7 @@ using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Infrastructure;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Settings;
+using ProjectExodus.Management.GameSaveManager;
 using ProjectExodus.ScriptableObjects;
 using ProjectExodus.UserInterface.Configuration;
 using UnityEngine;
@@ -134,7 +136,7 @@ namespace ProjectExodus.GameLogic.GameStartup
             yield return null;
         }
 
-        private static IEnumerator SetupGameManagers(GameSetupConfig setupConfig)
+        private IEnumerator SetupGameManagers(GameSetupConfig setupConfig)
         {
             GameManager _GameManager = GameManager.Instance;
             _GameManager.AudioManager.InitialiseAudioManager();
@@ -142,7 +144,10 @@ namespace ProjectExodus.GameLogic.GameStartup
             _GameManager.UserInterfaceManager.InitialiseUserInterfaceManager();
             _GameManager.GameStateManager.InitialiseGameStateManager();
             _GameManager.SceneManager.InitialiseSceneManager();
-            
+
+            GameSaveManager _GameSaveManager = GameObject.FindFirstObjectByType<GameSaveManager>();
+            ((IServiceLocator)this.m_ServiceLocator).RegisterService((IGameSaveManager)_GameSaveManager);
+                
             yield return null;
         }
 
