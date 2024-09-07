@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 namespace ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave
 {

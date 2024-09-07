@@ -5,7 +5,7 @@ using ProjectExodus.GameLogic.Mappers;
 namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 {
 
-    public interface IGameSaveSelectionMenuController : IScreenStateController
+    public interface IGameSaveSelectionMenuController
     {
 
         #region - - - - - - Methods - - - - - -
@@ -14,6 +14,8 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
             IDataContext dataContext, 
             IGameSaveFacade gameSaveFacade, 
             IObjectMapper objectMapper);
+
+        IScreenStateController GetScreenController();
 
         #endregion Methods
 

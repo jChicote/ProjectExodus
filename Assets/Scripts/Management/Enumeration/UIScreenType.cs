@@ -3,6 +3,7 @@
 
     public enum UIScreenType
     {
+        GameSaveMenu,
         MainMenu,
         OptionsMenu,
         LoadingScreen,

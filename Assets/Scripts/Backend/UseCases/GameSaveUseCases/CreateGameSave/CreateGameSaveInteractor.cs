@@ -38,10 +38,7 @@ namespace ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave
             this.m_Mapper.Map(inputPort, _GameSave);
             this.m_Repository.Create(_GameSave);
 
-            GameSaveModel _GameSaveModel = new GameSaveModel();
-            this.m_Mapper.Map(_GameSave, _GameSaveModel);
-            
-            outputPort.PresentCreatedGameSave(_GameSaveModel);
+            outputPort.PresentCreatedGameSave(this.m_Mapper.Map(_GameSave, new GameSaveModel()));
         }
 
         #endregion Methods

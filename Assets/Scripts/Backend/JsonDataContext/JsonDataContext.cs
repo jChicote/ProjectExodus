@@ -76,6 +76,7 @@ namespace ProjectExodus.Backend.JsonDataContext
                                 .Select(goi => goi.index)
                                 .FirstOrDefault();
                 
+                // TODO: Instead of outright replacing the entity, only update its values. Otherwise, handle in repository
                 this.m_GameData.GameOptions[_Index] = objectToUpdate as GameOptions;
             }
             else if (typeof(TEntity) == typeof(GameSave))
@@ -86,6 +87,7 @@ namespace ProjectExodus.Backend.JsonDataContext
                                 .Select(gsi => gsi.index)
                                 .FirstOrDefault();
 
+                // TODO: Instead of outright replacing the entity, only update its values. Otherwise, handle properly in repository
                 this.m_GameData.GameSaves[_Index] = objectToUpdate as GameSave;
             }
             else

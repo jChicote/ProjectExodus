@@ -15,6 +15,7 @@ namespace ProjectExodus.Management.UserInterfaceScreenStatesManager
         #region - - - - - - Fields - - - - - -
 
         // UI Screen States
+        private GameSaveMenuScreenState m_GameSaveMenuScreenState;
         private MainMenuScreenState m_MainMenuScreenState;
         private OptionsMenuScreenState m_OptionsMenuScreenState;
         private LoadingBarScreenState m_LoadingBarScreenState;
@@ -29,26 +30,30 @@ namespace ProjectExodus.Management.UserInterfaceScreenStatesManager
 
         void IUserInterfaceScreenStateManager.InitialiseUserInterfaceScreenStatesManager(GameScreens gameScreens)
         {
+            this.m_GameSaveMenuScreenState = new GameSaveMenuScreenState(gameScreens.GameSaveSelectionMenuController);
             this.m_MainMenuScreenState = new MainMenuScreenState(gameScreens.MainMenuController);
             this.m_OptionsMenuScreenState = new OptionsMenuScreenState(gameScreens.OptionsMenuController);
             this.m_LoadingBarScreenState = new LoadingBarScreenState(gameScreens.LoadingScreenController);
             this.m_GameplayHUDScreenState = new GameplayHUDScreenState(gameScreens.GameplayHUDController);
             
             // Default opening game screen
-            ((IUserInterfaceScreenStateManager)this).OpenScreen(UIScreenType.MainMenu);
+            ((IUserInterfaceScreenStateManager)this).OpenScreen(UIScreenType.GameSaveMenu);
         }
 
         #endregion Initializers
-  
+
         #region - - - - - - Methods - - - - - -
 
         void IUserInterfaceScreenStateManager.OpenScreen(UIScreenType uiScreenType)
         {
-            this.m_PreviousScreenState = this.m_CurrentScreenState;
+            var _PreviousScreen = this.m_CurrentScreenState;
             this.m_CurrentScreenState?.EndState();
             
             switch (uiScreenType)
             {
+                case UIScreenType.GameSaveMenu:
+                    this.m_CurrentScreenState = this.m_GameSaveMenuScreenState;
+                    break;
                 case UIScreenType.MainMenu:
                     this.m_CurrentScreenState = this.m_MainMenuScreenState;
                     break;
@@ -63,7 +68,8 @@ namespace ProjectExodus.Management.UserInterfaceScreenStatesManager
                     break;
             }
             
-            this.m_CurrentScreenState.StartState();
+            this.m_CurrentScreenState?.StartState();
+            this.m_PreviousScreenState = _PreviousScreen;
         }
 
         void IUserInterfaceScreenStateManager.OpenPreviousScreen()

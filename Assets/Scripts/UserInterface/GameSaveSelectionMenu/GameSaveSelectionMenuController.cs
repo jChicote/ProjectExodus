@@ -43,15 +43,13 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
         [Space] 
         [SerializeField] private ServiceLocator m_ServiceLocator;
         
-        private EditGameSlotViewModel m_EditGameSlotViewModel;
-        private ProfileImageSelectionViewModel m_ProfileImageSelectionViewModel;
-        private List<GameSaveSlotViewModel> m_GameSaveViewModelCollection;
-        private GameSaveSelectionMenuViewModel m_GameSaveSelectionMenuViewModel;
-
         private IDataContext m_DataContext;
         private IGameSaveFacade m_GameSaveFacade;
         private IObjectMapper m_Mapper;
         private IGameSaveSelectionMenuMediator m_Mediator;
+
+        private List<GameSaveSlotViewModel> m_GameSaveViewModelCollection;
+        private GameSaveSelectionMenuViewModel m_GameSaveSelectionMenuViewModel;
 
         #endregion Fields
 
@@ -73,15 +71,13 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
                     this.m_Mediator,
                     this.m_GameSaveSelectionMenuView);
             
-            this.m_EditGameSlotViewModel = 
-                new EditGameSlotViewModel(
+            _ = new EditGameSlotViewModel(
                     this.m_EditGameSlotView, 
                     this.m_GameSaveFacade,
                     this.m_Mediator, 
                     this.m_Mapper);
             
-            this.m_ProfileImageSelectionViewModel = 
-                new ProfileImageSelectionViewModel(
+            _ = new ProfileImageSelectionViewModel(
                     this.m_Mediator,
                     ((IServiceLocator)this.m_ServiceLocator).GetService<IProfileImageModelProvider>(),
                     this.m_ProfileImageSelectionView);
@@ -94,10 +90,9 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 
         #region - - - - - - Methods - - - - - -
 
-        // -----------------------------------
-        // Populate View methods
-        // -----------------------------------
-        
+        public IScreenStateController GetScreenController()
+            => this.m_GameSaveSelectionMenuViewModel;
+
         void IGetGameSavesOutputPort.PresentGameSaves(IEnumerable<GameSaveModel> gameSaves)
         {
             var _OrderedSlots = gameSaves.OrderBy(gsm => gsm.GameSlotDisplayIndex).ToList();
@@ -126,16 +121,6 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
                 this.m_Mediator,
                 this.m_Mapper);
         
-        // -----------------------------------
-        // Screen visibility methods
-        // -----------------------------------
-
-        void IScreenStateController.HideScreen() 
-            => this.m_ContentGroup.SetActive(false);
-
-        void IScreenStateController.ShowScreen() 
-            => this.m_ContentGroup.SetActive(true);
-
         #endregion Methods
 
     }

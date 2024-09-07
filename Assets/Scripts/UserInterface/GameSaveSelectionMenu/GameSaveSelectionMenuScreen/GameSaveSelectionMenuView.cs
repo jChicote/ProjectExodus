@@ -38,6 +38,12 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSelectionMen
             viewModelNotifier.OnEnableViewInteraction += this.EnableViewInteraction;
             viewModelNotifier.OnShowEmptySlotButtonOptions += this.ShowEmptySlotMenuButtonOptions;
             viewModelNotifier.OnShowEditSlotButtonOptions += this.ShowEditGameSaveSlotMenuButtonOptions;
+            viewModelNotifier.OnShowGui += () =>
+            {
+                this.m_ContentGroup.SetActive(true);
+                Debug.Log("This Worked");
+            };
+            viewModelNotifier.OnHideGui += () => { this.m_ContentGroup.SetActive(false); };
         }
 
         int IGameSaveSelectionView.GetAllGameSlotCount()

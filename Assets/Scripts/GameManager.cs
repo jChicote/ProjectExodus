@@ -1,4 +1,5 @@
 using ProjectExodus.Backend.JsonDataContext;
+using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.GameStartup;
@@ -40,6 +41,9 @@ namespace ProjectExodus
         private IDataContext m_DataContext;
         private GameSettings m_GameSettings;
         private IObjectMapper m_ObjectMapper;
+        
+        // Game-Level data
+        private GameSaveModel m_GameSave;
 
         #endregion Fields
 

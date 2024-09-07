@@ -36,6 +36,8 @@ namespace ProjectExodus.StateManagement.GameStates.MainMenuState
         void IGameState.StartState()
         {
             this.m_InputManager.SwitchToUserInterfaceInputControls();
+            
+            // Needs to check whether a save has been selected before opening the menu
             this.m_UserInterfaceScreenStateManager.OpenScreen(UIScreenType.MainMenu);
         }
 

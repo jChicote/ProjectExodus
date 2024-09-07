@@ -1,10 +1,11 @@
 using System;
 using ProjectExodus.Common.Services;
+using ProjectExodus.UserInterface.Common;
 
 namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
 {
 
-    public interface IGameSaveSelectionNotifier
+    public interface IGameSaveSelectionNotifier : IGuiNotifyEvents
     {
 
         #region - - - - - - Properties - - - - - -
@@ -28,7 +29,7 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
         event Action OnShowEmptySlotButtonOptions;
         
         event Action OnShowEditSlotButtonOptions;
-
+        
         #endregion Events
 
     }

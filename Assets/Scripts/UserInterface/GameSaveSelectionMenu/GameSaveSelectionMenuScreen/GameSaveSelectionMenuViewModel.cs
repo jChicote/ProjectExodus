@@ -4,6 +4,7 @@ using ProjectExodus.Common.Infrastructure;
 using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Mappers;
+using ProjectExodus.UserInterface;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu.Common;
 using UnityEngine;
 using UserInterface.GameSaveSelectionMenu.Mediator;
@@ -11,7 +12,7 @@ using UserInterface.GameSaveSelectionMenu.Mediator;
 namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
 {
 
-    public class GameSaveSelectionMenuViewModel : IGameSaveSelectionNotifier
+    public class GameSaveSelectionMenuViewModel : IGameSaveSelectionNotifier, IScreenStateController
     {
 
         #region - - - - - - Fields - - - - - -
@@ -69,6 +70,10 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
         public event Action OnShowEmptySlotButtonOptions;
 
         public event Action OnShowEditSlotButtonOptions;
+
+        public event Action OnHideGui;
+
+        public event Action OnShowGui;
 
         #endregion Events
   
@@ -152,7 +157,14 @@ namespace UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen
         private void ShowGameSaveSelectionMenu() 
             => this.OnEnableViewInteraction?.Invoke();
 
+        void IScreenStateController.HideScreen()
+            => this.OnHideGui?.Invoke();
+
+        void IScreenStateController.ShowScreen()
+            => this.OnShowGui?.Invoke();
+
         #endregion Methods
+
     }
 
 }
