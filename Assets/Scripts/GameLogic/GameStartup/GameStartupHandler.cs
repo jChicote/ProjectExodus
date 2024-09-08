@@ -22,6 +22,7 @@ using ProjectExodus.GameLogic.Infrastructure;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Settings;
 using ProjectExodus.Management.GameSaveManager;
+using ProjectExodus.Management.UserInterfaceScreenStatesManager;
 using ProjectExodus.ScriptableObjects;
 using ProjectExodus.UserInterface.Configuration;
 using UnityEngine;
@@ -138,21 +139,30 @@ namespace ProjectExodus.GameLogic.GameStartup
 
         private IEnumerator SetupGameManagers(GameSetupConfig setupConfig)
         {
+
+            GameSaveManager _GameSaveManager = GameObject.FindFirstObjectByType<GameSaveManager>() ??
+                                                    throw new NullReferenceException(nameof(GameSaveManager));
+            ((IGameSaveManager)_GameSaveManager).InitializeGameSaveManager(setupConfig.DataContext);
+            ((IServiceLocator)this.m_ServiceLocator).RegisterService((IGameSaveManager)_GameSaveManager);
+
+            UserInterfaceScreenStateManager _UserInterfaceScreenStateManager =
+                GameObject.FindFirstObjectByType<UserInterfaceScreenStateManager>()
+                    ?? throw new NullReferenceException(nameof(UserInterfaceScreenStateManager));
+            ((IServiceLocator)this.m_ServiceLocator)
+                .RegisterService((IUserInterfaceScreenStateManager)_UserInterfaceScreenStateManager);
+            
             GameManager _GameManager = GameManager.Instance;
             _GameManager.AudioManager.InitialiseAudioManager();
             _GameManager.InputManager.InitialiseInputManager();
             _GameManager.UserInterfaceManager.InitialiseUserInterfaceManager();
             _GameManager.GameStateManager.InitialiseGameStateManager();
             _GameManager.SceneManager.InitialiseSceneManager();
-
-            GameSaveManager _GameSaveManager = GameObject.FindFirstObjectByType<GameSaveManager>();
-            ((IServiceLocator)this.m_ServiceLocator).RegisterService((IGameSaveManager)_GameSaveManager);
                 
             yield return null;
         }
-
+        
         #endregion Methods
-  
+
     }
 
     public class SetupGameServicesOptions

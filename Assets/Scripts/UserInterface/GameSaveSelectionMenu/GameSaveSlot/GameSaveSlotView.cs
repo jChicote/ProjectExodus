@@ -1,6 +1,9 @@
 using System;
+using System.Collections;
+using ProjectExodus.UserInterface.Common.ButtonHandlers;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
@@ -13,14 +16,18 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
         
         private const int MAX_DISPLAYNAME_LENGTH = 10;
 
+        [Space]
+        public UnityEvent OnPlaySelection;
+
         [Header("Content Groups")]
         [SerializeField] private GameObject m_GameSlotContentGroup;
         
         [Header("Views")] 
         [SerializeField] private Image m_BackgroundImage;
-        [SerializeField] private Slider m_SelectionSlider;
+        [SerializeField] private Slider m_BackgroundSlider;
         [SerializeField] private Image m_SlotProfileImage;
         [SerializeField] private Button m_SlotButton;
+        [SerializeField] private ButtonHoldHandler m_SlotButtonHoldHandler;
         [SerializeField] private TMP_Text m_SlotTitle;
         [SerializeField] private TMP_Text m_SlotLastAccessedDate;
         [SerializeField] private TMP_Text m_SlotPercentage;
@@ -28,9 +35,22 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
         [Header("View Parameters")]
         [SerializeField] private Color m_BackgroundColor;
         [SerializeField] private Color m_EmptyBackgroundColor;
+        [SerializeField] private float m_AnimationTime = 6f;
+        
+        private Coroutine m_PlayedCoroutine;
         
         #endregion Fields
 
+        #region - - - - - - Unity Lifecycle Methods - - - - - -
+
+        private void Awake()
+        {
+            this.m_SlotButtonHoldHandler.OnHoldStart.AddListener(this.StartButtonHoldAnimation);
+            this.m_SlotButtonHoldHandler.OnRelease.AddListener(this.ResetButtonHoldAnimation);
+        }
+
+        #endregion Unity Lifecycle Methods
+  
         #region - - - - - - Methods - - - - - -
 
         void IGameSaveSlotView.BindToViewModel(IGameSaveSlotNotifyEvents viewModelNotify)
@@ -39,6 +59,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
             viewModelNotify.OnPropertyChangeEvent += this.OnPropertyChanged;
             
             this.m_SlotButton.onClick.AddListener(viewModelNotify.SlotSelectionCommand.Execute);
+            this.OnPlaySelection.AddListener(viewModelNotify.PlayGameSaveCommand.Execute);
         }
             
         private void DisplayGameSaveSlot(bool isEmpty)
@@ -80,7 +101,43 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
                     break;
             }
         }
+
+        private void StartButtonHoldAnimation()
+        {
+            if (!this.m_GameSlotContentGroup.activeInHierarchy) return;
+                
+            this.m_PlayedCoroutine = this.StartCoroutine(this.AnimateBackgroundSlider());
+        }
+
+        private IEnumerator AnimateBackgroundSlider()
+        {
+            float _CurrentTime = 0f;
+            float _TargetValue = 1f;
+
+            while (!Mathf.Approximately(this.m_BackgroundSlider.value, 1.0f))
+            {
+                _CurrentTime += Time.deltaTime;
+                float _NewValue = Mathf.SmoothStep(
+                                    this.m_BackgroundSlider.value, 
+                                    _TargetValue,
+                                    _CurrentTime / this.m_AnimationTime);
+
+                this.m_BackgroundSlider.value = _NewValue;
+                yield return null;
+            }
+
+            this.m_BackgroundSlider.value = _TargetValue;
+            this.OnPlaySelection?.Invoke();
+        }
+
+        private void ResetButtonHoldAnimation()
+        {
+            if (this.m_PlayedCoroutine != null)
+                this.StopCoroutine(this.m_PlayedCoroutine);
             
+            this.m_BackgroundSlider.value = 0;
+        }
+
         #endregion Methods
   
     }

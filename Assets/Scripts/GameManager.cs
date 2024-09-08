@@ -4,6 +4,7 @@ using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.GameStartup;
+using ProjectExodus.GameLogic.Infrastructure;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Settings;
 using ProjectExodus.Management.AudioManager;
@@ -42,7 +43,7 @@ namespace ProjectExodus
         private IDataContext m_DataContext;
         private GameSettings m_GameSettings;
         private IObjectMapper m_ObjectMapper;
-        private IServiceLocator m_ServiceLocator;
+        [SerializeField] private ServiceLocator m_ServiceLocator;
         
         // Game-Level data
         private GameSaveModel m_GameSave;
@@ -83,6 +84,9 @@ namespace ProjectExodus
 
         public IUserInterfaceManager UserInterfaceManager
             => this.m_UserInterfaceManager;
+
+        public IServiceLocator ServiceLocator
+            => this.m_ServiceLocator;
 
         #endregion Properties
           
