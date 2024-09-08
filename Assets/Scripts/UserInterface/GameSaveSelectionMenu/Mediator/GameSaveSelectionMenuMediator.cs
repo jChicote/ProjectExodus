@@ -83,6 +83,7 @@ namespace UserInterface.GameSaveSelectionMenu.Mediator
         CreateNewGameSlot_Open,
         EditGameSlot_Open,
         EditGameSlotImage_Update,
+        EditGameSlotModalInteraction_Enabled,
         
         // Profile Image Selection Modal
         ProfileImageSelectionModal_Open

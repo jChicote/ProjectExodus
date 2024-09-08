@@ -135,7 +135,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
                 GameSaveMenuEventType.EditGameSlot_Open,
                 this.ShowEditSlotModal);
             this.m_Mediator.Register(
-                GameSaveMenuEventType.EditGameSlotImage_Update,
+                GameSaveMenuEventType.EditGameSlotModalInteraction_Enabled,
                 () => { this.OnEnableEditGameSlotModal?.Invoke(); });
             this.m_Mediator.Register<ProfileImageModel>(
                 GameSaveMenuEventType.EditGameSlotImage_Update,

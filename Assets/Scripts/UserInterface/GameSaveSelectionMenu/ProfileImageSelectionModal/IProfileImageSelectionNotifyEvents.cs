@@ -17,6 +17,8 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
   
         #region - - - - - - Properties - - - - - -
 
+        ICommand HideModalCommand { get;  }
+        
         ICommand<ProfileImageModel> SelectProfileImageCommand { get; }
         
         ICommand SaveSelectionCommand { get; }

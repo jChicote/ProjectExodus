@@ -18,6 +18,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
         private readonly IProfileImageModelProvider m_ProfileImageProvider;
         private readonly IProfileImageSelectionView m_ProfileImageSelectionView;
 
+        private ICommand m_HideModalCommand;
         private ICommand<ProfileImageModel> m_SelectProfileImageCommand;
         private ICommand m_SaveSelectionCommand;
 
@@ -55,6 +56,9 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
         ICommand IProfileImageSelectionModalNotifyEvents.SaveSelectionCommand
             => this.m_SaveSelectionCommand;
 
+        ICommand IProfileImageSelectionModalNotifyEvents.HideModalCommand
+            => this.m_HideModalCommand;
+
         #endregion Properties
 
         #region - - - - - - Events - - - - - -
@@ -71,6 +75,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
         
         private void BindLogicToCommands()
         {
+            this.m_HideModalCommand = new RelayCommand(this.HideModal);
             this.m_SelectProfileImageCommand = new RelayCommand<ProfileImageModel>(this.SelectProfileImage);
             this.m_SaveSelectionCommand = new RelayCommand(this.SaveProfileImageSelection);
         }
@@ -85,9 +90,12 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectio
         private void SelectProfileImage(ProfileImageModel profileImageModel) 
             => this.m_SelectedImage = profileImageModel;
 
-        private void SaveProfileImageSelection()
+        private void SaveProfileImageSelection() 
+            => this.m_Mediator.Invoke(GameSaveMenuEventType.EditGameSlotImage_Update, this.m_SelectedImage);
+
+        private void HideModal()
         {
-            this.m_Mediator.Invoke(GameSaveMenuEventType.EditGameSlotImage_Update, this.m_SelectedImage);
+            this.m_Mediator.Invoke(GameSaveMenuEventType.EditGameSlotModalInteraction_Enabled);
             this.m_SelectedImage = default;
         }
 
