@@ -1,6 +1,10 @@
 using ProjectExodus.Backend.JsonDataContext;
+using ProjectExodus.Common.Services;
+using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
+using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.GameStartup;
+using ProjectExodus.GameLogic.Infrastructure;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Settings;
 using ProjectExodus.Management.AudioManager;
@@ -33,10 +37,16 @@ namespace ProjectExodus
         [SerializeField] private SceneManager m_SceneManager;
         [SerializeField] private UserInterfaceManager m_UserInterfaceManager;
 
-        private IDataContext m_DataContext;
         private IGameOptionsFacade m_GameOptionsFacade;
+        private IGameSaveFacade m_GameSaveFacade;
+        
+        private IDataContext m_DataContext;
         private GameSettings m_GameSettings;
         private IObjectMapper m_ObjectMapper;
+        [SerializeField] private ServiceLocator m_ServiceLocator;
+        
+        // Game-Level data
+        private GameSaveModel m_GameSave;
 
         #endregion Fields
 
@@ -57,6 +67,9 @@ namespace ProjectExodus
         public IGameOptionsFacade GameOptionsFacade
             => this.m_GameOptionsFacade;
 
+        public IGameSaveFacade GameSaveFacade
+            => this.m_GameSaveFacade;
+
         public GameSettings GameSettings
             => this.m_GameSettings;
 
@@ -71,6 +84,9 @@ namespace ProjectExodus
 
         public IUserInterfaceManager UserInterfaceManager
             => this.m_UserInterfaceManager;
+
+        public IServiceLocator ServiceLocator
+            => this.m_ServiceLocator;
 
         #endregion Properties
           
@@ -105,6 +121,7 @@ namespace ProjectExodus
 
             // Set use case facades
             this.m_GameOptionsFacade = setupConfig.GameOptionsFacade;
+            this.m_GameSaveFacade = setupConfig.GameSaveFacade;
         }
 
         #endregion Methods

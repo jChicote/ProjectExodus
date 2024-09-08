@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using ProjectExodus.Backend.Entities;
+using ProjectExodus.Domain.Entities;
 
 namespace ProjectExodus.Backend.JsonDataContext
 {
@@ -12,6 +12,8 @@ namespace ProjectExodus.Backend.JsonDataContext
         #region - - - - - - Fields - - - - - -
 
         public List<GameOptions> GameOptions = new();
+
+        public List<GameSave> GameSaves = new();
 
         #endregion Fields
 

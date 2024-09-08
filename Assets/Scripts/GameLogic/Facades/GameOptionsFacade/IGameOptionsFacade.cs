@@ -1,4 +1,4 @@
-using ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions;
+using ProjectExodus.Backend.UseCases.GameOptionsUseCases.UpdateGameOptions;
 
 namespace ProjectExodus.GameLogic.Facades.GameOptionsFacade
 {

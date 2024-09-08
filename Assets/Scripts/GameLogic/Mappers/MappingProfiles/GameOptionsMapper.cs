@@ -1,7 +1,6 @@
-using System;
-using ProjectExodus.Backend.Entities;
+using ProjectExodus.Domain.Entities;
+using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Enumeration;
-using ProjectExodus.GameLogic.Models;
 
 namespace ProjectExodus.GameLogic.Mappers.MappingProfiles
 {

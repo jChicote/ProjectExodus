@@ -1,6 +1,6 @@
-using ProjectExodus.Backend.UseCases.GameOptions.UpdateGameOptions;
+using ProjectExodus.Backend.UseCases.GameOptionsUseCases.UpdateGameOptions;
+using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Mappers;
-using ProjectExodus.GameLogic.Models;
 
 namespace ProjectExodus.UserInterface.OptionsMenu.UserInterfaceOptions
 {

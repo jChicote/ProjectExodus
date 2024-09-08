@@ -1,7 +1,8 @@
-using ProjectExodus.Backend.Entities;
 using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Backend.Repositories;
+using ProjectExodus.Domain.Entities;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
+using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Settings;
 
@@ -23,6 +24,8 @@ namespace ProjectExodus.GameLogic.GameStartup
         
         public IObjectMapper ObjectMapper { get; private set; }
         
+        public IObjectMapperRegister ObjectMapperRegister { get; private set; }
+        
         // --------------------------------
         // Data Repositories
         // --------------------------------
@@ -34,7 +37,9 @@ namespace ProjectExodus.GameLogic.GameStartup
         // --------------------------------
         
         public GameOptionsFacade GameOptionsFacade { get; private set; }
-
+        
+        public GameSaveFacade GameSaveFacade { get; private set; }
+        
         #endregion Properties
 
         #region - - - - - - Methods - - - - - -
@@ -42,18 +47,27 @@ namespace ProjectExodus.GameLogic.GameStartup
         public void SetupGameServices(
             IDataContext dataContext,
             GameSettings gameSettings,
-            IObjectMapper objectMapper)
+            IObjectMapper objectMapper,
+            IObjectMapperRegister objectMapperRegister)
         {
             this.DataContext = dataContext;
             this.GameSettings = gameSettings;
             this.ObjectMapper = objectMapper;
+            this.ObjectMapperRegister = objectMapperRegister;
         }
 
-        public void SetupRepositories(IDataRepository<GameOptions> gameOptionsRepository) 
-            => this.GameOptionsRepository = gameOptionsRepository;
+        public void SetupRepositories(IDataRepository<GameOptions> gameOptionsRepository)
+        {
+            this.GameOptionsRepository = gameOptionsRepository;
+        }
 
-        public void SetupUseCaseFacades(GameOptionsFacade gameOptionsFacade) 
-            => this.GameOptionsFacade = gameOptionsFacade;
+        public void SetupUseCaseFacades(
+            GameOptionsFacade gameOptionsFacade,
+            GameSaveFacade gameSaveFacade)
+        {
+            this.GameOptionsFacade = gameOptionsFacade;
+            this.GameSaveFacade = gameSaveFacade;
+        }
 
         #endregion Methods
           

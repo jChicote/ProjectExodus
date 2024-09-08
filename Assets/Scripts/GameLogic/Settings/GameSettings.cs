@@ -1,5 +1,5 @@
 using System;
-using ProjectExodus.GameLogic.Models;
+using ProjectExodus.Domain.Models;
 using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Settings

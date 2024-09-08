@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ProjectExodus.Backend.Entities;
 using ProjectExodus.Backend.JsonDataContext;
+using ProjectExodus.Domain.Entities;
 using ProjectExodus.GameLogic.Mappers;
 
 namespace ProjectExodus.Backend.Repositories.GameOptionsRepository
@@ -32,6 +32,9 @@ namespace ProjectExodus.Backend.Repositories.GameOptionsRepository
 
         void IDataRepository<GameOptions>.Create(GameOptions entityToCreate) 
             => this.m_DataContext.Add(entityToCreate);
+
+        void IDataRepository<GameOptions>.Delete(Guid id)
+            => this.m_DataContext.Delete<GameOptions>(id);
 
         IEnumerable<GameOptions> IDataRepository<GameOptions>.GetEntities()
             => this.m_DataContext

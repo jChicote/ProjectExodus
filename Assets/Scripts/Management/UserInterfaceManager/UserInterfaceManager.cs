@@ -1,6 +1,7 @@
 ﻿using ProjectExodus.Management.Models;
 using ProjectExodus.Management.UserInterfaceScreenStatesManager;
 using ProjectExodus.UserInterface.GameplayHUD;
+using ProjectExodus.UserInterface.GameSaveSelectionMenu;
 using ProjectExodus.UserInterface.LoadingScreen;
 using ProjectExodus.UserInterface.MainMenu;
 using ProjectExodus.UserInterface.OptionsMenu;
@@ -18,6 +19,7 @@ namespace ProjectExodus.Management.UserInterfaceManager
         #region - - - - - - Fields - - - - - -
 
         [Header("GUI Controllers")]
+        [SerializeField] private GameSaveSelectionMenuController m_GameSaveSelectionMenuController;
         [SerializeField] private MainMenuController m_MainMenuController;
         [SerializeField] private OptionsMenuController m_OptionsMenuController;
         [SerializeField] private LoadingScreenController m_LoadingScreenController;
@@ -42,6 +44,12 @@ namespace ProjectExodus.Management.UserInterfaceManager
 
         private void InitialiseUserIterfaces()
         {
+            ((IGameSaveSelectionMenuController)this.m_GameSaveSelectionMenuController)
+                .InitializeGameSelectionMenuController(
+                    GameManager.Instance.DataContext,
+                    GameManager.Instance.GameSaveFacade,
+                    GameManager.Instance.Mapper
+                    );
             ((IMainMenuController)this.m_MainMenuController).InitialiseMainMenuController();
             ((IOptionsMenuController)this.m_OptionsMenuController).InitialiseOptionsMenu(
                 GameManager.Instance.DataContext,
@@ -72,10 +80,12 @@ namespace ProjectExodus.Management.UserInterfaceManager
             this.InitialiseUserIterfaces();
 
             GameScreens _GameScreens = new GameScreens(
+                this.m_GameSaveSelectionMenuController,
                 this.m_MainMenuController,
                 this.m_OptionsMenuController,
                 this.m_LoadingScreenController,
                 this.m_GameplayHUDController);
+            
             ((IUserInterfaceManager)this).UserInterfaceScreenStateManager
                 .InitialiseUserInterfaceScreenStatesManager(_GameScreens);
         }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using ProjectExodus.Backend.Entities;
+using Newtonsoft.Json;
+using ProjectExodus.Domain.Entities;
 using UnityEngine;
-using UnityEngine.Rendering.UI;
 using Application = UnityEngine.Device.Application;
 
 namespace ProjectExodus.Backend.JsonDataContext
@@ -30,6 +30,8 @@ namespace ProjectExodus.Backend.JsonDataContext
         {
             if (typeof(TEntity) == typeof(GameOptions))
                 this.m_GameData.GameOptions.Add(newObject as GameOptions);
+            else if (typeof(TEntity) == typeof(GameSave))
+                this.m_GameData.GameSaves.Add(newObject as GameSave);
             else
                 throw new NotSupportedException($"The entity type '{typeof(TEntity)}' is not supported.");
         }
@@ -42,23 +44,51 @@ namespace ProjectExodus.Backend.JsonDataContext
             if (typeof(TEntity) == typeof(GameOptions))
                 return (ICollection<TEntity>)this.m_GameData.GameOptions;
             
+            if (typeof(TEntity) == typeof(GameSave))
+                return (ICollection<TEntity>)this.m_GameData.GameSaves;
+
             throw new NotSupportedException($"The entity type '{typeof(TEntity)}' is not supported.");
         }
 
-        void IDataContext.Remove<TEntity>(TEntity objectToRemove) 
-            => throw new NotImplementedException();
+        void IDataContext.Delete<TEntity>(Guid id)
+        {
+            if (typeof(TEntity) == typeof(GameOptions))
+            {
+                GameOptions _GameOptionToDelete = this.m_GameData.GameOptions
+                                                    .SingleOrDefault(go => go.ID == id);
+                this.m_GameData.GameOptions.Remove(_GameOptionToDelete);
+            }
+            else if (typeof(TEntity) == typeof(GameSave))
+            {
+                GameSave _GameSaveToDelete = this.m_GameData.GameSaves
+                                                .SingleOrDefault(gs => gs.ID == id);
+                this.m_GameData.GameSaves.Remove(_GameSaveToDelete);
+            }
+        }
 
         void IDataContext.Update<TEntity>(Guid searchID, TEntity objectToUpdate)
         {
             if (typeof(TEntity) == typeof(GameOptions))
             {
                 int _Index = this.m_GameData.GameOptions
-                    .Select((go, index) => new { go, index })
-                    .Where(goi => goi.go.ID == searchID)
-                    .Select(goi => goi.index)
-                    .FirstOrDefault();
+                                .Select((go, index) => new { go, index })
+                                .Where(goi => goi.go.ID == searchID)
+                                .Select(goi => goi.index)
+                                .FirstOrDefault();
                 
+                // TODO: Instead of outright replacing the entity, only update its values. Otherwise, handle in repository
                 this.m_GameData.GameOptions[_Index] = objectToUpdate as GameOptions;
+            }
+            else if (typeof(TEntity) == typeof(GameSave))
+            {
+                int _Index = this.m_GameData.GameSaves
+                                .Select((gs, index) => new { gs, index })
+                                .Where(gsi => gsi.gs.ID == searchID)
+                                .Select(gsi => gsi.index)
+                                .FirstOrDefault();
+
+                // TODO: Instead of outright replacing the entity, only update its values. Otherwise, handle properly in repository
+                this.m_GameData.GameSaves[_Index] = objectToUpdate as GameSave;
             }
             else
             {
@@ -84,7 +114,7 @@ namespace ProjectExodus.Backend.JsonDataContext
             {
                 // This creates a new GameData object.
                 var _StringJson = await _Reader.ReadToEndAsync();
-                this.m_GameData = JsonUtility.FromJson<GameData>(_StringJson);
+                this.m_GameData = JsonConvert.DeserializeObject<GameData>(_StringJson);
             }
             catch (FileNotFoundException ex)
             {
@@ -102,8 +132,8 @@ namespace ProjectExodus.Backend.JsonDataContext
         {
             try
             {
-                string _StringJson = JsonUtility.ToJson(this.m_GameData);
-                await using  var _Writer = new StreamWriter(FILEPATH);
+                string _StringJson = JsonConvert.SerializeObject(this.m_GameData);
+                await using var _Writer = new StreamWriter(FILEPATH);
                 await _Writer.WriteAsync(_StringJson);
                 _Writer.Close();
             }
