@@ -6,7 +6,7 @@ namespace ProjectExodus.GameLogic.Enumeration
 
         #region - - - - - - Constructors - - - - - -
 
-        public SmartEnum(string name, int value)
+        protected SmartEnum(string name, int value)
         {
             this.m_Name = name;
             this.m_Value = value;
@@ -24,8 +24,10 @@ namespace ProjectExodus.GameLogic.Enumeration
         #region - - - - - - Methods - - - - - -
 
         public int GetValue()
-            => this.m_Value; 
+            => m_Value;
 
+        public override string ToString() 
+            => this.m_Name;
 
         #endregion Methods
 

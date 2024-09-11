@@ -1,3 +1,5 @@
+using System;
+using ProjectExodus.GameLogic.Enumeration;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,13 +11,18 @@ namespace ProjectExodus.GameLogic.Scene.SceneLoader
 
         #region - - - - - - Methods - - - - - -
 
-        void ISceneLoader.LoadScene(int sceneNumber)
+        
+        void ISceneLoader.LoadScene(GameScenes gameScene)
         {
-            Debug.Log($"[LOG] Scene being loaded '{sceneNumber.ToString()}'");
-            SceneManager.LoadScene(sceneNumber);
+            if (gameScene > SceneManager.sceneCount - 1)
+                throw new ArgumentOutOfRangeException();
+                
+            gameScene.Action.Invoke();
+            SceneManager.LoadScene((int)gameScene);
         }
 
         #endregion Methods
+        
     }
 
 }

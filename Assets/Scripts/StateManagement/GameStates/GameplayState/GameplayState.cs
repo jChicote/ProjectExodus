@@ -4,6 +4,7 @@ using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.SceneManager;
 using ProjectExodus.Management.UserInterfaceScreenStatesManager;
+using UnityEngine;
 
 namespace ProjectExodus.StateManagement.GameStates.GameplayState
 {
@@ -39,16 +40,18 @@ namespace ProjectExodus.StateManagement.GameStates.GameplayState
 
         void IGameState.StartState()
         {
-            // Activate game input
-            this.m_InputManager.PossesGameplayInputControls();
-            this.m_InputManager.SwitchToGameplayInputControls();
-
             // Startup the scene
             ISceneController _ActiveSceneController = this.m_SceneManager.GetActiveSceneController();
             _ActiveSceneController.InitialiseSceneController();
             _ActiveSceneController.RunSceneStartup();
+
+            // Activate game input
+            // this.m_InputManager.PossesGameplayInputControls();
+            // this.m_InputManager.SwitchToGameplayInputControls();
             
             this.m_UserInterfaceStateManager.OpenScreen(UIScreenType.GameplayHUD);
+            
+            Debug.Log("Started Game State");
         }
 
         void IGameState.EndState() 
