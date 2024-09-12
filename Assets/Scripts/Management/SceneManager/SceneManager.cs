@@ -30,9 +30,9 @@ namespace ProjectExodus.Management.SceneManager
 
         #endregion Initialisers
   
-        #region - - - - - - Unity Methods - - - - - -
+        #region - - - - - - Unity Lifecycle Methods - - - - - -
 
-        private void Awake()
+        private void Start()
         {
             SceneManager[] _SceneManager = Object.FindObjectsByType<SceneManager>(FindObjectsSortMode.None);
             if (_SceneManager.Length > 1)
@@ -40,7 +40,7 @@ namespace ProjectExodus.Management.SceneManager
                                $"Only one {nameof(SceneManager)} should exist, unexpected behaviour will occur.");
         }
 
-        #endregion Unity Methods
+        #endregion Unity Lifecycle Methods
   
         #region - - - - - - Methods - - - - - -
 
