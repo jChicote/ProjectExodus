@@ -11,7 +11,7 @@ namespace ProjectExodus.GameLogic.Scene
 
         #region - - - - - - Fields - - - - - -
 
-        [SerializeField] private SceneStartupController m_SceneStartupController;
+        [SerializeField] private SceneStartupHandler m_SceneStartupController;
 
         #endregion Fields
 

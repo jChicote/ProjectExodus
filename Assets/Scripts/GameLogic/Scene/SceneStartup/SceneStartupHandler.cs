@@ -9,7 +9,7 @@ using UnityEngine;
 namespace ProjectExodus.GameLogic.Scene.SceneStartup
 {
 
-    public class SceneStartupController : MonoBehaviour
+    public class SceneStartupHandler : MonoBehaviour
     {
 
         #region - - - - - - Fields - - - - - -

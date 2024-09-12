@@ -14,7 +14,7 @@ namespace ProjectExodus.GameLogic.Scene.SceneLoader
         
         void ISceneLoader.LoadScene(GameScenes gameScene)
         {
-            if (gameScene > SceneManager.sceneCount - 1)
+            if (gameScene > SceneManager.sceneCount)
                 throw new ArgumentOutOfRangeException();
                 
             gameScene.Action.Invoke();
