@@ -1,4 +1,6 @@
-﻿using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
+﻿using System;
+using ProjectExodus.Common.Services;
+using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,9 +14,22 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         #region - - - - - - Fields - - - - - -
 
+        private GameplayInputControlServiceContainer m_ServiceContainer;
+        
         private bool m_IsInputActive;
 
         #endregion Fields
+
+        #region - - - - - - Initializers - - - - - -
+
+        void IGameplayInputControl.InitializeGameplayInputControl(ICommand initializerCommand)
+        {
+            // Executes custom resolution of input control's dependencies.
+            if (initializerCommand.CanExecute())
+                initializerCommand.Execute();
+        }
+
+        #endregion Initializers
   
         #region - - - - - - Events - - - - - -
 
@@ -39,15 +54,15 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             if (this.m_IsPaused || !this.m_IsInputActive)
                 return;
 
-            Debug.LogWarning("[NOT IMPLEMENTED] >> No implemented behavior for OnLook.");
+            this.m_ServiceContainer.PlayerMovement.SetLookDirection(Vector2.zero); // default for now
         }
 
         void IGameplayInputControl.OnMove(InputAction.CallbackContext callback)
         {
             if (this.m_IsPaused || !this.m_IsInputActive)
                 return;
-
-            Debug.LogWarning("[NOT IMPLEMENTED] >> No implemented behavior for OnMove.");
+            
+            this.m_ServiceContainer.PlayerMovement.SetMoveDirection(Vector2.zero); // default for now
         }
 
         void IGameplayInputControl.OnPause(InputAction.CallbackContext callback)
@@ -63,7 +78,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             if (this.m_IsPaused || !this.m_IsInputActive)
                 return;
 
-            Debug.LogWarning("[NOT IMPLEMENTED] >> No implemented behavior for OnSprint.");
+            this.m_ServiceContainer.PlayerMovement.ToggleAfterburn();
         }
 
         #endregion Events
@@ -125,9 +140,12 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
         
         void IInputControl.EnableInputControl()
             => this.m_IsInputActive = true;
-        
+
+        void IGameplayInputControl.SetServiceContainer(GameplayInputControlServiceContainer serviceContainer)
+            => this.m_ServiceContainer = serviceContainer ?? throw new ArgumentNullException(nameof(serviceContainer));
+
         #endregion Methods
-  
+
     }
 
 }

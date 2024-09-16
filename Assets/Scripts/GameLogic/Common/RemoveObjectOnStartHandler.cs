@@ -8,7 +8,7 @@ namespace ProjectExodus.GameLogic.Common
 
         #region - - - - - - Unity Lifecycle Methods - - - - - -
 
-        private void Awake()
+        private void OnEnable()
             => Object.Destroy(this.gameObject);
 
         #endregion Unity Lifecycle Methods

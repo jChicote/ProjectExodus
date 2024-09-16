@@ -14,6 +14,7 @@
 
         void PossesGameplayInputControls();
 
+        /// <remarks>This should only be invoked during the start of the Game/Application.</remarks>
         void PossesUserInterfaceInputControls();
 
         void SwitchToGameplayInputControls();
