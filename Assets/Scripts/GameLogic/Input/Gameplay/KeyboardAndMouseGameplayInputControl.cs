@@ -53,8 +53,8 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
         {
             if (this.m_IsPaused || !this.m_IsInputActive)
                 return;
-
-            this.m_ServiceContainer.PlayerMovement.SetLookDirection(Vector2.zero); // default for now
+            
+            this.m_ServiceContainer.PlayerMovement.SetLookDirection(callback.ReadValue<Vector2>()); // default for now
         }
 
         void IGameplayInputControl.OnMove(InputAction.CallbackContext callback)
@@ -62,7 +62,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             if (this.m_IsPaused || !this.m_IsInputActive)
                 return;
             
-            this.m_ServiceContainer.PlayerMovement.SetMoveDirection(Vector2.zero); // default for now
+            this.m_ServiceContainer.PlayerMovement.SetMoveDirection(callback.ReadValue<Vector2>()); // default for now
         }
 
         void IGameplayInputControl.OnPause(InputAction.CallbackContext callback)
