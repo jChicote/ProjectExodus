@@ -18,6 +18,8 @@ namespace ProjectExodus.Management.Mocks
 
         private void Start()
         {
+            Debug.Log($"[IMPORTANT]: You are using the mock object {nameof(MocksInputManager)}");
+            
             this.m_PlayerProvider = PlayerProvider.GetComponent<IPlayerProvider>();
 
             ((IInputManager)this).PossesGameplayInputControls();

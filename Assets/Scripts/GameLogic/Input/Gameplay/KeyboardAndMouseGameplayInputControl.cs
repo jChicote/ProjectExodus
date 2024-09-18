@@ -15,7 +15,8 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
         #region - - - - - - Fields - - - - - -
 
         private GameplayInputControlServiceContainer m_ServiceContainer;
-        
+
+        private Vector2 m_ScreenCenter;
         private bool m_IsInputActive;
 
         #endregion Fields
@@ -30,6 +31,15 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
         }
 
         #endregion Initializers
+
+        #region - - - - - - Unity Lifecycle Methods - - - - - -
+
+        private void Awake()
+            => this.m_ScreenCenter = new Vector2(
+                Screen.width / 2f,
+                Screen.height / 2f);
+
+        #endregion Unity Lifecycle Methods
   
         #region - - - - - - Events - - - - - -
 
@@ -55,9 +65,8 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
                 return;
             
             // Calculate look direction assuming screen center as origin point
-            Vector2 _OriginPosition = new Vector2(Screen.width, Screen.height);
-            Vector2 _LookDirection = _OriginPosition - callback.ReadValue<Vector2>();
-            this.m_ServiceContainer.PlayerMovement.SetLookDirection(_LookDirection);
+            this.m_ServiceContainer.PlayerMovement.SetLookDirection(
+                callback.ReadValue<Vector2>() - this.m_ScreenCenter);
         }
 
         void IGameplayInputControl.OnMove(InputAction.CallbackContext callback)
