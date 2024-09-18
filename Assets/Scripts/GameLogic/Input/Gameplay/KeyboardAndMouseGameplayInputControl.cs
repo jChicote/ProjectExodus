@@ -54,7 +54,10 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             if (this.m_IsPaused || !this.m_IsInputActive)
                 return;
             
-            this.m_ServiceContainer.PlayerMovement.SetLookDirection(callback.ReadValue<Vector2>()); // default for now
+            // Calculate look direction assuming screen center as origin point
+            Vector2 _OriginPosition = new Vector2(Screen.width, Screen.height);
+            Vector2 _LookDirection = _OriginPosition - callback.ReadValue<Vector2>();
+            this.m_ServiceContainer.PlayerMovement.SetLookDirection(_LookDirection);
         }
 
         void IGameplayInputControl.OnMove(InputAction.CallbackContext callback)
@@ -82,8 +85,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
         }
 
         #endregion Events
-
-
+        
         #region - - - - - - Methods - - - - - -
 
         void IInputControl.BindInputControls(PlayerInput playerInput)
