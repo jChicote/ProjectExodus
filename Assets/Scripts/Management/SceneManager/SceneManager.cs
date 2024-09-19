@@ -50,6 +50,11 @@ namespace ProjectExodus.Management.SceneManager
         GameObject IPlayerProvider.GetActivePlayer()
             => this.m_ActivePlayer;
 
+        public void SetActivePlayer(GameObject activePlayer)
+        {
+            throw new System.NotImplementedException();
+        }
+
         #endregion Methods
 
     }

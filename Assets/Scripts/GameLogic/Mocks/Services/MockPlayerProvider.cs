@@ -30,6 +30,17 @@ namespace ProjectExodus.GameLogic.Mocks.Services
             return this.PlayerObject;
         }
 
+        public void SetActivePlayer(GameObject activePlayer)
+        {
+            if (activePlayer == null)
+            {
+                Debug.LogError("[ERROR]: active player set is null.");
+                return;
+            }
+
+            this.PlayerObject = activePlayer;
+        }
+
         #endregion Methods
     }
 

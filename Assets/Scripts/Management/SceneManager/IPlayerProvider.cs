@@ -10,6 +10,8 @@ namespace ProjectExodus.Management.SceneManager
 
         GameObject GetActivePlayer();
 
+        void SetActivePlayer(GameObject activePlayer);
+
         #endregion Methods
 
     }
