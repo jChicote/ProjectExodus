@@ -1,14 +1,18 @@
-using System;
+using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
 using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Player
 {
 
-    public class PlayerMovement : MonoBehaviour, IPlayerMovement
+    public class PlayerMovement : PausableMonoBehavior, IPlayerMovement
     {
 
         #region - - - - - - Fields - - - - - -
 
+        [SerializeField] private Rigidbody2D m_Rigidbody;
+
+        [SerializeField] private float m_MaxThrustMagnitude;
+        [SerializeField] private float m_MoveInterpolationInterval;
         [SerializeField] private float m_ThrustPower;
 
         private Vector2 m_MoveDirection;
@@ -19,7 +23,9 @@ namespace ProjectExodus.GameLogic.Player
 
         private void Update()
         {
+            if (this.m_IsPaused) return;
             
+            this.RunMovement();
         }
 
         #endregion Unity Lifecycle Methods
@@ -40,7 +46,23 @@ namespace ProjectExodus.GameLogic.Player
 
         private void RunMovement()
         {
+            float _MovementMagnitude = this.m_Rigidbody.linearVelocity.magnitude; // This is inefficient (use squared magnitude)
+            Debug.Log($"[LOG] Movement Magnitude: {_MovementMagnitude}");
+
+            if (_MovementMagnitude > this.m_MaxThrustMagnitude)
+            {
+                this.m_Rigidbody.linearVelocity = Vector2.Lerp(
+                    this.m_Rigidbody.linearVelocity, 
+                    Vector2.zero,
+                    this.m_MoveInterpolationInterval);
+                
+                return;
+            }
             
+            this.m_Rigidbody.linearVelocity = Vector2.Lerp(
+                this.m_Rigidbody.linearVelocity, 
+                this.m_MoveDirection * this.m_ThrustPower, 
+                this.m_MoveInterpolationInterval);
         }
 
         #endregion Methods
