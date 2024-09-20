@@ -1,4 +1,6 @@
-﻿namespace ProjectExodus.StateManagement.GameStates
+﻿using System.Threading.Tasks;
+
+namespace ProjectExodus.StateManagement.GameStates
 {
 
     public interface IGameState
@@ -6,9 +8,9 @@
 
         #region - - - - - - Methods - - - - - -
 
-        void StartState();
+        Task StartState();
 
-        void EndState();
+        Task EndState();
 
         #endregion Methods
 

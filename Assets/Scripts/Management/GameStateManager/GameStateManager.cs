@@ -1,4 +1,6 @@
-﻿using ProjectExodus.Common.Services;
+﻿using System.Threading.Tasks;
+using ProjectExodus.Common.Services;
+using ProjectExodus.GameLogic.Scene.SceneLoader;
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.GameSaveManager;
 using ProjectExodus.Management.InputManager;
@@ -42,19 +44,24 @@ namespace ProjectExodus.Management.GameStateManager
                 GameManager.Instance.UserInterfaceManager.UserInterfaceScreenStateManager;
 
             IGameSaveManager _GameSaveManager = _ServiceLocator.GetService<IGameSaveManager>();
+            ISceneLoader _SceneLoader = _ServiceLocator.GetService<ISceneLoader>();
             
             // Initialise States
-            this.m_GameplayState = new GameplayState(_InputManager, _SceneManager, _UserInterfaceScreenStateManager);
+            this.m_GameplayState = new GameplayState(
+                _InputManager, 
+                _SceneLoader, 
+                _SceneManager, 
+                _UserInterfaceScreenStateManager);
             this.m_MainMenuState = new MainMenuState(_InputManager, _GameSaveManager, _UserInterfaceScreenStateManager);
             
             // Set the starting game state
-            ((IGameStateManager)this).ChangeGameState(GameState.MainMenu);
+            Task.Run(() => ((IGameStateManager)this).ChangeGameState(GameState.MainMenu));
         }
 
-        void IGameStateManager.ChangeGameState(GameState gameState)
+        async Task IGameStateManager.ChangeGameState(GameState gameState)
         {
             // Close previous state
-            this.m_CurrentGameState?.EndState();
+            await this.m_CurrentGameState?.EndState();
             
             switch (gameState)
             {
@@ -68,8 +75,8 @@ namespace ProjectExodus.Management.GameStateManager
                     Debug.LogError($"The game state: '{gameState.ToString()}' is not found");
                     break;
             }
-            
-            this.m_CurrentGameState.StartState();
+
+            await this.m_CurrentGameState.StartState();
         }
 
         #endregion Methods

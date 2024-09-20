@@ -1,5 +1,4 @@
 using System;
-using ProjectExodus.GameLogic.Enumeration;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,14 +10,12 @@ namespace ProjectExodus.GameLogic.Scene.SceneLoader
 
         #region - - - - - - Methods - - - - - -
 
-        
-        void ISceneLoader.LoadScene(GameScenes gameScene)
+        void ISceneLoader.LoadScene(int levelNumber)
         {
-            if (gameScene > SceneManager.sceneCount)
+            if (levelNumber > SceneManager.sceneCount)
                 throw new ArgumentOutOfRangeException();
                 
-            gameScene.Action.Invoke();
-            SceneManager.LoadScene((int)gameScene);
+            SceneManager.LoadScene(levelNumber);
         }
 
         #endregion Methods

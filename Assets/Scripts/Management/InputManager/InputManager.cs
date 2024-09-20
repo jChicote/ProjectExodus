@@ -49,8 +49,6 @@ namespace ProjectExodus.Management.InputManager
 
         void IInputManager.InitialiseInputManager()
         {
-            this.m_PlayerProvider = (IPlayerProvider)GameManager.Instance.SceneManager;
-            
             // Note: Ensure all values exist and references are set. Avoid setting the active input control.
             ((IInputManager)this).PossesUserInterfaceInputControls();
             
@@ -70,7 +68,8 @@ namespace ProjectExodus.Management.InputManager
         void IInputManager.PossesGameplayInputControls()
         {
             // Validate whether controls exist
-            if (this.m_PlayerProvider.GetActivePlayer().GetComponent<IGameplayInputControl>() != null)
+            if (!this.TryGetScenePlayerProvider() 
+                || this.m_PlayerProvider.GetActivePlayer().GetComponent<IGameplayInputControl>() != null)
                 return;
             
             GameObject _ActivePlayer = this.m_PlayerProvider.GetActivePlayer();
@@ -149,6 +148,12 @@ namespace ProjectExodus.Management.InputManager
                     _GameplayInputControl));
                     
             this.m_GameplayInputControl = _GameplayInputControl;
+        }
+
+        private bool TryGetScenePlayerProvider()
+        {
+            this.m_PlayerProvider = Object.FindFirstObjectByType<PlayerProvider>(FindObjectsInactive.Exclude);
+            return this.m_PlayerProvider != null;
         }
 
         #endregion Methods

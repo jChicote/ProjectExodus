@@ -1,4 +1,5 @@
-﻿using ProjectExodus.Management.Enumeration;
+﻿using System.Threading.Tasks;
+using ProjectExodus.Management.Enumeration;
 
 namespace ProjectExodus.Management.GameStateManager
 {
@@ -10,7 +11,7 @@ namespace ProjectExodus.Management.GameStateManager
         
         void InitialiseGameStateManager();
 
-        void ChangeGameState(GameState gameState);
+        Task ChangeGameState(GameState gameState);
 
         #endregion Methods
 

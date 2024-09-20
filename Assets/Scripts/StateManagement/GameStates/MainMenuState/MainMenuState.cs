@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Threading.Tasks;
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.GameSaveManager;
 using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.UserInterfaceScreenStatesManager;
-using ProjectExodus.UserInterface.GameSaveSelectionMenu;
 using UnityEngine;
 
 namespace ProjectExodus.StateManagement.GameStates.MainMenuState
@@ -38,16 +38,21 @@ namespace ProjectExodus.StateManagement.GameStates.MainMenuState
         
         #region - - - - - - Methods - - - - - -
 
-        void IGameState.StartState()
+        Task IGameState.StartState()
         {
             this.m_InputManager.SwitchToUserInterfaceInputControls();
             this.m_UserInterfaceScreenStateManager.OpenScreen(this.m_GameSaveManager.GameSaveModel == null
                 ? UIScreenType.GameSaveMenu
                 : UIScreenType.MainMenu);
+
+            return Task.CompletedTask;
         }
 
-        void IGameState.EndState() 
-            => Debug.LogWarning("[NOT IMPLEMENTED] No MainMenu.EndState is configured");
+        Task IGameState.EndState()
+        {
+            Debug.LogWarning("[NOT IMPLEMENTED] No MainMenu.EndState is configured");
+            return Task.CompletedTask;
+        }
 
         #endregion Methods
 

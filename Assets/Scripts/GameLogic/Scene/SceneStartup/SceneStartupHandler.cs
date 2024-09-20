@@ -48,7 +48,7 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
         {
             this.m_LoadingScreenController.ShowScreen();
 
-            yield return this.StartCoroutine(this.LoadScene());
+            // yield return this.StartCoroutine(this.LoadScene());
             yield return this.StartCoroutine(this.StartSceneStartup());
             yield return this.StartCoroutine(this.SetupSceneData());
             yield return this.StartCoroutine(this.SetupSceneServicesAndControllers());
@@ -60,11 +60,11 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
             Debug.Log("[LOG]: The scene is now prepared.");
         }
 
-        private IEnumerator LoadScene()
-        {
-            this.m_SceneLoader.LoadScene(GameScenes.DebugScene1); // Hardcoded for now
-            yield return null;
-        }
+        // private IEnumerator LoadScene()
+        // {
+        //     this.m_SceneLoader.LoadScene(GameScenes.DebugScene1); // Hardcoded for now
+        //     yield return null;
+        // }
 
         private IEnumerator StartSceneStartup()
         {
