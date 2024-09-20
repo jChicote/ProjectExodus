@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ProjectExodus.Management.SceneManager
+namespace ProjectExodus.GameLogic.Player.PlayerProvider
 {
 
     public interface IPlayerProvider

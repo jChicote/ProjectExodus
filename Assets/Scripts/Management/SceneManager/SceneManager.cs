@@ -1,4 +1,5 @@
 ﻿using ProjectExodus.GameLogic.Pause.PauseController;
+using ProjectExodus.GameLogic.Player.PlayerProvider;
 using ProjectExodus.GameLogic.Scene;
 using UnityEngine;
 

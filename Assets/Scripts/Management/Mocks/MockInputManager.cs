@@ -1,5 +1,5 @@
+using ProjectExodus.GameLogic.Player.PlayerProvider;
 using ProjectExodus.Management.InputManager;
-using ProjectExodus.Management.SceneManager;
 using UnityEngine;
 
 namespace ProjectExodus.Management.Mocks
