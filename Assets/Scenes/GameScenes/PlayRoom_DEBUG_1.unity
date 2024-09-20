@@ -294,6 +294,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 193546142851460686, guid: fa93da31246b1ef418d4cc664b40e97e, type: 3}
+      propertyPath: PlayerSpawner
+      value: 
+      objectReference: {fileID: 211138123}
+    - target: {fileID: 193546142851460686, guid: fa93da31246b1ef418d4cc664b40e97e, type: 3}
+      propertyPath: PlayerProvider
+      value: 
+      objectReference: {fileID: 1379387251}
+    - target: {fileID: 193546142851460686, guid: fa93da31246b1ef418d4cc664b40e97e, type: 3}
+      propertyPath: CameraController
+      value: 
+      objectReference: {fileID: 1080787494}
     - target: {fileID: 2029567763479426094, guid: fa93da31246b1ef418d4cc664b40e97e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

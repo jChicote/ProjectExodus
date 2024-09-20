@@ -1,5 +1,7 @@
+using ProjectExodus.GameLogic.Camera;
 using ProjectExodus.GameLogic.Player.PlayerProvider;
 using ProjectExodus.Management.InputManager;
+using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Player.PlayerSpawner
 {
@@ -9,9 +11,12 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
 
         #region - - - - - - Methods - - - - - -
 
-        void InitialisePlayerSpawner(IInputManager inputManager, IPlayerProvider playerProvider);
+        void InitialisePlayerSpawner(
+            ICameraController cameraController, 
+            IInputManager inputManager, 
+            IPlayerProvider playerProvider);
 
-        void SpawnPlayer();
+        GameObject SpawnPlayer();
 
         #endregion Methods
 

@@ -32,6 +32,9 @@ namespace ProjectExodus.GameLogic.Scene
 
         #region - - - - - - Methods - - - - - -
 
+        bool ISceneController.IsActiveInScene()
+            => this.gameObject.activeInHierarchy;
+
         void ISceneController.RunSceneStartup() 
             => this.StartCoroutine(this.m_SceneStartupController.RunSceneStartup());
 

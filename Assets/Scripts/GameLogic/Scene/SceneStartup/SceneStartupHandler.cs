@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
+using ProjectExodus.GameLogic.Camera;
 using ProjectExodus.GameLogic.Enumeration;
+using ProjectExodus.GameLogic.Player.PlayerProvider;
+using ProjectExodus.GameLogic.Player.PlayerSpawner;
 using ProjectExodus.GameLogic.Scene.SceneLoader;
 using ProjectExodus.Management.InputManager;
 using ProjectExodus.UserInterface.LoadingScreen;
@@ -13,6 +16,10 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
     {
 
         #region - - - - - - Fields - - - - - -
+
+        [SerializeField] private PlayerSpawner PlayerSpawner;
+        [SerializeField] private PlayerProvider PlayerProvider;
+        [SerializeField] private CameraController CameraController;
 
         private IInputManager m_InputManager;
         private ILoadingScreenController m_LoadingScreenController;
@@ -73,8 +80,14 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
 
         private IEnumerator SetupSceneServicesAndControllers()
         {
-            yield return new WaitForSeconds(2); // Debug
+            ((IPlayerSpawner)this.PlayerSpawner).InitialisePlayerSpawner(
+                this.CameraController, 
+                this.m_InputManager, 
+                this.PlayerProvider);
+            
             this.m_LoadingScreenController.UpdateLoadProgress(40f);
+            
+            yield return null;
         }
 
         private IEnumerator SetupPlayer()
