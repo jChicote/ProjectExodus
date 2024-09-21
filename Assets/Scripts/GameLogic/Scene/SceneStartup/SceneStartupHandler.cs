@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Camera;
 using ProjectExodus.GameLogic.Player.PlayerProvider;
 using ProjectExodus.GameLogic.Player.PlayerSpawner;
@@ -22,7 +23,7 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
 
         private IInputManager m_InputManager;
         private ILoadingScreenController m_LoadingScreenController;
-        private ISceneLoader m_SceneLoader;
+        private IServiceLocator m_ServiceLocator;
 
         #endregion Fields
 
@@ -31,12 +32,12 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
         public void InitialiseSceneStartupController(
             IInputManager inputManager,
             ILoadingScreenController loadingScreenController,
-            ISceneLoader sceneLoader)
+            IServiceLocator serviceLocator)
         {
             this.m_InputManager = inputManager ?? throw new ArgumentNullException(nameof(inputManager));
             this.m_LoadingScreenController = loadingScreenController
                                                 ?? throw new ArgumentException(nameof(loadingScreenController));
-            this.m_SceneLoader = sceneLoader ?? throw new ArgumentNullException(nameof(sceneLoader));
+            this.m_ServiceLocator = serviceLocator ?? throw new ArgumentNullException(nameof(serviceLocator));
         }
 
         #endregion Initialisers

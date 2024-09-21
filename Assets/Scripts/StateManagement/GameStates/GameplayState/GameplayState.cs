@@ -10,6 +10,7 @@ using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.SceneManager;
 using ProjectExodus.Management.UserInterfaceScreenStatesManager;
 using UnityEngine;
+using SceneManager = UnityEngine.SceneManagement.SceneManager;
 
 namespace ProjectExodus.StateManagement.GameStates.GameplayState
 {
@@ -55,7 +56,7 @@ namespace ProjectExodus.StateManagement.GameStates.GameplayState
             // Temporarily will be a DebugScene1 invoker for now but later will need to handle different scenes.
             yield return this.m_CoroutineManager.StartNewCoroutine(
                 this.m_SceneLoader.LoadScene(GameScenes.DebugScene1));
-            
+
             // Startup the scene
             ISceneController _ActiveSceneController = this.m_SceneManager.GetActiveSceneController();
             _ActiveSceneController.InitialiseSceneController();
