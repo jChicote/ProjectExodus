@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Rigidbody: {fileID: 7252544755981936645}
-  m_MaxThrustMagnitude: 12
+  m_MaxThrustMagnitude: 2
   m_MoveInterpolationInterval: 0.07
   m_ThrustPower: 10
 --- !u!1 &4247667170664503772

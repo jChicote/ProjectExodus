@@ -46,8 +46,7 @@ namespace ProjectExodus.GameLogic.Player
 
         private void RunMovement()
         {
-            float _MovementMagnitude = this.m_Rigidbody.linearVelocity.magnitude; // This is inefficient (use squared magnitude)
-            if (_MovementMagnitude > this.m_MaxThrustMagnitude)
+            if (this.m_Rigidbody.linearVelocity.sqrMagnitude > this.m_MaxThrustMagnitude)
             {
                 this.m_Rigidbody.linearVelocity = Vector2.Lerp(
                     this.m_Rigidbody.linearVelocity, 

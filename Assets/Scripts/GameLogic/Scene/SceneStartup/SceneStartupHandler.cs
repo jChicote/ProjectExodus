@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using ProjectExodus.GameLogic.Camera;
-using ProjectExodus.GameLogic.Enumeration;
 using ProjectExodus.GameLogic.Player.PlayerProvider;
 using ProjectExodus.GameLogic.Player.PlayerSpawner;
 using ProjectExodus.GameLogic.Scene.SceneLoader;
@@ -60,12 +59,6 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
             Debug.Log("[LOG]: The scene is now prepared.");
         }
 
-        // private IEnumerator LoadScene()
-        // {
-        //     this.m_SceneLoader.LoadScene(GameScenes.DebugScene1); // Hardcoded for now
-        //     yield return null;
-        // }
-
         private IEnumerator StartSceneStartup()
         {
             this.m_InputManager.DisableActiveInputControl();
@@ -92,8 +85,10 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
 
         private IEnumerator SetupPlayer()
         {
-            yield return new WaitForSeconds(2); // Debug
+            ((IPlayerSpawner)this.PlayerSpawner).SpawnPlayer();
             this.m_LoadingScreenController.UpdateLoadProgress(60f);
+
+            yield return null;
         }
 
         private IEnumerator SetupEnemies()
