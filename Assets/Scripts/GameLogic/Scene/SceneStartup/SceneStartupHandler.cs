@@ -86,6 +86,7 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
         private IEnumerator SetupPlayer()
         {
             ((IPlayerSpawner)this.PlayerSpawner).SpawnPlayer();
+            this.m_InputManager.DisableActiveInputControl();
             this.m_LoadingScreenController.UpdateLoadProgress(60f);
 
             yield return null;
