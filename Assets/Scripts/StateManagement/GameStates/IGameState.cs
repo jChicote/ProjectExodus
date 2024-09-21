@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections;
+using System.Threading.Tasks;
 
 namespace ProjectExodus.StateManagement.GameStates
 {
@@ -8,9 +9,9 @@ namespace ProjectExodus.StateManagement.GameStates
 
         #region - - - - - - Methods - - - - - -
 
-        Task StartState();
+        IEnumerator StartState();
 
-        Task EndState();
+        IEnumerator EndState();
 
         #endregion Methods
 

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Threading.Tasks;
+using ProjectExodus.GameLogic.Coroutines;
 using ProjectExodus.GameLogic.Enumeration;
 using ProjectExodus.GameLogic.Scene;
 using ProjectExodus.GameLogic.Scene.SceneLoader;
@@ -17,6 +19,7 @@ namespace ProjectExodus.StateManagement.GameStates.GameplayState
 
         #region - - - - - - Fields - - - - - -
 
+        private readonly ICoroutineManager m_CoroutineManager;
         private readonly IInputManager m_InputManager;
         private readonly ISceneLoader m_SceneLoader;
         private readonly ISceneManager m_SceneManager;
@@ -27,11 +30,13 @@ namespace ProjectExodus.StateManagement.GameStates.GameplayState
         #region - - - - - - Constructor - - - - - -
 
         public GameplayState(
+            ICoroutineManager coroutineManager,
             IInputManager inputManager, 
             ISceneLoader sceneLoader,
             ISceneManager sceneManager,
             IUserInterfaceScreenStateManager userInterfaceScreenStateManager)
         {
+            this.m_CoroutineManager = coroutineManager ?? throw new ArgumentNullException(nameof(coroutineManager));
             this.m_InputManager = inputManager ?? throw new ArgumentNullException(nameof(inputManager));
             this.m_SceneLoader = sceneLoader ?? throw new ArgumentNullException(nameof(sceneLoader));
             this.m_SceneManager = sceneManager ?? throw new ArgumentNullException(nameof(sceneManager));
@@ -44,11 +49,12 @@ namespace ProjectExodus.StateManagement.GameStates.GameplayState
   
         #region - - - - - - Methods - - - - - -
 
-        async Task IGameState.StartState()
+        IEnumerator IGameState.StartState()
         {
             // Load scene
             // Temporarily will be a DebugScene1 invoker for now but later will need to handle different scenes.
-            await GameScenes.DebugScene1.LoadScene.Invoke(this.m_SceneLoader);
+            yield return this.m_CoroutineManager.StartNewCoroutine(
+                this.m_SceneLoader.LoadScene(GameScenes.DebugScene1));
             
             // Startup the scene
             ISceneController _ActiveSceneController = this.m_SceneManager.GetActiveSceneController();
@@ -56,11 +62,14 @@ namespace ProjectExodus.StateManagement.GameStates.GameplayState
             _ActiveSceneController.RunSceneStartup();
             
             this.m_UserInterfaceStateManager.OpenScreen(UIScreenType.GameplayHUD);
+
+            yield return null;
         }
-        Task IGameState.EndState()
+        
+        IEnumerator IGameState.EndState()
         {
             this.m_InputManager.UnpossesGameplayInputControls();
-            return Task.CompletedTask;
+            yield return null;
         }
 
         #endregion Methods

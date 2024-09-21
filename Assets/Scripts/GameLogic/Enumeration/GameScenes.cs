@@ -13,29 +13,27 @@ namespace ProjectExodus.GameLogic.Enumeration
 
         public static GameScenes BaseScene = new("BaseScene", 0, sceneLoader =>
         {
-            Debug.Log($"[LOG]: Loading scene {BaseScene.GetValue()} '{BaseScene.ToString()}'");
+            Debug.Log($"[LOG]: Loading scene {BaseScene.GetValue()} -> '{BaseScene}'");
             sceneLoader.LoadScene(BaseScene);
-            return Task.CompletedTask;
         });
         public static GameScenes DebugScene1 = new("DebugScene1", 1, sceneLoader =>
         {
-            Debug.Log($"[LOG]: Loading scene {DebugScene1.GetValue()}  '{DebugScene1.ToString()}'");
             sceneLoader.LoadScene(DebugScene1);
-            return Task.CompletedTask;
+            Debug.Log($"[LOG]: Loaded scene {DebugScene1.GetValue()} -> '{DebugScene1}'");
         }); // This is temporary and for debug purposes.
 
         #endregion Fields
   
         #region - - - - - - Constructors - - - - - -
 
-        public GameScenes(string name, int value, Func<ISceneLoader, Task> loadSceneAction) : base(name, value)
+        private GameScenes(string name, int value, Action<ISceneLoader> loadSceneAction) : base(name, value)
             => this.LoadScene = loadSceneAction;
 
         #endregion Constructors
 
         #region - - - - - - Properties - - - - - -
 
-        public Func<ISceneLoader, Task> LoadScene { get; set; }
+        public Action<ISceneLoader> LoadScene { get; }
 
         #endregion Properties
 

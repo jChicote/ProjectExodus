@@ -1,3 +1,6 @@
+using System.Collections;
+using ProjectExodus.GameLogic.Enumeration;
+
 namespace ProjectExodus.GameLogic.Scene.SceneLoader
 {
 
@@ -6,7 +9,7 @@ namespace ProjectExodus.GameLogic.Scene.SceneLoader
 
         #region - - - - - - Methods - - - - - -
 
-        void LoadScene(int levelNumber);
+        IEnumerator LoadScene(GameScenes gameScene);
 
         #endregion Methods
 

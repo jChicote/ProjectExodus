@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Common
@@ -10,7 +11,12 @@ namespace ProjectExodus.GameLogic.Common
 
         private void Start()
         {
-            foreach (Transform _Child in transform)
+            List<Transform> _Children = new List<Transform>();
+            
+            foreach (Transform _Child in this.transform)
+                _Children.Add(_Child);
+            
+            foreach (Transform _Child in _Children)
                 _Child.SetParent(null);
             
             Object.Destroy(this.gameObject);

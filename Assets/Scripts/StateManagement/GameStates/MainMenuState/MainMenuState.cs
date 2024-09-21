@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Threading.Tasks;
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.GameSaveManager;
@@ -38,20 +39,20 @@ namespace ProjectExodus.StateManagement.GameStates.MainMenuState
         
         #region - - - - - - Methods - - - - - -
 
-        Task IGameState.StartState()
+        IEnumerator IGameState.StartState()
         {
             this.m_InputManager.SwitchToUserInterfaceInputControls();
             this.m_UserInterfaceScreenStateManager.OpenScreen(this.m_GameSaveManager.GameSaveModel == null
                 ? UIScreenType.GameSaveMenu
                 : UIScreenType.MainMenu);
 
-            return Task.CompletedTask;
+            yield return null;
         }
 
-        Task IGameState.EndState()
+        IEnumerator IGameState.EndState()
         {
             Debug.LogWarning("[NOT IMPLEMENTED] No MainMenu.EndState is configured");
-            return Task.CompletedTask;
+            yield return null;
         }
 
         #endregion Methods
