@@ -1,4 +1,4 @@
-﻿using ProjectExodus.GameLogic.Pause.PauseController;
+﻿using System.Linq;
 using ProjectExodus.GameLogic.Scene;
 using UnityEngine;
 
@@ -10,16 +10,12 @@ namespace ProjectExodus.Management.SceneManager
     /// </summary>
     /// <remarks>This is a persistent manager and should not exist to any specific scene. Use the 'SceneController'
     /// class for control and high-level operation of a scene.</remarks>
-    public class SceneManager : MonoBehaviour, ISceneManager, IPlayerProvider
+    public class SceneManager : MonoBehaviour, ISceneManager
     {
 
         #region - - - - - - Fields - - - - - -
 
-        [SerializeField] private PauseController m_PauseController;
-        
-        [Space]
-        [SerializeField] private GameObject m_ActivePlayer; // Debug only
-        [SerializeField] private SceneController m_ActiveSceneController; // Debug Only
+        private ISceneController m_ActiveSceneController; // Debug Only
 
         #endregion Fields
 
@@ -44,11 +40,31 @@ namespace ProjectExodus.Management.SceneManager
   
         #region - - - - - - Methods - - - - - -
 
-        ISceneController ISceneManager.GetActiveSceneController() 
-            => this.m_ActiveSceneController;
+        ISceneController ISceneManager.GetActiveSceneController()
+        {
+            if (this.m_ActiveSceneController != null && this.m_ActiveSceneController.IsActiveInScene())
+                return this.m_ActiveSceneController;
+            
+            if (this.DoesMultipleSceneControllersExist())
+                Debug.LogWarning("[WARNING]: Multiple SceneControllers were found.");
+            
+            this.m_ActiveSceneController = this.GetAllActiveSceneControllers().FirstOrDefault();
+            return this.m_ActiveSceneController;
+        }
 
-        GameObject IPlayerProvider.GetActivePlayer()
-            => this.m_ActivePlayer;
+        private bool DoesMultipleSceneControllersExist() 
+            => this.GetAllActiveSceneControllers().Length > 0;
+
+        private ISceneController[] GetAllActiveSceneControllers()
+        {
+            ISceneController[] _SceneControllers = 
+                Object.FindObjectsByType<SceneController>(FindObjectsSortMode.None)
+                    .Select(sc => (ISceneController)sc)
+                    .Where(sc => sc.IsActiveInScene())
+                    .ToArray();
+            
+            return _SceneControllers;
+        }
 
         #endregion Methods
 

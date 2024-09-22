@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ProjectExodus.Management.SceneManager
+namespace ProjectExodus.GameLogic.Player.PlayerProvider
 {
 
     public interface IPlayerProvider
@@ -9,6 +9,8 @@ namespace ProjectExodus.Management.SceneManager
         #region - - - - - - Methods - - - - - -
 
         GameObject GetActivePlayer();
+
+        void SetActivePlayer(GameObject activePlayer);
 
         #endregion Methods
 

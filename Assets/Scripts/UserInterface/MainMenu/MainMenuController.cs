@@ -1,4 +1,5 @@
-﻿using ProjectExodus.Management.Enumeration;
+﻿using System.Threading.Tasks;
+using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.GameStateManager;
 using ProjectExodus.Management.UserInterfaceScreenStatesManager;
 using UnityEngine;
@@ -49,7 +50,7 @@ namespace ProjectExodus.UserInterface.MainMenu
 
         public void OnPlaySelection()
         {
-            this.m_GameStateManager.ChangeGameState(GameState.Gameplay);
+             this.m_GameStateManager.ChangeGameState(GameState.Gameplay);
             this.m_UserInterfaceScreenStateManager.OpenScreen(UIScreenType.GameplayHUD);
         }
 

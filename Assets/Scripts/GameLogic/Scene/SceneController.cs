@@ -1,5 +1,4 @@
 using ProjectExodus.Common.Services;
-using ProjectExodus.GameLogic.Scene.SceneLoader;
 using ProjectExodus.GameLogic.Scene.SceneStartup;
 using UnityEngine;
 
@@ -25,12 +24,15 @@ namespace ProjectExodus.GameLogic.Scene
                 .InitialiseSceneStartupController(
                     GameManager.Instance.InputManager,
                     GameManager.Instance.UserInterfaceManager.LoadingScreenController,
-                    _ServiceLocator.GetService<ISceneLoader>());
+                    _ServiceLocator);
         }
 
         #endregion Initialisers
 
         #region - - - - - - Methods - - - - - -
+
+        bool ISceneController.IsActiveInScene()
+            => this.gameObject.activeInHierarchy;
 
         void ISceneController.RunSceneStartup() 
             => this.StartCoroutine(this.m_SceneStartupController.RunSceneStartup());

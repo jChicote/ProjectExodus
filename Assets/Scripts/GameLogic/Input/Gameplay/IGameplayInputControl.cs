@@ -1,4 +1,5 @@
-﻿using UnityEngine.InputSystem;
+﻿using ProjectExodus.Common.Services;
+using UnityEngine.InputSystem;
 
 namespace ProjectExodus.GameLogic.Input.Gameplay
 {
@@ -6,7 +7,9 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
     public interface IGameplayInputControl : IInputControl
     {
 
-        #region - - - - - - Events - - - - - -
+        #region - - - - - - Methods - - - - - -
+
+        void InitializeGameplayInputControl(ICommand initializerCommand);
 
         void OnAttack(InputAction.CallbackContext callback);
 
@@ -20,7 +23,9 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void OnSprint(InputAction.CallbackContext callbackContext);
 
-        #endregion Events
+        void SetServiceContainer(GameplayInputControlServiceContainer serviceContainer);
+
+        #endregion Methods
 
     }
 

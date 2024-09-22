@@ -2,6 +2,7 @@
 using ProjectExodus.GameLogic.Input;
 using ProjectExodus.GameLogic.Input.Gameplay;
 using ProjectExodus.GameLogic.Input.UserInterface;
+using ProjectExodus.GameLogic.Player.PlayerProvider;
 using ProjectExodus.Management.SceneManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -25,7 +26,7 @@ namespace ProjectExodus.Management.InputManager
         [Header("Schema Control")]
         [SerializeField] private InputControlSchema m_CurrentInputControlSchema = InputControlSchema.KeyboardAndMouse;
         
-        private IPlayerProvider m_PlayerProvider;
+        protected IPlayerProvider m_PlayerProvider;
         private IInputControl m_CurrentInputControl;
         private IInputControl m_GameplayInputControl;
         private IInputControl m_UserInterfaceInputControl;
@@ -48,8 +49,6 @@ namespace ProjectExodus.Management.InputManager
 
         void IInputManager.InitialiseInputManager()
         {
-            this.m_PlayerProvider = (IPlayerProvider)GameManager.Instance.SceneManager;
-            
             // Note: Ensure all values exist and references are set. Avoid setting the active input control.
             ((IInputManager)this).PossesUserInterfaceInputControls();
             
@@ -69,14 +68,15 @@ namespace ProjectExodus.Management.InputManager
         void IInputManager.PossesGameplayInputControls()
         {
             // Validate whether controls exist
-            if (this.m_PlayerProvider.GetActivePlayer().GetComponent<IGameplayInputControl>() != null)
+            if (!this.TryGetScenePlayerProvider() 
+                || this.m_PlayerProvider.GetActivePlayer().GetComponent<IGameplayInputControl>() != null)
                 return;
             
             GameObject _ActivePlayer = this.m_PlayerProvider.GetActivePlayer();
             switch (this.m_CurrentInputControlSchema)
             {
                 case InputControlSchema.KeyboardAndMouse:
-                    this.m_GameplayInputControl = _ActivePlayer.AddComponent<KeyboardAndMouseGameplayInputControl>();
+                    this.CreateAndPossessGameplayKeyboardAndMouseControls(_ActivePlayer);
                     break;
                 case InputControlSchema.Gamepad:
                     Debug.LogError("No gamepad input control exists");
@@ -87,6 +87,7 @@ namespace ProjectExodus.Management.InputManager
             this.m_CurrentInputControl = this.m_GameplayInputControl;
         }
 
+        /// <remarks>This should only be invoked during the start of the Game/Application.</remarks>
         void IInputManager.PossesUserInterfaceInputControls()
         {
             // Validate whether controls exist
@@ -96,8 +97,9 @@ namespace ProjectExodus.Management.InputManager
             switch (this.m_CurrentInputControlSchema)
             { 
                 case InputControlSchema.KeyboardAndMouse:
-                    this.m_UserInterfaceInputControl = this.m_SessionUser
-                                                        .AddComponent<KeyboardAndMouseUserInterfaceInputControl>();
+                    this.m_UserInterfaceInputControl = 
+                        this.m_SessionUser
+                            .AddComponent<KeyboardAndMouseUserInterfaceInputControl>();
                     break;
                 case InputControlSchema.Gamepad:
                     Debug.LogError("No Gamepad input control exists.");
@@ -132,6 +134,26 @@ namespace ProjectExodus.Management.InputManager
             
             this.m_GameplayInputControl?.DisableInputControl();
             this.m_UserInterfaceInputControl?.EnableInputControl();
+        }
+
+        private void CreateAndPossessGameplayKeyboardAndMouseControls(GameObject activePlayer)
+        {
+            IGameplayInputControl _GameplayInputControl = 
+                activePlayer.AddComponent<KeyboardAndMouseGameplayInputControl>();
+            
+            _GameplayInputControl.InitializeGameplayInputControl(
+                new GameplayInputControlInitializerCommand(
+                    activePlayer,
+                    this.m_SessionUser, 
+                    _GameplayInputControl));
+                    
+            this.m_GameplayInputControl = _GameplayInputControl;
+        }
+
+        private bool TryGetScenePlayerProvider()
+        {
+            this.m_PlayerProvider = Object.FindFirstObjectByType<PlayerProvider>(FindObjectsInactive.Exclude);
+            return this.m_PlayerProvider != null;
         }
 
         #endregion Methods
