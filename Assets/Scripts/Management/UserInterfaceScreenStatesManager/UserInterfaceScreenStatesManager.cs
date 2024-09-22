@@ -30,9 +30,9 @@ namespace ProjectExodus.Management.UserInterfaceScreenStatesManager
 
         void IUserInterfaceScreenStateManager.InitialiseUserInterfaceScreenStatesManager(GameScreens gameScreens)
         {
-            this.m_GameSaveMenuScreenState = new GameSaveMenuScreenState(gameScreens.GameSaveSelectionMenuController);
-            this.m_MainMenuScreenState = new MainMenuScreenState(gameScreens.MainMenuController);
-            this.m_OptionsMenuScreenState = new OptionsMenuScreenState(gameScreens.OptionsMenuController);
+            // this.m_GameSaveMenuScreenState = new GameSaveMenuScreenState(gameScreens.GameSaveSelectionMenuController);
+            // this.m_MainMenuScreenState = new MainMenuScreenState(gameScreens.MainMenuController);
+            // this.m_OptionsMenuScreenState = new OptionsMenuScreenState(gameScreens.OptionsMenuController);
             this.m_LoadingBarScreenState = new LoadingBarScreenState(gameScreens.LoadingScreenController);
             this.m_GameplayHUDScreenState = new GameplayHUDScreenState(gameScreens.GameplayHUDController);
             

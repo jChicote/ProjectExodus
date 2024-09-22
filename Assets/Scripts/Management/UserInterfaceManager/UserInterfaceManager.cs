@@ -49,13 +49,15 @@ namespace ProjectExodus.Management.UserInterfaceManager
                     GameManager.Instance.DataContext,
                     GameManager.Instance.GameSaveFacade,
                     GameManager.Instance.Mapper);
-            ((IMainMenuController)this.m_MainMenuController).InitialiseMainMenuController();
-            ((IOptionsMenuController)this.m_OptionsMenuController).InitialiseOptionsMenu(
-                GameManager.Instance.DataContext,
-                GameManager.Instance.GameSettings.GameOptionsModel,
-                GameManager.Instance.GameOptionsFacade,
-                GameManager.Instance.Mapper,
-                this.m_UserInterfaceScreenStateManager);
+            ((IMainMenuController)this.m_MainMenuController)
+                .InitialiseMainMenuController();
+            ((IOptionsMenuController)this.m_OptionsMenuController)
+                .InitialiseOptionsMenu(
+                    GameManager.Instance.DataContext,
+                    GameManager.Instance.GameSettings.GameOptionsModel,
+                    GameManager.Instance.GameOptionsFacade,
+                    GameManager.Instance.Mapper,
+                    this.m_UserInterfaceScreenStateManager);
         }
 
         #endregion Initializers
