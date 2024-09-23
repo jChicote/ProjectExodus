@@ -363,6 +363,7 @@ GameObject:
   - component: {fileID: 6791328080413414968}
   - component: {fileID: 5837222205610364449}
   - component: {fileID: 7770533587582610676}
+  - component: {fileID: 3138797226693830874}
   m_Layer: 5
   m_Name: Loading-Screen
   m_TagString: Untagged
@@ -413,6 +414,18 @@ MonoBehaviour:
   m_ContentGroup: {fileID: 7318364369982098315}
   m_LoadingBarSlider: {fileID: 2778913131614609919}
   m_LoadingLerpDuration: 2
+--- !u!114 &3138797226693830874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6531974530853241761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b7b5fe626054c099de1e958809802ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7318364369982098315
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,25 +1,33 @@
 using System;
 using ProjectExodus.UserInterface.LoadingScreen;
+using UnityEngine;
 
 namespace ProjectExodus.StateManagement.ScreenStates
 {
 
-    public class LoadingBarScreenState : IScreenState
+    public class LoadingBarScreenState : MonoBehaviour, IScreenState
     {
 
         #region - - - - - - Fields - - - - - -
 
-        private readonly ILoadingScreenController m_LoadingScreenController;
+        private ILoadingScreenController m_LoadingScreenController;
 
         #endregion Fields
 
-        #region - - - - - - Constructors - - - - - -
+        #region - - - - - - Unity Lifecycle Methods - - - - - -
 
-        public LoadingBarScreenState(ILoadingScreenController loadingScreenController)
-            => this.m_LoadingScreenController = loadingScreenController ??
-                                                    throw new ArgumentNullException(nameof(loadingScreenController));
+        private void Start()
+            => this.m_LoadingScreenController = this.GetComponent<ILoadingScreenController>();
 
-        #endregion Constructors
+        #endregion Unity Lifecycle Methods
+        //
+        // #region - - - - - - Constructors - - - - - -
+        //
+        // public LoadingBarScreenState(ILoadingScreenController loadingScreenController)
+        //     => this.m_LoadingScreenController = loadingScreenController ??
+        //                                             throw new ArgumentNullException(nameof(loadingScreenController));
+        //
+        // #endregion Constructors
   
         #region - - - - - - Methods - - - - - -
 

@@ -13180,7 +13180,7 @@ GameObject:
   - component: {fileID: 1942379659}
   - component: {fileID: 1942379658}
   m_Layer: 5
-  m_Name: MainMenu-UserInterface-Layer
+  m_Name: MainMenu-UserInterface-Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13297,6 +13297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6311001656e04ed39633024a88558508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_LoadingBarScreenState: {fileID: 2788920693688520601}
   m_MainMenuScreenState: {fileID: 992167622}
   m_OptionsMenuScreenState: {fileID: 1917164361}
   m_GameSaveMenuScreenState: {fileID: 121483328}
@@ -15279,7 +15280,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6531974530853241761, guid: 60afeeb26708a8841aa506131ba6117f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6791328080413414968, guid: 60afeeb26708a8841aa506131ba6117f, type: 3}
       propertyPath: m_Pivot.x
@@ -15366,6 +15367,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60afeeb26708a8841aa506131ba6117f, type: 3}
+--- !u!114 &2788920693688520601 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3138797226693830874, guid: 60afeeb26708a8841aa506131ba6117f, type: 3}
+  m_PrefabInstance: {fileID: 2788920693688520600}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b7b5fe626054c099de1e958809802ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4368927388295579242
 PrefabInstance:
   m_ObjectHideFlags: 0

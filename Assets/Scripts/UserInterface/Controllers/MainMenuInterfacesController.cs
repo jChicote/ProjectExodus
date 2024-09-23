@@ -1,8 +1,6 @@
 using System;
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.StateManagement.ScreenStates;
-using ProjectExodus.UserInterface.MainMenu;
-using ProjectExodus.UserInterface.OptionsMenu;
 using UnityEngine;
 
 namespace ProjectExodus.UserInterface.Controllers
@@ -13,6 +11,7 @@ namespace ProjectExodus.UserInterface.Controllers
 
         #region - - - - - - Fields - - - - - -
 
+        [SerializeField] private LoadingBarScreenState m_LoadingBarScreenState;
         [SerializeField] private MainMenuScreenState m_MainMenuScreenState;
         [SerializeField] private OptionsMenuScreenState m_OptionsMenuScreenState;
         [SerializeField] private GameSaveMenuScreenState m_GameSaveMenuScreenState;
@@ -36,6 +35,7 @@ namespace ProjectExodus.UserInterface.Controllers
 
             this.m_CurrentScreenState = uiScreenType switch
             {
+                UIScreenType.LoadingScreen => this.m_LoadingBarScreenState,
                 UIScreenType.GameSaveMenu => this.m_GameSaveMenuScreenState,
                 UIScreenType.MainMenu => this.m_MainMenuScreenState,
                 UIScreenType.OptionsMenu => this.m_OptionsMenuScreenState,

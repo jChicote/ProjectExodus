@@ -50,7 +50,7 @@ namespace ProjectExodus.UserInterface.MainMenu
 
         public void OnPlaySelection()
         {
-             this.m_GameStateManager.ChangeGameState(GameState.Gameplay);
+            this.m_GameStateManager.ChangeGameState(GameState.Gameplay);
             this.m_UserInterfaceScreenStateManager.OpenScreen(UIScreenType.GameplayHUD);
         }
 
