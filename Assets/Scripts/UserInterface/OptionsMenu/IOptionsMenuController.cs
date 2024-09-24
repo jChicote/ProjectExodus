@@ -2,7 +2,7 @@ using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
 using ProjectExodus.GameLogic.Mappers;
-using ProjectExodus.Management.UserInterfaceScreenStatesManager;
+using ProjectExodus.UserInterface.Controllers;
 
 namespace ProjectExodus.UserInterface.OptionsMenu
 {
@@ -17,7 +17,7 @@ namespace ProjectExodus.UserInterface.OptionsMenu
             GameOptionsModel gameOptionsModel, 
             IGameOptionsFacade gameOptionsFacade,
             IObjectMapper mapper, 
-            IUserInterfaceScreenStateManager userInterfaceScreenStateManager);
+            IUserInterfaceController userInterfaceController);
 
         #endregion Methods
 
