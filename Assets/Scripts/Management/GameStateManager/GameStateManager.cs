@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Threading.Tasks;
 using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Coroutines;
 using ProjectExodus.GameLogic.Scene.SceneLoader;
@@ -7,7 +6,7 @@ using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.GameSaveManager;
 using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.SceneManager;
-using ProjectExodus.Management.UserInterfaceScreenStatesManager;
+using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.StateManagement.GameStates;
 using ProjectExodus.StateManagement.GameStates.GameplayState;
 using ProjectExodus.StateManagement.GameStates.MainMenuState;
@@ -43,24 +42,23 @@ namespace ProjectExodus.Management.GameStateManager
             IServiceLocator _ServiceLocator = GameManager.Instance.ServiceLocator;
             
             IInputManager _InputManager = GameManager.Instance.InputManager;
-            ISceneManager _SceneManager = GameManager.Instance.SceneManager;
-            IUserInterfaceScreenStateManager _UserInterfaceScreenStateManager =
-                GameManager.Instance.UserInterfaceManager.UserInterfaceScreenStateManager;
-
             IGameSaveManager _GameSaveManager = _ServiceLocator.GetService<IGameSaveManager>();
+            ISceneManager _SceneManager = GameManager.Instance.SceneManager;
+            IUserInterfaceManager _UserInterfaceManager = _ServiceLocator.GetService<IUserInterfaceManager>();
+
             ISceneLoader _SceneLoader = _ServiceLocator.GetService<ISceneLoader>();
             
             // Initialise States
             this.m_GameplayState = new GameplayState(
-                CoroutineManager,
-                _InputManager, 
-                _SceneLoader, 
-                _SceneManager, 
-                _UserInterfaceScreenStateManager);
-            this.m_MainMenuState = new MainMenuState(_InputManager, _GameSaveManager, _UserInterfaceScreenStateManager);
-            
-            // Set the starting game state
-            ((IGameStateManager)this).ChangeGameState(GameState.MainMenu);
+                                    CoroutineManager,
+                                    _InputManager, 
+                                    _SceneLoader, 
+                                    _SceneManager, 
+                                    _UserInterfaceManager);
+            this.m_MainMenuState = new MainMenuState(
+                                    _InputManager, 
+                                    _GameSaveManager, 
+                                    _UserInterfaceManager);
         }
 
         /// <summary>

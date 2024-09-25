@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Linq;
 using System.Threading.Tasks;
 using ProjectExodus.Backend.Configuration;
 using ProjectExodus.Backend.JsonDataContext;
@@ -22,7 +21,7 @@ using ProjectExodus.GameLogic.Infrastructure;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Settings;
 using ProjectExodus.Management.GameSaveManager;
-using ProjectExodus.Management.UserInterfaceScreenStatesManager;
+using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.ScriptableObjects;
 using ProjectExodus.UserInterface.Configuration;
 using UnityEngine;
@@ -139,22 +138,19 @@ namespace ProjectExodus.GameLogic.GameStartup
 
         private IEnumerator SetupGameManagers(GameSetupConfig setupConfig)
         {
-
-            GameSaveManager _GameSaveManager = GameObject.FindFirstObjectByType<GameSaveManager>() ??
-                                                    throw new NullReferenceException(nameof(GameSaveManager));
+            GameSaveManager _GameSaveManager = GameObject.FindFirstObjectByType<GameSaveManager>() 
+                                                ?? throw new NullReferenceException(nameof(GameSaveManager));
             ((IGameSaveManager)_GameSaveManager).InitializeGameSaveManager(setupConfig.DataContext);
             ((IServiceLocator)this.m_ServiceLocator).RegisterService((IGameSaveManager)_GameSaveManager);
 
-            UserInterfaceScreenStateManager _UserInterfaceScreenStateManager =
-                GameObject.FindFirstObjectByType<UserInterfaceScreenStateManager>()
-                    ?? throw new NullReferenceException(nameof(UserInterfaceScreenStateManager));
-            ((IServiceLocator)this.m_ServiceLocator)
-                .RegisterService((IUserInterfaceScreenStateManager)_UserInterfaceScreenStateManager);
-            
+            UserInterfaceManager _UserInterfaceManager =
+                GameObject.FindFirstObjectByType<UserInterfaceManager>() 
+                    ?? throw new NullReferenceException(nameof(UserInterfaceManager));
+            ((IServiceLocator)this.m_ServiceLocator).RegisterService((IUserInterfaceManager)_UserInterfaceManager);
+                                            
             GameManager _GameManager = GameManager.Instance;
             _GameManager.AudioManager.InitialiseAudioManager();
             _GameManager.InputManager.InitialiseInputManager();
-            _GameManager.UserInterfaceManager.InitialiseUserInterfaceManager();
             _GameManager.GameStateManager.InitialiseGameStateManager();
             _GameManager.SceneManager.InitialiseSceneManager();
                 

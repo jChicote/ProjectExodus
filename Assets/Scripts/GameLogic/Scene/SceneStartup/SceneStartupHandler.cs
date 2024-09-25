@@ -4,8 +4,10 @@ using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Camera;
 using ProjectExodus.GameLogic.Player.PlayerProvider;
 using ProjectExodus.GameLogic.Player.PlayerSpawner;
-using ProjectExodus.GameLogic.Scene.SceneLoader;
+using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.InputManager;
+using ProjectExodus.Management.UserInterfaceManager;
+using ProjectExodus.UserInterface.Controllers;
 using ProjectExodus.UserInterface.LoadingScreen;
 using UnityEngine;
 
@@ -17,9 +19,11 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
 
         #region - - - - - - Fields - - - - - -
 
+        // All field names need to be better
         [SerializeField] private PlayerSpawner PlayerSpawner;
         [SerializeField] private PlayerProvider PlayerProvider;
         [SerializeField] private CameraController CameraController;
+        [SerializeField] private LoadingScreenController LoadingScreenController;
 
         private IInputManager m_InputManager;
         private ILoadingScreenController m_LoadingScreenController;
@@ -31,12 +35,11 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
 
         public void InitialiseSceneStartupController(
             IInputManager inputManager,
-            ILoadingScreenController loadingScreenController,
             IServiceLocator serviceLocator)
         {
             this.m_InputManager = inputManager ?? throw new ArgumentNullException(nameof(inputManager));
-            this.m_LoadingScreenController = loadingScreenController
-                                                ?? throw new ArgumentException(nameof(loadingScreenController));
+            this.m_LoadingScreenController = LoadingScreenController 
+                                                 ?? throw new NullReferenceException(nameof(ILoadingScreenController));
             this.m_ServiceLocator = serviceLocator ?? throw new ArgumentNullException(nameof(serviceLocator));
         }
 
@@ -102,6 +105,11 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
         private IEnumerator SetupGameplayHUD()
         {
             yield return new WaitForSeconds(2); // Debug
+
+            IUserInterfaceManager _UserInterfaceManager = this.m_ServiceLocator.GetService<IUserInterfaceManager>();
+            IUserInterfaceController _ActiveUserInterfaceController =
+                _UserInterfaceManager.GetTheActiveUserInterfaceController();
+            _ActiveUserInterfaceController.OpenScreen(UIScreenType.GameplayHUD);
             
             // Note: This method will bind to the HUD
             this.m_LoadingScreenController.UpdateLoadProgress(100f);

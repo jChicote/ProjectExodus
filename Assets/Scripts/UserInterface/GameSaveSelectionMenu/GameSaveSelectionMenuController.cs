@@ -9,8 +9,9 @@ using ProjectExodus.Domain.Services;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.Management.GameSaveManager;
-using ProjectExodus.Management.UserInterfaceScreenStatesManager;
+using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.ScriptableObjects;
+using ProjectExodus.UserInterface.Controllers;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot;
@@ -45,7 +46,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
         private IGameSaveManager m_GameSaveManager;
         private IObjectMapper m_Mapper;
         private IGameSaveSelectionMenuMediator m_Mediator;
-        private IUserInterfaceScreenStateManager m_UserInterfaceScreenStateManager;
+        private IUserInterfaceController m_UserInterfaceController;
 
         private List<GameSaveSlotViewModel> m_GameSaveViewModelCollection;
         private GameSaveSelectionMenuViewModel m_GameSaveSelectionMenuViewModel;
@@ -63,11 +64,11 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
             
             this.m_GameSaveFacade = gameSaveFacade ?? throw new ArgumentNullException(nameof(gameSaveFacade));
             this.m_Mapper = objectMapper ?? throw new ArgumentNullException(nameof(objectMapper));
-            this.m_GameSaveManager = _ServiceLocator.GetService<IGameSaveManager>() 
-                                        ?? throw new NullReferenceException(nameof(IGameSaveManager));
-            this.m_UserInterfaceScreenStateManager = 
-                _ServiceLocator.GetService<IUserInterfaceScreenStateManager>()
-                    ?? throw new NullReferenceException(nameof(IUserInterfaceScreenStateManager));
+            this.m_GameSaveManager = _ServiceLocator.GetService<IGameSaveManager>();
+
+            var _UserInterfaceManager = _ServiceLocator.GetService<IUserInterfaceManager>();
+            this.m_UserInterfaceController = _UserInterfaceManager.GetTheActiveUserInterfaceController() 
+                                                ?? throw new NullReferenceException();
 
             this.m_Mediator = new GameSaveSelectionMenuMediator();
             this.m_GameSaveSelectionMenuViewModel =
@@ -126,7 +127,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
                 ((IGameSaveSelectionView)this.m_GameSaveSelectionMenuView).GetGameSaveSlotViewAtIndex(gameSlotIndex),
                 this.m_Mediator,
                 this.m_Mapper,
-                this.m_UserInterfaceScreenStateManager);
+                this.m_UserInterfaceController);
         
         #endregion Methods
 

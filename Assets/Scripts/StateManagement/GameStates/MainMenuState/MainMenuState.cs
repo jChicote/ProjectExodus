@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
-using System.Threading.Tasks;
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.GameSaveManager;
 using ProjectExodus.Management.InputManager;
-using ProjectExodus.Management.UserInterfaceScreenStatesManager;
+using ProjectExodus.Management.UserInterfaceManager;
+using ProjectExodus.UserInterface.Controllers;
 using UnityEngine;
 
 namespace ProjectExodus.StateManagement.GameStates.MainMenuState
@@ -17,7 +17,7 @@ namespace ProjectExodus.StateManagement.GameStates.MainMenuState
 
         private readonly IInputManager m_InputManager;
         private readonly IGameSaveManager m_GameSaveManager;
-        private readonly IUserInterfaceScreenStateManager m_UserInterfaceScreenStateManager;
+        private readonly IUserInterfaceManager m_UserInterfaceManager;
 
         #endregion Fields
   
@@ -26,13 +26,12 @@ namespace ProjectExodus.StateManagement.GameStates.MainMenuState
         public MainMenuState(
             IInputManager inputManager, 
             IGameSaveManager gameSaveManager,
-            IUserInterfaceScreenStateManager userInterfaceScreenStateManager)
+            IUserInterfaceManager userInterfaceManager)
         {
             this.m_InputManager = inputManager ?? throw new ArgumentNullException(nameof(inputManager));
             this.m_GameSaveManager = gameSaveManager ?? throw new ArgumentNullException(nameof(gameSaveManager));
-            this.m_UserInterfaceScreenStateManager = userInterfaceScreenStateManager ??
-                                                     throw new ArgumentNullException(
-                                                         nameof(userInterfaceScreenStateManager));
+            this.m_UserInterfaceManager = userInterfaceManager 
+                                            ?? throw new ArgumentNullException(nameof(userInterfaceManager));
         }
 
         #endregion Constructor
@@ -42,8 +41,11 @@ namespace ProjectExodus.StateManagement.GameStates.MainMenuState
         IEnumerator IGameState.StartState()
         {
             this.m_InputManager.SwitchToUserInterfaceInputControls();
-            this.m_UserInterfaceScreenStateManager.OpenScreen(this.m_GameSaveManager.GameSaveModel == null
-                ? UIScreenType.GameSaveMenu
+
+            IUserInterfaceController _UserInterfaceController = 
+                this.m_UserInterfaceManager.GetTheActiveUserInterfaceController();
+            _UserInterfaceController.OpenScreen(this.m_GameSaveManager.GameSaveModel == null
+                ? UIScreenType.GameSaveMenu 
                 : UIScreenType.MainMenu);
 
             yield return null;
