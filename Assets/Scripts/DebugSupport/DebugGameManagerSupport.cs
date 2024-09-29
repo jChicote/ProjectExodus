@@ -1,5 +1,7 @@
+using ProjectExodus.DebugSupport.Scene;
 using UnityEngine;
 using UnityEngine.Events;
+using Object = UnityEngine.Object;
 
 namespace ProjectExodus.DebugSupport
 {
@@ -14,20 +16,29 @@ namespace ProjectExodus.DebugSupport
 
         // Debug Flag
         public bool IN_DEVELOPMENT = false;
-                
-        public UnityEvent OnGameSetupComplete;
+
+        public UnityEvent OnGameSetupComplete = new();
 
         #endregion Fields
 
-        #region - - - - - - Methods - - - - - -
+        #region - - - - - - Unity Lifecycle - - - - - -
 
-        public void SetGameManagerToBeInDevelopment(bool state)
+        /// <remarks>
+        /// This class should only be awake if constructed after the debug 'game scene' is constructed.
+        /// </remarks>
+        private void Awake()
         {
-            this.IN_DEVELOPMENT = state;
-            Debug.LogWarning("[WARNING]: The game is running in 'DEVELOPMENT'");
+            // Add all debug services and handlers requiring initialisation
+            DebugSceneStartupSupport _SceneStartupSupport = Object.FindFirstObjectByType<DebugSceneStartupSupport>();
+            if (_SceneStartupSupport != null)
+            {
+                this.OnGameSetupComplete.AddListener(_SceneStartupSupport.ActivateSceneObjects);
+            }
+            
+            this.IN_DEVELOPMENT = _SceneStartupSupport.IsSceneInDevelopment;
         }
 
-        #endregion Methods
+        #endregion Unity Lifecycle
   
     }
 

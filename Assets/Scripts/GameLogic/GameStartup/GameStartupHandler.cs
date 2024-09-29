@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Threading.Tasks;
+using NUnit.Framework.Constraints;
 using ProjectExodus.Backend.Configuration;
 using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Backend.Repositories;
@@ -25,6 +26,7 @@ using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.ScriptableObjects;
 using ProjectExodus.UserInterface.Configuration;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ProjectExodus.GameLogic.GameStartup
 {
@@ -38,6 +40,14 @@ namespace ProjectExodus.GameLogic.GameStartup
         [SerializeField] private UserInterfaceSettings m_UserInterfaceSettings;
 
         #endregion Fields
+
+        #region - - - - - - Events - - - - - -
+
+        public UnityEvent OnGameStart;
+        
+        public UnityEvent OnGameEnd;
+
+        #endregion Events
   
         #region - - - - - - Methods - - - - - -
 
@@ -68,6 +78,8 @@ namespace ProjectExodus.GameLogic.GameStartup
             ObjectMapper _ObjectMapper = new ObjectMapper();
             
             setupConfig.SetupGameServices(_DataContext, _GameSettings, _ObjectMapper, _ObjectMapper);
+            
+            this.OnGameStart.Invoke();
             
             yield return null;
         }
@@ -160,7 +172,7 @@ namespace ProjectExodus.GameLogic.GameStartup
 
         private IEnumerator EndGameSetup()
         {
-            this.OnGameSetupComplete?.Invoke();
+            this.OnGameEnd.Invoke();
             yield return null;
         }
         

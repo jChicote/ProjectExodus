@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 701078886}
   - component: {fileID: 701078887}
   m_Layer: 0
-  m_Name: Test_PersistenceLoader
+  m_Name: Test_PersistenceSceneLoader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
