@@ -92,6 +92,8 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
             ((IPlayerSpawner)this.PlayerSpawner).SpawnPlayer();
             this.m_InputManager.DisableActiveInputControl();
             this.m_LoadingScreenController.UpdateLoadProgress(60f);
+            
+            Debug.Log("Player been setup");
 
             yield return null;
         }

@@ -4,6 +4,7 @@ using ProjectExodus.Backend.UseCases.GameOptionsUseCases.UpdateGameOptions;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
 using ProjectExodus.GameLogic.Mappers;
+using ProjectExodus.StateManagement.ScreenStates;
 using ProjectExodus.UserInterface.Controllers;
 using ProjectExodus.UserInterface.OptionsMenu.AudioOptions;
 using ProjectExodus.UserInterface.OptionsMenu.GraphicsOptions;
@@ -154,6 +155,9 @@ namespace ProjectExodus.UserInterface.OptionsMenu
             this.m_Mapper.Map(this.m_GameOptionsModel, this.m_AudioOptionViewModel);
             this.m_Mapper.Map(this.m_GameOptionsModel, this.m_GraphicsOptionViewModel);
             this.m_Mapper.Map(this.m_GameOptionsModel, this.m_UserInterfaceOptionViewModel);
+            
+            IScreenState _OptionsMenuScreenState = this.GetComponent<IScreenState>();
+            _OptionsMenuScreenState.Initialize();
         }
 
         #endregion Initializers

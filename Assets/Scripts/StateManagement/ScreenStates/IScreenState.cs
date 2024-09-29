@@ -9,6 +9,8 @@
 
         #region - - - - - - Methods - - - - - -
 
+        void Initialize();
+
         void StartState();
 
         void EndState();

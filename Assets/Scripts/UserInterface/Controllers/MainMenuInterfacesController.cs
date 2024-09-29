@@ -1,6 +1,8 @@
-using System;
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.StateManagement.ScreenStates;
+using ProjectExodus.UserInterface.GameSaveSelectionMenu;
+using ProjectExodus.UserInterface.MainMenu;
+using ProjectExodus.UserInterface.OptionsMenu;
 using UnityEngine;
 
 namespace ProjectExodus.UserInterface.Controllers
@@ -11,10 +13,15 @@ namespace ProjectExodus.UserInterface.Controllers
 
         #region - - - - - - Fields - - - - - -
 
-        [SerializeField] private LoadingBarScreenState m_LoadingBarScreenState;
-        [SerializeField] private MainMenuScreenState m_MainMenuScreenState;
-        [SerializeField] private OptionsMenuScreenState m_OptionsMenuScreenState;
-        [SerializeField] private GameSaveMenuScreenState m_GameSaveMenuScreenState;
+        [SerializeField] private GameObject m_LoadingBarScreen;
+        [SerializeField] private GameObject m_MainMenuScreen;
+        [SerializeField] private GameObject m_OptionsMenuScreen;
+        [SerializeField] private GameObject m_GameSaveMenuScreen;
+
+        private IScreenState m_LoadingBarScreenState;
+        private IScreenState m_MainMenuScreenState;
+        private IScreenState m_OptionsMenuScreenState;
+        private IScreenState m_GameSaveMenuScreenState;
 
         private IScreenState m_CurrentScreenState;
         private IScreenState m_PreviousScreenState;
@@ -25,7 +32,27 @@ namespace ProjectExodus.UserInterface.Controllers
 
         void IUserInterfaceController.InitialiseUserInterfaceController()
         {
-            throw new NotImplementedException();
+            GameManager _GameManager = GameManager.Instance;
+
+            this.m_LoadingBarScreenState = this.m_LoadingBarScreen.GetComponent<IScreenState>();
+            this.m_GameSaveMenuScreenState = this.m_GameSaveMenuScreen.GetComponent<IScreenState>();
+            this.m_MainMenuScreenState = this.m_MainMenuScreen.GetComponent<IScreenState>();
+            this.m_OptionsMenuScreenState = this.m_OptionsMenuScreen.GetComponent<IScreenState>();
+            
+            this.m_GameSaveMenuScreen.GetComponent<IGameSaveSelectionMenuController>()
+                .InitializeGameSelectionMenuController(
+                    _GameManager.DataContext,
+                    _GameManager.GameSaveFacade,
+                    _GameManager.Mapper);
+            this.m_MainMenuScreen.GetComponent<IMainMenuController>()
+                .InitialiseMainMenuController(_GameManager.GameStateManager, this);
+            this.m_OptionsMenuScreen.GetComponent<IOptionsMenuController>()
+                .InitialiseOptionsMenu(
+                    _GameManager.DataContext,
+                    _GameManager.GameSettings.GameOptionsModel,
+                    _GameManager.GameOptionsFacade,
+                    _GameManager.Mapper,
+                    this);
         }
 
         void IUserInterfaceController.OpenScreen(UIScreenType uiScreenType)

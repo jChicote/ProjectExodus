@@ -1,3 +1,4 @@
+using System;
 using ProjectExodus.UserInterface.OptionsMenu;
 using UnityEngine;
 
@@ -13,21 +14,13 @@ namespace ProjectExodus.StateManagement.ScreenStates
 
         #endregion Fields
 
-        #region - - - - - - Unity Lifecycle Methods - - - - - -
+        #region - - - - - - Initializers - - - - - -
 
-        private void Start()
+        void IScreenState.Initialize()
             => this.m_OptionsMenuController = this.GetComponent<IOptionsMenuController>();
 
-        #endregion Unity Lifecycle Methods
+        #endregion Initializers
   
-        // #region - - - - - - Constructors - - - - - -
-        //
-        // public OptionsMenuScreenState(IOptionsMenuController optionsMenuController)
-        //     => this.m_OptionsMenuController = optionsMenuController ?? 
-        //                                         throw new ArgumentNullException(nameof(optionsMenuController));
-        //
-        // #endregion Constructors
-        //
         #region - - - - - - Methods - - - - - -
 
         void IScreenState.StartState() 

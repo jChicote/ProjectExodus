@@ -1,4 +1,5 @@
 using System.Collections;
+using ProjectExodus.StateManagement.ScreenStates;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,16 @@ namespace ProjectExodus.UserInterface.LoadingScreen
         private float m_LoadProgress;
 
         #endregion Fields
+
+        #region - - - - - - Unity Lifecycle Methods - - - - - -
+
+        private void Start()
+        {
+            IScreenState _LoadingBarScreenState = this.GetComponent<IScreenState>();
+            _LoadingBarScreenState.Initialize();
+        }
+
+        #endregion Unity Lifecycle Methods
   
         #region - - - - - - Methods - - - - - -
         

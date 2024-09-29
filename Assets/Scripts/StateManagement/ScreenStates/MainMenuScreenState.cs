@@ -1,5 +1,4 @@
-﻿using System;
-using ProjectExodus.UserInterface.MainMenu;
+﻿using ProjectExodus.UserInterface.MainMenu;
 using UnityEngine;
 
 namespace ProjectExodus.StateManagement.ScreenStates
@@ -14,20 +13,12 @@ namespace ProjectExodus.StateManagement.ScreenStates
 
         #endregion Fields
 
-        #region - - - - - - Unity Lifecycle Methods - - - - - -
+        #region - - - - - - Initializers - - - - - -
 
-        private void Start()
+        void IScreenState.Initialize()
             => this.m_MainMenuController = this.GetComponent<IMainMenuController>();
 
-        #endregion Unity Lifecycle Methods
-        //
-        // #region - - - - - - Constructors - - - - - -
-        //
-        // public MainMenuScreenState(IMainMenuController mainMenuStateController)
-        //     => this.m_MainMenuController = mainMenuStateController ??
-        //                                     throw new ArgumentNullException(nameof(mainMenuStateController));
-        //
-        // #endregion Constructors
+        #endregion Initializers
   
         #region - - - - - - Methods - - - - - -
 

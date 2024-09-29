@@ -14,24 +14,12 @@ namespace ProjectExodus.StateManagement.ScreenStates
 
         #endregion Fields
 
-        #region - - - - - - Unity Lifecycle Methods - - - - - -
+        #region - - - - - - Initializers - - - - - -
 
-        private void Start() 
+        void IScreenState.Initialize()
             => this.m_ScreenController = this.GetComponent<IGameSaveSelectionMenuController>().GetScreenController();
 
         #endregion Initializers
-  
-        // #region - - - - - - Controllers - - - - - -
-        //
-        // public GameSaveMenuScreenState(IGameSaveSelectionMenuController gameSaveSelectionMenuController)
-        // {
-        //     if (gameSaveSelectionMenuController == null)
-        //         throw new ArgumentNullException(nameof(gameSaveSelectionMenuController));
-        //     
-        //     this.m_ScreenController = gameSaveSelectionMenuController.GetScreenController();
-        // }
-        //
-        // #endregion Controllers
   
         #region - - - - - - Methods - - - - - -
 

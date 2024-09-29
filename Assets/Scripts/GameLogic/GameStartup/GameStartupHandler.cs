@@ -45,7 +45,7 @@ namespace ProjectExodus.GameLogic.GameStartup
 
         public UnityEvent OnGameStart;
         
-        public UnityEvent OnGameEnd;
+        public UnityEvent OnGameSetupCompletion;
 
         #endregion Events
   
@@ -62,7 +62,7 @@ namespace ProjectExodus.GameLogic.GameStartup
             
             // Invoked separately as it only need to initialise the managers
             // Note: This might need to be DI'ed with services in the future
-            yield return StartCoroutine(SetupGameManagers(_SetupConfig));
+            yield return StartCoroutine(this.SetupGameManagers(_SetupConfig));
             yield return StartCoroutine(this.EndGameSetup());
             
             yield return null;
@@ -172,7 +172,7 @@ namespace ProjectExodus.GameLogic.GameStartup
 
         private IEnumerator EndGameSetup()
         {
-            this.OnGameEnd.Invoke();
+            this.OnGameSetupCompletion.Invoke();
             yield return null;
         }
         

@@ -1,7 +1,7 @@
-using ProjectExodus.DebugSupport.Scene;
+using ProjectExodus.DebugSupport.SceneStartup;
+using ProjectExodus.GameLogic.GameStartup;
 using UnityEngine;
 using UnityEngine.Events;
-using Object = UnityEngine.Object;
 
 namespace ProjectExodus.DebugSupport
 {
@@ -30,10 +30,9 @@ namespace ProjectExodus.DebugSupport
         {
             // Add all debug services and handlers requiring initialisation
             DebugSceneStartupSupport _SceneStartupSupport = Object.FindFirstObjectByType<DebugSceneStartupSupport>();
-            if (_SceneStartupSupport != null)
-            {
-                this.OnGameSetupComplete.AddListener(_SceneStartupSupport.ActivateSceneObjects);
-            }
+            GameStartupHandler _GameStartupHandler = Object.FindFirstObjectByType<GameStartupHandler>();
+            if (_SceneStartupSupport != null) 
+                _GameStartupHandler.OnGameSetupCompletion.AddListener(_SceneStartupSupport.ActivateSceneObjects);
             
             this.IN_DEVELOPMENT = _SceneStartupSupport.IsSceneInDevelopment;
         }

@@ -11,6 +11,7 @@ using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.Management.GameSaveManager;
 using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.ScriptableObjects;
+using ProjectExodus.StateManagement.ScreenStates;
 using ProjectExodus.UserInterface.Controllers;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen;
@@ -91,6 +92,9 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
             
             // Load game saves to screen
             this.m_GameSaveFacade.GetGameSaves(this);
+
+            IScreenState _GameSaveScreenState = this.GetComponent<IScreenState>();
+            _GameSaveScreenState.Initialize();
         }
 
         #endregion Initializers

@@ -1,6 +1,7 @@
 ﻿using System;
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.GameStateManager;
+using ProjectExodus.StateManagement.ScreenStates;
 using ProjectExodus.UserInterface.Controllers;
 using UnityEngine;
 using UnityEngine.UI;
@@ -45,6 +46,9 @@ namespace ProjectExodus.UserInterface.MainMenu
             this.m_PlayButton.onClick.AddListener(this.PlaySelectionTriggered);
             this.m_OptionsButton.onClick.AddListener(this.OptionsSelectionTriggered);
             this.m_ExitButton.onClick.AddListener(this.ExitSelectionTriggered);
+
+            IScreenState _MainMenuScreenState = this.GetComponent<IScreenState>();
+            _MainMenuScreenState.Initialize();
         }
 
         #endregion Unity Methods

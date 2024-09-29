@@ -1,4 +1,3 @@
-using System;
 using ProjectExodus.UserInterface.LoadingScreen;
 using UnityEngine;
 
@@ -14,20 +13,8 @@ namespace ProjectExodus.StateManagement.ScreenStates
 
         #endregion Fields
 
-        #region - - - - - - Unity Lifecycle Methods - - - - - -
-
-        private void Start()
+        void IScreenState.Initialize()
             => this.m_LoadingScreenController = this.GetComponent<ILoadingScreenController>();
-
-        #endregion Unity Lifecycle Methods
-        //
-        // #region - - - - - - Constructors - - - - - -
-        //
-        // public LoadingBarScreenState(ILoadingScreenController loadingScreenController)
-        //     => this.m_LoadingScreenController = loadingScreenController ??
-        //                                             throw new ArgumentNullException(nameof(loadingScreenController));
-        //
-        // #endregion Constructors
   
         #region - - - - - - Methods - - - - - -
 
