@@ -1494,7 +1494,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1144776066620115469, guid: 58da9687f8c202f42876d0248c097dde, type: 3}
       propertyPath: IsSceneInDevelopment
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1627257218822296805, guid: 58da9687f8c202f42876d0248c097dde, type: 3}
       propertyPath: m_LocalPosition.x

@@ -9,17 +9,12 @@ using SceneManager = UnityEngine.SceneManagement.SceneManager;
 namespace ProjectExodus.DebugSupport.SceneStartup
 {
 
-    public interface IDebugSceneStartup
-    {
-        void ActivateSceneObjects();
-    }
-
     /// <summary>
     /// Manages the construction state of the scene in DEVELOPMENT.
     ///
     /// Ensures that the persistence scene is available before this scene can proceed.
     /// </summary>
-    public class DebugSceneStartupSupport : MonoBehaviour, IDebugSceneStartup
+    public class DebugSceneStartupSupport : MonoBehaviour
     {
 
         #region - - - - - - Fields - - - - - -
@@ -39,7 +34,16 @@ namespace ProjectExodus.DebugSupport.SceneStartup
 
         #region - - - - - - Methods - - - - - -
 
-        public void DeactivateScene()
+        protected void LoadPersistenceScene()
+        {
+            if (!this.IsSceneInDevelopment) return;
+            this.DeactivateScene();
+            
+            // Loads the persistent scene first
+            SceneManager.LoadScene(GameScenes.PersistenceScene.GetValue(), LoadSceneMode.Additive);
+        }
+
+        private void DeactivateScene()
         {
             // Move gameobject to root
             this.gameObject.transform.parent = null;
@@ -52,15 +56,6 @@ namespace ProjectExodus.DebugSupport.SceneStartup
                     && _SceneObject.GetInstanceID() != this.gameObject.GetInstanceID())
                     _SceneObject.SetActive(false);
             }
-        }
-
-        public void LoadPersistenceScene()
-        {
-            if (!this.IsSceneInDevelopment) return;
-            this.DeactivateScene();
-            
-            // Loads the persistent scene first
-            SceneManager.LoadScene(GameScenes.PersistenceScene.GetValue(), LoadSceneMode.Additive);
         }
 
         public virtual void ActivateSceneObjects()

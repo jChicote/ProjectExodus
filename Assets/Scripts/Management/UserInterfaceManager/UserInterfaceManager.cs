@@ -35,8 +35,7 @@ namespace ProjectExodus.Management.UserInterfaceManager
         /// </remarks>
         IUserInterfaceController IUserInterfaceManager.GetTheActiveUserInterfaceController()
         {
-            if (this.m_UserInterfaceController != null) 
-                return this.m_UserInterfaceController;
+            this.m_UserInterfaceController = null;
             
             if (Object.FindAnyObjectByType<MainMenuInterfacesController>())
                 this.m_UserInterfaceController = Object.FindFirstObjectByType<MainMenuInterfacesController>();
@@ -48,7 +47,7 @@ namespace ProjectExodus.Management.UserInterfaceManager
 
             return this.m_UserInterfaceController;
         }
-
+        
         #endregion Methods
   
     }
