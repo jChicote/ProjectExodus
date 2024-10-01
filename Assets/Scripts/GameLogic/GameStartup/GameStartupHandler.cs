@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Threading.Tasks;
-using NUnit.Framework.Constraints;
 using ProjectExodus.Backend.Configuration;
 using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Backend.Repositories;
@@ -31,6 +30,9 @@ using UnityEngine.Events;
 namespace ProjectExodus.GameLogic.GameStartup
 {
 
+    /// <summary>
+    /// Handles setup behavior for managers and services...
+    /// </summary>
     public class GameStartupHandler : MonoBehaviour
     {
 
@@ -53,113 +55,93 @@ namespace ProjectExodus.GameLogic.GameStartup
 
         public IEnumerator ConfigureGame(Action<GameSetupConfig> onConfigLoaded)
         {
-            GameSetupConfig _SetupConfig = new GameSetupConfig();
+            yield return StartCoroutine(this.SetupBackEndServices());
+            yield return StartCoroutine(this.SetupDomainServices());
+            yield return StartCoroutine(this.SetupGameLogicServices());
+            yield return StartCoroutine(this.SetupUserInterfaceServices());
+            // onConfigLoaded.Invoke(_SetupConfig);
             
-            yield return StartCoroutine(this.SetupGameServices(_SetupConfig));
-            yield return StartCoroutine(this.SetupGameData(_SetupConfig));
-            yield return StartCoroutine(this.SetupUseCaseFacades(_SetupConfig));
-            onConfigLoaded.Invoke(_SetupConfig);
-            
-            // Invoked separately as it only need to initialise the managers
-            // Note: This might need to be DI'ed with services in the future
-            yield return StartCoroutine(this.SetupGameManagers(_SetupConfig));
+            yield return StartCoroutine(this.SetupManagers());
             yield return StartCoroutine(this.EndGameSetup());
             
             yield return null;
         }
 
-        private IEnumerator SetupGameServices(GameSetupConfig setupConfig)
+        private IEnumerator SetupBackEndServices()
         {
-            // Setup settings
-            GameSettings _GameSettings = new GameSettings();
+            IServiceLocator _ServiceLocator = this.m_ServiceLocator;
             
             // Setup Services and Configuration
             JsonDataContext _DataContext = new JsonDataContext(); // Temporarily be initialised here
             ObjectMapper _ObjectMapper = new ObjectMapper();
             
-            setupConfig.SetupGameServices(_DataContext, _GameSettings, _ObjectMapper, _ObjectMapper);
+            _ServiceLocator.RegisterService<IDataContext>(_DataContext);
+            _ServiceLocator.RegisterService<IObjectMapper>(_ObjectMapper);
+            _ServiceLocator.RegisterService<IObjectMapperRegister>(_ObjectMapper);
             
-            this.OnGameStart.Invoke();
+            ((IConfigure)new BackendConfiguration(_ObjectMapper, _ObjectMapper, _ServiceLocator)).Configure();
+            
+            yield return null;
+        }
+
+        private IEnumerator SetupDomainServices()
+        {
+            IServiceLocator _ServiceLocator = this.m_ServiceLocator;
+            IDataContext _DataContext = _ServiceLocator.GetService<IDataContext>();
+            IObjectMapper _ObjectMapper = _ServiceLocator.GetService<IObjectMapper>();
+            IObjectMapperRegister _MapperRegister = _ServiceLocator.GetService<IObjectMapperRegister>();
+            
+            // Load and await completion of loading data
+            Task _LoadTask = _DataContext.Load();
+            while (!_LoadTask.IsCompleted)
+                yield return null;
+            
+            ((IConfigure)new DomainConfiguration(
+                _DataContext,
+                _ObjectMapper, 
+                _MapperRegister, 
+                _ServiceLocator, 
+                this.m_UserInterfaceSettings)).Configure();
+            
+            yield return null;
+        }
+
+        private IEnumerator SetupGameLogicServices()
+        {
+            IServiceLocator _ServiceLocator = this.m_ServiceLocator;
+            IObjectMapper _ObjectMapper = _ServiceLocator.GetService<IObjectMapper>();
+            IObjectMapperRegister _ObjectMapperRegister = _ServiceLocator.GetService<IObjectMapperRegister>();
+            
+            ((IConfigure)new GameLogicConfiguration(_ObjectMapper, _ObjectMapperRegister, _ServiceLocator)).Configure();
+            
+            yield return null;
+        }
+
+        private IEnumerator SetupUserInterfaceServices()
+        {
+            IServiceLocator _ServiceLocator = this.m_ServiceLocator;
+            IObjectMapperRegister _ObjectMapperRegister = _ServiceLocator.GetService<IObjectMapperRegister>();
+            
+            ((IConfigure)new UserInterfaceConfiguration(_ObjectMapperRegister)).Configure();
             
             yield return null;
         }
         
-        private IEnumerator SetupGameData(GameSetupConfig setupConfig)
+        private IEnumerator SetupManagers()
         {
-            // Configure data for GameLogic, Management and UI
-            GameOptionsRepository _GameOptionsRepository = new GameOptionsRepository(
-                setupConfig.DataContext, 
-                setupConfig.ObjectMapper);
+            IServiceLocator _ServiceLocator = this.m_ServiceLocator;
+            IDataContext _DataContext = _ServiceLocator.GetService<IDataContext>();
             
-            GameSaveRepository _GameSaveRepository = new GameSaveRepository(
-                setupConfig.DataContext);
-            
-            setupConfig.SetupRepositories(_GameOptionsRepository);
-            
-            ((IServiceLocator)this.m_ServiceLocator).RegisterService((IDataRepository<GameSave>)_GameSaveRepository);
-            
-            // Load and await completion of loading data
-            Task _LoadTask = setupConfig.DataContext.Load();
-            while (!_LoadTask.IsCompleted)
-            {
-                yield return null;
-            }
-
-            yield return null;
-        }
-
-        private IEnumerator SetupUseCaseFacades(GameSetupConfig setupConfig)
-        {
-            SetupGameServicesOptions _Options = new SetupGameServicesOptions();
-            _Options.Mapper = setupConfig.ObjectMapper;
-            _Options.MapperRegister = setupConfig.ObjectMapperRegister;
-            _Options.ServiceLocator = this.m_ServiceLocator;
-            _Options.UserInterfaceSettings = this.m_UserInterfaceSettings;
-            
-            ((IConfigure)new DomainConfiguration(_Options)).Configure();
-            ((IConfigure)new BackendConfiguration(_Options)).Configure();
-            ((IConfigure)new GameLogicConfiguration(setupConfig.ObjectMapperRegister)).Configure();
-            ((IConfigure)new UserInterfaceConfiguration(setupConfig.ObjectMapperRegister)).Configure();
-            
-            // Setup GameOptions
-            GameOptionsFacade _GameOptionsFacade = new GameOptionsFacade(
-                setupConfig.GameOptionsRepository, 
-                setupConfig.GameSettings, 
-                setupConfig.ObjectMapper);
-            
-            ((IGameOptionsFacade)_GameOptionsFacade).GetGameOptions();
-            
-            if (setupConfig.GameSettings.GameOptionsModel == null)
-                ((IGameOptionsFacade)_GameOptionsFacade).CreateGameOptions();
-            
-            // Setup GameSave       
-            GameSaveFacade _GameSaveFacade = new GameSaveFacade(
-                ((IServiceLocator)this.m_ServiceLocator)
-                    .GetService<IUseCaseInteractor<CreateGameSaveInputPort, ICreateGameSaveOutputPort>>(),
-                ((IServiceLocator)this.m_ServiceLocator)
-                    .GetService<IUseCaseInteractor<DeleteGameSaveInputPort, IDeleteGameSaveOutputPort>>(),
-                ((IServiceLocator)this.m_ServiceLocator)
-                    .GetService<IUseCaseInteractor<GetGameSavesInputPort, IGetGameSavesOutputPort>>(),
-                ((IServiceLocator)this.m_ServiceLocator)
-                    .GetService<IUseCaseInteractor<UpdateGameSaveInputPort, IUpdateGameSaveOutputPort>>());
-
-            // Assign to setup configuration
-            setupConfig.SetupUseCaseFacades(_GameOptionsFacade, _GameSaveFacade);
-            
-            yield return null;
-        }
-
-        private IEnumerator SetupGameManagers(GameSetupConfig setupConfig)
-        {
-            GameSaveManager _GameSaveManager = GameObject.FindFirstObjectByType<GameSaveManager>() 
-                                                ?? throw new NullReferenceException(nameof(GameSaveManager));
-            ((IGameSaveManager)_GameSaveManager).InitializeGameSaveManager(setupConfig.DataContext);
-            ((IServiceLocator)this.m_ServiceLocator).RegisterService((IGameSaveManager)_GameSaveManager);
+            GameSaveManager _GameSaveManager = 
+                GameObject.FindFirstObjectByType<GameSaveManager>() 
+                    ?? throw new NullReferenceException(nameof(GameSaveManager));
+            ((IGameSaveManager)_GameSaveManager).InitializeGameSaveManager(_DataContext);
+            _ServiceLocator.RegisterService((IGameSaveManager)_GameSaveManager);
 
             UserInterfaceManager _UserInterfaceManager =
                 GameObject.FindFirstObjectByType<UserInterfaceManager>() 
                     ?? throw new NullReferenceException(nameof(UserInterfaceManager));
-            ((IServiceLocator)this.m_ServiceLocator).RegisterService((IUserInterfaceManager)_UserInterfaceManager);
+            _ServiceLocator.RegisterService((IUserInterfaceManager)_UserInterfaceManager);
                                             
             GameManager _GameManager = GameManager.Instance;
             _GameManager.AudioManager.InitialiseAudioManager();
@@ -178,23 +160,6 @@ namespace ProjectExodus.GameLogic.GameStartup
         
         #endregion Methods
 
-    }
-
-    public class SetupGameServicesOptions
-    {
-
-        #region - - - - - - Properties - - - - - -
-
-        public IObjectMapper Mapper { get; set; }
-        
-        public IObjectMapperRegister MapperRegister { get; set; }
-        
-        public IServiceLocator ServiceLocator { get; set; }
-        
-        public UserInterfaceSettings UserInterfaceSettings { get; set; }
-
-        #endregion Properties
-  
     }
 
 }
