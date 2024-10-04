@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using ProjectExodus.GameLogic.Enumeration;
 using ProjectExodus.GameLogic.Scene.SceneStartup;
 using UnityEngine;
@@ -27,12 +28,49 @@ namespace ProjectExodus.DebugSupport.SceneStartup
   
         #region - - - - - - Unity Lifecycle Methods - - - - - -
 
-        private void Awake() 
-            => this.LoadPersistenceScene();
+        private void Awake()
+        {
+            DebugSceneStartupSupport[] _StartupSupport = 
+                Object.FindObjectsByType<DebugSceneStartupSupport>(FindObjectsSortMode.None);
+
+            // Remove duplicate instance
+            if (_StartupSupport.Length > 1)
+            {
+                Debug.LogWarning(
+                    $"[WARNING]: Startup Support Detected. Deleting this object for scene " +
+                    $"{SceneManager.GetActiveScene().name}");
+                Destroy(this.gameObject);
+                return;
+            }
+            
+            this.LoadPersistenceScene();
+        }
 
         #endregion Unity Lifecycle Methods
 
         #region - - - - - - Methods - - - - - -
+
+        public virtual void ActivateSceneObjects()
+        {
+            foreach (GameObject _SceneObject in this.m_ActiveSceneObjects)
+            {
+                if (!_SceneObject.layer.Equals(GameLayer.Ignore))
+                    _SceneObject.SetActive(true);
+            }
+
+            // Clear debug object collection from memory
+            this.m_ActiveSceneObjects = Array.Empty<GameObject>();
+            
+            // Run the scene startup behavior
+            SceneStartupHandler _StartupHandler =
+                Object.FindFirstObjectByType<SceneStartupHandler>(FindObjectsInactive.Exclude);
+            if (_StartupHandler == null) return;
+            
+            _StartupHandler.InitialiseSceneStartupController(
+                GameManager.Instance.InputManager, 
+                GameManager.Instance.ServiceLocator);
+            this.StartCoroutine(_StartupHandler.RunSceneStartup());
+        }
 
         protected void LoadPersistenceScene()
         {
@@ -56,28 +94,6 @@ namespace ProjectExodus.DebugSupport.SceneStartup
                     && _SceneObject.GetInstanceID() != this.gameObject.GetInstanceID())
                     _SceneObject.SetActive(false);
             }
-        }
-
-        public virtual void ActivateSceneObjects()
-        {
-            foreach (GameObject _SceneObject in this.m_ActiveSceneObjects)
-            {
-                if (!_SceneObject.layer.Equals(GameLayer.Ignore))
-                    _SceneObject.SetActive(true);
-            }
-
-            // Clear debug object collection from memory
-            this.m_ActiveSceneObjects = Array.Empty<GameObject>();
-            
-            // Run the scene startup behavior
-            SceneStartupHandler _StartupHandler =
-                Object.FindFirstObjectByType<SceneStartupHandler>(FindObjectsInactive.Exclude);
-            if (_StartupHandler == null) return;
-            
-            _StartupHandler.InitialiseSceneStartupController(
-                GameManager.Instance.InputManager, 
-                GameManager.Instance.ServiceLocator);
-            this.StartCoroutine(_StartupHandler.RunSceneStartup());
         }
 
         #endregion Methods

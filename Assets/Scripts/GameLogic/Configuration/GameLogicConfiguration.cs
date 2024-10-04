@@ -48,30 +48,44 @@ namespace ProjectExodus.GameLogic.Configuration
 
         void IConfigure.Configure()
         {
+            this.ConfigureGameLogicServices();
+            this.ConfigureUseCaseFacades();
+        }
+
+        private void ConfigureGameLogicServices()
+        {
             // Mapper Registration
             _ = new GameOptionsMapper(this.m_ObjectMapperRegister);
             
             // Service Registration
             ISceneLoader _SceneLoader = Object.FindFirstObjectByType<SceneLoader>();
             this.m_ServiceLocator.RegisterService(_SceneLoader);
-            
-            // WARNING: This is somehow not getting registered. This might affect its usage amongst UI
+        }
+
+        private void ConfigureUseCaseFacades()
+        {
+            // Temporarily will set the GameSettings here until a better location can be found.
             GameSettings _GameSettings = new GameSettings();
+            GameManager.Instance.GameSettings = _GameSettings;
+            
             GameOptionsFacade _GameOptionsFacade = new GameOptionsFacade(
                 this.m_ServiceLocator.GetService<IDataRepository<GameOptions>>(), 
                 _GameSettings, 
                 this.m_ObjectMapper);
             ((IGameOptionsFacade)_GameOptionsFacade).GetGameOptions();
+            // Tech-Debt - # : This could be changed to be used as some interface adapter. To ensure abstraction.
+            this.m_ServiceLocator.RegisterService(_GameOptionsFacade);
             
             if (_GameSettings.GameOptionsModel == null)
                 ((IGameOptionsFacade)_GameOptionsFacade).CreateGameOptions();
             
-            // WARNING: This is somehow not getting registered. This might affect its usage amongst UI
             GameSaveFacade _GameSaveFacade = new GameSaveFacade(
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<CreateGameSaveInputPort, ICreateGameSaveOutputPort>>(),
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<DeleteGameSaveInputPort, IDeleteGameSaveOutputPort>>(),
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<GetGameSavesInputPort, IGetGameSavesOutputPort>>(),
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<UpdateGameSaveInputPort, IUpdateGameSaveOutputPort>>());
+            // Tech-Debt - # : This could be changed to be used as some interface adapter. To ensure abstraction.
+            this.m_ServiceLocator.RegisterService(_GameSaveFacade);
         }
 
         #endregion Methods

@@ -3,23 +3,11 @@ using System.Collections;
 using System.Threading.Tasks;
 using ProjectExodus.Backend.Configuration;
 using ProjectExodus.Backend.JsonDataContext;
-using ProjectExodus.Backend.Repositories;
-using ProjectExodus.Backend.Repositories.GameOptionsRepository;
-using ProjectExodus.Backend.Repositories.GameSaveRepository;
-using ProjectExodus.Backend.UseCases;
-using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
-using ProjectExodus.Backend.UseCases.GameSaveUseCases.DeleteGameSave;
-using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
-using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
 using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Configuration;
-using ProjectExodus.Domain.Entities;
 using ProjectExodus.GameLogic.Configuration;
-using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
-using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Infrastructure;
 using ProjectExodus.GameLogic.Mappers;
-using ProjectExodus.GameLogic.Settings;
 using ProjectExodus.Management.GameSaveManager;
 using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.ScriptableObjects;
@@ -46,28 +34,31 @@ namespace ProjectExodus.GameLogic.GameStartup
         #region - - - - - - Events - - - - - -
 
         public UnityEvent OnGameStart;
-        
+        public UnityEvent OnGameServicesRegistered;
         public UnityEvent OnGameSetupCompletion;
 
         #endregion Events
   
         #region - - - - - - Methods - - - - - -
 
-        public IEnumerator ConfigureGame(Action<GameSetupConfig> onConfigLoaded)
+        public IEnumerator ConfigureGame()
         {
-            yield return StartCoroutine(this.SetupBackEndServices());
+            // Tech-debt # : Configure the Backend services to instead, pass a service collection between coroutines
+            //  - This ensures that there is no need to perform multiple invocations of 'GetService' from this scope
+            //  - Ensures that all service registration can be handled in a single location from this scope.
+
+            yield return StartCoroutine(this.SetupCoreServices());
             yield return StartCoroutine(this.SetupDomainServices());
+            yield return StartCoroutine(this.SetupBackEndServices());
             yield return StartCoroutine(this.SetupGameLogicServices());
-            yield return StartCoroutine(this.SetupUserInterfaceServices());
-            // onConfigLoaded.Invoke(_SetupConfig);
+            this.OnGameServicesRegistered.Invoke();
             
+            yield return StartCoroutine(this.SetupUserInterfaceServices());
             yield return StartCoroutine(this.SetupManagers());
             yield return StartCoroutine(this.EndGameSetup());
-            
-            yield return null;
         }
 
-        private IEnumerator SetupBackEndServices()
+        private IEnumerator SetupCoreServices()
         {
             IServiceLocator _ServiceLocator = this.m_ServiceLocator;
             
@@ -78,9 +69,7 @@ namespace ProjectExodus.GameLogic.GameStartup
             _ServiceLocator.RegisterService<IDataContext>(_DataContext);
             _ServiceLocator.RegisterService<IObjectMapper>(_ObjectMapper);
             _ServiceLocator.RegisterService<IObjectMapperRegister>(_ObjectMapper);
-            
-            ((IConfigure)new BackendConfiguration(_ObjectMapper, _ObjectMapper, _ServiceLocator)).Configure();
-            
+
             yield return null;
         }
 
@@ -105,6 +94,17 @@ namespace ProjectExodus.GameLogic.GameStartup
             
             yield return null;
         }
+        
+        private IEnumerator SetupBackEndServices()
+        {
+            IServiceLocator _ServiceLocator = this.m_ServiceLocator;
+            IObjectMapper _ObjectMapper = _ServiceLocator.GetService<IObjectMapper>();
+            IObjectMapperRegister _MapperRegister = _ServiceLocator.GetService<IObjectMapperRegister>();
+            
+            ((IConfigure)new BackendConfiguration(_ObjectMapper, _MapperRegister, _ServiceLocator)).Configure();
+            
+            yield return null;
+        }
 
         private IEnumerator SetupGameLogicServices()
         {
@@ -123,7 +123,6 @@ namespace ProjectExodus.GameLogic.GameStartup
             IObjectMapperRegister _ObjectMapperRegister = _ServiceLocator.GetService<IObjectMapperRegister>();
             
             ((IConfigure)new UserInterfaceConfiguration(_ObjectMapperRegister)).Configure();
-            
             yield return null;
         }
         
