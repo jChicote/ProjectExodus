@@ -30,6 +30,9 @@ namespace ProjectExodus.DebugSupport.SceneStartup
 
         private void Awake()
         {
+            // Validate whether boot scene was run first
+            if (this.ValidateSupportRequirements()) return;
+            
             DebugSceneStartupSupport[] _StartupSupport = 
                 Object.FindObjectsByType<DebugSceneStartupSupport>(FindObjectsSortMode.None);
 
@@ -95,6 +98,9 @@ namespace ProjectExodus.DebugSupport.SceneStartup
                     _SceneObject.SetActive(false);
             }
         }
+
+        protected bool ValidateSupportRequirements() 
+            => Object.FindAnyObjectByType<DebugGameManagerSupport>(FindObjectsInactive.Exclude);
 
         #endregion Methods
   

@@ -4,16 +4,19 @@ using System.Threading.Tasks;
 using ProjectExodus.Backend.Configuration;
 using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Common.Services;
+using ProjectExodus.DebugSupport;
 using ProjectExodus.Domain.Configuration;
 using ProjectExodus.GameLogic.Configuration;
 using ProjectExodus.GameLogic.Infrastructure;
 using ProjectExodus.GameLogic.Mappers;
+using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.GameSaveManager;
 using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.ScriptableObjects;
 using ProjectExodus.UserInterface.Configuration;
 using UnityEngine;
 using UnityEngine.Events;
+using Object = UnityEngine.Object;
 
 namespace ProjectExodus.GameLogic.GameStartup
 {
@@ -154,6 +157,12 @@ namespace ProjectExodus.GameLogic.GameStartup
         private IEnumerator EndGameSetup()
         {
             this.OnGameSetupCompletion.Invoke();
+
+            DebugGameManagerSupport _DebugGameManagerSupport =
+                Object.FindFirstObjectByType<DebugGameManagerSupport>(FindObjectsInactive.Exclude);
+            if (_DebugGameManagerSupport != null && !_DebugGameManagerSupport.IN_DEVELOPMENT)
+                GameManager.Instance.GameStateManager.ChangeGameState(GameState.MainMenu);
+            
             yield return null;
         }
         

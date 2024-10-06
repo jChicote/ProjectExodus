@@ -56,8 +56,10 @@ namespace ProjectExodus.Management.GameStateManager
                                     _SceneManager, 
                                     _UserInterfaceManager);
             this.m_MainMenuState = new MainMenuState(
+                                    CoroutineManager,
                                     _InputManager, 
-                                    _GameSaveManager, 
+                                    _GameSaveManager,
+                                    _SceneLoader,
                                     _UserInterfaceManager);
         }
 

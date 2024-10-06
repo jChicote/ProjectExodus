@@ -17,7 +17,12 @@ namespace ProjectExodus.DebugSupport.SceneStartup
         #region - - - - - - Unity Lifecycle Methods - - - - - -
 
         private void Awake()
-            => this.LoadPersistenceScene();
+        {
+            // If the game manager support existed before the scene support... The scene debug should not run.
+            if (this.ValidateSupportRequirements()) return;
+            
+            this.LoadPersistenceScene();
+        }
 
         #endregion Unity Lifecycle Methods
 

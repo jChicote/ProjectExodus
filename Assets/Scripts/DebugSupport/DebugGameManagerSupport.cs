@@ -17,8 +17,6 @@ namespace ProjectExodus.DebugSupport
         // Debug Flag
         public bool IN_DEVELOPMENT = false;
 
-        public UnityEvent OnGameSetupComplete = new();
-
         #endregion Fields
 
         #region - - - - - - Unity Lifecycle - - - - - -
@@ -28,6 +26,8 @@ namespace ProjectExodus.DebugSupport
         /// </remarks>
         private void Awake()
         {
+            if (!Object.FindAnyObjectByType<DebugSceneStartupSupport>()) return;
+            
             // Add all debug services and handlers requiring initialisation
             DebugSceneStartupSupport _SceneStartupSupport = Object.FindFirstObjectByType<DebugSceneStartupSupport>();
             GameStartupHandler _GameStartupHandler = Object.FindFirstObjectByType<GameStartupHandler>();
