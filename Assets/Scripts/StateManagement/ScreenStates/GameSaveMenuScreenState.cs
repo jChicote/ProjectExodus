@@ -1,30 +1,25 @@
-using System;
 using ProjectExodus.UserInterface;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu;
+using UnityEngine;
 
 namespace ProjectExodus.StateManagement.ScreenStates
 {
 
-    public class GameSaveMenuScreenState : IScreenState
+    public class GameSaveMenuScreenState : MonoBehaviour, IScreenState
     {
 
         #region - - - - - - Fields - - - - - -
 
-        private readonly IScreenStateController m_ScreenController;
+        private IScreenStateController m_ScreenController;
 
         #endregion Fields
-  
-        #region - - - - - - Controllers - - - - - -
 
-        public GameSaveMenuScreenState(IGameSaveSelectionMenuController gameSaveSelectionMenuController)
-        {
-            if (gameSaveSelectionMenuController == null)
-                throw new ArgumentNullException(nameof(gameSaveSelectionMenuController));
-            
-            this.m_ScreenController = gameSaveSelectionMenuController.GetScreenController();
-        }
+        #region - - - - - - Initializers - - - - - -
 
-        #endregion Controllers
+        void IScreenState.Initialize()
+            => this.m_ScreenController = this.GetComponent<IGameSaveSelectionMenuController>().GetScreenController();
+
+        #endregion Initializers
   
         #region - - - - - - Methods - - - - - -
 

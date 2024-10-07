@@ -1,5 +1,4 @@
-﻿using ProjectExodus.Management.UserInterfaceScreenStatesManager;
-using ProjectExodus.UserInterface.LoadingScreen;
+﻿using ProjectExodus.UserInterface.Controllers;
 
 namespace ProjectExodus.Management.UserInterfaceManager
 {
@@ -7,17 +6,12 @@ namespace ProjectExodus.Management.UserInterfaceManager
     public interface IUserInterfaceManager
     {
 
-        #region - - - - - - Properties - - - - - -
-
-        ILoadingScreenController LoadingScreenController { get; }
-
-        IUserInterfaceScreenStateManager UserInterfaceScreenStateManager { get; }
-
-        #endregion Properties
-
         #region - - - - - - Methods - - - - - -
 
-        void InitialiseUserInterfaceManager();
+        /// <remarks>
+        /// This method is expensive, reserve for only transitions between scenes.
+        /// </remarks>
+        IUserInterfaceController GetTheActiveUserInterfaceController();
 
         #endregion Methods
 

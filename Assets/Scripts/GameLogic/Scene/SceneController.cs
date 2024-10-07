@@ -23,7 +23,6 @@ namespace ProjectExodus.GameLogic.Scene
             this.m_SceneStartupController
                 .InitialiseSceneStartupController(
                     GameManager.Instance.InputManager,
-                    GameManager.Instance.UserInterfaceManager.LoadingScreenController,
                     _ServiceLocator);
         }
 

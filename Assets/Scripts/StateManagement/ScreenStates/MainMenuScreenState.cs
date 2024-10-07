@@ -1,25 +1,24 @@
-﻿using System;
-using ProjectExodus.UserInterface.MainMenu;
+﻿using ProjectExodus.UserInterface.MainMenu;
+using UnityEngine;
 
 namespace ProjectExodus.StateManagement.ScreenStates
 {
 
-    public class MainMenuScreenState : IScreenState
+    public class MainMenuScreenState : MonoBehaviour, IScreenState
     {
 
         #region - - - - - - Fields - - - - - -
 
-        private readonly IMainMenuController m_MainMenuController;
+        private IMainMenuController m_MainMenuController;
 
         #endregion Fields
-  
-        #region - - - - - - Constructors - - - - - -
 
-        public MainMenuScreenState(IMainMenuController mainMenuStateController)
-            => this.m_MainMenuController = mainMenuStateController ??
-                                            throw new ArgumentNullException(nameof(mainMenuStateController));
+        #region - - - - - - Initializers - - - - - -
 
-        #endregion Constructors
+        void IScreenState.Initialize()
+            => this.m_MainMenuController = this.GetComponent<IMainMenuController>();
+
+        #endregion Initializers
   
         #region - - - - - - Methods - - - - - -
 

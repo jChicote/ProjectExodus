@@ -1,4 +1,3 @@
-using System.Linq;
 using ProjectExodus.Backend.Repositories;
 using ProjectExodus.Domain.Entities;
 

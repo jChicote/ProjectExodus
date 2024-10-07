@@ -19,7 +19,7 @@ namespace ProjectExodus.GameLogic.Scene.SceneLoader
         #region - - - - - - Unity Lifecycle Methods - - - - - -
 
         private void Start()
-            => this.m_SceneCount = SceneManager.sceneCount;
+            => this.m_SceneCount = SceneManager.sceneCountInBuildSettings;
 
         #endregion Unity Lifecycle Methods
   

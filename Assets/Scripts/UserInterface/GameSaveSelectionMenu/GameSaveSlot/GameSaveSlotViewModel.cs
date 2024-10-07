@@ -8,7 +8,7 @@ using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.GameSaveManager;
-using ProjectExodus.Management.UserInterfaceScreenStatesManager;
+using ProjectExodus.UserInterface.Controllers;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu.Common;
 using UnityEngine;
 using UserInterface.GameSaveSelectionMenu.Dtos;
@@ -29,7 +29,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
         private readonly IGameSaveManager m_GameSaveManager;
         private readonly IObjectMapper m_Mapper;
         private readonly IGameSaveSelectionMenuMediator m_Mediator;
-        private readonly IUserInterfaceScreenStateManager m_UserInterfaceScreenStateManager;
+        private readonly IUserInterfaceController m_UserInterfaceController;
 
         private ICommand m_PlayGameSaveCommand;
         private ICommand m_SlotSelectionCommand;
@@ -47,14 +47,14 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
             IGameSaveSlotView gameSaveSlotView,
             IGameSaveSelectionMenuMediator gameSaveSelectionMenuMediator,
             IObjectMapper objectMapper,
-            IUserInterfaceScreenStateManager userInterfaceScreenStateManager)
+            IUserInterfaceController userInterfaceController)
         {
             this.m_GameSaveManager = gameSaveManager ?? throw new ArgumentNullException(nameof(gameSaveManager));
             this.m_Mapper = objectMapper ?? throw new ArgumentNullException(nameof(objectMapper));
             this.m_Mediator = gameSaveSelectionMenuMediator ?? 
                                 throw new ArgumentNullException(nameof(gameSaveSelectionMenuMediator));
-            this.m_UserInterfaceScreenStateManager = userInterfaceScreenStateManager ??
-                                                        throw new ArgumentNullException(nameof(userInterfaceScreenStateManager));
+            this.m_UserInterfaceController = userInterfaceController ??
+                                                        throw new ArgumentNullException(nameof(userInterfaceController));
             
             // 1. Setup view model
             this.BindLogicToCommands();
@@ -120,7 +120,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
         private void PlayGameSave()
         {
             this.m_GameSaveManager.SetGameSave(this.m_GameSaveModel);
-            this.m_UserInterfaceScreenStateManager.OpenScreen(UIScreenType.MainMenu);
+            this.m_UserInterfaceController.OpenScreen(UIScreenType.MainMenu);
         }
 
         private void SelectSlot()

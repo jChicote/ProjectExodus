@@ -1,9 +1,11 @@
+using System;
 using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Backend.UseCases.GameOptionsUseCases.UpdateGameOptions;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
 using ProjectExodus.GameLogic.Mappers;
-using ProjectExodus.Management.UserInterfaceScreenStatesManager;
+using ProjectExodus.StateManagement.ScreenStates;
+using ProjectExodus.UserInterface.Controllers;
 using ProjectExodus.UserInterface.OptionsMenu.AudioOptions;
 using ProjectExodus.UserInterface.OptionsMenu.GraphicsOptions;
 using ProjectExodus.UserInterface.OptionsMenu.InputOptions;
@@ -54,7 +56,8 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         private IDataContext m_DataContext;
         private IGameOptionsFacade m_GameOptionsFacade;
         private IObjectMapper m_Mapper;
-        private IUserInterfaceScreenStateManager m_UserInterfaceScreenStateManager;        
+        private IUserInterfaceController m_UserInterfaceController;
+        // private IUserInterfaceScreenStateManager m_UserInterfaceScreenStateManager;        
         
         private GameOptionsModel m_GameOptionsModel;
         private AudioOptionViewModel m_AudioOptionViewModel;
@@ -82,7 +85,8 @@ namespace ProjectExodus.UserInterface.OptionsMenu
             GameOptionsModel gameOptionsModel, 
             IGameOptionsFacade gameOptionsFacade,
             IObjectMapper mapper,
-            IUserInterfaceScreenStateManager userInterfaceScreenStateManager)
+            IUserInterfaceController userInterfaceController)
+            // IUserInterfaceScreenStateManager userInterfaceScreenStateManager)
         {
             // Set model reference
             this.m_GameOptionsModel = gameOptionsModel;
@@ -91,7 +95,9 @@ namespace ProjectExodus.UserInterface.OptionsMenu
             this.m_DataContext = dataContext; // Ticket #43 - Change this to use the Save Manager contract
             this.m_GameOptionsFacade = gameOptionsFacade;
             this.m_Mapper = mapper;
-            this.m_UserInterfaceScreenStateManager = userInterfaceScreenStateManager;
+            this.m_UserInterfaceController = userInterfaceController ??
+                                             throw new ArgumentNullException(nameof(userInterfaceController));
+            // this.m_UserInterfaceScreenStateManager = userInterfaceScreenStateManager;
 
             // Initialise View Models
             OptionsMenuContentViews _OptionsMenuContentViews = new OptionsMenuContentViews
@@ -149,6 +155,9 @@ namespace ProjectExodus.UserInterface.OptionsMenu
             this.m_Mapper.Map(this.m_GameOptionsModel, this.m_AudioOptionViewModel);
             this.m_Mapper.Map(this.m_GameOptionsModel, this.m_GraphicsOptionViewModel);
             this.m_Mapper.Map(this.m_GameOptionsModel, this.m_UserInterfaceOptionViewModel);
+            
+            IScreenState _OptionsMenuScreenState = this.GetComponent<IScreenState>();
+            _OptionsMenuScreenState.Initialize();
         }
 
         #endregion Initializers
@@ -156,7 +165,7 @@ namespace ProjectExodus.UserInterface.OptionsMenu
         #region - - - - - - Events - - - - - -
 
         private void OnExitOptions() 
-            => this.m_UserInterfaceScreenStateManager.OpenPreviousScreen();
+            => this.m_UserInterfaceController.OpenPreviousScreen();
 
         private void OnApplyOptions()
         {
@@ -167,7 +176,7 @@ namespace ProjectExodus.UserInterface.OptionsMenu
             this.m_GameOptionsFacade.UpdateGameOptions(_InputPort);
             this.m_DataContext.SaveChanges(); // Ticket #43 - Change this to use the Save Manager contract
             
-            this.m_UserInterfaceScreenStateManager.OpenPreviousScreen();
+            this.m_UserInterfaceController.OpenPreviousScreen();
         }
 
         #endregion Events

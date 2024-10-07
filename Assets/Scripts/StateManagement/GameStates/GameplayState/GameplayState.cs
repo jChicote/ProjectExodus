@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Threading.Tasks;
 using ProjectExodus.GameLogic.Coroutines;
 using ProjectExodus.GameLogic.Enumeration;
 using ProjectExodus.GameLogic.Scene;
@@ -8,9 +7,8 @@ using ProjectExodus.GameLogic.Scene.SceneLoader;
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.SceneManager;
-using ProjectExodus.Management.UserInterfaceScreenStatesManager;
-using UnityEngine;
-using SceneManager = UnityEngine.SceneManagement.SceneManager;
+using ProjectExodus.Management.UserInterfaceManager;
+using ProjectExodus.UserInterface.Controllers;
 
 namespace ProjectExodus.StateManagement.GameStates.GameplayState
 {
@@ -24,7 +22,7 @@ namespace ProjectExodus.StateManagement.GameStates.GameplayState
         private readonly IInputManager m_InputManager;
         private readonly ISceneLoader m_SceneLoader;
         private readonly ISceneManager m_SceneManager;
-        private readonly IUserInterfaceScreenStateManager m_UserInterfaceStateManager;
+        private readonly IUserInterfaceManager m_UserInterfaceManager;
 
         #endregion Fields
   
@@ -35,15 +33,14 @@ namespace ProjectExodus.StateManagement.GameStates.GameplayState
             IInputManager inputManager, 
             ISceneLoader sceneLoader,
             ISceneManager sceneManager,
-            IUserInterfaceScreenStateManager userInterfaceScreenStateManager)
+            IUserInterfaceManager userInterfaceManager)
         {
             this.m_CoroutineManager = coroutineManager ?? throw new ArgumentNullException(nameof(coroutineManager));
             this.m_InputManager = inputManager ?? throw new ArgumentNullException(nameof(inputManager));
             this.m_SceneLoader = sceneLoader ?? throw new ArgumentNullException(nameof(sceneLoader));
             this.m_SceneManager = sceneManager ?? throw new ArgumentNullException(nameof(sceneManager));
-            this.m_UserInterfaceStateManager = userInterfaceScreenStateManager ??
-                                                throw new ArgumentNullException(
-                                                    nameof(userInterfaceScreenStateManager));
+            this.m_UserInterfaceManager = userInterfaceManager 
+                                            ?? throw new ArgumentNullException(nameof(userInterfaceManager));
         }
 
         #endregion Constructor
@@ -61,8 +58,10 @@ namespace ProjectExodus.StateManagement.GameStates.GameplayState
             ISceneController _ActiveSceneController = this.m_SceneManager.GetActiveSceneController();
             _ActiveSceneController.InitialiseSceneController();
             _ActiveSceneController.RunSceneStartup();
-            
-            this.m_UserInterfaceStateManager.OpenScreen(UIScreenType.GameplayHUD);
+
+            IUserInterfaceController _UserInterfaceController = 
+                this.m_UserInterfaceManager.GetTheActiveUserInterfaceController();
+            _UserInterfaceController.OpenScreen(UIScreenType.GameplayHUD);
 
             yield return null;
         }

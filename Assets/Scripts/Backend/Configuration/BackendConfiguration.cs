@@ -11,7 +11,6 @@ using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
 using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Entities;
 using ProjectExodus.Domain.Services;
-using ProjectExodus.GameLogic.GameStartup;
 using ProjectExodus.GameLogic.Mappers;
 
 namespace ProjectExodus.Backend.Configuration
@@ -30,17 +29,14 @@ namespace ProjectExodus.Backend.Configuration
 
         #region - - - - - - Constructors - - - - - -
 
-        public BackendConfiguration(SetupGameServicesOptions setupGameServicesOptions)
+        public BackendConfiguration(
+            IObjectMapper mapper, 
+            IObjectMapperRegister mapperRegister, 
+            IServiceLocator serviceLocator)
         {
-            this.m_Mapper = 
-                setupGameServicesOptions.Mapper 
-                    ?? throw new ArgumentNullException(nameof(setupGameServicesOptions.Mapper));
-            this.m_MapperRegister =
-                setupGameServicesOptions.MapperRegister 
-                    ?? throw new ArgumentNullException(nameof(setupGameServicesOptions.MapperRegister));
-            this.m_ServiceLocator = 
-                setupGameServicesOptions.ServiceLocator 
-                    ?? throw new ArgumentNullException(nameof(setupGameServicesOptions.ServiceLocator));
+            this.m_Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            this.m_MapperRegister = mapperRegister ?? throw new ArgumentNullException(nameof(mapperRegister));
+            this.m_ServiceLocator = serviceLocator ?? throw new ArgumentNullException(nameof(serviceLocator));
         }
 
         #endregion Constructors

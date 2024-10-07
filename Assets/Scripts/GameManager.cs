@@ -70,8 +70,11 @@ namespace ProjectExodus
         public IGameSaveFacade GameSaveFacade
             => this.m_GameSaveFacade;
 
-        public GameSettings GameSettings
-            => this.m_GameSettings;
+        public GameSettings GameSettings // Allowed to be set as its configuration is handled in setup handler.
+        {
+            get => this.m_GameSettings;
+            set => this.m_GameSettings = value;
+        }
 
         public IGameStateManager GameStateManager
             => this.m_GameStateManager;
@@ -109,19 +112,19 @@ namespace ProjectExodus
         private void SetupGame()
         {
             GameStartupHandler _GameStartHandler = this.GetComponent<GameStartupHandler>();
-            this.StartCoroutine(_GameStartHandler.ConfigureGame(this.ConfigureGameManagerValues));
+            _GameStartHandler.OnGameServicesRegistered.AddListener(this.ConfigureGameManagerServices);
+            this.StartCoroutine(_GameStartHandler.ConfigureGame());
         }
 
-        private void ConfigureGameManagerValues(GameSetupConfig setupConfig)
+        private void ConfigureGameManagerServices()
         {
             // Set game services
-            this.m_DataContext = setupConfig.DataContext;
-            this.m_GameSettings = setupConfig.GameSettings;
-            this.m_ObjectMapper = setupConfig.ObjectMapper;
+            this.m_DataContext = this.ServiceLocator.GetService<IDataContext>();
+            this.m_ObjectMapper = this.ServiceLocator.GetService<IObjectMapper>();
 
             // Set use case facades
-            this.m_GameOptionsFacade = setupConfig.GameOptionsFacade;
-            this.m_GameSaveFacade = setupConfig.GameSaveFacade;
+            this.m_GameOptionsFacade = this.ServiceLocator.GetService<GameOptionsFacade>();
+            this.m_GameSaveFacade = this.ServiceLocator.GetService<GameSaveFacade>();
         }
 
         #endregion Methods

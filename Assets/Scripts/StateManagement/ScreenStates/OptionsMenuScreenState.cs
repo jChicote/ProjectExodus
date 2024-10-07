@@ -1,25 +1,25 @@
 using System;
 using ProjectExodus.UserInterface.OptionsMenu;
+using UnityEngine;
 
 namespace ProjectExodus.StateManagement.ScreenStates
 {
 
-    public class OptionsMenuScreenState : IScreenState
+    public class OptionsMenuScreenState : MonoBehaviour, IScreenState
     {
 
         #region - - - - - - Fields - - - - - -
 
-        private readonly IOptionsMenuController m_OptionsMenuController;
+        private IOptionsMenuController m_OptionsMenuController;
 
         #endregion Fields
 
-        #region - - - - - - Constructors - - - - - -
+        #region - - - - - - Initializers - - - - - -
 
-        public OptionsMenuScreenState(IOptionsMenuController optionsMenuController)
-            => this.m_OptionsMenuController = optionsMenuController ?? 
-                                                throw new ArgumentNullException(nameof(optionsMenuController));
+        void IScreenState.Initialize()
+            => this.m_OptionsMenuController = this.GetComponent<IOptionsMenuController>();
 
-        #endregion Constructors
+        #endregion Initializers
   
         #region - - - - - - Methods - - - - - -
 

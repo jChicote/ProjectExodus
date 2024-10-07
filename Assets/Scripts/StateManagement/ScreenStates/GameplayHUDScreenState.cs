@@ -1,19 +1,23 @@
+using System;
+using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
 using ProjectExodus.UserInterface.GameplayHUD;
 using UnityEngine;
 
 namespace ProjectExodus.StateManagement.ScreenStates
 {
 
-    public class GameplayHUDScreenState : IScreenState
+    public class GameplayHUDScreenState : MonoBehaviour, IScreenState
     {
 
-        #region - - - - - - Constructors - - - - - -
 
-        public GameplayHUDScreenState(IGameplayHUDController gameplayHUDController)
+        #region - - - - - - Initializers - - - - - -
+
+        void IScreenState.Initialize()
         {
+            throw new NotImplementedException();
         }
 
-        #endregion Constructors
+        #endregion Initializers
   
         #region - - - - - - Methods - - - - - -
 
