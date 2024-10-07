@@ -8,7 +8,8 @@ namespace ProjectExodus.GameLogic.Common.Timers
 
         #region - - - - - - Fields - - - - - -
 
-        private Action m_Action;
+        private Action m_StartingAction;
+        private Action m_CompletionAction;
         private float m_DeltaTime;
         private float m_TimeLeft;
         private float m_TimerLength;
@@ -19,7 +20,7 @@ namespace ProjectExodus.GameLogic.Common.Timers
 
         public EventTimer(float timerLength, float deltaTime, Action action)
         {
-            this.m_Action = action;
+            this.m_CompletionAction = action;
             this.m_DeltaTime = deltaTime;
             this.m_TimeLeft = timerLength;
             this.m_TimerLength = timerLength;
@@ -34,9 +35,12 @@ namespace ProjectExodus.GameLogic.Common.Timers
             this.m_TimeLeft -= this.m_DeltaTime;
 
             if (!this.IsTimerComplete()) return;
-            this.m_Action?.Invoke();
-            this.m_TimeLeft = this.m_TimerLength;
+            this.m_CompletionAction?.Invoke();
+            this.ResetTimer();
         }
+
+        public void ResetTimer() 
+            => this.m_TimeLeft = this.m_TimerLength;
 
         private bool IsTimerComplete()
             => this.m_TimeLeft <= 0;

@@ -139,7 +139,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_FireRate: 0.5
   m_Temperature: 0
-  m_ReloadPeriod: 5
+  m_ReloadPeriod: 3
+  m_AmmoSize: 12
   m_WeaponLocations:
   - {fileID: 710486093284035331}
   - {fileID: 4138073760126263467}
