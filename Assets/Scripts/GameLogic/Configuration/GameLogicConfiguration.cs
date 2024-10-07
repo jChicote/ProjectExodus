@@ -64,7 +64,7 @@ namespace ProjectExodus.GameLogic.Configuration
 
         private void ConfigureUseCaseFacades()
         {
-            // Temporarily will set the GameSettings here until a better location can be found.
+            // Tech-Debt: Temporarily will set the GameSettings here until a better location can be found.
             GameSettings _GameSettings = new GameSettings();
             GameManager.Instance.GameSettings = _GameSettings;
             
@@ -73,7 +73,7 @@ namespace ProjectExodus.GameLogic.Configuration
                 _GameSettings, 
                 this.m_ObjectMapper);
             ((IGameOptionsFacade)_GameOptionsFacade).GetGameOptions();
-            // Tech-Debt - # : This could be changed to be used as some interface adapter. To ensure abstraction.
+            // Tech-Debt: This could be changed to be used as some interface adapter. To ensure abstraction.
             this.m_ServiceLocator.RegisterService(_GameOptionsFacade);
             
             if (_GameSettings.GameOptionsModel == null)
@@ -84,7 +84,7 @@ namespace ProjectExodus.GameLogic.Configuration
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<DeleteGameSaveInputPort, IDeleteGameSaveOutputPort>>(),
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<GetGameSavesInputPort, IGetGameSavesOutputPort>>(),
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<UpdateGameSaveInputPort, IUpdateGameSaveOutputPort>>());
-            // Tech-Debt - # : This could be changed to be used as some interface adapter. To ensure abstraction.
+            // Tech-Debt: This could be changed to be used as some interface adapter. To ensure abstraction.
             this.m_ServiceLocator.RegisterService(_GameSaveFacade);
         }
 

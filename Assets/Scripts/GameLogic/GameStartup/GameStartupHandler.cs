@@ -46,7 +46,7 @@ namespace ProjectExodus.GameLogic.GameStartup
 
         public IEnumerator ConfigureGame()
         {
-            // Tech-debt # : Configure the Backend services to instead, pass a service collection between coroutines
+            // Tech-debt: Configure the Backend services to instead, pass a service collection between coroutines
             //  - This ensures that there is no need to perform multiple invocations of 'GetService' from this scope
             //  - Ensures that all service registration can be handled in a single location from this scope.
 
