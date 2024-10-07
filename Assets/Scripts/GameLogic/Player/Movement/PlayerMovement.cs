@@ -1,7 +1,7 @@
 using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
 using UnityEngine;
 
-namespace ProjectExodus.GameLogic.Player
+namespace ProjectExodus.GameLogic.Player.Movement
 {
 
     public class PlayerMovement : PausableMonoBehavior, IPlayerMovement

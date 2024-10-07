@@ -14,7 +14,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         #region - - - - - - Fields - - - - - -
 
-        private GameplayInputControlServiceContainer m_ServiceContainer;
+        private GameplayInputControlServiceContainer m_ServiceControllers;
 
         private Vector2 m_ScreenCenter;
         private bool m_IsInputActive;
@@ -48,7 +48,15 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             if (this.m_IsPaused || !this.m_IsInputActive)
                 return;
             
-            Debug.LogWarning("[NOT IMPLEMENTED] >> No implemented behavior for OnAttack.");
+            this.m_ServiceControllers.PlayerWeaponSystems.ToggleWeaponFire(true);
+        }
+
+        void IGameplayInputControl.OnAttackRelease(InputAction.CallbackContext callback)
+        {
+            if (this.m_IsPaused || !this.m_IsInputActive)
+                return;
+            
+            this.m_ServiceControllers.PlayerWeaponSystems.ToggleWeaponFire(false);
         }
 
         void IGameplayInputControl.OnInteract(InputAction.CallbackContext callbackContext)
@@ -65,7 +73,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
                 return;
             
             // Calculate look direction assuming screen center as origin point
-            this.m_ServiceContainer.PlayerMovement.SetLookDirection(
+            this.m_ServiceControllers.PlayerMovement.SetLookDirection(
                 callback.ReadValue<Vector2>() - this.m_ScreenCenter);
         }
 
@@ -74,7 +82,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             if (this.m_IsPaused || !this.m_IsInputActive)
                 return;
             
-            this.m_ServiceContainer.PlayerMovement.SetMoveDirection(callback.ReadValue<Vector2>()); // default for now
+            this.m_ServiceControllers.PlayerMovement.SetMoveDirection(callback.ReadValue<Vector2>()); // default for now
         }
 
         void IGameplayInputControl.OnPause(InputAction.CallbackContext callback)
@@ -90,7 +98,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             if (this.m_IsPaused || !this.m_IsInputActive)
                 return;
 
-            this.m_ServiceContainer.PlayerMovement.ToggleAfterburn();
+            this.m_ServiceControllers.PlayerMovement.ToggleAfterburn();
         }
 
         #endregion Events
@@ -101,6 +109,8 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
         {
             playerInput.actions[GameplayInputActionConstants.ATTACK].performed +=
                 ((IGameplayInputControl)this).OnAttack;
+            playerInput.actions[GameplayInputActionConstants.ATTACK].canceled +=
+                ((IGameplayInputControl)this).OnAttackRelease;
             playerInput.actions[GameplayInputActionConstants.INTERACT].performed +=
                 ((IGameplayInputControl)this).OnInteract;
             playerInput.actions[GameplayInputActionConstants.PAUSE].performed += ((IGameplayInputControl)this).OnPause;
@@ -124,6 +134,8 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
         {
             playerInput.actions[GameplayInputActionConstants.ATTACK].performed -=
                 ((IGameplayInputControl)this).OnAttack;
+            playerInput.actions[GameplayInputActionConstants.ATTACK].canceled -=
+                ((IGameplayInputControl)this).OnAttackRelease;
             playerInput.actions[GameplayInputActionConstants.INTERACT].performed -=
                 ((IGameplayInputControl)this).OnInteract;
             playerInput.actions[GameplayInputActionConstants.PAUSE].performed -= ((IGameplayInputControl)this).OnPause;
@@ -153,7 +165,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             => this.m_IsInputActive = true;
 
         void IGameplayInputControl.SetServiceContainer(GameplayInputControlServiceContainer serviceContainer)
-            => this.m_ServiceContainer = serviceContainer ?? throw new ArgumentNullException(nameof(serviceContainer));
+            => this.m_ServiceControllers = serviceContainer ?? throw new ArgumentNullException(nameof(serviceContainer));
 
         #endregion Methods
 

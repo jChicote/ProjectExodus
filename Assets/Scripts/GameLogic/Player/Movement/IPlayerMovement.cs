@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ProjectExodus.GameLogic.Player
+namespace ProjectExodus.GameLogic.Player.Movement
 {
 
     public interface IPlayerMovement

@@ -13,6 +13,8 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void OnAttack(InputAction.CallbackContext callback);
 
+        void OnAttackRelease(InputAction.CallbackContext callback);
+
         void OnInteract(InputAction.CallbackContext callbackContext);
         
         void OnLook(InputAction.CallbackContext callback);
