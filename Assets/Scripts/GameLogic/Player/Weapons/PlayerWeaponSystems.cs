@@ -27,6 +27,7 @@ namespace ProjectExodus.GameLogic.Player.Weapons
         private bool m_IsReloading;
         private int m_AmmoRemaining;
         private EventTimer m_FireIntervalTimer;
+        private EventTimer m_FirstFireTimer; // This feels unusual to have a timer specific to the first round.
         private EventTimer m_ReloadTimer;
 
         #endregion Fields
@@ -37,6 +38,7 @@ namespace ProjectExodus.GameLogic.Player.Weapons
         {
             // Subscribe to event
             this.m_FireIntervalTimer = new EventTimer(this.m_FireRate, Time.deltaTime, this.FireWeapons);
+            this.m_FirstFireTimer = new EventTimer(this.m_FireRate, Time.deltaTime, this.ResetFirstRoundFire);
             this.m_ReloadTimer = new EventTimer(this.m_ReloadPeriod, Time.deltaTime, this.ReloadWeapon);
 
             this.m_AmmoRemaining = this.m_AmmoSize;
@@ -46,8 +48,12 @@ namespace ProjectExodus.GameLogic.Player.Weapons
         {
             if (this.m_IsPaused) return;
             
-            if (this.m_IsFiring && !this.m_IsReloading)
-                this.m_FireIntervalTimer.TickTimer();
+            if (this.m_IsFiring && this.m_IsReloading) return;
+            this.m_FireIntervalTimer.TickTimer();
+
+            if (this.m_IsFiringFirstRound)
+                this.m_FirstFireTimer.TickTimer();
+            
             if (this.m_IsReloading)
                 this.m_ReloadTimer.TickTimer();
         }
@@ -56,19 +62,23 @@ namespace ProjectExodus.GameLogic.Player.Weapons
 
         #region - - - - - - Methods - - - - - -
 
-        void IPlayerWeaponSystems.ToggleWeaponFire(bool isWeaponLive)
+        void IPlayerWeaponSystems.ToggleWeaponFire(bool isFiring)
         {
-            this.m_IsFiring = isWeaponLive;
+            this.m_IsFiring = isFiring;
+            this.FireFirstShot();
+        }
 
-            if (!this.m_IsFiring || this.m_IsReloading) return;
-            this.m_FireIntervalTimer.ResetTimer();
+        private void FireFirstShot()
+        {
+            if (this.m_IsFiringFirstRound) return;
+            this.FireWeapons();
+            this.m_IsFiringFirstRound = true;
         }
 
         // Note: In future ships configured with multiple weapon systems we be able to toggle between them.
         private void FireWeapons()
         {
-            // Validate that it CAN fire
-            if (!this.m_IsFiring) return;
+            if (!this.m_IsFiring || this.m_IsReloading) return;
             
             foreach (Transform _WeaponLocation in this.m_WeaponLocations)
             {
@@ -79,6 +89,9 @@ namespace ProjectExodus.GameLogic.Player.Weapons
             if (this.m_AmmoRemaining <= 0)
                 this.m_IsReloading = true;
         }
+
+        private void ResetFirstRoundFire()
+            => this.m_IsFiringFirstRound = false;
 
         private void ReloadWeapon()
         {
