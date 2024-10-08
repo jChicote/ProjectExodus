@@ -22,12 +22,12 @@ namespace ProjectExodus.GameLogic.Player.Weapons
         [Header("Projectile")]
         [SerializeField] private GameObject m_Projectile;
 
-        private bool m_IsFiring;
-        private bool m_IsFiringFirstRound;
-        private bool m_IsReloading;
         private int m_AmmoRemaining;
-        private EventTimer m_FireIntervalTimer;
-        private EventTimer m_FirstFireTimer; // This feels unusual to have a timer specific to the first round.
+        private bool m_IsFiring;
+        private bool m_IsFiringFirstShot;
+        private bool m_IsReloading;
+        private EventTimer m_FirstShotTimer;
+        private EventTimer m_HeldFireTimer;
         private EventTimer m_ReloadTimer;
 
         #endregion Fields
@@ -36,9 +36,8 @@ namespace ProjectExodus.GameLogic.Player.Weapons
 
         private void Start()
         {
-            // Subscribe to event
-            this.m_FireIntervalTimer = new EventTimer(this.m_FireRate, Time.deltaTime, this.FireWeapons);
-            this.m_FirstFireTimer = new EventTimer(this.m_FireRate, Time.deltaTime, this.ResetFirstRoundFire);
+            this.m_HeldFireTimer = new EventTimer(this.m_FireRate, Time.deltaTime, this.FireWeapons);
+            this.m_FirstShotTimer = new EventTimer(this.m_FireRate, Time.deltaTime, this.ResetFirstRoundFire);
             this.m_ReloadTimer = new EventTimer(this.m_ReloadPeriod, Time.deltaTime, this.ReloadWeapon);
 
             this.m_AmmoRemaining = this.m_AmmoSize;
@@ -47,12 +46,11 @@ namespace ProjectExodus.GameLogic.Player.Weapons
         private void Update()
         {
             if (this.m_IsPaused) return;
-            
-            if (this.m_IsFiring && this.m_IsReloading) return;
-            this.m_FireIntervalTimer.TickTimer();
 
-            if (this.m_IsFiringFirstRound)
-                this.m_FirstFireTimer.TickTimer();
+            if (this.m_IsFiringFirstShot)
+                this.m_FirstShotTimer.TickTimer();
+            
+            this.m_HeldFireTimer.TickTimer();
             
             if (this.m_IsReloading)
                 this.m_ReloadTimer.TickTimer();
@@ -70,9 +68,11 @@ namespace ProjectExodus.GameLogic.Player.Weapons
 
         private void FireFirstShot()
         {
-            if (this.m_IsFiringFirstRound) return;
+            if (this.m_IsFiringFirstShot) return;
+            
             this.FireWeapons();
-            this.m_IsFiringFirstRound = true;
+            this.m_IsFiringFirstShot = true;
+            this.m_HeldFireTimer.ResetTimer();
         }
 
         // Note: In future ships configured with multiple weapon systems we be able to toggle between them.
@@ -90,17 +90,17 @@ namespace ProjectExodus.GameLogic.Player.Weapons
                 this.m_IsReloading = true;
         }
 
-        private void ResetFirstRoundFire()
-            => this.m_IsFiringFirstRound = false;
-
         private void ReloadWeapon()
         {
             this.m_AmmoRemaining = this.m_AmmoSize;
             this.m_IsReloading = false;
             
-            this.m_FireIntervalTimer.ResetTimer();
+            this.m_HeldFireTimer.ResetTimer();
             this.m_ReloadTimer.ResetTimer();
         }
+
+        private void ResetFirstRoundFire()
+            => this.m_IsFiringFirstShot = false;
 
         #endregion Methods
   
