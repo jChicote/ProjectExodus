@@ -1,6 +1,8 @@
+using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Common.Timers;
 using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace ProjectExodus.GameLogic.Weapons
 {
@@ -27,6 +29,9 @@ namespace ProjectExodus.GameLogic.Weapons
         private EventTimer m_FirstShotTimer;
         private EventTimer m_HeldFireTimer;
         private EventTimer m_ReloadTimer;
+        
+        // Temporary
+        private int m_AssignedBayID = 999;
 
         #endregion Fields
 
@@ -37,8 +42,6 @@ namespace ProjectExodus.GameLogic.Weapons
             this.m_HeldFireTimer = new EventTimer(this.m_FireRate, Time.deltaTime, this.FireWeapons);
             this.m_FirstShotTimer = new EventTimer(this.m_FireRate, Time.deltaTime, this.ResetFirstRoundFire);
             this.m_ReloadTimer = new EventTimer(this.m_ReloadPeriod, Time.deltaTime, this.ReloadWeapon);
-
-            this.m_AmmoRemaining = this.m_AmmoSize;
         }
         
         private void Update()
@@ -58,6 +61,15 @@ namespace ProjectExodus.GameLogic.Weapons
 
         #region - - - - - - Methods - - - - - -
 
+        void IWeapon.InitializeWeapon(WeaponModel weaponModel)
+        {
+            this.m_FireRate += weaponModel.FireRateModifier;
+            this.m_ReloadPeriod += weaponModel.ReloadPeriodModifier;
+            this.m_AmmoRemaining += weaponModel.AmmoSizeModifier;
+            
+            this.m_AmmoRemaining = this.m_AmmoSize;
+        }
+
         void IWeapon.ToggleWeaponFire(bool isFiring)
         {
             this.m_IsFiring = isFiring;
@@ -73,7 +85,6 @@ namespace ProjectExodus.GameLogic.Weapons
             this.m_HeldFireTimer.ResetTimer();
         }
 
-        // Note: In future ships configured with multiple weapon systems we be able to toggle between them.
         private void FireWeapons()
         {
             if (!this.m_IsFiring || this.m_IsReloading) return;

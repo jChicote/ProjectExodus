@@ -1,3 +1,5 @@
+using ProjectExodus.Domain.Models;
+
 namespace ProjectExodus.GameLogic.Weapons
 {
 
@@ -5,6 +7,8 @@ namespace ProjectExodus.GameLogic.Weapons
     {
 
         #region - - - - - - Methods - - - - - -
+
+        void InitializeWeapon(WeaponModel weaponModel);
 
         void ToggleWeaponFire(bool isFiring);
 

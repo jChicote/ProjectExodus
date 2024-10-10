@@ -9,10 +9,13 @@ using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Entities;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
+using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Mappers.MappingProfiles;
 using ProjectExodus.GameLogic.Scene.SceneLoader;
 using ProjectExodus.GameLogic.Settings;
+using ProjectExodus.ScriptableObjects;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace ProjectExodus.GameLogic.Configuration
@@ -23,6 +26,8 @@ namespace ProjectExodus.GameLogic.Configuration
 
         #region - - - - - - Fields - - - - - -
 
+        [SerializeField] private GamePrefabAssets m_GamePrefabAssets;
+
         private readonly IObjectMapper m_ObjectMapper;
         private readonly IObjectMapperRegister m_ObjectMapperRegister;
         private readonly IServiceLocator m_ServiceLocator;
@@ -32,10 +37,12 @@ namespace ProjectExodus.GameLogic.Configuration
         #region - - - - - - Constructors - - - - - -
 
         public GameLogicConfiguration(
+            GamePrefabAssets gamePrefabAssets,
             IObjectMapper objectMapper,
             IObjectMapperRegister objectMapperRegister,
             IServiceLocator serviceLocator)
         {
+            this.m_GamePrefabAssets = gamePrefabAssets ?? throw new ArgumentNullException(nameof(gamePrefabAssets));
             this.m_ObjectMapper = objectMapper ?? throw new ArgumentNullException(nameof(objectMapper));
             this.m_ObjectMapperRegister =
                 objectMapperRegister ?? throw new ArgumentNullException(nameof(objectMapperRegister));
@@ -60,6 +67,9 @@ namespace ProjectExodus.GameLogic.Configuration
             // Service Registration
             ISceneLoader _SceneLoader = Object.FindFirstObjectByType<SceneLoader>();
             this.m_ServiceLocator.RegisterService(_SceneLoader);
+
+            IWeaponAssetProvider _WeaponAssetProvider = new WeaponAssetProvider(this.m_GamePrefabAssets);
+            this.m_ServiceLocator.RegisterService(_WeaponAssetProvider);
         }
 
         private void ConfigureUseCaseFacades()

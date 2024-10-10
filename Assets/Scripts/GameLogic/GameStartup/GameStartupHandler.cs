@@ -30,6 +30,7 @@ namespace ProjectExodus.GameLogic.GameStartup
         #region - - - - - - Fields - - - - - -
 
         [SerializeField] private ServiceLocator m_ServiceLocator;
+        [SerializeField] private GamePrefabAssets m_GamePrefabAssets;
         [SerializeField] private UserInterfaceSettings m_UserInterfaceSettings;
 
         #endregion Fields
@@ -115,7 +116,11 @@ namespace ProjectExodus.GameLogic.GameStartup
             IObjectMapper _ObjectMapper = _ServiceLocator.GetService<IObjectMapper>();
             IObjectMapperRegister _ObjectMapperRegister = _ServiceLocator.GetService<IObjectMapperRegister>();
             
-            ((IConfigure)new GameLogicConfiguration(_ObjectMapper, _ObjectMapperRegister, _ServiceLocator)).Configure();
+            ((IConfigure)new GameLogicConfiguration(
+                this.m_GamePrefabAssets, 
+                _ObjectMapper, 
+                _ObjectMapperRegister, 
+                _ServiceLocator)).Configure();
             
             yield return null;
         }

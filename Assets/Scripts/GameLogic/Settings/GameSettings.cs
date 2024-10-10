@@ -15,7 +15,7 @@ namespace ProjectExodus.GameLogic.Settings
         #region - - - - - - Fields - - - - - -
 
         public GameOptionsModel GameOptionsModel { get; private set; }
-
+        
         #endregion Fields
 
         #region - - - - - - Methods - - - - - -
