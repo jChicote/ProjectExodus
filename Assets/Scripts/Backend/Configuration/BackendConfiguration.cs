@@ -1,4 +1,5 @@
 using System;
+using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Backend.Repositories;
 using ProjectExodus.Backend.Repositories.GameOptionsRepository;
 using ProjectExodus.Backend.UseCases;
@@ -8,6 +9,8 @@ using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.DeleteGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
+using ProjectExodus.Backend.UseCases.PlayerUseCases.CreatePlayer;
+using ProjectExodus.Backend.UseCases.WeaponUseCases.GetWeapons;
 using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Entities;
 using ProjectExodus.Domain.Services;
@@ -51,6 +54,7 @@ namespace ProjectExodus.Backend.Configuration
 
         private void ConfigureMappingConfigurations()
         {
+            IDataContext _DataContext = this.m_ServiceLocator.GetService<IDataContext>();
             IProfileImageModelProvider _ProfileImageProvider =
                 this.m_ServiceLocator.GetService<IProfileImageModelProvider>();
             
@@ -62,12 +66,20 @@ namespace ProjectExodus.Backend.Configuration
             // Game Save
             _ = new CreateGameSaveMapper(this.m_MapperRegister, _ProfileImageProvider);
             _ = new UpdateGameSaveMapper(this.m_MapperRegister);
+            
+            // Player
+            _ = new CreatePlayerMapper(_DataContext, this.m_MapperRegister);
         }
         
         private void ConfigureUseCases()
         {
+            IDataContext _DataContext = this.m_ServiceLocator.GetService<IDataContext>();
             IDataRepository<GameSave> _GameSaveRepository =
                 this.m_ServiceLocator.GetService<IDataRepository<GameSave>>();
+            IDataRepository<Weapon> _WeaponRepository =
+                this.m_ServiceLocator.GetService<IDataRepository<Weapon>>();
+            
+            // GameSave
             this.m_ServiceLocator.RegisterService(
                 (IUseCaseInteractor<CreateGameSaveInputPort, ICreateGameSaveOutputPort>) 
                     new CreateGameSaveInteractor(this.m_Mapper, _GameSaveRepository));
@@ -80,6 +92,16 @@ namespace ProjectExodus.Backend.Configuration
             this.m_ServiceLocator.RegisterService(
                 (IUseCaseInteractor<UpdateGameSaveInputPort, IUpdateGameSaveOutputPort>)
                     new UpdateGameSaveInteractor(this.m_Mapper, _GameSaveRepository));
+            
+            // Weapon
+            this.m_ServiceLocator.RegisterService(
+                (IUseCaseInteractor<GetWeaponInputPort, IGetWeaponOutputPort>)
+                    new GetWeaponInteractor(this.m_Mapper, _WeaponRepository));
+            
+            // Player
+            this.m_ServiceLocator.RegisterService(
+                (IUseCaseInteractor<CreatePlayerInputPort, ICreatePlayerOutputPort>)
+                    new CreatePlayerInteractor(_DataContext, this.m_Mapper));
         }
 
         #endregion Methods

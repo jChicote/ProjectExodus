@@ -3,6 +3,7 @@ using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Backend.Repositories;
 using ProjectExodus.Backend.Repositories.GameOptionsRepository;
 using ProjectExodus.Backend.Repositories.GameSaveRepository;
+using ProjectExodus.Backend.Repositories.WeaponRepository;
 using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Entities;
 using ProjectExodus.Domain.Infrastructure.Providers;
@@ -63,8 +64,10 @@ namespace ProjectExodus.Domain.Configuration
             // Register repositories
             GameOptionsRepository _GameOptionsRepository = new GameOptionsRepository(this.m_DataContext, this.m_Mapper);
             GameSaveRepository _GameSaveRepository = new GameSaveRepository(this.m_DataContext);
+            WeaponRepository _WeaponRepository = new WeaponRepository(this.m_DataContext);
             this.m_ServiceLocator.RegisterService((IDataRepository<GameOptions>)_GameOptionsRepository);
             this.m_ServiceLocator.RegisterService((IDataRepository<GameSave>)_GameSaveRepository);
+            this.m_ServiceLocator.RegisterService((IDataRepository<Weapon>)_WeaponRepository);
         }
 
         #endregion Methods
