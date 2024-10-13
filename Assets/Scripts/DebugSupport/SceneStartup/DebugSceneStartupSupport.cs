@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using ProjectExodus.GameLogic.Enumeration;
 using ProjectExodus.GameLogic.Scene.SceneStartup;
 using UnityEngine;
