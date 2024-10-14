@@ -8,7 +8,7 @@ namespace ProjectExodus.Backend.UseCases.PlayerUseCases.CreatePlayer
 
         #region - - - - - - Fields - - - - - -
 
-        public ShipModel StartShip;
+        public ShipModel StartShip { get; set; }
 
         #endregion Fields
 

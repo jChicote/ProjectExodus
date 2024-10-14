@@ -10,6 +10,7 @@ using ProjectExodus.Backend.UseCases.GameSaveUseCases.DeleteGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.CreatePlayer;
+using ProjectExodus.Backend.UseCases.ShipUseCases.CreateShip;
 using ProjectExodus.Backend.UseCases.WeaponUseCases.GetWeapons;
 using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Entities;
@@ -67,6 +68,9 @@ namespace ProjectExodus.Backend.Configuration
             _ = new CreateGameSaveMapper(this.m_MapperRegister, _ProfileImageProvider);
             _ = new UpdateGameSaveMapper(this.m_MapperRegister);
             
+            // Ship
+            _ = new CreateShipMapper(_DataContext, this.m_Mapper, this.m_MapperRegister);
+            
             // Player
             _ = new CreatePlayerMapper(_DataContext, this.m_MapperRegister);
         }
@@ -97,6 +101,11 @@ namespace ProjectExodus.Backend.Configuration
             this.m_ServiceLocator.RegisterService(
                 (IUseCaseInteractor<GetWeaponInputPort, IGetWeaponOutputPort>)
                     new GetWeaponInteractor(this.m_Mapper, _WeaponRepository));
+            
+            // Ship
+            this.m_ServiceLocator.RegisterService(
+                (IUseCaseInteractor<CreateShipInputPort, ICreateShipOutputPort>)
+                    new CreateShipInteractor(_DataContext, this.m_Mapper));
             
             // Player
             this.m_ServiceLocator.RegisterService(

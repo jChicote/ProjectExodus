@@ -25,6 +25,9 @@ namespace ProjectExodus.Backend.UseCases.ShipUseCases.CreateShip
         {
             this.m_DataContext = dataContext ?? throw new ArgumentNullException(nameof(dataContext));
             this.m_Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            
+            mapperRegister.AddMappingAction<CreateShipInputPort, Ship>(this.MapCreateInputPortToShipEntity);
+            mapperRegister.AddMappingAction<Ship, ShipModel>(this.MapShipEntityToShipModel);
         }
 
         #endregion Constructors
@@ -33,8 +36,7 @@ namespace ProjectExodus.Backend.UseCases.ShipUseCases.CreateShip
 
         private void MapCreateInputPortToShipEntity(CreateShipInputPort source, Ship destination)
         {
-            
-            
+            destination.Weapons = source.Weapons;
         }
 
         private void MapShipEntityToShipModel(Ship source, ShipModel destination)
