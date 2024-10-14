@@ -1,4 +1,5 @@
 using System;
+using UnityEngine.Serialization;
 
 namespace ProjectExodus.Domain.Entities
 {
@@ -9,7 +10,9 @@ namespace ProjectExodus.Domain.Entities
 
         #region - - - - - - Fields - - - - - -
 
-        public int ID;
+        public Guid ID;
+
+        public int AssetID;
 
         public int AssignedBayID;
 
