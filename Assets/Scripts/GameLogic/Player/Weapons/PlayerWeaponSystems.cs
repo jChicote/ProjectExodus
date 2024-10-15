@@ -36,16 +36,16 @@ namespace ProjectExodus.GameLogic.Player.Weapons
             // Debug Only 
             List<WeaponModel> _DebugWeaponData = new List<WeaponModel>
             {
-                new() { ID = 0, AssignedBayID = 999 },
-                new() { ID = 0, AssignedBayID = 888 },
-                new() { ID = 0, AssignedBayID = 777 }
+                new() { AssetID = 0, AssignedBayID = 999 },
+                new() { AssetID = 0, AssignedBayID = 888 },
+                new() { AssetID = 0, AssignedBayID = 777 }
             };
             
             // Allocate weapons to weapon bays
             foreach (WeaponModel _WeaponModel in _DebugWeaponData)
             {
                 WeaponBay _WeaponBay = this.m_WeaponBays.First(wb => wb.Identifier == _WeaponModel.AssignedBayID);
-                _WeaponBay.LoadWeaponToBay(_WeaponAssetProvider.Provide(_WeaponModel.ID).Asset);
+                _WeaponBay.LoadWeaponToBay(_WeaponAssetProvider.Provide(_WeaponModel.AssetID).Asset);
 
                 IWeapon _LoadedWeapon = _WeaponBay.GetAttachedWeapon();
                 _LoadedWeapon.InitializeWeapon(_WeaponModel);

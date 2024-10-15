@@ -11,6 +11,8 @@ using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.CreatePlayer;
 using ProjectExodus.Backend.UseCases.ShipUseCases.CreateShip;
+using ProjectExodus.Backend.UseCases.WeaponUseCases.Common;
+using ProjectExodus.Backend.UseCases.WeaponUseCases.CreateWeapon;
 using ProjectExodus.Backend.UseCases.WeaponUseCases.GetWeapons;
 using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Entities;
@@ -73,6 +75,10 @@ namespace ProjectExodus.Backend.Configuration
             
             // Player
             _ = new CreatePlayerMapper(_DataContext, this.m_MapperRegister);
+            
+            // Weapon
+            _ = new WeaponMapper(this.m_MapperRegister);
+            _ = new CreateWeaponMapper(this.m_MapperRegister);
         }
         
         private void ConfigureUseCases()

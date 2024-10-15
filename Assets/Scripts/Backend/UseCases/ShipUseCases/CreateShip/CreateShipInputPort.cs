@@ -9,6 +9,8 @@ namespace ProjectExodus.Backend.UseCases.ShipUseCases.CreateShip
 
         #region - - - - - - Properties - - - - - -
 
+        public int AssetID { get; set; }
+        
         public List<Guid> Weapons { get; set; }
 
         #endregion properties

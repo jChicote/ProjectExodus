@@ -1,3 +1,5 @@
+using System;
+
 namespace ProjectExodus.Domain.Models
 {
 
@@ -6,7 +8,9 @@ namespace ProjectExodus.Domain.Models
 
         #region - - - - - - Fields - - - - - -
 
-        public int ID;
+        public Guid ID;
+
+        public int AssetID;
 
         public int AssignedBayID;
 

@@ -11,6 +11,8 @@ namespace ProjectExodus.Domain.Models
 
         public Guid ID;
 
+        public int AssetID;
+
         public List<WeaponModel> Weapons;
 
         #endregion Fields

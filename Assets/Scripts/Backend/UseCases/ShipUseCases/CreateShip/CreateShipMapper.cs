@@ -36,6 +36,8 @@ namespace ProjectExodus.Backend.UseCases.ShipUseCases.CreateShip
 
         private void MapCreateInputPortToShipEntity(CreateShipInputPort source, Ship destination)
         {
+            destination.ID = Guid.NewGuid();
+            destination.AssetID = source.AssetID;
             destination.Weapons = source.Weapons;
         }
 
@@ -47,6 +49,7 @@ namespace ProjectExodus.Backend.UseCases.ShipUseCases.CreateShip
                 .ToList();
             
             destination.ID = source.ID;
+            destination.AssetID = source.AssetID;
             destination.Weapons = _Weapons;
         }
 

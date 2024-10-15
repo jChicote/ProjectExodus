@@ -1,5 +1,4 @@
 using System;
-using UnityEngine.Serialization;
 
 namespace ProjectExodus.Domain.Entities
 {
@@ -14,13 +13,13 @@ namespace ProjectExodus.Domain.Entities
 
         public int AssetID;
 
+        public int AmmoSizeModifier;
+
         public int AssignedBayID;
 
         public float FireRateModifier;
 
         public float ReloadPeriodModifier;
-
-        public float AmmoSizeModifier;
         
         #endregion Fields
 
