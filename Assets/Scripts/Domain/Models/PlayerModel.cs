@@ -8,13 +8,13 @@ namespace ProjectExodus.Domain.Models
     public class PlayerModel
     {
 
-        #region - - - - - - Fields - - - - - -
+        #region - - - - - - Properties - - - - - -
 
-        public Guid ID;
+        public Guid ID { get; set; }
 
-        public List<Ship> Ships = new();
+        public List<Ship> Ships { get; set; } = new();
 
-        #endregion Fields
+        #endregion Properties
 
     }
 

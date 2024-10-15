@@ -12,8 +12,6 @@ namespace ProjectExodus.Domain.Entities
 
         public Guid ID;
 
-        public Guid GameSaveID;
-
         public List<Guid> Ships;
         
         #endregion Fields

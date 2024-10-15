@@ -6,21 +6,21 @@ namespace ProjectExodus.Domain.Models
     public class WeaponModel
     {
 
-        #region - - - - - - Fields - - - - - -
+        #region - - - - - - Properties - - - - - -
 
-        public Guid ID;
+        public Guid ID { get; set; }
 
-        public int AssetID;
+        public int AssetID { get; set; }
 
-        public int AssignedBayID;
+        public int AssignedBayID { get; set; }
 
-        public int AmmoSizeModifier; 
+        public int AmmoSizeModifier { get; set; }
         
-        public float FireRateModifier;
+        public float FireRateModifier { get; set; }
 
-        public float ReloadPeriodModifier;
+        public float ReloadPeriodModifier { get; set; }
 
-        #endregion Fields
+        #endregion Properties
 
     }
 

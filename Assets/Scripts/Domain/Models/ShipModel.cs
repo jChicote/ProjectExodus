@@ -7,15 +7,15 @@ namespace ProjectExodus.Domain.Models
     public class ShipModel
     {
 
-        #region - - - - - - Fields - - - - - -
+        #region - - - - - - Properties - - - - - -
 
-        public Guid ID;
+        public Guid ID { get; set; }
 
-        public int AssetID;
+        public int AssetID { get; set; }
 
-        public List<WeaponModel> Weapons;
+        public List<WeaponModel> Weapons { get; set; }
 
-        #endregion Fields
+        #endregion Properties
   
     }
 

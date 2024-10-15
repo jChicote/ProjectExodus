@@ -5,6 +5,7 @@ using ProjectExodus.Backend.Repositories.GameOptionsRepository;
 using ProjectExodus.Backend.UseCases;
 using ProjectExodus.Backend.UseCases.GameOptionsUseCases.CreateGameOptions;
 using ProjectExodus.Backend.UseCases.GameOptionsUseCases.UpdateGameOptions;
+using ProjectExodus.Backend.UseCases.GameSaveUseCases.Common;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.DeleteGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
@@ -67,7 +68,8 @@ namespace ProjectExodus.Backend.Configuration
             _ = new UpdateGameOptionsMapper(this.m_MapperRegister);
             
             // Game Save
-            _ = new CreateGameSaveMapper(this.m_MapperRegister, _ProfileImageProvider);
+            _ = new CreateGameSaveMapper(this.m_MapperRegister);
+            _ = new GameSaveMapper(this.m_MapperRegister, _ProfileImageProvider);
             _ = new UpdateGameSaveMapper(this.m_MapperRegister);
             
             // Ship
@@ -104,6 +106,9 @@ namespace ProjectExodus.Backend.Configuration
                     new UpdateGameSaveInteractor(this.m_Mapper, _GameSaveRepository));
             
             // Weapon
+            this.m_ServiceLocator.RegisterService(
+                (IUseCaseInteractor<CreateWeaponInputPort, ICreateWeaponOutputPort>)
+                    new CreateWeaponInteractor(_DataContext, this.m_Mapper));
             this.m_ServiceLocator.RegisterService(
                 (IUseCaseInteractor<GetWeaponInputPort, IGetWeaponOutputPort>)
                     new GetWeaponInteractor(this.m_Mapper, _WeaponRepository));
