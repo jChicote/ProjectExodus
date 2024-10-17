@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using ProjectExodus.Common.Services;
+using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Camera;
 using ProjectExodus.GameLogic.Player.PlayerProvider;
 using ProjectExodus.GameLogic.Player.PlayerSpawner;
 using ProjectExodus.Management.Enumeration;
+using ProjectExodus.Management.GameSaveManager;
 using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.UserInterface.Controllers;
@@ -92,6 +94,11 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
             ((IPlayerSpawner)this.PlayerSpawner).SpawnPlayer();
             this.m_InputManager.DisableActiveInputControl();
             this.m_LoadingScreenController.UpdateLoadProgress(60f);
+
+            IGameSaveManager _GameSaveManager = this.m_ServiceLocator.GetService<IGameSaveManager>();
+            // Invoke get use case with the provided playerID
+            // 
+            PlayerModel _CurrentPlayer = _GameSaveManager.GameSaveModel.PlayerID;
             
             Debug.Log("Player been setup");
 
