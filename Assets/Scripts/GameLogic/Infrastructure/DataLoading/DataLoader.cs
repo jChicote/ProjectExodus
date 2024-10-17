@@ -1,5 +1,4 @@
 using System.Collections;
-using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands;
 using UnityEngine;
 
@@ -32,12 +31,11 @@ namespace ProjectExodus.GameLogic.Infrastructure.DataLoading
             command.Execute();
 
             bool _IsLoadComplete = false;
-            while (_IsLoadComplete)
+            while (!_IsLoadComplete)
             {
-                _IsLoadComplete = command;
+                _IsLoadComplete = command.IsLoadComplete();
+                yield return null;
             }
-
-            yield return null;
         }
 
         #endregion Methods
