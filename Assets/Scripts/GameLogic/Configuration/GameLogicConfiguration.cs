@@ -12,6 +12,7 @@ using ProjectExodus.Domain.Entities;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Facades.PlayerControllers;
+using ProjectExodus.GameLogic.Infrastructure.DataLoading;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Mappers.MappingProfiles;
@@ -76,6 +77,9 @@ namespace ProjectExodus.GameLogic.Configuration
 
             IShipAssetProvider _ShipAssetProvider = new ShipAssetProvider(this.m_GamePrefabAssets);
             this.m_ServiceLocator.RegisterService(_ShipAssetProvider);
+
+            IDataLoader _DataLoader = new DataLoader();
+            this.m_ServiceLocator.RegisterService(_DataLoader);
         }
 
         private void ConfigureUseCaseFacades()
@@ -102,7 +106,7 @@ namespace ProjectExodus.GameLogic.Configuration
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<UpdateGameSaveInputPort, IUpdateGameSaveOutputPort>>());
             this.m_ServiceLocator.RegisterService(_GameSaveFacade);
 
-            PlayerControllers _PlayerControllers = new PlayerControllers(
+            IPlayerControllers _PlayerControllers = new PlayerControllers(
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<CreatePlayerInputPort, ICreatePlayerOutputPort>>(),
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<GetPlayerInputPort, IGetPlayerOutputPort>>());
             this.m_ServiceLocator.RegisterService(_PlayerControllers);

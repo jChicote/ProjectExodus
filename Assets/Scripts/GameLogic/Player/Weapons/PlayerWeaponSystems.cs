@@ -29,14 +29,6 @@ namespace ProjectExodus.GameLogic.Player.Weapons
 
         void IPlayerWeaponSystems.InitialiseWeaponSystems(IWeaponAssetProvider weaponAssetProvider, List<WeaponModel> weapons)
         {
-            // Debug Only 
-            // List<WeaponModel> _DebugWeaponData = new List<WeaponModel>
-            // {
-            //     new() { AssetID = 0, AssignedBayID = 999 },
-            //     new() { AssetID = 0, AssignedBayID = 888 },
-            //     new() { AssetID = 0, AssignedBayID = 777 }
-            // };
-            
             // Allocate weapons to weapon bays
             foreach (WeaponModel _WeaponModel in weapons)
             {
