@@ -3,7 +3,6 @@ using ProjectExodus.Backend.UseCases.PlayerUseCases.GetPlayer;
 using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.PlayerControllers;
-using ProjectExodus.GameLogic.Player.PlayerProvider;
 using ProjectExodus.Management.GameSaveManager;
 using UnityEngine;
 
@@ -14,7 +13,7 @@ namespace ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands
     /// Responsible for loading data and injecting to scene scoped services.
     /// </summary>
     public class StartupLoadCommand : 
-        ILoadCommand,
+        ILoadCommand<StartupDataOptions>,
         IGetPlayerOutputPort
     {
 
@@ -51,10 +50,13 @@ namespace ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands
         bool ICommand.CanExecute() 
             => this.m_PlayerControllers != null && this.m_GameSaveManager != null && this.m_Options != null;
 
-        string ILoadCommand.GetLoadCommandName()
+        string ILoadCommand<StartupDataOptions>.GetLoadCommandName()
             => nameof(StartupLoadCommand);
-        
-        bool ILoadCommand.IsLoadComplete() 
+
+        StartupDataOptions ILoadCommand<StartupDataOptions>.GetLoadedOptionsObject() 
+            => this.m_Options;
+
+        bool ILoadCommand<StartupDataOptions>.IsLoadComplete() 
             => this.m_IsComplete;
 
         void IGetPlayerOutputPort.PresentPlayer(PlayerModel player)

@@ -11,6 +11,7 @@ using ProjectExodus.Backend.UseCases.GameSaveUseCases.DeleteGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.CreatePlayer;
+using ProjectExodus.Backend.UseCases.PlayerUseCases.GetPlayer;
 using ProjectExodus.Backend.UseCases.ShipUseCases.CreateShip;
 using ProjectExodus.Backend.UseCases.WeaponUseCases.Common;
 using ProjectExodus.Backend.UseCases.WeaponUseCases.CreateWeapon;
@@ -76,7 +77,7 @@ namespace ProjectExodus.Backend.Configuration
             _ = new CreateShipMapper(_DataContext, this.m_Mapper, this.m_MapperRegister);
             
             // Player
-            _ = new CreatePlayerMapper(_DataContext, this.m_MapperRegister);
+            _ = new CreatePlayerMapper(_DataContext, this.m_Mapper, this.m_MapperRegister);
             
             // Weapon
             _ = new WeaponMapper(this.m_MapperRegister);
@@ -94,7 +95,7 @@ namespace ProjectExodus.Backend.Configuration
             // GameSave
             this.m_ServiceLocator.RegisterService(
                 (IUseCaseInteractor<CreateGameSaveInputPort, ICreateGameSaveOutputPort>) 
-                    new CreateGameSaveInteractor(this.m_Mapper, _GameSaveRepository));
+                    new CreateGameSaveInteractor(_DataContext, this.m_Mapper, _GameSaveRepository));
             this.m_ServiceLocator.RegisterService(
                 (IUseCaseInteractor<DeleteGameSaveInputPort, IDeleteGameSaveOutputPort>)
                     new DeleteGameSaveInteractor(_GameSaveRepository));
@@ -122,6 +123,9 @@ namespace ProjectExodus.Backend.Configuration
             this.m_ServiceLocator.RegisterService(
                 (IUseCaseInteractor<CreatePlayerInputPort, ICreatePlayerOutputPort>)
                     new CreatePlayerInteractor(_DataContext, this.m_Mapper));
+            this.m_ServiceLocator.RegisterService(
+                (IUseCaseInteractor<GetPlayerInputPort, IGetPlayerOutputPort>)
+                    new GetPlayerInteractor(_DataContext, this.m_Mapper));
         }
 
         #endregion Methods

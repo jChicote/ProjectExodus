@@ -11,6 +11,8 @@ namespace ProjectExodus.ScriptableObjects
 
         #region - - - - - - Fields - - - - - -
 
+        public List<ShipAssetObject> ShipPrefabs;
+
         public List<WeaponAssetObject> WeaponPrefabs;
 
         #endregion Fields

@@ -15,14 +15,16 @@ namespace ProjectExodus.Backend.UseCases.PlayerUseCases.CreatePlayer
         #region - - - - - - Fields - - - - - -
 
         private readonly IDataContext m_DataContext;
+        private readonly IObjectMapper m_Mapper;
 
         #endregion Fields
 
         #region - - - - - - Constructors - - - - - -
 
-        public CreatePlayerMapper(IDataContext dataContext, IObjectMapperRegister objectMapperRegister)
+        public CreatePlayerMapper(IDataContext dataContext, IObjectMapper mapper, IObjectMapperRegister objectMapperRegister)
         {
             this.m_DataContext = dataContext ?? throw new ArgumentNullException(nameof(dataContext));
+            this.m_Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             
             objectMapperRegister
                 .AddMappingAction<CreatePlayerInputPort, Player>(MapCreatePlayerInputPortToPlayerEntity);
@@ -42,9 +44,10 @@ namespace ProjectExodus.Backend.UseCases.PlayerUseCases.CreatePlayer
 
         private void MapPlayerToPlayerModel(Player source, PlayerModel destination)
         {
-            List<Ship> _PlayerShips = this.m_DataContext
+            List<ShipModel> _PlayerShips = this.m_DataContext
                 .GetEntities<Ship>()
                 .Where(s => source.Ships.Any(id => id.Equals(s.ID)))
+                .Select(s => this.m_Mapper.Map(s, new ShipModel()))
                 .ToList();
 
             destination.ID = source.ID;

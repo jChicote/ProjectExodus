@@ -5,10 +5,13 @@ using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.DeleteGameSave;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
+using ProjectExodus.Backend.UseCases.PlayerUseCases.CreatePlayer;
+using ProjectExodus.Backend.UseCases.PlayerUseCases.GetPlayer;
 using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Entities;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
+using ProjectExodus.GameLogic.Facades.PlayerControllers;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Mappers.MappingProfiles;
@@ -70,6 +73,9 @@ namespace ProjectExodus.GameLogic.Configuration
 
             IWeaponAssetProvider _WeaponAssetProvider = new WeaponAssetProvider(this.m_GamePrefabAssets);
             this.m_ServiceLocator.RegisterService(_WeaponAssetProvider);
+
+            IShipAssetProvider _ShipAssetProvider = new ShipAssetProvider(this.m_GamePrefabAssets);
+            this.m_ServiceLocator.RegisterService(_ShipAssetProvider);
         }
 
         private void ConfigureUseCaseFacades()
@@ -94,8 +100,12 @@ namespace ProjectExodus.GameLogic.Configuration
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<DeleteGameSaveInputPort, IDeleteGameSaveOutputPort>>(),
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<GetGameSavesInputPort, IGetGameSavesOutputPort>>(),
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<UpdateGameSaveInputPort, IUpdateGameSaveOutputPort>>());
-            // Tech-Debt: This could be changed to be used as some interface adapter. To ensure abstraction.
             this.m_ServiceLocator.RegisterService(_GameSaveFacade);
+
+            PlayerControllers _PlayerControllers = new PlayerControllers(
+                this.m_ServiceLocator.GetService<IUseCaseInteractor<CreatePlayerInputPort, ICreatePlayerOutputPort>>(),
+                this.m_ServiceLocator.GetService<IUseCaseInteractor<GetPlayerInputPort, IGetPlayerOutputPort>>());
+            this.m_ServiceLocator.RegisterService(_PlayerControllers);
         }
 
         #endregion Methods

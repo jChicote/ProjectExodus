@@ -1,10 +1,15 @@
 using System;
 using System.Collections;
+using System.Linq;
 using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Camera;
-using ProjectExodus.GameLogic.Player.PlayerProvider;
+using ProjectExodus.GameLogic.Facades.PlayerControllers;
+using ProjectExodus.GameLogic.Infrastructure.DataLoading;
+using ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands;
+using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.GameLogic.Player.PlayerSpawner;
+using ProjectExodus.GameLogic.Player.Weapons;
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.GameSaveManager;
 using ProjectExodus.Management.InputManager;
@@ -12,6 +17,7 @@ using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.UserInterface.Controllers;
 using ProjectExodus.UserInterface.LoadingScreen;
 using UnityEngine;
+using PlayerProvider = ProjectExodus.GameLogic.Player.PlayerProvider.PlayerProvider;
 
 namespace ProjectExodus.GameLogic.Scene.SceneStartup
 {
@@ -30,6 +36,8 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
         private IInputManager m_InputManager;
         private ILoadingScreenController m_LoadingScreenController;
         private IServiceLocator m_ServiceLocator;
+
+        private StartupDataOptions m_StartupDataOptions;
 
         #endregion Fields
 
@@ -73,8 +81,16 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
 
         private IEnumerator SetupSceneData()
         {
-            yield return new WaitForSeconds(2); // Debug
+            // Run load options and prepare data
+            IDataLoader _DataLoader = this.m_ServiceLocator.GetService<IDataLoader>();
+            StartupLoadCommand _LoadCommand = new StartupLoadCommand(
+                this.m_ServiceLocator.GetService<IGameSaveManager>(),
+                this.m_ServiceLocator.GetService<IPlayerControllers>());
+            _DataLoader.RunLoadOperation(_LoadCommand, (options) =>
+                this.m_StartupDataOptions = options as StartupDataOptions);
+            
             this.m_LoadingScreenController.UpdateLoadProgress(20f);
+            yield return null;
         }
 
         private IEnumerator SetupSceneServicesAndControllers()
@@ -82,26 +98,27 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
             ((IPlayerSpawner)this.PlayerSpawner).InitialisePlayerSpawner(
                 this.CameraController, 
                 this.m_InputManager, 
-                this.PlayerProvider);
+                this.PlayerProvider,
+                this.m_ServiceLocator.GetService<IShipAssetProvider>());
             
             this.m_LoadingScreenController.UpdateLoadProgress(40f);
-            
             yield return null;
         }
 
         private IEnumerator SetupPlayer()
         {
-            ((IPlayerSpawner)this.PlayerSpawner).SpawnPlayer();
-            this.m_InputManager.DisableActiveInputControl();
-            this.m_LoadingScreenController.UpdateLoadProgress(60f);
-
-            IGameSaveManager _GameSaveManager = this.m_ServiceLocator.GetService<IGameSaveManager>();
-            // Invoke get use case with the provided playerID
-            // 
-            PlayerModel _CurrentPlayer = _GameSaveManager.GameSaveModel.PlayerID;
+            // Temp: The first ship object is used.
+            ShipModel _ShipToSpawn = this.m_StartupDataOptions.Player.Ships.First();
             
-            Debug.Log("Player been setup");
+            GameObject _Player = ((IPlayerSpawner)this.PlayerSpawner)
+                .SpawnPlayer(_ShipToSpawn);
+            this.m_InputManager.DisableActiveInputControl();
 
+            _Player.GetComponent<IPlayerWeaponSystems>().InitialiseWeaponSystems(
+                this.m_ServiceLocator.GetService<IWeaponAssetProvider>(),
+                _ShipToSpawn.Weapons.ToList());
+            
+            this.m_LoadingScreenController.UpdateLoadProgress(60f);
             yield return null;
         }
 

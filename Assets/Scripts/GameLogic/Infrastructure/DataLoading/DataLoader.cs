@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands;
 using UnityEngine;
@@ -9,18 +10,12 @@ namespace ProjectExodus.GameLogic.Infrastructure.DataLoading
     /// Responsible for running load-commands invoking back-end logic for resolving dependencies and data of
     /// services before they can be modified.
     /// </summary>
-    public class DataLoader
+    public class DataLoader : IDataLoader
     {
-
-        #region - - - - - - Fields - - - - - -
-
-        
-
-        #endregion Fields
 
         #region - - - - - - Methods - - - - - -
 
-        public IEnumerator RunLoadOperation(ILoadCommand command)
+        public IEnumerator RunLoadOperation(ILoadCommand<object> command, Action<object> callback)
         {
             if (!command.CanExecute())
             {
@@ -36,6 +31,8 @@ namespace ProjectExodus.GameLogic.Infrastructure.DataLoading
                 _IsLoadComplete = command.IsLoadComplete();
                 yield return null;
             }
+            
+            callback.Invoke(command.GetLoadedOptionsObject());
         }
 
         #endregion Methods

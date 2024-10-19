@@ -3,15 +3,17 @@ using ProjectExodus.Common.Services;
 namespace ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands
 {
 
-    public interface ILoadCommand : ICommand
+    public interface ILoadCommand<out TOptions>: ICommand
     {
 
         #region - - - - - - Methods - - - - - -
 
         string GetLoadCommandName();
 
-        bool IsLoadComplete();
+        TOptions GetLoadedOptionsObject();
 
+        bool IsLoadComplete();
+        
         #endregion Methods
 
     }

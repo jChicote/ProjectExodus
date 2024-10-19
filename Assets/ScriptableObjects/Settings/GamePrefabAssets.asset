@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd3c72dc1ca144138b8bddf3fd7bd238, type: 3}
   m_Name: GamePrefabAssets
   m_EditorClassIdentifier: 
+  ShipPrefabs:
+  - ID: 0
+    Name: Red Reliable
+    Asset: {fileID: 3396301712567387330, guid: 6d9992b4460aa814cb0ff2cf06876893, type: 3}
   WeaponPrefabs:
   - ID: 0
     Name: Turrent

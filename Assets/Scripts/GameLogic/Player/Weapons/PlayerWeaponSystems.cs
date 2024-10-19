@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
@@ -26,36 +25,29 @@ namespace ProjectExodus.GameLogic.Player.Weapons
         
         #endregion Fields
 
-        #region - - - - - - Unity Lifecycle Methods - - - - - -
+        #region - - - - - - Methods - - - - - -
 
-        private void Start()
+        void IPlayerWeaponSystems.InitialiseWeaponSystems(IWeaponAssetProvider weaponAssetProvider, List<WeaponModel> weapons)
         {
-            IServiceLocator _ServiceLocator = GameManager.Instance.ServiceLocator;
-            IWeaponAssetProvider _WeaponAssetProvider = _ServiceLocator.GetService<IWeaponAssetProvider>();
-            
             // Debug Only 
-            List<WeaponModel> _DebugWeaponData = new List<WeaponModel>
-            {
-                new() { AssetID = 0, AssignedBayID = 999 },
-                new() { AssetID = 0, AssignedBayID = 888 },
-                new() { AssetID = 0, AssignedBayID = 777 }
-            };
+            // List<WeaponModel> _DebugWeaponData = new List<WeaponModel>
+            // {
+            //     new() { AssetID = 0, AssignedBayID = 999 },
+            //     new() { AssetID = 0, AssignedBayID = 888 },
+            //     new() { AssetID = 0, AssignedBayID = 777 }
+            // };
             
             // Allocate weapons to weapon bays
-            foreach (WeaponModel _WeaponModel in _DebugWeaponData)
+            foreach (WeaponModel _WeaponModel in weapons)
             {
                 WeaponBay _WeaponBay = this.m_WeaponBays.First(wb => wb.Identifier == _WeaponModel.AssignedBayID);
-                _WeaponBay.LoadWeaponToBay(_WeaponAssetProvider.Provide(_WeaponModel.AssetID).Asset);
+                _WeaponBay.LoadWeaponToBay(weaponAssetProvider.Provide(_WeaponModel.AssetID).Asset);
 
                 IWeapon _LoadedWeapon = _WeaponBay.GetAttachedWeapon();
                 _LoadedWeapon.InitializeWeapon(_WeaponModel);
                 this.m_Weapons.Add(_LoadedWeapon);
             }
         }
-
-        #endregion Unity Lifecycle Methods
-  
-        #region - - - - - - Methods - - - - - -
 
         void IPlayerWeaponSystems.ToggleWeaponFire(bool isFiring)
         {
