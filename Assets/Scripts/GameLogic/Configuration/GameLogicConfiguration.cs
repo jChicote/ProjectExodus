@@ -7,11 +7,16 @@ using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.CreatePlayer;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.GetPlayer;
+using ProjectExodus.Backend.UseCases.ShipUseCases.CreateShip;
+using ProjectExodus.Backend.UseCases.WeaponUseCases.CreateWeapon;
+using ProjectExodus.Backend.UseCases.WeaponUseCases.GetWeapons;
 using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Entities;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Facades.PlayerControllers;
+using ProjectExodus.GameLogic.Facades.ShipActionFacade;
+using ProjectExodus.GameLogic.Facades.WeaponActionFacade;
 using ProjectExodus.GameLogic.Infrastructure.DataLoading;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.GameLogic.Mappers;
@@ -116,6 +121,15 @@ namespace ProjectExodus.GameLogic.Configuration
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<CreatePlayerInputPort, ICreatePlayerOutputPort>>(),
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<GetPlayerInputPort, IGetPlayerOutputPort>>());
             this.m_ServiceLocator.RegisterService(_PlayerControllers);
+
+            IShipActionFacade _ShipActionFacade = new ShipActionFacade(
+                this.m_ServiceLocator.GetService<IUseCaseInteractor<CreateShipInputPort, ICreateShipOutputPort>>());
+            this.m_ServiceLocator.RegisterService(_ShipActionFacade);
+            
+            IWeaponActionFacade _WeaponActionFacade = new WeaponActionFacade(
+                this.m_ServiceLocator.GetService<IUseCaseInteractor<CreateWeaponInputPort, ICreateWeaponOutputPort>>(),
+                this.m_ServiceLocator.GetService<IUseCaseInteractor<GetWeaponInputPort, IGetWeaponOutputPort>>());
+            this.m_ServiceLocator.RegisterService(_WeaponActionFacade);
         }
 
         #endregion Methods

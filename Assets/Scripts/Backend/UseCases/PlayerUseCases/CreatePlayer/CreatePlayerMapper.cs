@@ -27,9 +27,9 @@ namespace ProjectExodus.Backend.UseCases.PlayerUseCases.CreatePlayer
             this.m_Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             
             objectMapperRegister
-                .AddMappingAction<CreatePlayerInputPort, Player>(MapCreatePlayerInputPortToPlayerEntity);
+                .AddMappingAction<CreatePlayerInputPort, Player>(this.MapCreatePlayerInputPortToPlayerEntity);
             objectMapperRegister
-                .AddMappingAction<Player, PlayerModel>(MapPlayerToPlayerModel);
+                .AddMappingAction<Player, PlayerModel>(this.MapPlayerToPlayerModel);
         }
 
         #endregion Constructors
@@ -46,7 +46,7 @@ namespace ProjectExodus.Backend.UseCases.PlayerUseCases.CreatePlayer
         {
             List<ShipModel> _PlayerShips = this.m_DataContext
                 .GetEntities<Ship>()
-                .Where(s => source.Ships.Any(id => id.Equals(s.ID)))
+                .Where(s => source.Ships.Any(id => id == s.ID))
                 .Select(s => this.m_Mapper.Map(s, new ShipModel()))
                 .ToList();
 

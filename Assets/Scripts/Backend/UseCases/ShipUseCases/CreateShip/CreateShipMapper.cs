@@ -45,6 +45,7 @@ namespace ProjectExodus.Backend.UseCases.ShipUseCases.CreateShip
         {
             List<WeaponModel> _Weapons = this.m_DataContext
                 .GetEntities<Weapon>()
+                .Where(s => source.Weapons.Any(id => id == s.ID))
                 .Select(w => this.m_Mapper.Map(w, new WeaponModel()))
                 .ToList();
             

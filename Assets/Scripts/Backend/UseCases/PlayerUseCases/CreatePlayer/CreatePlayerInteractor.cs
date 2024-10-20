@@ -36,7 +36,7 @@ namespace ProjectExodus.Backend.UseCases.PlayerUseCases.CreatePlayer
             this.m_DataContext.Add(_Player);
 
             PlayerModel _PlayerModel = new PlayerModel();
-            this.m_Mapper.Map(inputPort, _Player);
+            this.m_Mapper.Map(_Player, _PlayerModel);
             outputPort.PresentCreatedPlayer(_PlayerModel);
         }
 

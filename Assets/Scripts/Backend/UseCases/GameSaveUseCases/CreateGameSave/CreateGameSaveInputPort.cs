@@ -16,6 +16,8 @@ namespace ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave
         
         public DateTime LastAccessedDate { get; set; }
         
+        public Guid PlayerID { get; set; }
+        
         public int ProfileImageID { get; set; }
 
         #endregion Properties

@@ -41,7 +41,8 @@ namespace ProjectExodus.Backend.UseCases.PlayerUseCases.GetPlayer
             if (_Player is null)
                 outputPort.PresentPlayerNotFound();
 
-            PlayerModel _PlayerModel = this.m_Mapper.Map(_Player, new PlayerModel());
+            PlayerModel _PlayerModel = new PlayerModel();
+            this.m_Mapper.Map(_Player, _PlayerModel);
             outputPort.PresentPlayer(_PlayerModel);
         }
 

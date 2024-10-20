@@ -3,10 +3,15 @@ using System.Collections;
 using System.Linq;
 using ProjectExodus.Common.Services;
 using ProjectExodus.DebugSupport.Presenters;
+using ProjectExodus.DebugSupport.Provider;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Enumeration;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
+using ProjectExodus.GameLogic.Facades.PlayerControllers;
+using ProjectExodus.GameLogic.Facades.ShipActionFacade;
+using ProjectExodus.GameLogic.Facades.WeaponActionFacade;
 using ProjectExodus.GameLogic.Scene.SceneStartup;
+using ProjectExodus.GameLogic.Weapons;
 using ProjectExodus.Management.GameSaveManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -73,13 +78,28 @@ namespace ProjectExodus.DebugSupport.SceneStartup
             while (_GameSavePresenter.Result == null)
                 yield return null;
 
-            GameSaveModel _DefaultGameSaveModel;
-            _DefaultGameSaveModel = !_GameSavePresenter.Result.Any() 
-                ? new GameSaveModel() 
-                : _GameSavePresenter.Result.First();
-
+            GameSaveModel _DebugGameSaveModel = new();
+            if (_GameSavePresenter.Result.All(gs => 
+                    gs.GameSaveName != DebugGameContansts.DEBUG_GAMESAVENAME))
+            {
+                DebugDefaultGameSaveGenerator _Generator = new(
+                    _GameSaveFacade,
+                    _ServiceLocator.GetService<IPlayerControllers>(),
+                    _ServiceLocator.GetService<IShipActionFacade>(),
+                    _ServiceLocator.GetService<IWeaponActionFacade>());
+                
+                yield return this.StartCoroutine(_Generator.GenerateDefaultGameSave());
+                _DebugGameSaveModel = _Generator.GeneratedGameSave;
+            }
+            else
+            {
+                _DebugGameSaveModel =
+                    _GameSavePresenter.Result
+                        .Single(gs => gs.GameSaveName == DebugGameContansts.DEBUG_GAMESAVENAME);
+            }
+            
             IGameSaveManager _GameSaveManager = _ServiceLocator.GetService<IGameSaveManager>();
-            _GameSaveManager.SetGameSave(_DefaultGameSaveModel);
+            _GameSaveManager.SetGameSave(_DebugGameSaveModel);
             
             // Activate scene GameObjects
             foreach (GameObject _SceneObject in this.m_ActiveSceneObjects)

@@ -35,6 +35,7 @@ namespace ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave
             destination.GameSaveName = source.GameSaveName;
             destination.GameSlotDisplayIndex = source.GameSlotDisplayIndex;
             destination.LastAccessedDate = source.LastAccessedDate;
+            destination.PlayerID = source.PlayerID;
             destination.ProfileImageID = source.ProfileImageID;
         }
 
