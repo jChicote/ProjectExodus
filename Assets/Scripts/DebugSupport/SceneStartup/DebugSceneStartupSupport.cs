@@ -1,6 +1,13 @@
 using System;
+using System.Collections;
+using System.Linq;
+using ProjectExodus.Common.Services;
+using ProjectExodus.DebugSupport.Presenters;
+using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Enumeration;
+using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Scene.SceneStartup;
+using ProjectExodus.Management.GameSaveManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
@@ -52,8 +59,29 @@ namespace ProjectExodus.DebugSupport.SceneStartup
 
         #region - - - - - - Methods - - - - - -
 
-        public virtual void ActivateSceneObjects()
+        public virtual void ActivateSceneObjects() 
+            => this.StartCoroutine(this.HandleSceneActivationWithDefaultData());
+
+        private IEnumerator HandleSceneActivationWithDefaultData()
         {
+            // Set the game data to use the default game save slot (slot 0)
+            IServiceLocator _ServiceLocator = GameManager.Instance.ServiceLocator;
+            IGameSaveFacade _GameSaveFacade = _ServiceLocator.GetService<IGameSaveFacade>();
+            DebugGetGameSavesPresenter _GameSavePresenter = new DebugGetGameSavesPresenter();
+            _GameSaveFacade.GetGameSaves(_GameSavePresenter);
+
+            while (_GameSavePresenter.Result == null)
+                yield return null;
+
+            GameSaveModel _DefaultGameSaveModel;
+            _DefaultGameSaveModel = !_GameSavePresenter.Result.Any() 
+                ? new GameSaveModel() 
+                : _GameSavePresenter.Result.First();
+
+            IGameSaveManager _GameSaveManager = _ServiceLocator.GetService<IGameSaveManager>();
+            _GameSaveManager.SetGameSave(_DefaultGameSaveModel);
+            
+            // Activate scene GameObjects
             foreach (GameObject _SceneObject in this.m_ActiveSceneObjects)
             {
                 if (!_SceneObject.layer.Equals(GameLayer.Ignore))
@@ -66,12 +94,14 @@ namespace ProjectExodus.DebugSupport.SceneStartup
             // Run the scene startup behavior
             SceneStartupHandler _StartupHandler =
                 Object.FindFirstObjectByType<SceneStartupHandler>(FindObjectsInactive.Exclude);
-            if (_StartupHandler == null) return;
+            if (_StartupHandler == null) yield return null;
             
             _StartupHandler.InitialiseSceneStartupController(
                 GameManager.Instance.InputManager, 
                 GameManager.Instance.ServiceLocator);
             this.StartCoroutine(_StartupHandler.RunSceneStartup());
+
+            yield return null;
         }
 
         protected void LoadPersistenceScene()

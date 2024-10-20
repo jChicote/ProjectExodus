@@ -61,7 +61,7 @@ namespace ProjectExodus.Management.SceneManager
             return this.m_ActiveSceneController;
         }
 
-        void ISceneManager.SetCurrentPlayer(PlayerModel currentPlayer) 
+        void ISceneManager.SetCurrentPlayerModel(PlayerModel currentPlayer) 
             => this.m_CurrentPlayer = currentPlayer;
 
         private bool DoesMultipleSceneControllersExist() 

@@ -59,27 +59,33 @@ namespace ProjectExodus.GameLogic.Configuration
 
         void IConfigure.Configure()
         {
-            this.ConfigureGameLogicServices();
+            this.ConfigureGameLogicMappers();
+            this.ConfigureLoaders();
+            this.ConfigureProviders();
             this.ConfigureUseCaseFacades();
         }
 
-        private void ConfigureGameLogicServices()
+        private void ConfigureGameLogicMappers()
         {
-            // Mapper Registration
             _ = new GameOptionsMapper(this.m_ObjectMapperRegister);
-            
-            // Service Registration
+        }
+
+        private void ConfigureLoaders()
+        {
             ISceneLoader _SceneLoader = Object.FindFirstObjectByType<SceneLoader>();
             this.m_ServiceLocator.RegisterService(_SceneLoader);
 
+            IDataLoader _DataLoader = new DataLoader();
+            this.m_ServiceLocator.RegisterService(_DataLoader);
+        }
+
+        private void ConfigureProviders()
+        {
             IWeaponAssetProvider _WeaponAssetProvider = new WeaponAssetProvider(this.m_GamePrefabAssets);
             this.m_ServiceLocator.RegisterService(_WeaponAssetProvider);
 
             IShipAssetProvider _ShipAssetProvider = new ShipAssetProvider(this.m_GamePrefabAssets);
             this.m_ServiceLocator.RegisterService(_ShipAssetProvider);
-
-            IDataLoader _DataLoader = new DataLoader();
-            this.m_ServiceLocator.RegisterService(_DataLoader);
         }
 
         private void ConfigureUseCaseFacades()
@@ -88,18 +94,18 @@ namespace ProjectExodus.GameLogic.Configuration
             GameSettings _GameSettings = new GameSettings();
             GameManager.Instance.GameSettings = _GameSettings;
             
-            GameOptionsFacade _GameOptionsFacade = new GameOptionsFacade(
+            IGameOptionsFacade _GameOptionsFacade = new GameOptionsFacade(
                 this.m_ServiceLocator.GetService<IDataRepository<GameOptions>>(), 
                 _GameSettings, 
                 this.m_ObjectMapper);
-            ((IGameOptionsFacade)_GameOptionsFacade).GetGameOptions();
+            _GameOptionsFacade.GetGameOptions();
             // Tech-Debt: This could be changed to be used as some interface adapter. To ensure abstraction.
             this.m_ServiceLocator.RegisterService(_GameOptionsFacade);
             
             if (_GameSettings.GameOptionsModel == null)
-                ((IGameOptionsFacade)_GameOptionsFacade).CreateGameOptions();
+                _GameOptionsFacade.CreateGameOptions();
             
-            GameSaveFacade _GameSaveFacade = new GameSaveFacade(
+            IGameSaveFacade _GameSaveFacade = new GameSaveFacade(
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<CreateGameSaveInputPort, ICreateGameSaveOutputPort>>(),
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<DeleteGameSaveInputPort, IDeleteGameSaveOutputPort>>(),
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<GetGameSavesInputPort, IGetGameSavesOutputPort>>(),

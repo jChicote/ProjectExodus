@@ -19,7 +19,7 @@ namespace ProjectExodus.Management.SceneManager
 
         ISceneController GetActiveSceneController();
 
-        void SetCurrentPlayer(PlayerModel player);
+        void SetCurrentPlayerModel(PlayerModel player);
 
         #endregion Methods
 

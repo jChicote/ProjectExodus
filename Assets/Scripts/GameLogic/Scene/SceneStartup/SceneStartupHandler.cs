@@ -62,7 +62,6 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
         {
             this.m_LoadingScreenController.ShowScreen();
 
-            // yield return this.StartCoroutine(this.LoadScene());
             yield return this.StartCoroutine(this.StartSceneStartup());
             yield return this.StartCoroutine(this.SetupSceneData());
             yield return this.StartCoroutine(this.SetupSceneServicesAndControllers());
@@ -77,7 +76,7 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
         private IEnumerator StartSceneStartup()
         {
             this.m_InputManager.DisableActiveInputControl();
-            yield return new WaitForSeconds(2); // Debug
+            yield return null;
         }
 
         private IEnumerator SetupSceneData()
@@ -87,8 +86,10 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
             StartupLoadCommand _LoadCommand = new StartupLoadCommand(
                 this.m_ServiceLocator.GetService<IGameSaveManager>(),
                 this.m_ServiceLocator.GetService<IPlayerControllers>());
-            _DataLoader.RunLoadOperation(_LoadCommand, (options) =>
-                this.m_StartupDataOptions = options as StartupDataOptions);
+            yield return StartCoroutine(
+                _DataLoader.RunLoadOperation(
+                    _LoadCommand, 
+                    options => this.m_StartupDataOptions = options as StartupDataOptions));
             
             this.m_LoadingScreenController.UpdateLoadProgress(20f);
             yield return null;
@@ -121,13 +122,15 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
             };
             _ShipToSpawn.Weapons = _DebugWeaponData;
             
+            // Create Player ship
             GameObject _Player = ((IPlayerSpawner)this.PlayerSpawner)
                 .SpawnPlayer(_ShipToSpawn);
-            this.m_InputManager.DisableActiveInputControl();
-
             _Player.GetComponent<IPlayerWeaponSystems>().InitialiseWeaponSystems(
                 this.m_ServiceLocator.GetService<IWeaponAssetProvider>(),
                 _ShipToSpawn.Weapons.ToList());
+            this.m_InputManager.DisableActiveInputControl();
+            
+            GameManager.Instance.SceneManager.SetCurrentPlayerModel(this.m_StartupDataOptions.Player);
             
             this.m_LoadingScreenController.UpdateLoadProgress(60f);
             yield return null;
@@ -141,8 +144,6 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
 
         private IEnumerator SetupGameplayHUD()
         {
-            yield return new WaitForSeconds(2); // Debug
-
             IUserInterfaceManager _UserInterfaceManager = this.m_ServiceLocator.GetService<IUserInterfaceManager>();
             IUserInterfaceController _ActiveUserInterfaceController =
                 _UserInterfaceManager.GetTheActiveUserInterfaceController();
@@ -150,6 +151,7 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
             
             // Note: This method will bind to the HUD
             this.m_LoadingScreenController.UpdateLoadProgress(100f);
+            yield return null;
         }
 
         private IEnumerator CompleteGameStartup()

@@ -123,8 +123,8 @@ namespace ProjectExodus
             this.m_ObjectMapper = this.ServiceLocator.GetService<IObjectMapper>();
 
             // Set use case facades
-            this.m_GameOptionsFacade = this.ServiceLocator.GetService<GameOptionsFacade>();
-            this.m_GameSaveFacade = this.ServiceLocator.GetService<GameSaveFacade>();
+            this.m_GameOptionsFacade = this.ServiceLocator.GetService<IGameOptionsFacade>();
+            this.m_GameSaveFacade = this.ServiceLocator.GetService<IGameSaveFacade>();
         }
 
         #endregion Methods
