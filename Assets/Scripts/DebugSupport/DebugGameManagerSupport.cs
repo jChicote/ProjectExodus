@@ -13,7 +13,7 @@ namespace ProjectExodus.DebugSupport
     {
 
         #region - - - - - - Fields - - - - - -
-
+        
         // Debug Flag
         public bool IN_DEVELOPMENT = false;
 

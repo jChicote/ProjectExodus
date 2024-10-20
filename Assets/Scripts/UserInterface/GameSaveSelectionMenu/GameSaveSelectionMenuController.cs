@@ -4,6 +4,7 @@ using System.Linq;
 using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
 using ProjectExodus.Common.Services;
+using ProjectExodus.DebugSupport;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.Domain.Services;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
@@ -20,6 +21,7 @@ using ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectionMod
 using UnityEngine;
 using UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen;
 using UserInterface.GameSaveSelectionMenu.Mediator;
+using Object = System.Object;
 
 namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 {
@@ -106,7 +108,24 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 
         void IGetGameSavesOutputPort.PresentGameSaves(IEnumerable<GameSaveModel> gameSaves)
         {
-            var _OrderedSlots = gameSaves.OrderBy(gsm => gsm.GameSlotDisplayIndex).ToList();
+            var _GameSaves = new List<GameSaveModel>();
+            
+            // Check if in development
+            if (GameObject.FindAnyObjectByType<DebugGameManagerSupport>()
+                && GameObject.FindFirstObjectByType<DebugGameManagerSupport>().IN_DEVELOPMENT)
+            {
+                _GameSaves = gameSaves
+                    .Where(gs => gs.GameSaveName == DebugGameContansts.DEBUG_GAMESAVENAME)
+                    .ToList();
+            }
+            else
+            {
+                _GameSaves = gameSaves
+                    .Where(gs => gs.GameSaveName != DebugGameContansts.DEBUG_GAMESAVENAME)
+                    .ToList();
+            }
+            
+            var _OrderedSlots = _GameSaves.OrderBy(gsm => gsm.GameSlotDisplayIndex).ToList();
             for (int _Index = 0 ; _Index < ((IGameSaveSelectionView)this.m_GameSaveSelectionMenuView).GetAllGameSlotCount(); _Index++)
             {
                 if (_Index < _OrderedSlots.Count)
