@@ -7,6 +7,7 @@ using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.CreatePlayer;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.GetPlayer;
+using ProjectExodus.Backend.UseCases.PlayerUseCases.UpdatePlayer;
 using ProjectExodus.Backend.UseCases.ShipUseCases.CreateShip;
 using ProjectExodus.Backend.UseCases.WeaponUseCases.CreateWeapon;
 using ProjectExodus.Backend.UseCases.WeaponUseCases.GetWeapons;
@@ -119,7 +120,8 @@ namespace ProjectExodus.GameLogic.Configuration
 
             IPlayerControllers _PlayerControllers = new PlayerControllers(
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<CreatePlayerInputPort, ICreatePlayerOutputPort>>(),
-                this.m_ServiceLocator.GetService<IUseCaseInteractor<GetPlayerInputPort, IGetPlayerOutputPort>>());
+                this.m_ServiceLocator.GetService<IUseCaseInteractor<GetPlayerInputPort, IGetPlayerOutputPort>>(),
+                this.m_ServiceLocator.GetService<IUseCaseInteractor<UpdatePlayerInputPort, IUpdatePlayerOutputPort>>());
             this.m_ServiceLocator.RegisterService(_PlayerControllers);
 
             IShipActionFacade _ShipActionFacade = new ShipActionFacade(
