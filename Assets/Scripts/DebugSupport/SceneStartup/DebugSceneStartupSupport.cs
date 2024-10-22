@@ -84,7 +84,7 @@ namespace ProjectExodus.DebugSupport.SceneStartup
             {
                 DebugDefaultGameSaveGenerator _Generator = new(
                     _GameSaveFacade,
-                    _ServiceLocator.GetService<IPlayerControllers>(),
+                    _ServiceLocator.GetService<IPlayerActionFacade>(),
                     _ServiceLocator.GetService<IShipActionFacade>(),
                     _ServiceLocator.GetService<IWeaponActionFacade>());
                 

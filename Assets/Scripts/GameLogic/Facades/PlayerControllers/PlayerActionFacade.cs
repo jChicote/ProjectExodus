@@ -7,7 +7,7 @@ using ProjectExodus.Backend.UseCases.PlayerUseCases.UpdatePlayer;
 namespace ProjectExodus.GameLogic.Facades.PlayerControllers
 {
 
-    public class PlayerControllers : IPlayerControllers
+    public class PlayerActionFacade : IPlayerActionFacade
     {
 
         #region - - - - - - Fields - - - - - -
@@ -20,7 +20,7 @@ namespace ProjectExodus.GameLogic.Facades.PlayerControllers
 
         #region - - - - - - Controllers - - - - - -
 
-        public PlayerControllers(
+        public PlayerActionFacade(
             IUseCaseInteractor<CreatePlayerInputPort, ICreatePlayerOutputPort> createPlayerInteractor,
             IUseCaseInteractor<GetPlayerInputPort, IGetPlayerOutputPort> getPlayerInteractor,
             IUseCaseInteractor<UpdatePlayerInputPort, IUpdatePlayerOutputPort> updatePlayerInteractor)
@@ -37,21 +37,21 @@ namespace ProjectExodus.GameLogic.Facades.PlayerControllers
 
         #region - - - - - - Create Player Methods - - - - - -
 
-        void IPlayerControllers.CreatePlayer(CreatePlayerInputPort inputPort, ICreatePlayerOutputPort outputPort) 
+        void IPlayerActionFacade.CreatePlayer(CreatePlayerInputPort inputPort, ICreatePlayerOutputPort outputPort) 
             => this.m_CreatePlayerInteractor.Handle(inputPort, outputPort);
 
         #endregion Create Player Methods
 
         #region - - - - - - Get Player Methods - - - - - -
 
-        void IPlayerControllers.GetPlayer(GetPlayerInputPort inputPort, IGetPlayerOutputPort outputPort) 
+        void IPlayerActionFacade.GetPlayer(GetPlayerInputPort inputPort, IGetPlayerOutputPort outputPort) 
             => this.m_GetPlayerInteractor.Handle(inputPort, outputPort);
 
         #endregion Get Player Methods
 
         #region - - - - - - Update Player Methods - - - - - -
 
-        void IPlayerControllers.UpdatePlayer(UpdatePlayerInputPort inputPort, IUpdatePlayerOutputPort outputPort)
+        void IPlayerActionFacade.UpdatePlayer(UpdatePlayerInputPort inputPort, IUpdatePlayerOutputPort outputPort)
             => this.m_UpdateInteractor.Handle(inputPort, outputPort);
 
         #endregion Update Player Methods

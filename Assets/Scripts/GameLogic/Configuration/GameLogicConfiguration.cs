@@ -118,7 +118,7 @@ namespace ProjectExodus.GameLogic.Configuration
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<UpdateGameSaveInputPort, IUpdateGameSaveOutputPort>>());
             this.m_ServiceLocator.RegisterService(_GameSaveFacade);
 
-            IPlayerControllers _PlayerControllers = new PlayerControllers(
+            IPlayerActionFacade _PlayerControllers = new PlayerActionFacade(
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<CreatePlayerInputPort, ICreatePlayerOutputPort>>(),
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<GetPlayerInputPort, IGetPlayerOutputPort>>(),
                 this.m_ServiceLocator.GetService<IUseCaseInteractor<UpdatePlayerInputPort, IUpdatePlayerOutputPort>>());

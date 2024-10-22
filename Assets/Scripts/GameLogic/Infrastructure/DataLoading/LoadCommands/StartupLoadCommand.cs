@@ -19,7 +19,7 @@ namespace ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands
 
         #region - - - - - - Fields - - - - - -
 
-        private readonly IPlayerControllers m_PlayerControllers;
+        private readonly IPlayerActionFacade m_PlayerControllers;
         private readonly IGameSaveManager m_GameSaveManager;
 
         private bool m_IsComplete = false;
@@ -29,7 +29,7 @@ namespace ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands
   
         #region - - - - - - Constructors - - - - - -
 
-        public StartupLoadCommand(IGameSaveManager gameSaveManager, IPlayerControllers playerControllers)
+        public StartupLoadCommand(IGameSaveManager gameSaveManager, IPlayerActionFacade playerControllers)
         {
             this.m_GameSaveManager = gameSaveManager ?? throw new ArgumentNullException(nameof(gameSaveManager));
             this.m_PlayerControllers = playerControllers ?? throw new ArgumentNullException(nameof(playerControllers));

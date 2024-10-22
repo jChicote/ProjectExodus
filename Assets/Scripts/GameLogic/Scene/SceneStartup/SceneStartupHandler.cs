@@ -85,7 +85,7 @@ namespace ProjectExodus.GameLogic.Scene.SceneStartup
             IDataLoader _DataLoader = this.m_ServiceLocator.GetService<IDataLoader>();
             StartupLoadCommand _LoadCommand = new StartupLoadCommand(
                 this.m_ServiceLocator.GetService<IGameSaveManager>(),
-                this.m_ServiceLocator.GetService<IPlayerControllers>());
+                this.m_ServiceLocator.GetService<IPlayerActionFacade>());
             yield return StartCoroutine(
                 _DataLoader.RunLoadOperation(
                     _LoadCommand, 

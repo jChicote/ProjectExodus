@@ -5,7 +5,7 @@ using ProjectExodus.Backend.UseCases.PlayerUseCases.UpdatePlayer;
 namespace ProjectExodus.GameLogic.Facades.PlayerControllers
 {
 
-    public interface IPlayerControllers
+    public interface IPlayerActionFacade
     {
 
         #region - - - - - - Methods - - - - - -
