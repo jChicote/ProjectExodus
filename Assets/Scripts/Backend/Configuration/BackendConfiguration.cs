@@ -12,6 +12,7 @@ using ProjectExodus.Backend.UseCases.GameSaveUseCases.GetGameSaves;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.UpdateGameSave;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.CreatePlayer;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.GetPlayer;
+using ProjectExodus.Backend.UseCases.PlayerUseCases.UpdatePlayer;
 using ProjectExodus.Backend.UseCases.ShipUseCases.CreateShip;
 using ProjectExodus.Backend.UseCases.WeaponUseCases.Common;
 using ProjectExodus.Backend.UseCases.WeaponUseCases.CreateWeapon;
@@ -78,6 +79,7 @@ namespace ProjectExodus.Backend.Configuration
             
             // Player
             _ = new CreatePlayerMapper(_DataContext, this.m_Mapper, this.m_MapperRegister);
+            _ = new UpdatePlayerMapper(this.m_MapperRegister);
             
             // Weapon
             _ = new WeaponMapper(this.m_MapperRegister);
@@ -126,6 +128,9 @@ namespace ProjectExodus.Backend.Configuration
             this.m_ServiceLocator.RegisterService(
                 (IUseCaseInteractor<GetPlayerInputPort, IGetPlayerOutputPort>)
                     new GetPlayerInteractor(_DataContext, this.m_Mapper));
+            this.m_ServiceLocator.RegisterService(
+                (IUseCaseInteractor<UpdatePlayerInputPort, IUpdatePlayerOutputPort>)
+                    new UpdatePlayerInteractor(_DataContext, this.m_Mapper));
         }
 
         #endregion Methods
