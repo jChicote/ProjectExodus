@@ -32,7 +32,15 @@ namespace ProjectExodus.GameLogic.Player.Weapons
             // Allocate weapons to weapon bays
             foreach (WeaponModel _WeaponModel in weapons)
             {
-                WeaponBay _WeaponBay = this.m_WeaponBays.First(wb => wb.Identifier == _WeaponModel.AssignedBayID);
+                WeaponBay _WeaponBay = this.m_WeaponBays
+                    .FirstOrDefault(wb => wb.Identifier == _WeaponModel.AssignedBayID);
+
+                if (!_WeaponBay)
+                {
+                    Debug.LogError("[ERROR]: Cannot assign to weapon bay as no identifier can be matches.");
+                    return;
+                }
+                
                 _WeaponBay.LoadWeaponToBay(weaponAssetProvider.Provide(_WeaponModel.AssetID).Asset);
 
                 IWeapon _LoadedWeapon = _WeaponBay.GetAttachedWeapon();
