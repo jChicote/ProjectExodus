@@ -1,11 +1,13 @@
 using System;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.CreatePlayer;
+using ProjectExodus.Backend.UseCases.PlayerUseCases.UpdatePlayer;
 using ProjectExodus.Domain.Models;
+using UnityEngine;
 
 namespace ProjectExodus.DebugSupport.Presenters
 {
 
-    public class DebugCreatePlayerOutputHandler : ICreatePlayerOutputPort
+    public class DebugUpdatePlayerOutputHandler : IUpdatePlayerOutputPort
     {
 
         #region - - - - - - Fields - - - - - -
@@ -19,13 +21,11 @@ namespace ProjectExodus.DebugSupport.Presenters
         public void PresentCreatedPlayer(PlayerModel player)
             => this.Result = player;
 
-        public void PresentUnsuccessfulCreationOfPlayer()
-        {
-            throw new NotImplementedException();
-        }
+        public void PresentSuccessfulUpdate() 
+            => Debug.Log("[LOG]: Successfully updated the Player");
 
         #endregion Methods
-  
+
     }
 
 }

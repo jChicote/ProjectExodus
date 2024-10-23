@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ProjectExodus.Backend.UseCases.PlayerUseCases.UpdatePlayer;
 using ProjectExodus.DebugSupport.Presenters;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
@@ -25,7 +26,7 @@ namespace ProjectExodus.DebugSupport.Provider
         public GameSaveModel GeneratedGameSave;
 
         private readonly IGameSaveFacade m_GameSaveFacade;
-        private readonly IPlayerControllers m_PlayerControllers;
+        private readonly IPlayerActionFacade m_PlayerActionFacade;
         private readonly IShipActionFacade m_ShipActionFacade;
         private readonly IWeaponActionFacade m_WeaponActionFacade;
 
@@ -35,12 +36,12 @@ namespace ProjectExodus.DebugSupport.Provider
 
         public DebugDefaultGameSaveGenerator(
             IGameSaveFacade gameSaveFacade,
-            IPlayerControllers playerControllers,
+            IPlayerActionFacade playerActionFacade,
             IShipActionFacade shipActionFacade,
             IWeaponActionFacade weaponActionFacade)
         {
             this.m_GameSaveFacade = gameSaveFacade ?? throw new ArgumentNullException(nameof(gameSaveFacade));
-            this.m_PlayerControllers = playerControllers ?? throw new ArgumentNullException(nameof(playerControllers));
+            this.m_PlayerActionFacade = playerActionFacade ?? throw new ArgumentNullException(nameof(playerActionFacade));
             this.m_ShipActionFacade = shipActionFacade ?? throw new ArgumentNullException(nameof(shipActionFacade));
             this.m_WeaponActionFacade =
                 weaponActionFacade ?? throw new ArgumentNullException(nameof(weaponActionFacade));
@@ -65,9 +66,6 @@ namespace ProjectExodus.DebugSupport.Provider
                 _CreateWeaponOutputHandlers.Add(_OutputHandler);
             }
 
-            while (_CreateWeaponOutputHandlers.Any(output => output.Result == null))
-                yield return null;
-
             // Create the ship
             DebugCreateShipOutputHandler _CreateShipOutputHandler = new();
             this.m_ShipActionFacade.CreateShip(new()
@@ -76,21 +74,7 @@ namespace ProjectExodus.DebugSupport.Provider
                 Weapons = _CreateWeaponOutputHandlers.Select(handler => handler.Result.ID).ToList()
             },
             _CreateShipOutputHandler);
-
-            while (_CreateShipOutputHandler.Result == null)
-                yield return null;
-
-            // Create the player
-            DebugCreatePlayerOutputHandler _CreatePlayerOutputHandler = new();
-            this.m_PlayerControllers.CreatePlayer(new()
-            {
-                StartShip = _CreateShipOutputHandler.Result
-            },
-            _CreatePlayerOutputHandler);
             
-            while (_CreatePlayerOutputHandler.Result == null)
-                yield return null;
-
             // Create the game save
             DebugCreateGameSaveOutputHandler _CreateGameSaveOutputHandler = new();
             this.m_GameSaveFacade.CreateGameSave(new()
@@ -101,8 +85,17 @@ namespace ProjectExodus.DebugSupport.Provider
             },
             _CreateGameSaveOutputHandler);
 
+            DebugUpdatePlayerOutputHandler _UpdatePlayerOutputHandler = new();
+            this.m_PlayerActionFacade.UpdatePlayer(new UpdatePlayerInputPort()
+            {
+                PlayerID = _CreateGameSaveOutputHandler.Result.PlayerID,
+                Ships = new List<Guid>() { _CreateShipOutputHandler.Result.ID }
+            }, 
+            _UpdatePlayerOutputHandler);
+
             // Set the resulting game save
             this.GeneratedGameSave = _CreateGameSaveOutputHandler.Result;
+            yield return null;
         }
 
         #endregion Methods
