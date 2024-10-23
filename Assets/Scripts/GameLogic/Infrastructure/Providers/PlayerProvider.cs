@@ -1,10 +1,8 @@
 using System;
-using System.Threading.Tasks;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.GetPlayer;
 using ProjectExodus.Domain.Models;
-using ProjectExodus.GameLogic.Facades.PlayerControllers;
+using ProjectExodus.GameLogic.Facades.PlayerActionFacades;
 using ProjectExodus.Management.GameSaveManager;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Infrastructure.Providers

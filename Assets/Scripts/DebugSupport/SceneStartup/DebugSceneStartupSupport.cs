@@ -8,7 +8,7 @@ using ProjectExodus.DebugSupport.Provider;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Enumeration;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
-using ProjectExodus.GameLogic.Facades.PlayerControllers;
+using ProjectExodus.GameLogic.Facades.PlayerActionFacades;
 using ProjectExodus.GameLogic.Facades.ShipActionFacade;
 using ProjectExodus.GameLogic.Facades.WeaponActionFacade;
 using ProjectExodus.GameLogic.Scene.SceneStartup;

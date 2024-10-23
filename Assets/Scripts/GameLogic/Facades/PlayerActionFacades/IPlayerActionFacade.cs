@@ -2,7 +2,7 @@ using ProjectExodus.Backend.UseCases.PlayerUseCases.CreatePlayer;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.GetPlayer;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.UpdatePlayer;
 
-namespace ProjectExodus.GameLogic.Facades.PlayerControllers
+namespace ProjectExodus.GameLogic.Facades.PlayerActionFacades
 {
 
     public interface IPlayerActionFacade

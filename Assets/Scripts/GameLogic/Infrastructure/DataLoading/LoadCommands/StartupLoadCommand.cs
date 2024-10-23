@@ -2,7 +2,7 @@ using System;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.GetPlayer;
 using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Models;
-using ProjectExodus.GameLogic.Facades.PlayerControllers;
+using ProjectExodus.GameLogic.Facades.PlayerActionFacades;
 using ProjectExodus.Management.GameSaveManager;
 using UnityEngine;
 
