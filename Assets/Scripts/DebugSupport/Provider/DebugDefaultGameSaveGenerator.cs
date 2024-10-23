@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.UpdatePlayer;
-using ProjectExodus.DebugSupport.Presenters;
+using ProjectExodus.DebugSupport.OutputHandlers;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Facades.PlayerControllers;
@@ -25,6 +26,7 @@ namespace ProjectExodus.DebugSupport.Provider
 
         public GameSaveModel GeneratedGameSave;
 
+        private readonly IDataContext m_DataContext;
         private readonly IGameSaveFacade m_GameSaveFacade;
         private readonly IPlayerActionFacade m_PlayerActionFacade;
         private readonly IShipActionFacade m_ShipActionFacade;
@@ -35,11 +37,13 @@ namespace ProjectExodus.DebugSupport.Provider
         #region - - - - - - Constructors - - - - - -
 
         public DebugDefaultGameSaveGenerator(
+            IDataContext dataContext,
             IGameSaveFacade gameSaveFacade,
             IPlayerActionFacade playerActionFacade,
             IShipActionFacade shipActionFacade,
             IWeaponActionFacade weaponActionFacade)
         {
+            this.m_DataContext = dataContext ?? throw new ArgumentNullException(nameof(dataContext));
             this.m_GameSaveFacade = gameSaveFacade ?? throw new ArgumentNullException(nameof(gameSaveFacade));
             this.m_PlayerActionFacade = playerActionFacade ?? throw new ArgumentNullException(nameof(playerActionFacade));
             this.m_ShipActionFacade = shipActionFacade ?? throw new ArgumentNullException(nameof(shipActionFacade));
@@ -95,6 +99,8 @@ namespace ProjectExodus.DebugSupport.Provider
 
             // Set the resulting game save
             this.GeneratedGameSave = _CreateGameSaveOutputHandler.Result;
+            this.m_DataContext.SaveChanges();
+            
             yield return null;
         }
 

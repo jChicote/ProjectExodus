@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using ProjectExodus.Backend.UseCases.WeaponUseCases.CreateWeapon;
 using ProjectExodus.Domain.Models;
 
-namespace ProjectExodus.DebugSupport.Presenters
+namespace ProjectExodus.DebugSupport.OutputHandlers
 {
 
     public class DebugCreateWeapoOutputHandler : ICreateWeaponOutputPort

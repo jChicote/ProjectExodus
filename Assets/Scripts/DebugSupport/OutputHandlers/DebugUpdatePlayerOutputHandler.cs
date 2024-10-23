@@ -4,7 +4,7 @@ using ProjectExodus.Backend.UseCases.PlayerUseCases.UpdatePlayer;
 using ProjectExodus.Domain.Models;
 using UnityEngine;
 
-namespace ProjectExodus.DebugSupport.Presenters
+namespace ProjectExodus.DebugSupport.OutputHandlers
 {
 
     public class DebugUpdatePlayerOutputHandler : IUpdatePlayerOutputPort

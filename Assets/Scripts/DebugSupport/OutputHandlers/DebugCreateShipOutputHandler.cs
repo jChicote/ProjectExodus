@@ -2,7 +2,7 @@ using System;
 using ProjectExodus.Backend.UseCases.ShipUseCases.CreateShip;
 using ProjectExodus.Domain.Models;
 
-namespace ProjectExodus.DebugSupport.Presenters
+namespace ProjectExodus.DebugSupport.OutputHandlers
 {
 
     public class DebugCreateShipOutputHandler : ICreateShipOutputPort

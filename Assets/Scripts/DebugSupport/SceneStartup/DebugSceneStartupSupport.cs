@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
 using System.Linq;
+using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Common.Services;
-using ProjectExodus.DebugSupport.Presenters;
+using ProjectExodus.DebugSupport.OutputHandlers;
 using ProjectExodus.DebugSupport.Provider;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Enumeration;
@@ -11,7 +12,6 @@ using ProjectExodus.GameLogic.Facades.PlayerControllers;
 using ProjectExodus.GameLogic.Facades.ShipActionFacade;
 using ProjectExodus.GameLogic.Facades.WeaponActionFacade;
 using ProjectExodus.GameLogic.Scene.SceneStartup;
-using ProjectExodus.GameLogic.Weapons;
 using ProjectExodus.Management.GameSaveManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -83,6 +83,7 @@ namespace ProjectExodus.DebugSupport.SceneStartup
                     gs.GameSaveName != DebugGameContansts.DEBUG_GAMESAVENAME))
             {
                 DebugDefaultGameSaveGenerator _Generator = new(
+                    _ServiceLocator.GetService<IDataContext>(),
                     _GameSaveFacade,
                     _ServiceLocator.GetService<IPlayerActionFacade>(),
                     _ServiceLocator.GetService<IShipActionFacade>(),
