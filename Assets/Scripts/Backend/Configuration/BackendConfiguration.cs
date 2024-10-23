@@ -97,7 +97,7 @@ namespace ProjectExodus.Backend.Configuration
             // GameSave
             this.m_ServiceLocator.RegisterService(
                 (IUseCaseInteractor<CreateGameSaveInputPort, ICreateGameSaveOutputPort>) 
-                    new CreateGameSaveInteractor(_DataContext, this.m_Mapper, _GameSaveRepository));
+                    new CreateGameSaveInteractor(_DataContext, this.m_Mapper));
             this.m_ServiceLocator.RegisterService(
                 (IUseCaseInteractor<DeleteGameSaveInputPort, IDeleteGameSaveOutputPort>)
                     new DeleteGameSaveInteractor(_GameSaveRepository));
