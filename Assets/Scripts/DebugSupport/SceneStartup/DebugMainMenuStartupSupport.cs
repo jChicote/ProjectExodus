@@ -28,9 +28,9 @@ namespace ProjectExodus.DebugSupport.SceneStartup
 
         #region - - - - - - Methods - - - - - -
 
-        public override void ActivateSceneObjects()
+        public override void ActivateScene()
         {
-            base.ActivateSceneObjects();
+            base.ActivateScene();
             
             IUserInterfaceController _UserInterfaceController =
                 Object.FindFirstObjectByType<MainMenuInterfacesController>();

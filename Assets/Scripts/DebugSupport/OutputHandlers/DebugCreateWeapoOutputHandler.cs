@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using ProjectExodus.Backend.UseCases.WeaponUseCases.CreateWeapon;
 using ProjectExodus.Domain.Models;
 

@@ -1,5 +1,3 @@
-using System;
-using ProjectExodus.Backend.UseCases.PlayerUseCases.CreatePlayer;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.UpdatePlayer;
 using ProjectExodus.Domain.Models;
 using UnityEngine;

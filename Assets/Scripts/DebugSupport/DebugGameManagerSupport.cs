@@ -32,7 +32,7 @@ namespace ProjectExodus.DebugSupport
             DebugSceneStartupSupport _SceneStartupSupport = Object.FindFirstObjectByType<DebugSceneStartupSupport>();
             GameStartupHandler _GameStartupHandler = Object.FindFirstObjectByType<GameStartupHandler>();
             if (_SceneStartupSupport != null) 
-                _GameStartupHandler.OnGameSetupCompletion.AddListener(_SceneStartupSupport.ActivateSceneObjects);
+                _GameStartupHandler.OnGameSetupCompletion.AddListener(_SceneStartupSupport.ActivateScene);
             
             this.IN_DEVELOPMENT = _SceneStartupSupport.IsSceneInDevelopment;
         }

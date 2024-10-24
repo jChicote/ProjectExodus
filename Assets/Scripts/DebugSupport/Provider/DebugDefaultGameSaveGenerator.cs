@@ -55,7 +55,7 @@ namespace ProjectExodus.DebugSupport.Provider
 
         #region - - - - - - Methods - - - - - -
 
-        public IEnumerator GenerateDefaultGameSave()
+        public void GenerateDefaultGameSave()
         {
             // Create the weapons
             List<DebugCreateWeapoOutputHandler> _CreateWeaponOutputHandlers = new List<DebugCreateWeapoOutputHandler>();
@@ -100,8 +100,6 @@ namespace ProjectExodus.DebugSupport.Provider
             // Set the resulting game save
             this.GeneratedGameSave = _CreateGameSaveOutputHandler.Result;
             this.m_DataContext.SaveChanges();
-            
-            yield return null;
         }
 
         #endregion Methods

@@ -1,4 +1,3 @@
-using System;
 using ProjectExodus.Backend.UseCases.ShipUseCases.CreateShip;
 using ProjectExodus.Domain.Models;
 
