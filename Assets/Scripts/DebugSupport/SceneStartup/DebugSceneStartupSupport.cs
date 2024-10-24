@@ -11,7 +11,7 @@ using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Facades.PlayerActionFacades;
 using ProjectExodus.GameLogic.Facades.ShipActionFacade;
 using ProjectExodus.GameLogic.Facades.WeaponActionFacade;
-using ProjectExodus.GameLogic.Scene.SceneStartup;
+using ProjectExodus.GameLogic.Scene.SetupHandlers;
 using ProjectExodus.Management.GameSaveManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;

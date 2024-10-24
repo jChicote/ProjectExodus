@@ -18,7 +18,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Object = UnityEngine.Object;
 
-namespace ProjectExodus.GameLogic.GameStartup
+namespace ProjectExodus.GameLogic.SetupHandlers
 {
 
     /// <summary>

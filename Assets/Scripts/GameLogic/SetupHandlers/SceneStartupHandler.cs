@@ -19,7 +19,7 @@ using ProjectExodus.UserInterface.LoadingScreen;
 using UnityEngine;
 using PlayerProvider = ProjectExodus.GameLogic.Player.PlayerProvider.PlayerProvider;
 
-namespace ProjectExodus.GameLogic.Scene.SceneStartup
+namespace ProjectExodus.GameLogic.Scene.SetupHandlers
 {
 
     public class SceneStartupHandler : MonoBehaviour

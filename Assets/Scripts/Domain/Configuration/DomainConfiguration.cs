@@ -8,7 +8,6 @@ using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Entities;
 using ProjectExodus.Domain.Infrastructure.Providers;
 using ProjectExodus.Domain.Services;
-using ProjectExodus.GameLogic.GameStartup;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.ScriptableObjects;
 
