@@ -111,16 +111,6 @@ namespace ProjectExodus.GameLogic.Scene.SetupHandlers
             // Temp: The first ship object is used.
             ShipModel _ShipToSpawn = this.m_StartupDataOptions.Player.Ships.First();
             
-            // Debug Only 
-            // ShipModel _ShipToSpawn = new ShipModel();
-            // List<WeaponModel> _DebugWeaponData = new List<WeaponModel>
-            // {
-            //     new() { AssetID = 0, AssignedBayID = 999 },
-            //     new() { AssetID = 0, AssignedBayID = 888 },
-            //     new() { AssetID = 0, AssignedBayID = 777 }
-            // };
-            // _ShipToSpawn.Weapons = _DebugWeaponData;
-            
             // Create Player ship
             GameObject _Player = ((IPlayerSpawner)this.PlayerSpawner)
                 .SpawnPlayer(_ShipToSpawn);
