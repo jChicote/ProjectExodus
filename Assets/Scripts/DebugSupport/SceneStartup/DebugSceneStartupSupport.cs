@@ -1,7 +1,18 @@
 using System;
+using System.Collections;
 using System.Linq;
+using ProjectExodus.Backend.JsonDataContext;
+using ProjectExodus.Common.Services;
+using ProjectExodus.DebugSupport.OutputHandlers;
+using ProjectExodus.DebugSupport.Provider;
+using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Enumeration;
-using ProjectExodus.GameLogic.Scene.SceneStartup;
+using ProjectExodus.GameLogic.Facades.GameSaveFacade;
+using ProjectExodus.GameLogic.Facades.PlayerActionFacades;
+using ProjectExodus.GameLogic.Facades.ShipActionFacade;
+using ProjectExodus.GameLogic.Facades.WeaponActionFacade;
+using ProjectExodus.GameLogic.Scene.SetupHandlers;
+using ProjectExodus.Management.GameSaveManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
@@ -53,26 +64,26 @@ namespace ProjectExodus.DebugSupport.SceneStartup
 
         #region - - - - - - Methods - - - - - -
 
-        public virtual void ActivateSceneObjects()
-        {
-            foreach (GameObject _SceneObject in this.m_ActiveSceneObjects)
-            {
-                if (!_SceneObject.layer.Equals(GameLayer.Ignore))
-                    _SceneObject.SetActive(true);
-            }
+        public virtual void ActivateScene() 
+            => this.StartCoroutine(this.HandleSceneActivationWithDefaultData());
 
-            // Clear debug object collection from memory
-            this.m_ActiveSceneObjects = Array.Empty<GameObject>();
+        private IEnumerator HandleSceneActivationWithDefaultData()
+        {
+            this.SetGameSave();
+            this.ActivateSceneObjects();
             
             // Run the scene startup behavior
             SceneStartupHandler _StartupHandler =
                 Object.FindFirstObjectByType<SceneStartupHandler>(FindObjectsInactive.Exclude);
-            if (_StartupHandler == null) return;
+            if (_StartupHandler != null)
+            {
+                _StartupHandler.InitialiseSceneStartupController(
+                    GameManager.Instance.InputManager, 
+                    GameManager.Instance.ServiceLocator);
+                this.StartCoroutine(_StartupHandler.RunSceneStartup());
+            }
             
-            _StartupHandler.InitialiseSceneStartupController(
-                GameManager.Instance.InputManager, 
-                GameManager.Instance.ServiceLocator);
-            this.StartCoroutine(_StartupHandler.RunSceneStartup());
+            yield return null;
         }
 
         protected void LoadPersistenceScene()
@@ -84,9 +95,19 @@ namespace ProjectExodus.DebugSupport.SceneStartup
             SceneManager.LoadScene(GameScenes.PersistenceScene.GetValue(), LoadSceneMode.Additive);
         }
 
+        private void ActivateSceneObjects()
+        {
+            foreach (GameObject _SceneObject in this.m_ActiveSceneObjects)
+            {
+                if (!_SceneObject.layer.Equals(GameLayer.Ignore))
+                    _SceneObject.SetActive(true);
+            }
+
+            this.m_ActiveSceneObjects = Array.Empty<GameObject>();
+        }
+
         private void DeactivateScene()
         {
-            // Move gameobject to root
             this.gameObject.transform.parent = null;
             
             // Disable all scene object
@@ -97,6 +118,39 @@ namespace ProjectExodus.DebugSupport.SceneStartup
                     && _SceneObject.GetInstanceID() != this.gameObject.GetInstanceID())
                     _SceneObject.SetActive(false);
             }
+        }
+
+        private void SetGameSave()
+        {
+            IServiceLocator _ServiceLocator = GameManager.Instance.ServiceLocator;
+            IGameSaveFacade _GameSaveFacade = _ServiceLocator.GetService<IGameSaveFacade>();
+            DebugGetGameSavesPresenter _GameSavePresenter = new DebugGetGameSavesPresenter();
+            _GameSaveFacade.GetGameSaves(_GameSavePresenter);
+
+            GameSaveModel _DebugGameSaveModel = new();
+            if (_GameSavePresenter.Result.All(gs => 
+                    gs.GameSaveName != DebugGameContansts.DEBUG_GAMESAVENAME))
+            {
+                // Generate GameSave if no instance is found
+                DebugDefaultGameSaveGenerator _Generator = new(
+                    _ServiceLocator.GetService<IDataContext>(),
+                    _GameSaveFacade,
+                    _ServiceLocator.GetService<IPlayerActionFacade>(),
+                    _ServiceLocator.GetService<IShipActionFacade>(),
+                    _ServiceLocator.GetService<IWeaponActionFacade>());
+                
+                _Generator.GenerateDefaultGameSave();
+                _DebugGameSaveModel = _Generator.GeneratedGameSave;
+            }
+            else
+            {
+                _DebugGameSaveModel =
+                    _GameSavePresenter.Result
+                        .Single(gs => gs.GameSaveName == DebugGameContansts.DEBUG_GAMESAVENAME);
+            }
+            
+            IGameSaveManager _GameSaveManager = _ServiceLocator.GetService<IGameSaveManager>();
+            _GameSaveManager.SetGameSave(_DebugGameSaveModel);
         }
 
         protected bool ValidateSupportRequirements() 

@@ -1,7 +1,6 @@
 using ProjectExodus.DebugSupport.SceneStartup;
-using ProjectExodus.GameLogic.GameStartup;
+using ProjectExodus.GameLogic.SetupHandlers;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace ProjectExodus.DebugSupport
 {
@@ -13,7 +12,7 @@ namespace ProjectExodus.DebugSupport
     {
 
         #region - - - - - - Fields - - - - - -
-
+        
         // Debug Flag
         public bool IN_DEVELOPMENT = false;
 
@@ -32,7 +31,7 @@ namespace ProjectExodus.DebugSupport
             DebugSceneStartupSupport _SceneStartupSupport = Object.FindFirstObjectByType<DebugSceneStartupSupport>();
             GameStartupHandler _GameStartupHandler = Object.FindFirstObjectByType<GameStartupHandler>();
             if (_SceneStartupSupport != null) 
-                _GameStartupHandler.OnGameSetupCompletion.AddListener(_SceneStartupSupport.ActivateSceneObjects);
+                _GameStartupHandler.OnGameSetupCompletion.AddListener(_SceneStartupSupport.ActivateScene);
             
             this.IN_DEVELOPMENT = _SceneStartupSupport.IsSceneInDevelopment;
         }

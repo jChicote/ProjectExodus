@@ -1,4 +1,5 @@
-using ProjectExodus.GameLogic.Player;
+using ProjectExodus.GameLogic.Player.Movement;
+using ProjectExodus.GameLogic.Player.Weapons;
 
 namespace ProjectExodus.GameLogic.Input.Gameplay
 {
@@ -9,6 +10,8 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
         #region - - - - - - Properties - - - - - -
 
         public IPlayerMovement PlayerMovement { get; set; }
+        
+        public IPlayerWeaponSystems PlayerWeaponSystems { get; set; }
 
         #endregion Properties
   

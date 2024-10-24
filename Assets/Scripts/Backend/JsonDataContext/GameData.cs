@@ -15,6 +15,12 @@ namespace ProjectExodus.Backend.JsonDataContext
 
         public List<GameSave> GameSaves = new();
 
+        public List<Player> Players = new();
+
+        public List<Ship> Ships = new();
+
+        public List<Weapon> Weapons = new();
+
         #endregion Fields
 
     }

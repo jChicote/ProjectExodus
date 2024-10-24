@@ -1,5 +1,5 @@
 using ProjectExodus.Common.Services;
-using ProjectExodus.GameLogic.Scene.SceneStartup;
+using ProjectExodus.GameLogic.Scene.SetupHandlers;
 using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Scene

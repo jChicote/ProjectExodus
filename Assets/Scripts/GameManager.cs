@@ -3,10 +3,10 @@ using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.GameOptionsFacade;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
-using ProjectExodus.GameLogic.GameStartup;
 using ProjectExodus.GameLogic.Infrastructure;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.GameLogic.Settings;
+using ProjectExodus.GameLogic.SetupHandlers;
 using ProjectExodus.Management.AudioManager;
 using ProjectExodus.Management.EventManager;
 using ProjectExodus.Management.GameStateManager;
@@ -123,8 +123,8 @@ namespace ProjectExodus
             this.m_ObjectMapper = this.ServiceLocator.GetService<IObjectMapper>();
 
             // Set use case facades
-            this.m_GameOptionsFacade = this.ServiceLocator.GetService<GameOptionsFacade>();
-            this.m_GameSaveFacade = this.ServiceLocator.GetService<GameSaveFacade>();
+            this.m_GameOptionsFacade = this.ServiceLocator.GetService<IGameOptionsFacade>();
+            this.m_GameSaveFacade = this.ServiceLocator.GetService<IGameSaveFacade>();
         }
 
         #endregion Methods

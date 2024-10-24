@@ -19,6 +19,8 @@ namespace ProjectExodus.Domain.Entities
 
         public DateTime LastAccessedDate;
 
+        public Guid PlayerID;
+
         public int ProfileImageID;
 
         #endregion Fields

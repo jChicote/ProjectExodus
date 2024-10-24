@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Scene;
 using UnityEngine;
 
@@ -16,9 +17,17 @@ namespace ProjectExodus.Management.SceneManager
         #region - - - - - - Fields - - - - - -
 
         private ISceneController m_ActiveSceneController; // Debug Only
+        private PlayerModel m_CurrentPlayer;
 
         #endregion Fields
 
+        #region - - - - - - Properties' - - - - - -
+
+        public PlayerModel Player
+            => this.m_CurrentPlayer;
+
+        #endregion Properties'
+  
         #region - - - - - - Initialisers - - - - - -
 
         void ISceneManager.InitialiseSceneManager() 
@@ -51,6 +60,9 @@ namespace ProjectExodus.Management.SceneManager
             this.m_ActiveSceneController = this.GetAllActiveSceneControllers().FirstOrDefault();
             return this.m_ActiveSceneController;
         }
+
+        void ISceneManager.SetCurrentPlayerModel(PlayerModel currentPlayer) 
+            => this.m_CurrentPlayer = currentPlayer;
 
         private bool DoesMultipleSceneControllersExist() 
             => this.GetAllActiveSceneControllers().Length > 0;

@@ -1,4 +1,5 @@
 using System;
+using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Backend.Repositories;
 using ProjectExodus.Domain.Entities;
 using ProjectExodus.Domain.Models;
@@ -13,17 +14,19 @@ namespace ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave
 
         #region - - - - - - Fields - - - - - -
 
+        private readonly IDataContext m_DataContext;
         private readonly IObjectMapper m_Mapper;
-        private readonly IDataRepository<GameSave> m_Repository;
 
         #endregion Fields
 
         #region - - - - - - Constructors - - - - - -
 
-        public CreateGameSaveInteractor(IObjectMapper objectMapper, IDataRepository<GameSave> repository)
+        public CreateGameSaveInteractor(
+            IDataContext dataContext, 
+            IObjectMapper objectMapper)
         {
+            this.m_DataContext = dataContext ?? throw new ArgumentNullException(nameof(dataContext));
             this.m_Mapper = objectMapper ?? throw new ArgumentNullException(nameof(objectMapper));
-            this.m_Repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
         #endregion Constructors
@@ -34,9 +37,15 @@ namespace ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave
             CreateGameSaveInputPort inputPort, 
             ICreateGameSaveOutputPort outputPort)
         {
+            // Create new player for save
+            Player _Player = new Player();
+            _Player.ID = Guid.NewGuid();
+            this.m_DataContext.Add(_Player);
+            
             GameSave _GameSave = new GameSave();
             this.m_Mapper.Map(inputPort, _GameSave);
-            this.m_Repository.Create(_GameSave);
+            _GameSave.PlayerID = _Player.ID;
+            this.m_DataContext.Add(_GameSave);
 
             outputPort.PresentCreatedGameSave(this.m_Mapper.Map(_GameSave, new GameSaveModel()));
         }

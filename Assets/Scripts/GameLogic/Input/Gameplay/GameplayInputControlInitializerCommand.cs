@@ -1,6 +1,7 @@
 using System;
 using ProjectExodus.Common.Services;
-using ProjectExodus.GameLogic.Player;
+using ProjectExodus.GameLogic.Player.Movement;
+using ProjectExodus.GameLogic.Player.Weapons;
 using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Input.Gameplay
@@ -36,10 +37,11 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void ICommand.Execute()
         {
-            GameplayInputControlServiceContainer _ServiceContainer = new GameplayInputControlServiceContainer();
-            _ServiceContainer.PlayerMovement = this.m_ActivePlayer.GetComponent<IPlayerMovement>();
+            GameplayInputControlServiceContainer _ServiceControllers = new GameplayInputControlServiceContainer();
+            _ServiceControllers.PlayerMovement = this.m_ActivePlayer.GetComponent<IPlayerMovement>();
+            _ServiceControllers.PlayerWeaponSystems = this.m_ActivePlayer.GetComponent<IPlayerWeaponSystems>();
             
-            this.m_GameplayInputControl.SetServiceContainer(_ServiceContainer);
+            this.m_GameplayInputControl.SetServiceContainer(_ServiceControllers);
         }
 
         bool ICommand.CanExecute() => true; // No validation currently needed.
