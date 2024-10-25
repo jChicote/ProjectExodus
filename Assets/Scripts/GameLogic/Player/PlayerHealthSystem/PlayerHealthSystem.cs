@@ -24,7 +24,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
 
         void IDamageable.SendDamage(float damage)
         {
-            float _PlatingDamage =
+            float _PlatingDamage = 
                 this.m_CurrentShieldHealth > damage ? 0 : damage - this.m_CurrentShieldHealth;
             
             if (this.m_CurrentShieldHealth >= 0)
