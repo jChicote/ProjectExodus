@@ -13,7 +13,7 @@ namespace ProjectExodus.Domain.Models
         public Guid ID { get; set; }
 
         public List<ShipModel> Ships { get; set; } = new();
-
+        
         #endregion Properties
 
     }
