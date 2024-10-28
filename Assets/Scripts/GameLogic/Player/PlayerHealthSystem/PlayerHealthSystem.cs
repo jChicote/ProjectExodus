@@ -28,15 +28,12 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
                 this.m_CurrentShieldHealth > damage ? 0 : damage - this.m_CurrentShieldHealth;
             
             if (this.m_CurrentShieldHealth >= 0)
-            {
                 this.m_CurrentShieldHealth -= damage;
-                Math.Clamp(this.m_CurrentShieldHealth, 0, this.m_MaxShieldHealth);
-            }
             else
-            {
                 this.m_CurrentPlatingHealth -= _PlatingDamage;
-                Math.Clamp(this.m_CurrentPlatingHealth, 0, this.m_MaxPlatingHealth);
-            }
+            
+            Math.Clamp(this.m_CurrentShieldHealth, 0, this.m_MaxShieldHealth);
+            Math.Clamp(this.m_CurrentPlatingHealth, 0, this.m_MaxPlatingHealth);
         }
 
         void IPlayerHealthSystem.SetHealth(float platingHealth, float shieldHealth)

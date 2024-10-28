@@ -8,6 +8,7 @@ using ProjectExodus.GameLogic.Facades.PlayerActionFacades;
 using ProjectExodus.GameLogic.Infrastructure.DataLoading;
 using ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
+using ProjectExodus.GameLogic.Player.PlayerHealthSystem;
 using ProjectExodus.GameLogic.Player.PlayerSpawner;
 using ProjectExodus.GameLogic.Player.Weapons;
 using ProjectExodus.Management.Enumeration;
@@ -117,6 +118,7 @@ namespace ProjectExodus.GameLogic.Scene.SetupHandlers
             _Player.GetComponent<IPlayerWeaponSystems>().InitialiseWeaponSystems(
                 this.m_ServiceLocator.GetService<IWeaponAssetProvider>(),
                 _ShipToSpawn.Weapons.ToList());
+            _Player.GetComponent<IPlayerHealthSystem>().SetHealth(100, 100); // This should moved into a command
             this.m_InputManager.DisableActiveInputControl();
             
             GameManager.Instance.SceneManager.SetCurrentPlayerModel(this.m_StartupDataOptions.Player);

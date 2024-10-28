@@ -14,6 +14,10 @@ namespace ProjectExodus.ScriptableObjects.AssetEntities
 
         public GameObject Asset;
 
+        public float BaseShieldHealth;
+
+        public float BasePlatingHealth;
+
         #endregion Fields
 
     }

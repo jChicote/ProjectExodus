@@ -16,6 +16,8 @@ MonoBehaviour:
   - ID: 0
     Name: Red Reliable
     Asset: {fileID: 3396301712567387330, guid: 6d9992b4460aa814cb0ff2cf06876893, type: 3}
+    BaseShieldHealth: 50
+    BasePlatingHealth: 50
   WeaponPrefabs:
   - ID: 0
     Name: Turrent
