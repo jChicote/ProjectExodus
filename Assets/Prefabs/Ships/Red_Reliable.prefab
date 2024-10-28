@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3978855414522041511}
   - component: {fileID: 9111556964303807427}
   - component: {fileID: 4067972612123224677}
+  - component: {fileID: 2292532457163706279}
   m_Layer: 0
   m_Name: Red_Reliable
   m_TagString: Untagged
@@ -107,8 +108,8 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Size: {x: 1.55, y: 1.77}
+  m_EdgeRadius: 0.18
 --- !u!114 &9111556964303807427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,6 +143,18 @@ MonoBehaviour:
   - {fileID: 8592353287472700428}
   - {fileID: 2936394163811811206}
   m_WeaponPrefab: {fileID: 2792052741373065619, guid: 3b0bfcb30d9904a8d89ca204cd068948, type: 3}
+--- !u!114 &2292532457163706279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3396301712567387330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32fc34d4cb33461894ed27b2e0527420, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3558195065215818036
 GameObject:
   m_ObjectHideFlags: 0

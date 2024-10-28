@@ -110,3 +110,7 @@ Desktop.ini
 #GameCI
 /[Aa]rtifacts/
 /[Cc]odeCoverage/
+
+#Nuget Plugins
+**/[Pp]ackages/*
+**/NuGet/*
