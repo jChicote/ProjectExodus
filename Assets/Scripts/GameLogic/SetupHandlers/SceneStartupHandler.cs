@@ -97,10 +97,9 @@ namespace ProjectExodus.GameLogic.Scene.SetupHandlers
         private IEnumerator SetupSceneServicesAndControllers()
         {
             ((IPlayerSpawner)this.PlayerSpawner).InitialisePlayerSpawner(
-                this.CameraController, 
-                this.m_InputManager, 
                 this.PlayerProvider,
-                this.m_ServiceLocator.GetService<IShipAssetProvider>());
+                this.m_ServiceLocator.GetService<IShipAssetProvider>(),
+                this.m_ServiceLocator.GetService<IWeaponAssetProvider>());
             
             this.m_LoadingScreenController.UpdateLoadProgress(40f);
             yield return null;

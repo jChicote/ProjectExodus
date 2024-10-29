@@ -1,11 +1,9 @@
 using System;
 using System.Linq;
 using ProjectExodus.Domain.Models;
-using ProjectExodus.GameLogic.Camera;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.GameLogic.Player.PlayerHealthSystem;
 using ProjectExodus.GameLogic.Player.Weapons;
-using ProjectExodus.Management.InputManager;
 using ProjectExodus.ScriptableObjects.AssetEntities;
 using UnityEngine;
 using IPlayerProvider = ProjectExodus.GameLogic.Player.PlayerProvider.IPlayerProvider;
@@ -18,11 +16,8 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
 
         #region - - - - - - Fields - - - - - -
 
-        private ICameraController m_CameraController;
-        private IShipAssetProvider m_ShipAssetProvider;
         private IPlayerProvider m_PlayerProvider;
-        private IInputManager m_InputManager;
-
+        private IShipAssetProvider m_ShipAssetProvider;
         private IWeaponAssetProvider m_WeaponAssetProvider;
 
         #endregion Fields
@@ -30,15 +25,14 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
         #region - - - - - - Initializers - - - - - -
         
         void IPlayerSpawner.InitialisePlayerSpawner(
-            ICameraController cameraController, 
-            IInputManager inputManager, 
             IPlayerProvider playerProvider,
-            IShipAssetProvider shipAssetProvider)
+            IShipAssetProvider shipAssetProvider,
+            IWeaponAssetProvider weaponAssetProvider)
         {
-            this.m_CameraController = cameraController ?? throw new ArgumentNullException(nameof(cameraController));
-            this.m_InputManager = inputManager ?? throw new ArgumentNullException(nameof(inputManager));
             this.m_PlayerProvider = playerProvider ?? throw new ArgumentNullException(nameof(playerProvider));
             this.m_ShipAssetProvider = shipAssetProvider ?? throw new ArgumentNullException(nameof(shipAssetProvider));
+            this.m_WeaponAssetProvider =
+                weaponAssetProvider ?? throw new ArgumentNullException(nameof(weaponAssetProvider));
         }
 
         #endregion Initializers
