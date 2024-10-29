@@ -1,8 +1,12 @@
 using System;
+using System.Linq;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Camera;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
+using ProjectExodus.GameLogic.Player.PlayerHealthSystem;
+using ProjectExodus.GameLogic.Player.Weapons;
 using ProjectExodus.Management.InputManager;
+using ProjectExodus.ScriptableObjects.AssetEntities;
 using UnityEngine;
 using IPlayerProvider = ProjectExodus.GameLogic.Player.PlayerProvider.IPlayerProvider;
 
@@ -18,6 +22,8 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
         private IShipAssetProvider m_ShipAssetProvider;
         private IPlayerProvider m_PlayerProvider;
         private IInputManager m_InputManager;
+
+        private IWeaponAssetProvider m_WeaponAssetProvider;
 
         #endregion Fields
 
@@ -47,19 +53,20 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
                 return this.m_PlayerProvider.GetActivePlayer();
             }
 
-            GameObject _ShipPrefab = this.m_ShipAssetProvider.Provide(shipToSpawn.AssetID).Asset;
-            GameObject _PlayerShip = Instantiate(_ShipPrefab, Vector2.zero, this.transform.rotation);
-            this.m_PlayerProvider.SetActivePlayer(_PlayerShip);
-            this.m_CameraController.SetCameraFollowTarget(_PlayerShip.transform);
-            this.ConfigurePlayer(_PlayerShip);
+            // Create Player Ship
+            ShipAssetObject _ShipAsset = this.m_ShipAssetProvider.Provide(shipToSpawn.AssetID);
+            GameObject _PlayerShip = Instantiate(_ShipAsset.Asset, Vector2.zero, this.transform.rotation);
+            
+            // Setup Weapons
+            _PlayerShip.GetComponent<IPlayerWeaponSystems>()
+                .InitialiseWeaponSystems(this.m_WeaponAssetProvider, shipToSpawn.Weapons.ToList());
+            
+            // Setup health system
+            _PlayerShip.GetComponent<IPlayerHealthSystem>().SetHealth(
+                    _ShipAsset.BaseShieldHealth + shipToSpawn.ShieldHealthModifier, 
+                    _ShipAsset.BasePlatingHealth + shipToSpawn.PlatingHealthModifier);
 
             return _PlayerShip;
-        }
-
-        private void ConfigurePlayer(GameObject playerInstance)
-        {
-            this.m_InputManager.PossesGameplayInputControls();
-            this.m_InputManager.EnableActiveInputControl();
         }
 
         #endregion Methods

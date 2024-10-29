@@ -8,9 +8,7 @@ using ProjectExodus.GameLogic.Facades.PlayerActionFacades;
 using ProjectExodus.GameLogic.Infrastructure.DataLoading;
 using ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
-using ProjectExodus.GameLogic.Player.PlayerHealthSystem;
 using ProjectExodus.GameLogic.Player.PlayerSpawner;
-using ProjectExodus.GameLogic.Player.Weapons;
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.GameSaveManager;
 using ProjectExodus.Management.InputManager;
@@ -18,6 +16,7 @@ using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.UserInterface.Controllers;
 using ProjectExodus.UserInterface.LoadingScreen;
 using UnityEngine;
+using IPlayerProvider = ProjectExodus.GameLogic.Player.PlayerProvider.IPlayerProvider;
 using PlayerProvider = ProjectExodus.GameLogic.Player.PlayerProvider.PlayerProvider;
 
 namespace ProjectExodus.GameLogic.Scene.SetupHandlers
@@ -113,15 +112,14 @@ namespace ProjectExodus.GameLogic.Scene.SetupHandlers
             ShipModel _ShipToSpawn = this.m_StartupDataOptions.Player.Ships.First();
             
             // Create Player ship
-            GameObject _Player = ((IPlayerSpawner)this.PlayerSpawner)
-                .SpawnPlayer(_ShipToSpawn);
-            _Player.GetComponent<IPlayerWeaponSystems>().InitialiseWeaponSystems(
-                this.m_ServiceLocator.GetService<IWeaponAssetProvider>(),
-                _ShipToSpawn.Weapons.ToList());
-            _Player.GetComponent<IPlayerHealthSystem>().SetHealth(100, 100); // This should moved into a command
-            this.m_InputManager.DisableActiveInputControl();
-            
+            GameObject _Player = ((IPlayerSpawner)this.PlayerSpawner).SpawnPlayer(_ShipToSpawn);
+            ((ICameraController)this.CameraController).SetCameraFollowTarget(_Player.transform);
+            ((IPlayerProvider)this.PlayerProvider).SetActivePlayer(_Player);
             GameManager.Instance.SceneManager.SetCurrentPlayerModel(this.m_StartupDataOptions.Player);
+            
+            // Hook to input system
+            this.m_InputManager.PossesGameplayInputControls();
+            this.m_InputManager.DisableActiveInputControl();
             
             this.m_LoadingScreenController.UpdateLoadProgress(60f);
             yield return null;
