@@ -4,7 +4,7 @@ using UnityEngine.UI;
 namespace ProjectExodus.UserInterface.GameplayHUD
 {
 
-    public class GameplayHUDView : MonoBehaviour
+    public class GameplayHUDView : MonoBehaviour, IGameplayHUDView
     {
 
         #region - - - - - - Fields - - - - - -
@@ -16,7 +16,42 @@ namespace ProjectExodus.UserInterface.GameplayHUD
         [Space]
         [SerializeField] private Button m_PauseButton;
 
+        private int m_MaxAmmoCount;
+        private float m_MaxPlatingHealth;
+        private float m_MaxShieldHealth;
+
         #endregion Fields
+
+        #region - - - - - - Initializers - - - - - -
+
+        void IGameplayHUDView.Initialize(int maxAmmoCount, float maxPlatingHealth, float maxShieldHealth)
+        {
+            this.m_MaxAmmoCount = maxAmmoCount;
+            this.m_MaxPlatingHealth = maxPlatingHealth;
+            this.m_MaxShieldHealth = maxShieldHealth;
+        }
+
+        #endregion Initializers
+  
+        #region - - - - - - Methods - - - - - -
+        void IGameplayHUDView.BindToViewModel(IGameplayHUDNotifyEvents viewNotifyEvents)
+        {
+            viewNotifyEvents.OnAmmoCountUpdate += this.UpdateAmmoCount;
+            viewNotifyEvents.OnShipHealthUpdate += this.UpdateHealthBars;
+            
+            this.m_PauseButton.onClick.AddListener(viewNotifyEvents.PauseGameCommand.Execute);
+        }
+
+        private void UpdateHealthBars(float platingHealth, float shieldHealth)
+        {
+            this.m_PlatingHealthBar.value = platingHealth / this.m_MaxPlatingHealth;
+            this.m_ShieldHealthBar.value = shieldHealth / this.m_MaxShieldHealth;
+        }
+
+        private void UpdateAmmoCount(int ammoCount) 
+            => this.m_WeaponAmmoCountBar.value = (float)ammoCount / (float)this.m_MaxAmmoCount;
+
+        #endregion Methods
 
     }
 
