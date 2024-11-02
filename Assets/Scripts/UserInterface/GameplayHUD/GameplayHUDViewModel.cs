@@ -7,7 +7,7 @@ using UnityEngine;
 namespace ProjectExodus.UserInterface.GameplayHUD
 {
 
-    public class GameplayHUDViewModel : MonoBehaviour, IGameplayHUDNotifyEvents
+    public class GameplayHUDViewModel : IGameplayHUDNotifyEvents
     {
         
         #region - - - - - - Fields - - - - - -
@@ -41,7 +41,7 @@ namespace ProjectExodus.UserInterface.GameplayHUD
   
         #region - - - - - - Events - - - - - -
 
-        public event Action<float, float> OnShipHealthUpdate;
+        public event Action<HealthBarsStatusDto> OnShipHealthUpdate;
 
         public event Action<int> OnAmmoCountUpdate;
 
@@ -54,21 +54,32 @@ namespace ProjectExodus.UserInterface.GameplayHUD
 
         private void RegisterMediatorActions()
         {
-            // this.m_Mediator.Register<(
-            //     GameplayHUDMediatorEvent.HealthBars_Update,
-            //     this.OnShipHealthUpdate.Invoke);
+            this.m_Mediator.Register<HealthBarsStatusDto>(
+                GameplayHUDMediatorEvent.HealthBars_Update,
+                dto => this.OnShipHealthUpdate?.Invoke(dto));
             
             this.m_Mediator.Register<int>(
-                    GameplayHUDMediatorEvent.AmmoCountBar_Update,
-                    this.OnAmmoCountUpdate.Invoke);
+                GameplayHUDMediatorEvent.AmmoCountBar_Update,
+                ammoCount => this.OnAmmoCountUpdate?.Invoke(ammoCount));
         }
 
         private void PauseGame()
-        {
-            
-        }
+            => Debug.LogWarning("[WARNING]: No pause game behavior has been implemented.");
 
         #endregion Methods
+  
+    }
+
+    public class HealthBarsStatusDto
+    {
+
+        #region - - - - - - Properties - - - - - -
+
+        public float PlatingHealth { get; set; }
+
+        public float ShieldHealth { get; set; }
+
+        #endregion Properties
   
     }
 

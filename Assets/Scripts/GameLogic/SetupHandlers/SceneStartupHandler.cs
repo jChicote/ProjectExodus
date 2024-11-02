@@ -14,9 +14,13 @@ using ProjectExodus.Management.GameSaveManager;
 using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.UserInterface.Controllers;
+using ProjectExodus.UserInterface.GameplayHUD;
+using ProjectExodus.UserInterface.GameplayHUD.Initializer;
+using ProjectExodus.UserInterface.GameplayHUD.Mediator;
 using ProjectExodus.UserInterface.LoadingScreen;
 using UnityEngine;
 using IPlayerProvider = ProjectExodus.GameLogic.Player.PlayerProvider.IPlayerProvider;
+using Object = System.Object;
 using PlayerProvider = ProjectExodus.GameLogic.Player.PlayerProvider.PlayerProvider;
 
 namespace ProjectExodus.GameLogic.Scene.SetupHandlers
@@ -136,7 +140,12 @@ namespace ProjectExodus.GameLogic.Scene.SetupHandlers
             IUserInterfaceController _ActiveUserInterfaceController =
                 _UserInterfaceManager.GetTheActiveUserInterfaceController();
             _ActiveUserInterfaceController.OpenScreen(UIScreenType.GameplayHUD);
-            
+            //
+            // ICommand _GameplayHUDInitializerCommand = new GameplayHUDInitializerCommand(
+            //     FindFirstObjectByType<GameplayHUDView>(FindObjectsInactive.Exclude),
+            //     this.m_ServiceLocator.GetService<IGameplayHUDMediator>(),
+            //     )
+            //
             // Note: This method will bind to the HUD
             this.m_LoadingScreenController.UpdateLoadProgress(100f);
             yield return null;

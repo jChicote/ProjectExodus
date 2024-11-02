@@ -17,7 +17,7 @@ namespace ProjectExodus.UserInterface.GameplayHUD
 
         event Action<int> OnAmmoCountUpdate;
 
-        event Action<float, float> OnShipHealthUpdate;
+        event Action<HealthBarsStatusDto> OnShipHealthUpdate;
 
         #endregion Events
 

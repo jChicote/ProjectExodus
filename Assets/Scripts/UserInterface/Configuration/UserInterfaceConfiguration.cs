@@ -1,5 +1,7 @@
+using System;
 using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Mappers;
+using ProjectExodus.UserInterface.GameplayHUD.Mediator;
 using ProjectExodus.UserInterface.OptionsMenu;
 using ProjectExodus.UserInterface.OptionsMenu.AudioOptions;
 using ProjectExodus.UserInterface.OptionsMenu.GraphicsOptions;
@@ -18,13 +20,18 @@ namespace ProjectExodus.UserInterface.Configuration
         #region - - - - - - Fields - - - - - -
 
         private readonly IObjectMapperRegister m_ObjectMapperRegister;
+        private readonly IServiceLocator m_ServiceLocator;
 
         #endregion Fields
    
         #region - - - - - - Constructors - - - - - -
 
-        public UserInterfaceConfiguration(IObjectMapperRegister objectMapperRegister) 
-            => this.m_ObjectMapperRegister = objectMapperRegister;
+        public UserInterfaceConfiguration(IObjectMapperRegister objectMapperRegister, IServiceLocator serviceLocator)
+        {
+            this.m_ObjectMapperRegister =
+                objectMapperRegister ?? throw new ArgumentNullException(nameof(objectMapperRegister));
+            this.m_ServiceLocator = serviceLocator ?? throw new ArgumentNullException(nameof(serviceLocator));
+        }
 
         #endregion Constructors
   
@@ -32,12 +39,24 @@ namespace ProjectExodus.UserInterface.Configuration
 
         void IConfigure.Configure()
         {
+            this.ConfigureMappings();
+            this.ConfigureMediators();
+        }
+
+        private void ConfigureMappings()
+        {
             // Configure Mappers
             _ = new AudioOptionsMapper(this.m_ObjectMapperRegister);
             _ = new GraphicsOptionsMapper(this.m_ObjectMapperRegister);
             _ = new UserInterfaceOptionsMapper(this.m_ObjectMapperRegister);
             
             _ = new GameSaveSelectionMenuMapper(this.m_ObjectMapperRegister);
+        }
+
+        private void ConfigureMediators()
+        {
+            IGameplayHUDMediator _GameplayHUDMediator = new GameplayHUDMediator();
+            this.m_ServiceLocator.RegisterService(_GameplayHUDMediator);
         }
 
         #endregion Methods

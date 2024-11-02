@@ -42,14 +42,14 @@ namespace ProjectExodus.UserInterface.GameplayHUD
             this.m_PauseButton.onClick.AddListener(viewNotifyEvents.PauseGameCommand.Execute);
         }
 
-        private void UpdateHealthBars(float platingHealth, float shieldHealth)
+        private void UpdateHealthBars(HealthBarsStatusDto healthBarsDto)
         {
-            this.m_PlatingHealthBar.value = platingHealth / this.m_MaxPlatingHealth;
-            this.m_ShieldHealthBar.value = shieldHealth / this.m_MaxShieldHealth;
+            this.m_PlatingHealthBar.value = healthBarsDto.PlatingHealth / this.m_MaxPlatingHealth;
+            this.m_ShieldHealthBar.value = healthBarsDto.ShieldHealth / this.m_MaxShieldHealth;
         }
 
         private void UpdateAmmoCount(int ammoCount) 
-            => this.m_WeaponAmmoCountBar.value = (float)ammoCount / (float)this.m_MaxAmmoCount;
+            => this.m_WeaponAmmoCountBar.value = ammoCount / (float)this.m_MaxAmmoCount;
 
         #endregion Methods
 
