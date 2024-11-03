@@ -1,4 +1,5 @@
 using System;
+using Codice.CM.Common;
 using ProjectExodus.Common.Services;
 using ProjectExodus.UserInterface.GameplayHUD;
 using ProjectExodus.UserInterface.GameplayHUD.Initializer;
@@ -12,11 +13,18 @@ namespace ProjectExodus.StateManagement.ScreenStates
     public class GameplayHUDScreenState : MonoBehaviour, IScreenState
     {
 
+        #region - - - - - - Fields - - - - - -
+
+        private IGameplayHUDMediator m_Mediator;
+        
+        #endregion Fields
+  
         #region - - - - - - Initializers - - - - - -
 
         void IScreenState.Initialize()
         {
-            throw new NotImplementedException();
+            IServiceLocator _ServiceLocator = GameManager.Instance.ServiceLocator;
+            this.m_Mediator = _ServiceLocator.GetService<IGameplayHUDMediator>();
         }
 
         #endregion Initializers
@@ -25,12 +33,14 @@ namespace ProjectExodus.StateManagement.ScreenStates
 
         void IScreenState.StartState()
         {
-            // ICommand _GameplayHUDInitializerCommand = new GameplayHUDInitializerCommand(
-            //     Object.FindFirstObjectByType<GameplayHUDView>(FindObjectsInactive.Exclude),
-            //     initializationContext.ServiceLocator.GetService<IGameplayHUDMediator>(),
-            //     _ShipAsset,
-            //     _ShipToSpawn);
-            // _GameplayHUDInitializerCommand.Execute();
+            // Check whether we are in scene and an active HUD instance exists
+            
+            ICommand _GameplayHUDInitializerCommand = new GameplayHUDInitializerCommand(
+                Object.FindFirstObjectByType<GameplayHUDView>(FindObjectsInactive.Exclude),
+                this.m_Mediator,
+                _ShipAsset,
+                _ShipToSpawn);
+            _GameplayHUDInitializerCommand.Execute();
         }
 
         void IScreenState.EndState() 

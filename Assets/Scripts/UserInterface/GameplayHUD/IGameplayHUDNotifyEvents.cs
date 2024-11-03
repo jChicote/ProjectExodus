@@ -1,10 +1,11 @@
 using System;
 using ProjectExodus.Common.Services;
+using ProjectExodus.UserInterface.Common;
 
 namespace ProjectExodus.UserInterface.GameplayHUD
 {
 
-    public interface IGameplayHUDNotifyEvents
+    public interface IGameplayHUDNotifyEvents : IGuiNotifyEvents
     {
 
         #region - - - - - - Fields - - - - - -

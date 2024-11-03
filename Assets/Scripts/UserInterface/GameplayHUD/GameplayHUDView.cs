@@ -9,6 +9,8 @@ namespace ProjectExodus.UserInterface.GameplayHUD
 
         #region - - - - - - Fields - - - - - -
 
+        [SerializeField] private GameObject m_ContentGroup;
+        
         [SerializeField] private Slider m_PlatingHealthBar;
         [SerializeField] private Slider m_ShieldHealthBar;
         [SerializeField] private Slider m_WeaponAmmoCountBar;
@@ -38,6 +40,8 @@ namespace ProjectExodus.UserInterface.GameplayHUD
         {
             viewNotifyEvents.OnAmmoCountUpdate += this.UpdateAmmoCount;
             viewNotifyEvents.OnShipHealthUpdate += this.UpdateHealthBars;
+            viewNotifyEvents.OnShowGui += () => { this.m_ContentGroup.SetActive(true); };
+            viewNotifyEvents.OnHideGui += () => { this.m_ContentGroup.SetActive(false);};
             
             this.m_PauseButton.onClick.AddListener(viewNotifyEvents.PauseGameCommand.Execute);
         }

@@ -22,6 +22,7 @@ namespace ProjectExodus.UserInterface.Controllers
 
         void IUserInterfaceController.InitialiseUserInterfaceController()
         {
+            this.m_GameplayHudScreenState = new GameplayHUDScreenState()
         }
 
         void IUserInterfaceController.OpenScreen(UIScreenType uiScreenType)

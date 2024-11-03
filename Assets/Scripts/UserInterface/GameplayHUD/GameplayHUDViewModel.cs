@@ -45,6 +45,10 @@ namespace ProjectExodus.UserInterface.GameplayHUD
 
         public event Action<int> OnAmmoCountUpdate;
 
+        public event Action OnHideGui;
+
+        public event Action OnShowGui;
+
         #endregion Events
 
         #region - - - - - - Methods - - - - - -
@@ -67,7 +71,7 @@ namespace ProjectExodus.UserInterface.GameplayHUD
             => Debug.LogWarning("[WARNING]: No pause game behavior has been implemented.");
 
         #endregion Methods
-  
+        
     }
 
     public class HealthBarsStatusDto
