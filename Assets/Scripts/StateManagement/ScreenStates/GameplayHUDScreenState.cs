@@ -34,13 +34,13 @@ namespace ProjectExodus.StateManagement.ScreenStates
         void IScreenState.StartState()
         {
             // Check whether we are in scene and an active HUD instance exists
-            
-            ICommand _GameplayHUDInitializerCommand = new GameplayHUDInitializerCommand(
-                Object.FindFirstObjectByType<GameplayHUDView>(FindObjectsInactive.Exclude),
-                this.m_Mediator,
-                _ShipAsset,
-                _ShipToSpawn);
-            _GameplayHUDInitializerCommand.Execute();
+            //
+            // ICommand _GameplayHUDInitializerCommand = new GameplayHUDInitializerCommand(
+            //     Object.FindFirstObjectByType<GameplayHUDView>(FindObjectsInactive.Exclude),
+            //     this.m_Mediator,
+            //     _ShipAsset,
+            //     _ShipToSpawn);
+            // _GameplayHUDInitializerCommand.Execute();
         }
 
         void IScreenState.EndState() 
