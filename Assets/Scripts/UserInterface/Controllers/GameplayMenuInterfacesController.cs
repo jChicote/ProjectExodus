@@ -1,4 +1,3 @@
-using System;
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.StateManagement.ScreenStates;
 using UnityEngine;
@@ -23,7 +22,6 @@ namespace ProjectExodus.UserInterface.Controllers
 
         void IUserInterfaceController.InitialiseUserInterfaceController()
         {
-            throw new NotImplementedException();
         }
 
         void IUserInterfaceController.OpenScreen(UIScreenType uiScreenType)

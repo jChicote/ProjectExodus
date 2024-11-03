@@ -1,26 +1,18 @@
 using System;
 using System.Collections;
-using System.Linq;
+using GameLogic.SetupHandlers;
+using GameLogic.SetupHandlers.SceneHandlers;
 using ProjectExodus.Common.Services;
-using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Camera;
 using ProjectExodus.GameLogic.Facades.PlayerActionFacades;
 using ProjectExodus.GameLogic.Infrastructure.DataLoading;
 using ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.GameLogic.Player.PlayerSpawner;
-using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.GameSaveManager;
 using ProjectExodus.Management.InputManager;
-using ProjectExodus.Management.UserInterfaceManager;
-using ProjectExodus.UserInterface.Controllers;
-using ProjectExodus.UserInterface.GameplayHUD;
-using ProjectExodus.UserInterface.GameplayHUD.Initializer;
-using ProjectExodus.UserInterface.GameplayHUD.Mediator;
 using ProjectExodus.UserInterface.LoadingScreen;
 using UnityEngine;
-using IPlayerProvider = ProjectExodus.GameLogic.Player.PlayerProvider.IPlayerProvider;
-using Object = System.Object;
 using PlayerProvider = ProjectExodus.GameLogic.Player.PlayerProvider.PlayerProvider;
 
 namespace ProjectExodus.GameLogic.Scene.SetupHandlers
@@ -70,7 +62,6 @@ namespace ProjectExodus.GameLogic.Scene.SetupHandlers
             yield return this.StartCoroutine(this.SetupSceneServicesAndControllers());
             yield return this.StartCoroutine(this.SetupPlayer());
             yield return this.StartCoroutine(this.SetupEnemies());
-            yield return this.StartCoroutine(this.SetupGameplayHUD());
             yield return this.StartCoroutine(this.CompleteGameStartup());
             
             Debug.Log("[LOG]: The scene is now prepared.");
@@ -100,31 +91,25 @@ namespace ProjectExodus.GameLogic.Scene.SetupHandlers
 
         private IEnumerator SetupSceneServicesAndControllers()
         {
-            ((IPlayerSpawner)this.PlayerSpawner).InitialisePlayerSpawner(
-                this.PlayerProvider,
-                this.m_ServiceLocator.GetService<IShipAssetProvider>(),
-                this.m_ServiceLocator.GetService<IWeaponAssetProvider>());
-            
             this.m_LoadingScreenController.UpdateLoadProgress(40f);
             yield return null;
         }
 
         private IEnumerator SetupPlayer()
         {
-            // Temp: The first ship object is used.
-            ShipModel _ShipToSpawn = this.m_StartupDataOptions.Player.Ships.First();
+            ISetupHandler _PlayerSetupHandler = new PlayerSetupHandler(
+                this.m_InputManager,
+                this.CameraController,
+                this.PlayerProvider,
+                this.PlayerSpawner,
+                this.m_ServiceLocator.GetService<IShipAssetProvider>());
+            _PlayerSetupHandler.Handle(new SceneSetupInitializationContext()
+            {
+                LoadingScreenController = this.m_LoadingScreenController,
+                ServiceLocator = this.m_ServiceLocator,
+                StartupDataOptions = this.m_StartupDataOptions
+            });
             
-            // Create Player ship
-            GameObject _Player = ((IPlayerSpawner)this.PlayerSpawner).SpawnPlayerShip(_ShipToSpawn);
-            ((ICameraController)this.CameraController).SetCameraFollowTarget(_Player.transform);
-            ((IPlayerProvider)this.PlayerProvider).SetActivePlayer(_Player);
-            GameManager.Instance.SceneManager.SetCurrentPlayerModel(this.m_StartupDataOptions.Player);
-            
-            // Hook to input system
-            this.m_InputManager.PossesGameplayInputControls();
-            this.m_InputManager.DisableActiveInputControl();
-            
-            this.m_LoadingScreenController.UpdateLoadProgress(60f);
             yield return null;
         }
 
@@ -132,23 +117,6 @@ namespace ProjectExodus.GameLogic.Scene.SetupHandlers
         {
             yield return new WaitForSeconds(2); // Debug
             this.m_LoadingScreenController.UpdateLoadProgress(80f);
-        }
-
-        private IEnumerator SetupGameplayHUD()
-        {
-            IUserInterfaceManager _UserInterfaceManager = this.m_ServiceLocator.GetService<IUserInterfaceManager>();
-            IUserInterfaceController _ActiveUserInterfaceController =
-                _UserInterfaceManager.GetTheActiveUserInterfaceController();
-            _ActiveUserInterfaceController.OpenScreen(UIScreenType.GameplayHUD);
-            //
-            // ICommand _GameplayHUDInitializerCommand = new GameplayHUDInitializerCommand(
-            //     FindFirstObjectByType<GameplayHUDView>(FindObjectsInactive.Exclude),
-            //     this.m_ServiceLocator.GetService<IGameplayHUDMediator>(),
-            //     )
-            //
-            // Note: This method will bind to the HUD
-            this.m_LoadingScreenController.UpdateLoadProgress(100f);
-            yield return null;
         }
 
         private IEnumerator CompleteGameStartup()

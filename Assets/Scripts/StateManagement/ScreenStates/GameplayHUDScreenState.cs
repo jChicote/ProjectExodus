@@ -1,14 +1,16 @@
 using System;
-using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
+using ProjectExodus.Common.Services;
 using ProjectExodus.UserInterface.GameplayHUD;
+using ProjectExodus.UserInterface.GameplayHUD.Initializer;
+using ProjectExodus.UserInterface.GameplayHUD.Mediator;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace ProjectExodus.StateManagement.ScreenStates
 {
 
     public class GameplayHUDScreenState : MonoBehaviour, IScreenState
     {
-
 
         #region - - - - - - Initializers - - - - - -
 
@@ -21,8 +23,15 @@ namespace ProjectExodus.StateManagement.ScreenStates
   
         #region - - - - - - Methods - - - - - -
 
-        void IScreenState.StartState() 
-            => Debug.LogWarning("[WARNING]: Gameplay HUD is not implemented.");
+        void IScreenState.StartState()
+        {
+            // ICommand _GameplayHUDInitializerCommand = new GameplayHUDInitializerCommand(
+            //     Object.FindFirstObjectByType<GameplayHUDView>(FindObjectsInactive.Exclude),
+            //     initializationContext.ServiceLocator.GetService<IGameplayHUDMediator>(),
+            //     _ShipAsset,
+            //     _ShipToSpawn);
+            // _GameplayHUDInitializerCommand.Execute();
+        }
 
         void IScreenState.EndState() 
             => Debug.LogWarning("[WARNING]: Gameplay HUD is not implemented.");

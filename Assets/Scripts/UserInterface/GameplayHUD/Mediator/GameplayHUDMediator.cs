@@ -67,6 +67,12 @@ namespace ProjectExodus.UserInterface.GameplayHUD.Mediator
                 _ActionHandler.Invoke(parameter);
         }
 
+        void IGameplayHUDMediator.ClearRegisteredActions()
+        {
+            this.m_ParameterizedHandlers.Clear();
+            this.m_ParameterlessHandlers.Clear();
+        }
+
         #endregion Methods
         
     }
