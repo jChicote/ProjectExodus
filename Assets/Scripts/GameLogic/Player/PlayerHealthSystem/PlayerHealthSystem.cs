@@ -1,6 +1,10 @@
 using System;
 using ProjectExodus.GameLogic.Common.Health;
+using ProjectExodus.Management.Enumeration;
+using ProjectExodus.UserInterface.Controllers;
+using ProjectExodus.UserInterface.GameplayHUD;
 using UnityEngine;
+using UnityEngine.InputSystem.Android;
 
 namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
 {
@@ -10,13 +14,15 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
 
         #region - - - - - - Fields - - - - - -
 
+        private IGameplayHUDController m_GameplayHUDController;
+
         private float m_CurrentPlatingHealth;
         private float m_CurrentShieldHealth;
         private float m_MaxPlatingHealth;
         private float m_MaxShieldHealth;
 
         #endregion Fields
-  
+
         #region - - - - - - Methods - - - - - -
 
         bool IDamageable.CanDamage() 
@@ -46,6 +52,12 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
             this.m_CurrentShieldHealth = shieldHealth;
             this.m_MaxPlatingHealth = platingHealth;
             this.m_MaxShieldHealth = shieldHealth;
+        }
+        
+        void IPlayerHealthSystem.SetHUDController(IGameplayHUDController gameplayHUDController)
+        {
+            this.m_GameplayHUDController =
+                gameplayHUDController ?? throw new ArgumentNullException(nameof(gameplayHUDController));
         }
 
         #endregion Methods

@@ -1,3 +1,5 @@
+using ProjectExodus.UserInterface.GameplayHUD;
+
 namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
 {
 
@@ -7,6 +9,8 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
         #region - - - - - - Methods - - - - - -
 
         void SetHealth(float platingHealth, float shieldHealth);
+
+        void SetHUDController(IGameplayHUDController gameplayHUDController);
 
         #endregion Methods
 

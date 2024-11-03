@@ -15,6 +15,8 @@
 
         void EndState();
 
+        object GetInterfaceController();
+
         #endregion Methods
 
     }

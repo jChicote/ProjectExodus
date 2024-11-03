@@ -1,5 +1,6 @@
 using ProjectExodus.Common.Services;
 using ProjectExodus.UserInterface;
+using ProjectExodus.UserInterface.GameplayHUD;
 using ProjectExodus.UserInterface.GameplayHUD.Initializer;
 using UnityEngine;
 
@@ -34,6 +35,9 @@ namespace ProjectExodus.StateManagement.ScreenStates
 
         void IScreenState.EndState()
             => this.m_ScreenController.HideScreen();
+
+        object IScreenState.GetInterfaceController()
+            => this.GetComponent<IGameplayHUDController>();
 
         #endregion Methods
 

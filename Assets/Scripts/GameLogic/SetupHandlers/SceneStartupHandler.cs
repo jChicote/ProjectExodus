@@ -101,8 +101,7 @@ namespace ProjectExodus.GameLogic.Scene.SetupHandlers
                 this.m_InputManager,
                 this.CameraController,
                 this.PlayerProvider,
-                this.PlayerSpawner,
-                this.m_ServiceLocator.GetService<IShipAssetProvider>());
+                this.PlayerSpawner);
             _PlayerSetupHandler.Handle(new SceneSetupInitializationContext()
             {
                 LoadingScreenController = this.m_LoadingScreenController,

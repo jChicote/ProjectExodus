@@ -1,5 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
+using Button = UnityEngine.UI.Button;
+using Slider = UnityEngine.UI.Slider;
 
 namespace ProjectExodus.UserInterface.GameplayHUD
 {
@@ -14,32 +15,19 @@ namespace ProjectExodus.UserInterface.GameplayHUD
         [Space]
         [SerializeField] private Slider m_PlatingHealthBar;
         [SerializeField] private Slider m_ShieldHealthBar;
-        [SerializeField] private Slider m_WeaponAmmoCountBar;
         
         [Space]
         [SerializeField] private Button m_PauseButton;
 
-        private int m_MaxAmmoCount;
         private float m_MaxPlatingHealth;
         private float m_MaxShieldHealth;
 
         #endregion Fields
-
-        #region - - - - - - Initializers - - - - - -
-
-        void IGameplayHUDView.Initialize(int maxAmmoCount, float maxPlatingHealth, float maxShieldHealth)
-        {
-            this.m_MaxAmmoCount = maxAmmoCount;
-            this.m_MaxPlatingHealth = maxPlatingHealth;
-            this.m_MaxShieldHealth = maxShieldHealth;
-        }
-
-        #endregion Initializers
   
         #region - - - - - - Methods - - - - - -
+        
         void IGameplayHUDView.BindToViewModel(IGameplayHUDNotifyEvents viewNotifyEvents)
         {
-            viewNotifyEvents.OnAmmoCountUpdate += this.UpdateAmmoCount;
             viewNotifyEvents.OnShipHealthUpdate += this.UpdateHealthBars;
             viewNotifyEvents.OnShowGui += () => { this.m_ContentGroup.SetActive(true); };
             viewNotifyEvents.OnHideGui += () => { this.m_ContentGroup.SetActive(false);};
@@ -47,17 +35,33 @@ namespace ProjectExodus.UserInterface.GameplayHUD
             this.m_PauseButton.onClick.AddListener(viewNotifyEvents.PauseGameCommand.Execute);
         }
 
+        void IGameplayHUDView.SetGameplayHUDValues(GameplayHUDValues values)
+        {
+            this.m_MaxPlatingHealth = values.MaxPlatingHealth;
+            this.m_MaxShieldHealth = values.MaxShieldHealth;
+        }
+        
         private void UpdateHealthBars(HealthBarsStatusDto healthBarsDto)
         {
             this.m_PlatingHealthBar.value = healthBarsDto.PlatingHealth / this.m_MaxPlatingHealth;
             this.m_ShieldHealthBar.value = healthBarsDto.ShieldHealth / this.m_MaxShieldHealth;
         }
 
-        private void UpdateAmmoCount(int ammoCount) 
-            => this.m_WeaponAmmoCountBar.value = ammoCount / (float)this.m_MaxAmmoCount;
-
         #endregion Methods
 
+    }
+
+    public class GameplayHUDValues
+    {
+
+        #region - - - - - - Properties - - - - - -
+
+        public float MaxPlatingHealth { get; set; }
+        
+        public float MaxShieldHealth { get; set; }
+
+        #endregion Properties
+  
     }
 
 }

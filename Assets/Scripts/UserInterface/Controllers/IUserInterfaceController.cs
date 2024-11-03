@@ -14,6 +14,8 @@ namespace ProjectExodus.UserInterface.Controllers
 
         void OpenPreviousScreen();
 
+        bool TryGetInterfaceController(out object interfaceController);
+
         #endregion Methods
 
     }

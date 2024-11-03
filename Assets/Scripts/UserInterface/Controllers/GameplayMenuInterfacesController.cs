@@ -46,8 +46,14 @@ namespace ProjectExodus.UserInterface.Controllers
             this.m_CurrentScreenState.StartState();
         }
 
+        bool IUserInterfaceController.TryGetInterfaceController(out object interfaceController)
+        {
+            interfaceController = this.m_CurrentScreenState?.GetInterfaceController();
+            return interfaceController == null;
+        }
+
         #endregion Methods
-  
+
     }
 
 }

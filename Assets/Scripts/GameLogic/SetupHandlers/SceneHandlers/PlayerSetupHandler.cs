@@ -4,12 +4,13 @@ using ProjectExodus;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Camera;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
+using ProjectExodus.GameLogic.Player.PlayerHealthSystem;
 using ProjectExodus.GameLogic.Player.PlayerSpawner;
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.UserInterfaceManager;
-using ProjectExodus.ScriptableObjects.AssetEntities;
 using ProjectExodus.UserInterface.Controllers;
+using ProjectExodus.UserInterface.GameplayHUD;
 using UnityEngine;
 using IPlayerProvider = ProjectExodus.GameLogic.Player.PlayerProvider.IPlayerProvider;
 
@@ -26,7 +27,6 @@ namespace GameLogic.SetupHandlers.SceneHandlers
         private ISetupHandler m_NextHandler;
         private IPlayerProvider m_PlayerProvider;
         private IPlayerSpawner m_PlayerSpawner;
-        private IShipAssetProvider m_ShipAssetProvider;
 
         #endregion Fields
 
@@ -36,14 +36,12 @@ namespace GameLogic.SetupHandlers.SceneHandlers
             IInputManager inputManager,
             ICameraController cameraController,
             IPlayerProvider playerProvider,
-            IPlayerSpawner playerSpawner,
-            IShipAssetProvider shipAssetProvider)
+            IPlayerSpawner playerSpawner)
         {
             this.m_InputManager = inputManager ?? throw new ArgumentNullException(nameof(inputManager));
             this.m_CameraController = cameraController ?? throw new ArgumentNullException(nameof(cameraController));
             this.m_PlayerProvider = playerProvider ?? throw new ArgumentNullException(nameof(playerProvider));
             this.m_PlayerSpawner = playerSpawner ?? throw new ArgumentNullException(nameof(playerSpawner));
-            this.m_ShipAssetProvider = shipAssetProvider ?? throw new ArgumentNullException(nameof(shipAssetProvider));
         }
 
         #endregion Constructors
@@ -55,9 +53,12 @@ namespace GameLogic.SetupHandlers.SceneHandlers
 
         void ISetupHandler.Handle(SceneSetupInitializationContext initializationContext)
         {
+            this.m_PlayerSpawner.InitialisePlayerSpawner(
+                initializationContext.ServiceLocator.GetService<IShipAssetProvider>(),
+                initializationContext.ServiceLocator.GetService<IWeaponAssetProvider>());
+            
             // Temp: The first ship object is used.
             ShipModel _ShipToSpawn = initializationContext.StartupDataOptions.Player.Ships.First();
-            ShipAssetObject _ShipAsset = this.m_ShipAssetProvider.Provide(_ShipToSpawn.AssetID);
             
             // Create Player ship
             GameObject _Player = this.m_PlayerSpawner.SpawnPlayerShip(_ShipToSpawn);
@@ -76,13 +77,14 @@ namespace GameLogic.SetupHandlers.SceneHandlers
                 _UserInterfaceManager.GetTheActiveUserInterfaceController();
             _ActiveUserInterfaceController.OpenScreen(UIScreenType.GameplayHUD);
             
-            // ICommand _GameplayHUDInitializerCommand = new GameplayHUDInitializerCommand(
-            //     Object.FindFirstObjectByType<GameplayHUDView>(FindObjectsInactive.Exclude),
-            //     this.m_Mediator,
-            //     _ShipAsset,
-            //     _ShipToSpawn);
-            // _GameplayHUDInitializerCommand.Execute();
-
+            // Set hud values
+            if (_ActiveUserInterfaceController.TryGetInterfaceController(out object _IntefaceController))
+            {
+                IGameplayHUDController _HUDController = _IntefaceController as IGameplayHUDController;
+                IPlayerHealthSystem _HealthSystem = _Player.GetComponent<IPlayerHealthSystem>();
+                _HealthSystem.SetHUDController(_HUDController);
+            }
+            
             initializationContext.LoadingScreenController.UpdateLoadProgress(60f);
             this.m_NextHandler?.Handle(initializationContext);
         }

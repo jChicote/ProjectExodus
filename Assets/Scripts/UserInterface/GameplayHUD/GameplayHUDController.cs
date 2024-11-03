@@ -11,6 +11,7 @@ namespace ProjectExodus.UserInterface.GameplayHUD
         #region - - - - - - Fields - - - - - -
 
         private IGameplayHUDMediator m_Mediator;
+        private IGameplayHUDView m_View;
 
         #endregion Fields
   
@@ -23,6 +24,9 @@ namespace ProjectExodus.UserInterface.GameplayHUD
         #endregion Initializers
 
         #region - - - - - - Methods - - - - - -
+
+        void IGameplayHUDController.SetHUDValues(GameplayHUDValues values) 
+            => this.m_View.SetGameplayHUDValues(values);
 
         void IScreenStateController.HideScreen() 
             => this.m_Mediator.Invoke(GameplayHUDMediatorEvent.GameplayHUD_InVisible);

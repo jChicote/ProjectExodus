@@ -28,6 +28,9 @@ namespace ProjectExodus.StateManagement.ScreenStates
 
         void IScreenState.EndState()
             => this.m_ScreenController.HideScreen();
+        
+        object IScreenState.GetInterfaceController()
+            => this.GetComponent<IGameSaveSelectionMenuController>();
 
         #endregion Methods
 
