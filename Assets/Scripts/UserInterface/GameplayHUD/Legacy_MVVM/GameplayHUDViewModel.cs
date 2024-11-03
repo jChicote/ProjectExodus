@@ -7,6 +7,7 @@ using UnityEngine;
 namespace ProjectExodus.UserInterface.GameplayHUD
 {
 
+    [Obsolete]
     public class GameplayHUDViewModel : IGameplayHUDNotifyEvents
     {
         

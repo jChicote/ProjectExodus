@@ -1,6 +1,9 @@
+using System;
+
 namespace ProjectExodus.UserInterface.GameplayHUD
 {
 
+    [Obsolete]
     public interface IGameplayHUDView
     {
 

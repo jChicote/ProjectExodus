@@ -1,3 +1,4 @@
+using System;
 using ProjectExodus.Common.Services;
 using ProjectExodus.UserInterface.GameplayHUD.Mediator;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 namespace ProjectExodus.UserInterface.GameplayHUD.Initializer
 {
 
+    [Obsolete]
     public class GameplayHUDInitializerCommand : ICommand
     {
 

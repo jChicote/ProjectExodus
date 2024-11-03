@@ -5,6 +5,7 @@ using ProjectExodus.UserInterface.Common;
 namespace ProjectExodus.UserInterface.GameplayHUD
 {
 
+    [Obsolete]
     public interface IGameplayHUDNotifyEvents : IGuiNotifyEvents
     {
 

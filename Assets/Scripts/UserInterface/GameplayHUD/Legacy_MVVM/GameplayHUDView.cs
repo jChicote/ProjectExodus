@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Button = UnityEngine.UI.Button;
 using Slider = UnityEngine.UI.Slider;
@@ -5,6 +6,7 @@ using Slider = UnityEngine.UI.Slider;
 namespace ProjectExodus.UserInterface.GameplayHUD
 {
 
+    [Obsolete]
     public class GameplayHUDView : MonoBehaviour, IGameplayHUDView
     {
 
