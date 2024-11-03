@@ -60,6 +60,14 @@ namespace GameLogic.SetupHandlers.SceneHandlers
             // Temp: The first ship object is used.
             ShipModel _ShipToSpawn = initializationContext.StartupDataOptions.Player.Ships.First();
             
+            // Setup Gameplay HUD
+            IUserInterfaceManager _UserInterfaceManager = 
+                initializationContext.ServiceLocator.GetService<IUserInterfaceManager>();
+            IUserInterfaceController _ActiveUserInterfaceController =
+                _UserInterfaceManager.GetTheActiveUserInterfaceController();
+            _ActiveUserInterfaceController.InitialiseUserInterfaceController();
+            _ActiveUserInterfaceController.OpenScreen(UIScreenType.GameplayHUD);
+            
             // Create Player ship
             GameObject _Player = this.m_PlayerSpawner.SpawnPlayerShip(_ShipToSpawn);
             this.m_CameraController.SetCameraFollowTarget(_Player.transform);
@@ -70,19 +78,16 @@ namespace GameLogic.SetupHandlers.SceneHandlers
             this.m_InputManager.PossesGameplayInputControls();
             this.m_InputManager.DisableActiveInputControl();
             
-            // Setup Gameplay HUD
-            IUserInterfaceManager _UserInterfaceManager = 
-                initializationContext.ServiceLocator.GetService<IUserInterfaceManager>();
-            IUserInterfaceController _ActiveUserInterfaceController =
-                _UserInterfaceManager.GetTheActiveUserInterfaceController();
-            _ActiveUserInterfaceController.OpenScreen(UIScreenType.GameplayHUD);
-            
             // Set hud values
             if (_ActiveUserInterfaceController.TryGetInterfaceController(out object _IntefaceController))
             {
                 IGameplayHUDController _HUDController = _IntefaceController as IGameplayHUDController;
                 IPlayerHealthSystem _HealthSystem = _Player.GetComponent<IPlayerHealthSystem>();
                 _HealthSystem.SetHUDController(_HUDController);
+            }
+            else
+            {
+                Debug.LogWarning("[WARNING]: No HUD was found.");
             }
             
             initializationContext.LoadingScreenController.UpdateLoadProgress(60f);

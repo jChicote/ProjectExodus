@@ -1,5 +1,6 @@
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.StateManagement.ScreenStates;
+using ProjectExodus.UserInterface.GameplayHUD;
 using UnityEngine;
 
 namespace ProjectExodus.UserInterface.Controllers
@@ -20,8 +21,16 @@ namespace ProjectExodus.UserInterface.Controllers
 
         #region - - - - - - Methods - - - - - -
 
-        void IUserInterfaceController.InitialiseUserInterfaceController() 
-            => ((IScreenState)this.m_GameplayHudScreenState).Initialize();
+        void IUserInterfaceController.InitialiseUserInterfaceController()
+        {
+            ((IScreenState)this.m_GameplayHudScreenState).Initialize();
+            var _GameplayHUDController =
+                this.m_GameplayHudScreenState.gameObject.GetComponent<IGameplayHUDController>();
+            _GameplayHUDController.Initialize();
+            
+            // A bit unusual for the controller's initialisation to occur from retrieving a related components
+            // Additionally the initialise method may be thrown around in different areas. Might be a concern.
+        }
 
         void IUserInterfaceController.OpenScreen(UIScreenType uiScreenType)
         {

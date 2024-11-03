@@ -1,5 +1,3 @@
-using System;
-using ProjectExodus.UserInterface.GameplayHUD.Mediator;
 using UnityEngine;
 
 namespace ProjectExodus.UserInterface.GameplayHUD
@@ -10,29 +8,36 @@ namespace ProjectExodus.UserInterface.GameplayHUD
 
         #region - - - - - - Fields - - - - - -
 
-        private IGameplayHUDMediator m_Mediator;
-        private IGameplayHUDView m_View;
+        private GameplayHUDView m_View;
 
         #endregion Fields
   
         #region - - - - - - Initializers - - - - - -
 
-        void IGameplayHUDController.Initialize(IGameplayHUDMediator gameplayHUDMediator) 
-            => this.m_Mediator =
-                gameplayHUDMediator ?? throw new ArgumentNullException(nameof(gameplayHUDMediator));
+        void IGameplayHUDController.Initialize()
+        {
+            this.m_View = this.GetComponent<GameplayHUDView>();
+            this.m_View.PauseButton.onClick.AddListener(this.PauseGame);
+        }
 
         #endregion Initializers
 
         #region - - - - - - Methods - - - - - -
 
-        void IGameplayHUDController.SetHUDValues(GameplayHUDValues values) 
-            => this.m_View.SetGameplayHUDValues(values);
+        void IGameplayHUDController.SetMaxHealthValues(float maxPlating, float maxShield)
+            => this.m_View.SetMaxHealthValues(maxPlating, maxShield);
 
+        void IGameplayHUDController.SetHealthValues(float platingHealth, float shieldHealth)
+            => this.m_View.UpdateHealthBars(platingHealth, shieldHealth);
+        
         void IScreenStateController.HideScreen() 
-            => this.m_Mediator.Invoke(GameplayHUDMediatorEvent.GameplayHUD_InVisible);
+            => this.m_View.HideHUD();
 
         void IScreenStateController.ShowScreen()
-            => this.m_Mediator.Invoke(GameplayHUDMediatorEvent.GameplayHUD_Visible);
+            => this.m_View.ShowHUD();
+
+        private void PauseGame() 
+            => Debug.LogWarning("[WARNING]: No pause behaviour implemented.");
 
         #endregion Methods
 

@@ -1,9 +1,10 @@
 using System;
 using ProjectExodus.Common.Services;
+using ProjectExodus.UserInterface.GameplayHUD.Legacy;
 using ProjectExodus.UserInterface.GameplayHUD.Mediator;
 using UnityEngine;
 
-namespace ProjectExodus.UserInterface.GameplayHUD.Initializer
+namespace ProjectExodus.UserInterface.GameplayHUD.Initializer.Legacy
 {
 
     [Obsolete]
@@ -34,7 +35,7 @@ namespace ProjectExodus.UserInterface.GameplayHUD.Initializer
             IGameplayHUDMediator _Mediator = new GameplayHUDMediator();
             _ = new GameplayHUDViewModel(_Mediator, this.m_View);
             
-            this.m_Controller.Initialize(_Mediator);
+            // this.m_Controller.Initialize(_Mediator);
         }
 
         bool ICommand.CanExecute() 

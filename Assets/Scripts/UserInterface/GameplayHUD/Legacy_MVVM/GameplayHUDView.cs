@@ -3,7 +3,7 @@ using UnityEngine;
 using Button = UnityEngine.UI.Button;
 using Slider = UnityEngine.UI.Slider;
 
-namespace ProjectExodus.UserInterface.GameplayHUD
+namespace ProjectExodus.UserInterface.GameplayHUD.Legacy
 {
 
     [Obsolete]

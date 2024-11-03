@@ -2,7 +2,7 @@ using System;
 using ProjectExodus.Common.Services;
 using ProjectExodus.UserInterface.Common;
 
-namespace ProjectExodus.UserInterface.GameplayHUD
+namespace ProjectExodus.UserInterface.GameplayHUD.Legacy
 {
 
     [Obsolete]

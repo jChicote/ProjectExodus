@@ -21,7 +21,6 @@ using ProjectExodus.UserInterface.GameSaveSelectionMenu.ProfileImageSelectionMod
 using UnityEngine;
 using UserInterface.GameSaveSelectionMenu.GameSaveSelectionMenuScreen;
 using UserInterface.GameSaveSelectionMenu.Mediator;
-using Object = System.Object;
 
 namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
 {

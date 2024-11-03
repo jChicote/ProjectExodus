@@ -4,7 +4,7 @@ using ProjectExodus.Common.Services;
 using ProjectExodus.UserInterface.GameplayHUD.Mediator;
 using UnityEngine;
 
-namespace ProjectExodus.UserInterface.GameplayHUD
+namespace ProjectExodus.UserInterface.GameplayHUD.Legacy
 {
 
     [Obsolete]

@@ -1,6 +1,6 @@
 using System;
 
-namespace ProjectExodus.UserInterface.GameplayHUD
+namespace ProjectExodus.UserInterface.GameplayHUD.Legacy
 {
 
     [Obsolete]

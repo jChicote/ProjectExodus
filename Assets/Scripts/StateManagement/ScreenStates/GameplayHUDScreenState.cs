@@ -1,7 +1,5 @@
-using ProjectExodus.Common.Services;
 using ProjectExodus.UserInterface;
 using ProjectExodus.UserInterface.GameplayHUD;
-using ProjectExodus.UserInterface.GameplayHUD.Initializer;
 using UnityEngine;
 
 namespace ProjectExodus.StateManagement.ScreenStates
@@ -18,13 +16,8 @@ namespace ProjectExodus.StateManagement.ScreenStates
   
         #region - - - - - - Initializers - - - - - -
 
-        void IScreenState.Initialize()
-        {
-            this.m_ScreenController = this.GetComponent<IScreenStateController>();
-            
-            ICommand _GameplayHUDInitializerCommand = new GameplayHUDInitializerCommand(this.gameObject);
-            _GameplayHUDInitializerCommand.Execute();
-        }
+        void IScreenState.Initialize() 
+            => this.m_ScreenController = this.GetComponent<IScreenStateController>();
 
         #endregion Initializers
   

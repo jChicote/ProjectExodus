@@ -8,14 +8,16 @@ namespace ProjectExodus.UserInterface.GameplayHUD
 
         #region - - - - - - Initializers - - - - - -
 
-        void Initialize(IGameplayHUDMediator gameplayHUDMediator);
+        void Initialize();
 
         #endregion Initializers
   
         #region - - - - - - Methods - - - - - -
 
-        void SetHUDValues(GameplayHUDValues values);
+        void SetMaxHealthValues(float maxPlating, float maxShield);
 
+        void SetHealthValues(float platingHealth, float shieldHealth);
+        
         #endregion Methods
 
     }
