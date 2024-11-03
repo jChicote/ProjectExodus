@@ -1,7 +1,6 @@
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
 using UnityEngine;
-using IPlayerProvider = ProjectExodus.GameLogic.Player.PlayerProvider.IPlayerProvider;
 
 namespace ProjectExodus.GameLogic.Player.PlayerSpawner
 {
@@ -12,11 +11,10 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
         #region - - - - - - Methods - - - - - -
 
         void InitialisePlayerSpawner(
-            IPlayerProvider playerProvider,
             IShipAssetProvider shipAssetProvider,
             IWeaponAssetProvider weaponAssetProvider);
 
-        GameObject SpawnPlayer(ShipModel shipToSpawn);
+        GameObject SpawnPlayerShip(ShipModel shipToSpawn);
 
         #endregion Methods
 

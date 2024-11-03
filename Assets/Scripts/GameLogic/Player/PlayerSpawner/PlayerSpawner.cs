@@ -16,7 +16,6 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
 
         #region - - - - - - Fields - - - - - -
 
-        private IPlayerProvider m_PlayerProvider;
         private IShipAssetProvider m_ShipAssetProvider;
         private IWeaponAssetProvider m_WeaponAssetProvider;
 
@@ -25,11 +24,9 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
         #region - - - - - - Initializers - - - - - -
         
         void IPlayerSpawner.InitialisePlayerSpawner(
-            IPlayerProvider playerProvider,
             IShipAssetProvider shipAssetProvider,
             IWeaponAssetProvider weaponAssetProvider)
         {
-            this.m_PlayerProvider = playerProvider ?? throw new ArgumentNullException(nameof(playerProvider));
             this.m_ShipAssetProvider = shipAssetProvider ?? throw new ArgumentNullException(nameof(shipAssetProvider));
             this.m_WeaponAssetProvider =
                 weaponAssetProvider ?? throw new ArgumentNullException(nameof(weaponAssetProvider));
@@ -39,15 +36,8 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
   
         #region - - - - - - Methods - - - - - -
 
-        GameObject IPlayerSpawner.SpawnPlayer(ShipModel shipToSpawn)
+        GameObject IPlayerSpawner.SpawnPlayerShip(ShipModel shipToSpawn)
         {
-            if (this.m_PlayerProvider.GetActivePlayer() != null)
-            {
-                Debug.LogWarning("[WARNING]: Active player has been found.");
-                return this.m_PlayerProvider.GetActivePlayer();
-            }
-
-            // Create Player Ship
             ShipAssetObject _ShipAsset = this.m_ShipAssetProvider.Provide(shipToSpawn.AssetID);
             GameObject _PlayerShip = Instantiate(_ShipAsset.Asset, Vector2.zero, this.transform.rotation);
             

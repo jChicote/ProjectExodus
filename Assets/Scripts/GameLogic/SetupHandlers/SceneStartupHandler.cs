@@ -115,7 +115,7 @@ namespace ProjectExodus.GameLogic.Scene.SetupHandlers
             ShipModel _ShipToSpawn = this.m_StartupDataOptions.Player.Ships.First();
             
             // Create Player ship
-            GameObject _Player = ((IPlayerSpawner)this.PlayerSpawner).SpawnPlayer(_ShipToSpawn);
+            GameObject _Player = ((IPlayerSpawner)this.PlayerSpawner).SpawnPlayerShip(_ShipToSpawn);
             ((ICameraController)this.CameraController).SetCameraFollowTarget(_Player.transform);
             ((IPlayerProvider)this.PlayerProvider).SetActivePlayer(_Player);
             GameManager.Instance.SceneManager.SetCurrentPlayerModel(this.m_StartupDataOptions.Player);
