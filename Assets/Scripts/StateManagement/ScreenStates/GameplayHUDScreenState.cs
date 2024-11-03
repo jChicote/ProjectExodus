@@ -1,11 +1,7 @@
-using System;
-using Codice.CM.Common;
 using ProjectExodus.Common.Services;
-using ProjectExodus.UserInterface.GameplayHUD;
+using ProjectExodus.UserInterface;
 using ProjectExodus.UserInterface.GameplayHUD.Initializer;
-using ProjectExodus.UserInterface.GameplayHUD.Mediator;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace ProjectExodus.StateManagement.ScreenStates
 {
@@ -15,7 +11,7 @@ namespace ProjectExodus.StateManagement.ScreenStates
 
         #region - - - - - - Fields - - - - - -
 
-        private IGameplayHUDMediator m_Mediator;
+        private IScreenStateController m_ScreenController;
         
         #endregion Fields
   
@@ -23,31 +19,24 @@ namespace ProjectExodus.StateManagement.ScreenStates
 
         void IScreenState.Initialize()
         {
-            IServiceLocator _ServiceLocator = GameManager.Instance.ServiceLocator;
-            this.m_Mediator = _ServiceLocator.GetService<IGameplayHUDMediator>();
+            this.m_ScreenController = this.GetComponent<IScreenStateController>();
+            
+            ICommand _GameplayHUDInitializerCommand = new GameplayHUDInitializerCommand(this.gameObject);
+            _GameplayHUDInitializerCommand.Execute();
         }
 
         #endregion Initializers
   
         #region - - - - - - Methods - - - - - -
 
-        void IScreenState.StartState()
-        {
-            // Check whether we are in scene and an active HUD instance exists
-            //
-            // ICommand _GameplayHUDInitializerCommand = new GameplayHUDInitializerCommand(
-            //     Object.FindFirstObjectByType<GameplayHUDView>(FindObjectsInactive.Exclude),
-            //     this.m_Mediator,
-            //     _ShipAsset,
-            //     _ShipToSpawn);
-            // _GameplayHUDInitializerCommand.Execute();
-        }
+        void IScreenState.StartState() 
+            => this.m_ScreenController.ShowScreen();
 
-        void IScreenState.EndState() 
-            => Debug.LogWarning("[WARNING]: Gameplay HUD is not implemented.");
+        void IScreenState.EndState()
+            => this.m_ScreenController.HideScreen();
 
         #endregion Methods
-  
+
     }
 
 }

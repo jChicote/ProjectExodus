@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using ProjectExodus;
-using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Camera;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
@@ -11,12 +10,8 @@ using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.ScriptableObjects.AssetEntities;
 using ProjectExodus.UserInterface.Controllers;
-using ProjectExodus.UserInterface.GameplayHUD;
-using ProjectExodus.UserInterface.GameplayHUD.Initializer;
-using ProjectExodus.UserInterface.GameplayHUD.Mediator;
 using UnityEngine;
 using IPlayerProvider = ProjectExodus.GameLogic.Player.PlayerProvider.IPlayerProvider;
-using Object = UnityEngine.Object;
 
 namespace GameLogic.SetupHandlers.SceneHandlers
 {
@@ -80,6 +75,13 @@ namespace GameLogic.SetupHandlers.SceneHandlers
             IUserInterfaceController _ActiveUserInterfaceController =
                 _UserInterfaceManager.GetTheActiveUserInterfaceController();
             _ActiveUserInterfaceController.OpenScreen(UIScreenType.GameplayHUD);
+            
+            // ICommand _GameplayHUDInitializerCommand = new GameplayHUDInitializerCommand(
+            //     Object.FindFirstObjectByType<GameplayHUDView>(FindObjectsInactive.Exclude),
+            //     this.m_Mediator,
+            //     _ShipAsset,
+            //     _ShipToSpawn);
+            // _GameplayHUDInitializerCommand.Execute();
 
             initializationContext.LoadingScreenController.UpdateLoadProgress(60f);
             this.m_NextHandler?.Handle(initializationContext);

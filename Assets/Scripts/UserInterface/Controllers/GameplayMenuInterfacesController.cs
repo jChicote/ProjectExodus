@@ -20,10 +20,8 @@ namespace ProjectExodus.UserInterface.Controllers
 
         #region - - - - - - Methods - - - - - -
 
-        void IUserInterfaceController.InitialiseUserInterfaceController()
-        {
-            // this.m_GameplayHudScreenState = new GameplayHUDScreenState()
-        }
+        void IUserInterfaceController.InitialiseUserInterfaceController() 
+            => ((IScreenState)this.m_GameplayHudScreenState).Initialize();
 
         void IUserInterfaceController.OpenScreen(UIScreenType uiScreenType)
         {

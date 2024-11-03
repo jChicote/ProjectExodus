@@ -1,8 +1,6 @@
-using System;
 using ProjectExodus.Common.Services;
-using ProjectExodus.Domain.Models;
-using ProjectExodus.ScriptableObjects.AssetEntities;
 using ProjectExodus.UserInterface.GameplayHUD.Mediator;
+using UnityEngine;
 
 namespace ProjectExodus.UserInterface.GameplayHUD.Initializer
 {
@@ -13,20 +11,16 @@ namespace ProjectExodus.UserInterface.GameplayHUD.Initializer
         #region - - - - - - Fields - - - - - -
 
         private readonly IGameplayHUDView m_View;
-        private readonly IGameplayHUDMediator m_Mediator;
-        private readonly ShipAssetObject m_ShipAsset;
-        private readonly ShipModel m_SelectedShip;
+        private readonly IGameplayHUDController m_Controller;
 
         #endregion Fields
 
         #region - - - - - - Constructors - - - - - -
 
-        public GameplayHUDInitializerCommand(IGameplayHUDView view, IGameplayHUDMediator mediator, ShipAssetObject shipAsset, ShipModel selectedShip)
+        public GameplayHUDInitializerCommand(GameObject gameplayHUD)
         {
-            this.m_View = view ?? throw new ArgumentNullException(nameof(view));
-            this.m_Mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-            this.m_ShipAsset = shipAsset ?? throw new ArgumentNullException(nameof(shipAsset));
-            this.m_SelectedShip = selectedShip ?? throw new ArgumentNullException(nameof(selectedShip));
+            this.m_View = gameplayHUD.GetComponent<IGameplayHUDView>();
+            this.m_Controller = gameplayHUD.GetComponent<IGameplayHUDController>();
         }
 
         #endregion Constructors
@@ -35,12 +29,10 @@ namespace ProjectExodus.UserInterface.GameplayHUD.Initializer
 
         void ICommand.Execute()
         {
-            // This has to be initialised somewhere else
-            float _MaxPlatingHealth = this.m_ShipAsset.BasePlatingHealth + this.m_SelectedShip.PlatingHealthModifier;
-            float _MaxShieldHealth = this.m_ShipAsset.BaseShieldHealth + this.m_SelectedShip.ShieldHealthModifier;
-            this.m_View.Initialize(0, _MaxPlatingHealth, _MaxShieldHealth);
+            IGameplayHUDMediator _Mediator = new GameplayHUDMediator();
+            _ = new GameplayHUDViewModel(_Mediator, this.m_View);
             
-            _ = new GameplayHUDViewModel(this.m_Mediator, this.m_View);
+            this.m_Controller.Initialize(_Mediator);
         }
 
         bool ICommand.CanExecute() 

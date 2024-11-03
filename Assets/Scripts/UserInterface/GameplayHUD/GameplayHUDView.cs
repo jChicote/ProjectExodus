@@ -11,6 +11,7 @@ namespace ProjectExodus.UserInterface.GameplayHUD
 
         [SerializeField] private GameObject m_ContentGroup;
         
+        [Space]
         [SerializeField] private Slider m_PlatingHealthBar;
         [SerializeField] private Slider m_ShieldHealthBar;
         [SerializeField] private Slider m_WeaponAmmoCountBar;
