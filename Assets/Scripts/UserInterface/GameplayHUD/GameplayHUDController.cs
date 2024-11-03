@@ -10,34 +10,28 @@ namespace ProjectExodus.UserInterface.GameplayHUD
 
         #region - - - - - - Fields - - - - - -
 
-        private IGameplayHUDMediator m_GameplayHUDMediator;
+        private IGameplayHUDMediator m_Mediator;
 
         #endregion Fields
   
         #region - - - - - - Initializers - - - - - -
 
-        void IGameplayHUDController.Initialize(IGameplayHUDMediator gameplayHUDMediator)
-        {
-            this.m_GameplayHUDMediator =
+        void IGameplayHUDController.Initialize(IGameplayHUDMediator gameplayHUDMediator) 
+            => this.m_Mediator =
                 gameplayHUDMediator ?? throw new ArgumentNullException(nameof(gameplayHUDMediator));
-        }
 
         #endregion Initializers
 
         #region - - - - - - Methods - - - - - -
 
-        void IScreenStateController.HideScreen()
-        {
-            throw new NotImplementedException();
-        }
+        void IScreenStateController.HideScreen() 
+            => this.m_Mediator.Invoke(GameplayHUDMediatorEvent.GameplayHUD_InVisible);
 
         void IScreenStateController.ShowScreen()
-        {
-            throw new NotImplementedException();
-        }
+            => this.m_Mediator.Invoke(GameplayHUDMediatorEvent.GameplayHUD_Visible);
 
         #endregion Methods
-  
+
     }
 
 }

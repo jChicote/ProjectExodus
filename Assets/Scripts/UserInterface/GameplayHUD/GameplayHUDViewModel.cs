@@ -61,10 +61,15 @@ namespace ProjectExodus.UserInterface.GameplayHUD
             this.m_Mediator.Register<HealthBarsStatusDto>(
                 GameplayHUDMediatorEvent.HealthBars_Update,
                 dto => this.OnShipHealthUpdate?.Invoke(dto));
-            
             this.m_Mediator.Register<int>(
                 GameplayHUDMediatorEvent.AmmoCountBar_Update,
                 ammoCount => this.OnAmmoCountUpdate?.Invoke(ammoCount));
+            this.m_Mediator.Register(
+                GameplayHUDMediatorEvent.GameplayHUD_Visible,
+                this.OnShowGui);
+            this.m_Mediator.Register(
+                GameplayHUDMediatorEvent.GameplayHUD_InVisible,
+                this.OnHideGui);
         }
 
         private void PauseGame()

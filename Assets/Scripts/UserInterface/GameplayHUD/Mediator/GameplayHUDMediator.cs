@@ -81,6 +81,8 @@ namespace ProjectExodus.UserInterface.GameplayHUD.Mediator
     {
         AmmoCountBar_Update,
         HealthBars_Update,
+        GameplayHUD_Visible,
+        GameplayHUD_InVisible
     }
 
 }
