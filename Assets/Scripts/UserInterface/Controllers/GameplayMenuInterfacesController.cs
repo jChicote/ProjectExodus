@@ -58,7 +58,7 @@ namespace ProjectExodus.UserInterface.Controllers
         bool IUserInterfaceController.TryGetInterfaceController(out object interfaceController)
         {
             interfaceController = this.m_CurrentScreenState?.GetInterfaceController();
-            return interfaceController == null;
+            return interfaceController != null;
         }
 
         #endregion Methods

@@ -1,10 +1,7 @@
 using System;
 using ProjectExodus.GameLogic.Common.Health;
-using ProjectExodus.Management.Enumeration;
-using ProjectExodus.UserInterface.Controllers;
 using ProjectExodus.UserInterface.GameplayHUD;
 using UnityEngine;
-using UnityEngine.InputSystem.Android;
 
 namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
 {
@@ -44,6 +41,8 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
                     this.m_CurrentPlatingHealth - _PlatingDamage, 
                     0, 
                     this.m_MaxPlatingHealth);
+            
+            this.m_GameplayHUDController.SetHealthValues(this.m_CurrentPlatingHealth, this.m_CurrentShieldHealth);
         }
 
         void IPlayerHealthSystem.SetHealth(float platingHealth, float shieldHealth)
@@ -58,6 +57,9 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
         {
             this.m_GameplayHUDController =
                 gameplayHUDController ?? throw new ArgumentNullException(nameof(gameplayHUDController));
+            
+            this.m_GameplayHUDController.SetMaxHealthValues(this.m_MaxPlatingHealth, this.m_MaxShieldHealth);
+            this.m_GameplayHUDController.SetHealthValues(this.m_CurrentPlatingHealth, this.m_CurrentShieldHealth);
         }
 
         #endregion Methods

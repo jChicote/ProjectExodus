@@ -78,7 +78,7 @@ namespace GameLogic.SetupHandlers.SceneHandlers
             this.m_InputManager.PossesGameplayInputControls();
             this.m_InputManager.DisableActiveInputControl();
             
-            // Set hud values
+            // Set HUD values
             if (_ActiveUserInterfaceController.TryGetInterfaceController(out object _IntefaceController))
             {
                 IGameplayHUDController _HUDController = _IntefaceController as IGameplayHUDController;
@@ -86,9 +86,7 @@ namespace GameLogic.SetupHandlers.SceneHandlers
                 _HealthSystem.SetHUDController(_HUDController);
             }
             else
-            {
                 Debug.LogWarning("[WARNING]: No HUD was found.");
-            }
             
             initializationContext.LoadingScreenController.UpdateLoadProgress(60f);
             this.m_NextHandler?.Handle(initializationContext);

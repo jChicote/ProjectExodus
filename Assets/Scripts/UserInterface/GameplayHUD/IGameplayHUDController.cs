@@ -1,5 +1,3 @@
-using ProjectExodus.UserInterface.GameplayHUD.Mediator;
-
 namespace ProjectExodus.UserInterface.GameplayHUD
 {
 

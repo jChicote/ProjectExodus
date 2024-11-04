@@ -1,8 +1,6 @@
 using System;
 using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Mappers;
-using ProjectExodus.UserInterface.GameplayHUD.Mediator;
-using ProjectExodus.UserInterface.OptionsMenu;
 using ProjectExodus.UserInterface.OptionsMenu.AudioOptions;
 using ProjectExodus.UserInterface.OptionsMenu.GraphicsOptions;
 using ProjectExodus.UserInterface.OptionsMenu.UserInterfaceOptions;
@@ -40,7 +38,6 @@ namespace ProjectExodus.UserInterface.Configuration
         void IConfigure.Configure()
         {
             this.ConfigureMappings();
-            this.ConfigureMediators();
         }
 
         private void ConfigureMappings()
@@ -51,12 +48,6 @@ namespace ProjectExodus.UserInterface.Configuration
             _ = new UserInterfaceOptionsMapper(this.m_ObjectMapperRegister);
             
             _ = new GameSaveSelectionMenuMapper(this.m_ObjectMapperRegister);
-        }
-
-        private void ConfigureMediators()
-        {
-            IGameplayHUDMediator _GameplayHUDMediator = new GameplayHUDMediator();
-            this.m_ServiceLocator.RegisterService(_GameplayHUDMediator);
         }
 
         #endregion Methods
