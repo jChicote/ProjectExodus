@@ -20,6 +20,27 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
 
         #endregion Fields
 
+        #region - - - - - - Initializers - - - - - -
+
+        void IPlayerHealthSystem.Initializer(
+            IGameplayHUDController gameplayHUDController, 
+            float platingHealth, 
+            float shieldHealth)
+        {
+            this.m_GameplayHUDController =
+                gameplayHUDController ?? throw new ArgumentNullException(nameof(gameplayHUDController));
+            
+            this.m_CurrentPlatingHealth = platingHealth;
+            this.m_CurrentShieldHealth = shieldHealth;
+            this.m_MaxPlatingHealth = platingHealth;
+            this.m_MaxShieldHealth = shieldHealth;
+            
+            this.m_GameplayHUDController.SetMaxHealthValues(platingHealth, shieldHealth);
+            this.m_GameplayHUDController.SetHealthValues(platingHealth, shieldHealth);
+        }
+
+        #endregion Initializers
+  
         #region - - - - - - Methods - - - - - -
 
         bool IDamageable.CanDamage() 
@@ -42,23 +63,6 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
                     0, 
                     this.m_MaxPlatingHealth);
             
-            this.m_GameplayHUDController.SetHealthValues(this.m_CurrentPlatingHealth, this.m_CurrentShieldHealth);
-        }
-
-        void IPlayerHealthSystem.SetHealth(float platingHealth, float shieldHealth)
-        {
-            this.m_CurrentPlatingHealth = platingHealth;
-            this.m_CurrentShieldHealth = shieldHealth;
-            this.m_MaxPlatingHealth = platingHealth;
-            this.m_MaxShieldHealth = shieldHealth;
-        }
-        
-        void IPlayerHealthSystem.SetHUDController(IGameplayHUDController gameplayHUDController)
-        {
-            this.m_GameplayHUDController =
-                gameplayHUDController ?? throw new ArgumentNullException(nameof(gameplayHUDController));
-            
-            this.m_GameplayHUDController.SetMaxHealthValues(this.m_MaxPlatingHealth, this.m_MaxShieldHealth);
             this.m_GameplayHUDController.SetHealthValues(this.m_CurrentPlatingHealth, this.m_CurrentShieldHealth);
         }
 

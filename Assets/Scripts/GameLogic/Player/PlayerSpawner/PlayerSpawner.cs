@@ -5,8 +5,8 @@ using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.GameLogic.Player.PlayerHealthSystem;
 using ProjectExodus.GameLogic.Player.Weapons;
 using ProjectExodus.ScriptableObjects.AssetEntities;
+using ProjectExodus.UserInterface.GameplayHUD;
 using UnityEngine;
-using IPlayerProvider = ProjectExodus.GameLogic.Player.PlayerProvider.IPlayerProvider;
 
 namespace ProjectExodus.GameLogic.Player.PlayerSpawner
 {
@@ -16,6 +16,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
 
         #region - - - - - - Fields - - - - - -
 
+        private IGameplayHUDController m_GameplayHUDController;
         private IShipAssetProvider m_ShipAssetProvider;
         private IWeaponAssetProvider m_WeaponAssetProvider;
 
@@ -24,9 +25,12 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
         #region - - - - - - Initializers - - - - - -
         
         void IPlayerSpawner.InitialisePlayerSpawner(
+            IGameplayHUDController gameplayHUDController,
             IShipAssetProvider shipAssetProvider,
             IWeaponAssetProvider weaponAssetProvider)
         {
+            this.m_GameplayHUDController =
+                gameplayHUDController ?? throw new ArgumentNullException(nameof(gameplayHUDController));
             this.m_ShipAssetProvider = shipAssetProvider ?? throw new ArgumentNullException(nameof(shipAssetProvider));
             this.m_WeaponAssetProvider =
                 weaponAssetProvider ?? throw new ArgumentNullException(nameof(weaponAssetProvider));
@@ -46,7 +50,9 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
                 .InitialiseWeaponSystems(this.m_WeaponAssetProvider, shipToSpawn.Weapons.ToList());
             
             // Setup health system
-            _PlayerShip.GetComponent<IPlayerHealthSystem>().SetHealth(
+            _PlayerShip.GetComponent<IPlayerHealthSystem>()
+                .Initializer(
+                    this.m_GameplayHUDController,
                     _ShipAsset.BaseShieldHealth + shipToSpawn.ShieldHealthModifier, 
                     _ShipAsset.BasePlatingHealth + shipToSpawn.PlatingHealthModifier);
 

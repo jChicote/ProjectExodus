@@ -14,7 +14,7 @@ namespace ProjectExodus.UserInterface.Controllers
 
         void OpenPreviousScreen();
 
-        bool TryGetInterfaceController(out object interfaceController);
+        bool TryGetGUIControllers(out object _Controller);
 
         #endregion Methods
 

@@ -1,5 +1,8 @@
-﻿using ProjectExodus.UserInterface.Controllers;
+﻿using System;
+using ProjectExodus.UserInterface.Controllers;
+using ProjectExodus.UserInterface.GameplayHUD;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace ProjectExodus.Management.UserInterfaceManager
 {
@@ -7,14 +10,22 @@ namespace ProjectExodus.Management.UserInterfaceManager
     /// <summary>
     /// Responsible for high-level coordination of different UI views and encapsulating UI related components.
     /// </summary>
-    public class UserInterfaceManager : MonoBehaviour, IUserInterfaceManager
+    public class UserInterfaceManager : MonoBehaviour, IUserInterfaceManager // No Need for interface
     {
 
         #region - - - - - - Fields - - - - - -
 
         private IUserInterfaceController m_UserInterfaceController;
+        private GameplaySceneGUIControllers m_GameplaySceneGUIControllers;
 
         #endregion Fields
+
+        #region - - - - - - Properties - - - - - -
+
+        public GameplaySceneGUIControllers GameplaySceneGUIControllers
+            => this.m_GameplaySceneGUIControllers;
+
+        #endregion Properties
   
         #region - - - - - - Unity Methods - - - - - -
 

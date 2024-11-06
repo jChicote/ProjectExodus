@@ -1,7 +1,9 @@
+using System;
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.StateManagement.ScreenStates;
 using ProjectExodus.UserInterface.GameplayHUD;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace ProjectExodus.UserInterface.Controllers
 {
@@ -11,8 +13,13 @@ namespace ProjectExodus.UserInterface.Controllers
 
         #region - - - - - - Fields - - - - - -
 
-        [SerializeField] private LoadingBarScreenState m_LoadingBarScreenState;
-        [SerializeField] private GameplayHUDScreenState m_GameplayHudScreenState;
+        [SerializeField] private GameObject m_LoadingScreen;
+        [SerializeField] private GameObject m_GameplayHUDScreen;
+
+        private GameplaySceneGUIControllers m_GUIControllers;
+
+        private IScreenState m_LoadingBarScreenState;
+        private IScreenState m_GameplayHudScreenState;
         
         private IScreenState m_CurrentScreenState;
         private IScreenState m_PreviousScreenState;
@@ -23,13 +30,19 @@ namespace ProjectExodus.UserInterface.Controllers
 
         void IUserInterfaceController.InitialiseUserInterfaceController()
         {
-            ((IScreenState)this.m_GameplayHudScreenState).Initialize();
-            var _GameplayHUDController =
-                this.m_GameplayHudScreenState.gameObject.GetComponent<IGameplayHUDController>();
-            _GameplayHUDController.Initialize();
+            IGameplayHUDController _GamplayHUDController =
+                this.m_GameplayHUDScreen.GetComponent<IGameplayHUDController>();
+            
+            this.m_LoadingBarScreenState = this.m_LoadingScreen.GetComponent<IScreenState>();
+            this.m_GameplayHudScreenState = this.m_GameplayHUDScreen.GetComponent<IScreenState>();
+            
+            this.m_GameplayHudScreenState.Initialize();
+            _GamplayHUDController.Initialize();
             
             // A bit unusual for the controller's initialisation to occur from retrieving a related components
             // Additionally the initialise method may be thrown around in different areas. Might be a concern.
+
+            this.m_GUIControllers = new GameplaySceneGUIControllers(_GamplayHUDController);
         }
 
         void IUserInterfaceController.OpenScreen(UIScreenType uiScreenType)
@@ -55,14 +68,57 @@ namespace ProjectExodus.UserInterface.Controllers
             this.m_CurrentScreenState.StartState();
         }
 
-        bool IUserInterfaceController.TryGetInterfaceController(out object interfaceController)
+        bool IUserInterfaceController.TryGetGUIControllers(out object _Controllers)
         {
-            interfaceController = this.m_CurrentScreenState?.GetInterfaceController();
-            return interfaceController != null;
+            if (this.m_GUIControllers == null)
+            {
+                _Controllers = null;
+                return false;
+            }
+
+            _Controllers = this.m_GUIControllers;
+            return true;
         }
 
         #endregion Methods
 
+    }
+    
+    public class GameplaySceneGUIControllers
+    {
+
+        #region - - - - - - Fields - - - - - -
+
+        private IGameplayHUDController m_GameplayHUDController;
+
+        #endregion Fields
+
+        #region - - - - - - Constructors - - - - - -
+
+        public GameplaySceneGUIControllers(IGameplayHUDController gameplayHUDController)
+        {
+            this.m_GameplayHUDController =
+                gameplayHUDController ?? throw new ArgumentNullException(nameof(gameplayHUDController));
+        }
+
+        #endregion Constructors
+  
+        #region - - - - - - Methods - - - - - -
+
+        public IGameplayHUDController GetGameplayHUDController()
+        {
+            if (this.m_GameplayHUDController != null)
+                return this.m_GameplayHUDController;
+
+            if (!Object.FindAnyObjectByType<GameplayHUDController>())
+                throw new NullReferenceException($"[ERROR]: No '{nameof(IGameplayHUDController)}' has been found");
+            
+            this.m_GameplayHUDController = Object.FindFirstObjectByType<GameplayHUDController>();
+            return this.m_GameplayHUDController;
+        } 
+
+        #endregion Methods
+  
     }
 
 }

@@ -3,6 +3,7 @@
 namespace ProjectExodus.Management.UserInterfaceManager
 {
 
+    // TODO: Remove the use of an interface for the UserInterfaceManager. It should be a singleton.
     public interface IUserInterfaceManager
     {
 

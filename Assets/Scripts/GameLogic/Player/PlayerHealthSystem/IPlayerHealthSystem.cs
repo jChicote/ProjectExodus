@@ -8,9 +8,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
 
         #region - - - - - - Methods - - - - - -
 
-        void SetHealth(float platingHealth, float shieldHealth);
-
-        void SetHUDController(IGameplayHUDController gameplayHUDController);
+        void Initializer(IGameplayHUDController gameplayHUDController, float platingHealth, float shieldHealth);
 
         #endregion Methods
 

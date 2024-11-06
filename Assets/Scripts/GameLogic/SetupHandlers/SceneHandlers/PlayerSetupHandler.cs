@@ -4,11 +4,8 @@ using ProjectExodus;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Camera;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
-using ProjectExodus.GameLogic.Player.PlayerHealthSystem;
 using ProjectExodus.GameLogic.Player.PlayerSpawner;
-using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.InputManager;
-using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.UserInterface.Controllers;
 using ProjectExodus.UserInterface.GameplayHUD;
 using UnityEngine;
@@ -27,6 +24,7 @@ namespace GameLogic.SetupHandlers.SceneHandlers
         private ISetupHandler m_NextHandler;
         private IPlayerProvider m_PlayerProvider;
         private IPlayerSpawner m_PlayerSpawner;
+        private IUserInterfaceController m_UserInterfaceController;
 
         #endregion Fields
 
@@ -36,12 +34,15 @@ namespace GameLogic.SetupHandlers.SceneHandlers
             IInputManager inputManager,
             ICameraController cameraController,
             IPlayerProvider playerProvider,
-            IPlayerSpawner playerSpawner)
+            IPlayerSpawner playerSpawner,
+            IUserInterfaceController userInterfaceController)
         {
             this.m_InputManager = inputManager ?? throw new ArgumentNullException(nameof(inputManager));
             this.m_CameraController = cameraController ?? throw new ArgumentNullException(nameof(cameraController));
             this.m_PlayerProvider = playerProvider ?? throw new ArgumentNullException(nameof(playerProvider));
             this.m_PlayerSpawner = playerSpawner ?? throw new ArgumentNullException(nameof(playerSpawner));
+            this.m_UserInterfaceController = 
+                userInterfaceController ?? throw new ArgumentNullException(nameof(userInterfaceController));
         }
 
         #endregion Constructors
@@ -53,40 +54,34 @@ namespace GameLogic.SetupHandlers.SceneHandlers
 
         void ISetupHandler.Handle(SceneSetupInitializationContext initializationContext)
         {
+            // TODO: Change this so that during the pipeline if it fails, a warning popup is presented to the Player.
+            if (!this.m_UserInterfaceController.TryGetGUIControllers(out object _Controllers))
+            {
+                Debug.LogError("[ERROR]: No GameplayHUDController is found. Aborting setup pipeline.");
+                return;
+            }
+            
+            IGameplayHUDController _GameplayHUDController = 
+                ((GameplaySceneGUIControllers)_Controllers).GetGameplayHUDController();
             this.m_PlayerSpawner.InitialisePlayerSpawner(
+                _GameplayHUDController,
                 initializationContext.ServiceLocator.GetService<IShipAssetProvider>(),
                 initializationContext.ServiceLocator.GetService<IWeaponAssetProvider>());
             
             // Temp: The first ship object is used.
             ShipModel _ShipToSpawn = initializationContext.StartupDataOptions.Player.Ships.First();
             
-            // Setup Gameplay HUD
-            IUserInterfaceManager _UserInterfaceManager = 
-                initializationContext.ServiceLocator.GetService<IUserInterfaceManager>();
-            IUserInterfaceController _ActiveUserInterfaceController =
-                _UserInterfaceManager.GetTheActiveUserInterfaceController();
-            _ActiveUserInterfaceController.InitialiseUserInterfaceController();
-            _ActiveUserInterfaceController.OpenScreen(UIScreenType.GameplayHUD);
-            
             // Create Player ship
             GameObject _Player = this.m_PlayerSpawner.SpawnPlayerShip(_ShipToSpawn);
             this.m_CameraController.SetCameraFollowTarget(_Player.transform);
             this.m_PlayerProvider.SetActivePlayer(_Player);
-            GameManager.Instance.SceneManager.SetCurrentPlayerModel(initializationContext.StartupDataOptions.Player); // Should have been done from right at the beginning
+            
+            // TODO: Move this out of the context of the scene setup to the start of the main menu.
+            GameManager.Instance.SceneManager.SetCurrentPlayerModel(initializationContext.StartupDataOptions.Player);
             
             // Hook to input system
             this.m_InputManager.PossesGameplayInputControls();
             this.m_InputManager.DisableActiveInputControl();
-            
-            // Set HUD values
-            if (_ActiveUserInterfaceController.TryGetInterfaceController(out object _IntefaceController))
-            {
-                IGameplayHUDController _HUDController = _IntefaceController as IGameplayHUDController;
-                IPlayerHealthSystem _HealthSystem = _Player.GetComponent<IPlayerHealthSystem>();
-                _HealthSystem.SetHUDController(_HUDController);
-            }
-            else
-                Debug.LogWarning("[WARNING]: No HUD was found.");
             
             initializationContext.LoadingScreenController.UpdateLoadProgress(60f);
             this.m_NextHandler?.Handle(initializationContext);

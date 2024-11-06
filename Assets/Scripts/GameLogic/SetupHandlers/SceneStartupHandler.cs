@@ -9,8 +9,11 @@ using ProjectExodus.GameLogic.Infrastructure.DataLoading;
 using ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.GameLogic.Player.PlayerSpawner;
+using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.GameSaveManager;
 using ProjectExodus.Management.InputManager;
+using ProjectExodus.Management.UserInterfaceManager;
+using ProjectExodus.UserInterface.Controllers;
 using ProjectExodus.UserInterface.LoadingScreen;
 using UnityEngine;
 using PlayerProvider = ProjectExodus.GameLogic.Player.PlayerProvider.PlayerProvider;
@@ -97,11 +100,22 @@ namespace ProjectExodus.GameLogic.Scene.SetupHandlers
 
         private IEnumerator SetupPlayer()
         {
+            // Setup Gameplay HUD
+            IUserInterfaceManager _UserInterfaceManager = 
+                this.m_ServiceLocator.GetService<IUserInterfaceManager>();
+            IUserInterfaceController _ActiveUserInterfaceController =
+                _UserInterfaceManager.GetTheActiveUserInterfaceController();
+            _ActiveUserInterfaceController.InitialiseUserInterfaceController();
+            _ActiveUserInterfaceController.OpenScreen(UIScreenType.GameplayHUD);
+            
             ISetupHandler _PlayerSetupHandler = new PlayerSetupHandler(
                 this.m_InputManager,
                 this.CameraController,
                 this.PlayerProvider,
-                this.PlayerSpawner);
+                this.PlayerSpawner,
+                _ActiveUserInterfaceController);
+            
+            // TODO: Refactor into a mapper 
             _PlayerSetupHandler.Handle(new SceneSetupInitializationContext()
             {
                 LoadingScreenController = this.m_LoadingScreenController,
