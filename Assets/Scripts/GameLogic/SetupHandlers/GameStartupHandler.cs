@@ -130,7 +130,7 @@ namespace ProjectExodus.GameLogic.SetupHandlers
             IServiceLocator _ServiceLocator = this.m_ServiceLocator;
             IObjectMapperRegister _ObjectMapperRegister = _ServiceLocator.GetService<IObjectMapperRegister>();
             
-            ((IConfigure)new UserInterfaceConfiguration(_ObjectMapperRegister)).Configure();
+            ((IConfigure)new UserInterfaceConfiguration(_ObjectMapperRegister, this.m_ServiceLocator)).Configure();
             yield return null;
         }
         

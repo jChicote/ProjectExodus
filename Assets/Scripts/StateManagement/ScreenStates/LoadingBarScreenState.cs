@@ -23,6 +23,9 @@ namespace ProjectExodus.StateManagement.ScreenStates
 
         void IScreenState.EndState() 
             => this.m_LoadingScreenController.HideScreen();
+        
+        object IScreenState.GetInterfaceController()
+            => this.GetComponent<ILoadingScreenController>();
 
         #endregion Methods
   

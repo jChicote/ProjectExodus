@@ -337,7 +337,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -375,8 +375,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2009462960e24a07b8d48efff7223ba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_LoadingBarScreenState: {fileID: 0}
-  m_GameplayHudScreenState: {fileID: 0}
+  m_LoadingScreen: {fileID: 645515774}
+  m_GameplayHUDScreen: {fileID: 1127942339}
 --- !u!1001 &419301090
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -469,6 +469,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7074605820995331329, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9125139199920498774, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -478,6 +486,11 @@ PrefabInstance:
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 520427784504687565, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
   m_PrefabInstance: {fileID: 419301090}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &645515774 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6531974530853241761, guid: 60afeeb26708a8841aa506131ba6117f, type: 3}
+  m_PrefabInstance: {fileID: 9219060389279853501}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &830654233
 GameObject:
@@ -690,6 +703,11 @@ Transform:
   - {fileID: 2009366847}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1127942339 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 42440849241492551, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
+  m_PrefabInstance: {fileID: 419301090}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1379387249
 GameObject:
   m_ObjectHideFlags: 0
@@ -1292,7 +1310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 865993fdabe64203863d1d948e1566b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CollisionDamage: 0.25
+  m_CollisionDamage: 25
 --- !u!1 &2044013416
 GameObject:
   m_ObjectHideFlags: 0
@@ -1921,7 +1939,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7770533587582610676, guid: 60afeeb26708a8841aa506131ba6117f, type: 3}
   m_PrefabInstance: {fileID: 9219060389279853501}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 645515774}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d49fabab5bd84c60a7f92ebd4b28edf2, type: 3}

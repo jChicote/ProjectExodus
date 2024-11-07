@@ -29,8 +29,11 @@ namespace ProjectExodus.StateManagement.ScreenStates
         void IScreenState.EndState() 
             => this.m_OptionsMenuController.HideScreen();
 
+        object IScreenState.GetInterfaceController()
+            => this.m_OptionsMenuController;
+
         #endregion Methods
-  
+
     }
 
 }

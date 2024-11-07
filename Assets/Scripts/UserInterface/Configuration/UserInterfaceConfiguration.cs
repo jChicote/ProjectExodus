@@ -1,6 +1,6 @@
+using System;
 using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Mappers;
-using ProjectExodus.UserInterface.OptionsMenu;
 using ProjectExodus.UserInterface.OptionsMenu.AudioOptions;
 using ProjectExodus.UserInterface.OptionsMenu.GraphicsOptions;
 using ProjectExodus.UserInterface.OptionsMenu.UserInterfaceOptions;
@@ -18,19 +18,29 @@ namespace ProjectExodus.UserInterface.Configuration
         #region - - - - - - Fields - - - - - -
 
         private readonly IObjectMapperRegister m_ObjectMapperRegister;
+        private readonly IServiceLocator m_ServiceLocator;
 
         #endregion Fields
    
         #region - - - - - - Constructors - - - - - -
 
-        public UserInterfaceConfiguration(IObjectMapperRegister objectMapperRegister) 
-            => this.m_ObjectMapperRegister = objectMapperRegister;
+        public UserInterfaceConfiguration(IObjectMapperRegister objectMapperRegister, IServiceLocator serviceLocator)
+        {
+            this.m_ObjectMapperRegister =
+                objectMapperRegister ?? throw new ArgumentNullException(nameof(objectMapperRegister));
+            this.m_ServiceLocator = serviceLocator ?? throw new ArgumentNullException(nameof(serviceLocator));
+        }
 
         #endregion Constructors
   
         #region - - - - - - Methods - - - - - -
 
         void IConfigure.Configure()
+        {
+            this.ConfigureMappings();
+        }
+
+        private void ConfigureMappings()
         {
             // Configure Mappers
             _ = new AudioOptionsMapper(this.m_ObjectMapperRegister);

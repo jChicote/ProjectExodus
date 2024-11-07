@@ -1,5 +1,6 @@
 using System;
 using ProjectExodus.GameLogic.Common.Health;
+using ProjectExodus.UserInterface.GameplayHUD;
 using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
@@ -10,12 +11,35 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
 
         #region - - - - - - Fields - - - - - -
 
+        private IGameplayHUDController m_GameplayHUDController;
+
         private float m_CurrentPlatingHealth;
         private float m_CurrentShieldHealth;
         private float m_MaxPlatingHealth;
         private float m_MaxShieldHealth;
 
         #endregion Fields
+
+        #region - - - - - - Initializers - - - - - -
+
+        void IPlayerHealthSystem.Initializer(
+            IGameplayHUDController gameplayHUDController, 
+            float platingHealth, 
+            float shieldHealth)
+        {
+            this.m_GameplayHUDController =
+                gameplayHUDController ?? throw new ArgumentNullException(nameof(gameplayHUDController));
+            
+            this.m_CurrentPlatingHealth = platingHealth;
+            this.m_CurrentShieldHealth = shieldHealth;
+            this.m_MaxPlatingHealth = platingHealth;
+            this.m_MaxShieldHealth = shieldHealth;
+            
+            this.m_GameplayHUDController.SetMaxHealthValues(platingHealth, shieldHealth);
+            this.m_GameplayHUDController.SetHealthValues(platingHealth, shieldHealth);
+        }
+
+        #endregion Initializers
   
         #region - - - - - - Methods - - - - - -
 
@@ -38,14 +62,8 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
                     this.m_CurrentPlatingHealth - _PlatingDamage, 
                     0, 
                     this.m_MaxPlatingHealth);
-        }
-
-        void IPlayerHealthSystem.SetHealth(float platingHealth, float shieldHealth)
-        {
-            this.m_CurrentPlatingHealth = platingHealth;
-            this.m_CurrentShieldHealth = shieldHealth;
-            this.m_MaxPlatingHealth = platingHealth;
-            this.m_MaxShieldHealth = shieldHealth;
+            
+            this.m_GameplayHUDController.SetHealthValues(this.m_CurrentPlatingHealth, this.m_CurrentShieldHealth);
         }
 
         #endregion Methods

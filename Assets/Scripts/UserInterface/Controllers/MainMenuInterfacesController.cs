@@ -1,3 +1,4 @@
+using System;
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.StateManagement.ScreenStates;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu;
@@ -79,6 +80,9 @@ namespace ProjectExodus.UserInterface.Controllers
             this.m_CurrentScreenState = this.m_PreviousScreenState;
             this.m_CurrentScreenState.StartState();
         }
+        
+        bool IUserInterfaceController.TryGetGUIControllers(out object _Controllers) 
+            => throw new NotImplementedException();
 
         #endregion Methods
   

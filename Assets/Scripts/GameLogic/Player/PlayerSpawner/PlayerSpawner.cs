@@ -5,8 +5,8 @@ using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.GameLogic.Player.PlayerHealthSystem;
 using ProjectExodus.GameLogic.Player.Weapons;
 using ProjectExodus.ScriptableObjects.AssetEntities;
+using ProjectExodus.UserInterface.GameplayHUD;
 using UnityEngine;
-using IPlayerProvider = ProjectExodus.GameLogic.Player.PlayerProvider.IPlayerProvider;
 
 namespace ProjectExodus.GameLogic.Player.PlayerSpawner
 {
@@ -16,7 +16,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
 
         #region - - - - - - Fields - - - - - -
 
-        private IPlayerProvider m_PlayerProvider;
+        private IGameplayHUDController m_GameplayHUDController;
         private IShipAssetProvider m_ShipAssetProvider;
         private IWeaponAssetProvider m_WeaponAssetProvider;
 
@@ -25,11 +25,12 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
         #region - - - - - - Initializers - - - - - -
         
         void IPlayerSpawner.InitialisePlayerSpawner(
-            IPlayerProvider playerProvider,
+            IGameplayHUDController gameplayHUDController,
             IShipAssetProvider shipAssetProvider,
             IWeaponAssetProvider weaponAssetProvider)
         {
-            this.m_PlayerProvider = playerProvider ?? throw new ArgumentNullException(nameof(playerProvider));
+            this.m_GameplayHUDController =
+                gameplayHUDController ?? throw new ArgumentNullException(nameof(gameplayHUDController));
             this.m_ShipAssetProvider = shipAssetProvider ?? throw new ArgumentNullException(nameof(shipAssetProvider));
             this.m_WeaponAssetProvider =
                 weaponAssetProvider ?? throw new ArgumentNullException(nameof(weaponAssetProvider));
@@ -39,15 +40,8 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
   
         #region - - - - - - Methods - - - - - -
 
-        GameObject IPlayerSpawner.SpawnPlayer(ShipModel shipToSpawn)
+        GameObject IPlayerSpawner.SpawnPlayerShip(ShipModel shipToSpawn)
         {
-            if (this.m_PlayerProvider.GetActivePlayer() != null)
-            {
-                Debug.LogWarning("[WARNING]: Active player has been found.");
-                return this.m_PlayerProvider.GetActivePlayer();
-            }
-
-            // Create Player Ship
             ShipAssetObject _ShipAsset = this.m_ShipAssetProvider.Provide(shipToSpawn.AssetID);
             GameObject _PlayerShip = Instantiate(_ShipAsset.Asset, Vector2.zero, this.transform.rotation);
             
@@ -56,7 +50,9 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
                 .InitialiseWeaponSystems(this.m_WeaponAssetProvider, shipToSpawn.Weapons.ToList());
             
             // Setup health system
-            _PlayerShip.GetComponent<IPlayerHealthSystem>().SetHealth(
+            _PlayerShip.GetComponent<IPlayerHealthSystem>()
+                .Initializer(
+                    this.m_GameplayHUDController,
                     _ShipAsset.BaseShieldHealth + shipToSpawn.ShieldHealthModifier, 
                     _ShipAsset.BasePlatingHealth + shipToSpawn.PlatingHealthModifier);
 
