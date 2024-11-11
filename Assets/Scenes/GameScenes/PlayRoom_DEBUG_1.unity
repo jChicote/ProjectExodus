@@ -910,6 +910,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_LoadingScreen: {fileID: 645515774}
   m_GameplayHUDScreen: {fileID: 1127942339}
+  m_PauseScreen: {fileID: 654467400}
 --- !u!1001 &419301090
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1246,6 +1247,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 654467401}
+  - component: {fileID: 654467404}
+  - component: {fileID: 654467403}
+  - component: {fileID: 654467402}
   m_Layer: 5
   m_Name: Pause-Screen
   m_TagString: Untagged
@@ -1273,6 +1277,46 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &654467402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654467400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57f9cb2666974321b4c2d526ff433e9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &654467403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654467400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c824e2a4c8734d0a85108c75f12f28e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &654467404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654467400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0089ff5523ac448c9ef4f666617033f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ContentGroup: {fileID: 1366581937}
+  m_ResumeButton: {fileID: 526497139}
+  m_OptionsButton: {fileID: 945063512}
+  m_ExitButton: {fileID: 2049816069}
 --- !u!1 &830654233
 GameObject:
   m_ObjectHideFlags: 0
