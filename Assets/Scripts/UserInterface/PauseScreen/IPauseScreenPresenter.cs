@@ -1,4 +1,5 @@
 using ProjectExodus.GameLogic.Pause.PauseController;
+using ProjectExodus.Management.GameStateManager;
 using ProjectExodus.UserInterface.Controllers;
 
 namespace ProjectExodus.UserInterface.PauseScreen
@@ -9,7 +10,10 @@ namespace ProjectExodus.UserInterface.PauseScreen
 
         #region - - - - - - Initializers - - - - - -
 
-        void Initialize(IPauseController pauseController, IUserInterfaceController userInterfaceController);
+        void Initialize(
+            IGameStateManager gameStateManager, 
+            IPauseController pauseController, 
+            IUserInterfaceController userInterfaceController);
 
         #endregion Initializers
 

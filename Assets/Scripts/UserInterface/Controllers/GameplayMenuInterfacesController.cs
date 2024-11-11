@@ -53,7 +53,10 @@ namespace ProjectExodus.UserInterface.Controllers
             IGameplayHUDController _GamplayHUDController =
                 this.m_GameplayHUDScreen.GetComponent<IGameplayHUDController>();
             _GamplayHUDController.Initialize(_PauseController, this);
-            this.m_PauseScreen.GetComponent<IPauseScreenPresenter>().Initialize(_PauseController, this);
+            this.m_PauseScreen.GetComponent<IPauseScreenPresenter>().Initialize(
+                _GameManager.GameStateManager, 
+                _PauseController, 
+                this);
             this.m_OptionsScreen.GetComponent<IOptionsMenuController>()
                 .InitialiseOptionsMenu(
                     _GameManager.DataContext,
