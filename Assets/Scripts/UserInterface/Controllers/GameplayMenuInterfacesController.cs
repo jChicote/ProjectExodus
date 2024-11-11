@@ -1,7 +1,10 @@
 using System;
+using ProjectExodus.GameLogic.Pause.PauseController;
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.StateManagement.ScreenStates;
 using ProjectExodus.UserInterface.GameplayHUD;
+using ProjectExodus.UserInterface.OptionsMenu;
+using ProjectExodus.UserInterface.PauseScreen;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -16,12 +19,14 @@ namespace ProjectExodus.UserInterface.Controllers
         [SerializeField] private GameObject m_LoadingScreen;
         [SerializeField] private GameObject m_GameplayHUDScreen;
         [SerializeField] private GameObject m_PauseScreen;
+        [SerializeField] private GameObject m_OptionsScreen;
 
         private GameplaySceneGUIControllers m_GUIControllers;
 
         private IScreenState m_LoadingBarScreenState;
         private IScreenState m_GameplayHudScreenState;
         private IScreenState m_PauseScreenState;
+        private IScreenState m_OptionsScreenState;
         
         private IScreenState m_CurrentScreenState;
         private IScreenState m_PreviousScreenState;
@@ -32,18 +37,30 @@ namespace ProjectExodus.UserInterface.Controllers
 
         void IUserInterfaceController.InitialiseUserInterfaceController()
         {
-            IGameplayHUDController _GamplayHUDController =
-                this.m_GameplayHUDScreen.GetComponent<IGameplayHUDController>();
+            GameManager _GameManager = GameManager.Instance;
+            IPauseController _PauseController = _GameManager.SceneManager.GetActiveSceneController().PauseController;
             
             this.m_LoadingBarScreenState = this.m_LoadingScreen.GetComponent<IScreenState>();
             this.m_GameplayHudScreenState = this.m_GameplayHUDScreen.GetComponent<IScreenState>();
             this.m_PauseScreenState = this.m_PauseScreen.GetComponent<IScreenState>();
+            this.m_OptionsScreenState = this.m_OptionsScreen.GetComponent<IScreenState>();
             
             this.m_GameplayHudScreenState.Initialize();
-            _GamplayHUDController.Initialize();
+            this.m_PauseScreenState.Initialize();
+            this.m_OptionsScreenState.Initialize();
             
-            // A bit unusual for the controller's initialisation to occur from retrieving a related components
-            // Additionally the initialise method may be thrown around in different areas. Might be a concern.
+            // Initialize screens
+            IGameplayHUDController _GamplayHUDController =
+                this.m_GameplayHUDScreen.GetComponent<IGameplayHUDController>();
+            _GamplayHUDController.Initialize(_PauseController, this);
+            this.m_PauseScreen.GetComponent<IPauseScreenPresenter>().Initialize(_PauseController, this);
+            this.m_OptionsScreen.GetComponent<IOptionsMenuController>()
+                .InitialiseOptionsMenu(
+                    _GameManager.DataContext,
+                    _GameManager.GameSettings.GameOptionsModel,
+                    _GameManager.GameOptionsFacade,
+                    _GameManager.Mapper,
+                    this);
 
             this.m_GUIControllers = new GameplaySceneGUIControllers(_GamplayHUDController);
         }
@@ -58,6 +75,7 @@ namespace ProjectExodus.UserInterface.Controllers
                 UIScreenType.LoadingScreen => this.m_LoadingBarScreenState,
                 UIScreenType.GameplayHUD => this.m_GameplayHudScreenState,
                 UIScreenType.PauseScreen => this.m_PauseScreenState,
+                UIScreenType.OptionsMenu => this.m_OptionsScreenState,
                 _ => this.m_CurrentScreenState
             };
 

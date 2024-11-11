@@ -1,3 +1,7 @@
+using System;
+using ProjectExodus.GameLogic.Pause.PauseController;
+using ProjectExodus.Management.Enumeration;
+using ProjectExodus.UserInterface.Controllers;
 using UnityEngine;
 
 namespace ProjectExodus.UserInterface.PauseScreen
@@ -8,14 +12,22 @@ namespace ProjectExodus.UserInterface.PauseScreen
 
         #region - - - - - - Fields - - - - - -
 
-        private PauseScreenView m_View; 
+        private IPauseController m_PauseController;
+        private PauseScreenView m_View;
+        private IUserInterfaceController m_UserInterfaceController;
 
         #endregion Fields
 
         #region - - - - - - Initializers - - - - - -
 
-        void IPauseScreenPresenter.Initialize()
+        void IPauseScreenPresenter.Initialize(
+            IPauseController pauseController, 
+            IUserInterfaceController userInterfaceController)
         {
+            this.m_PauseController = pauseController ?? throw new ArgumentNullException(nameof(pauseController));
+            this.m_UserInterfaceController =
+                userInterfaceController ?? throw new ArgumentNullException(nameof(userInterfaceController));
+            
             this.m_View = this.GetComponent<PauseScreenView>();
             this.BindMethodsToView();
         }
@@ -39,17 +51,16 @@ namespace ProjectExodus.UserInterface.PauseScreen
 
         private void ResumeGame()
         {
-            
+            this.m_UserInterfaceController.OpenScreen(UIScreenType.GameplayHUD);
+            this.m_PauseController.UnPause();
         }
 
-        private void OpenOptionsMenu()
-        {
-            
-        }
+        private void OpenOptionsMenu() 
+            => this.m_UserInterfaceController.OpenScreen(UIScreenType.OptionsMenu);
 
         private void ExitGameplay()
         {
-            
+            Debug.Log("Exit gameplay not implemented.");
         }
 
         #endregion Methods

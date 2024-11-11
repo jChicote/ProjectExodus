@@ -1,4 +1,7 @@
-﻿namespace ProjectExodus.GameLogic.Pause.PauseController
+﻿using System;
+using UnityEngine.Events;
+
+namespace ProjectExodus.GameLogic.Pause.PauseController
 {
 
     public interface IPauseController
@@ -6,9 +9,17 @@
 
         #region - - - - - - Methods - - - - - -
 
-        void PauseAllPausableComponents();
+        void Pause();
         
-        void UnPauseAllPausableComponents();
+        void UnPause();
+
+        void SubscribePauseActionEvent(UnityAction actionToSubscribe);
+
+        void UnSubscribePauseActionEvent(UnityAction actionToUnsubscribe);
+
+        void SubscribeUnPauseActionEvent(UnityAction actionToSubscribe);
+
+        void UnSubscribeUnPauseActionEvent(UnityAction actionToUnsubscribe);
 
         #endregion Methods
 

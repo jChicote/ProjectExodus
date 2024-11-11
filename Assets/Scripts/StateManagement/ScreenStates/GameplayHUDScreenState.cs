@@ -10,6 +10,7 @@ namespace ProjectExodus.StateManagement.ScreenStates
 
         #region - - - - - - Fields - - - - - -
 
+        private IGameplayHUDController m_GameplayHUDController;
         private IScreenStateController m_ScreenController;
         
         #endregion Fields
@@ -22,12 +23,16 @@ namespace ProjectExodus.StateManagement.ScreenStates
         #endregion Initializers
   
         #region - - - - - - Methods - - - - - -
-
-        void IScreenState.StartState() 
-            => this.m_ScreenController.ShowScreen();
+        
+        void IScreenState.StartState()
+        {
+            this.m_ScreenController.ShowScreen();
+        }
 
         void IScreenState.EndState()
-            => this.m_ScreenController.HideScreen();
+        {
+            this.m_ScreenController.HideScreen();
+        }
 
         object IScreenState.GetInterfaceController()
             => this.GetComponent<IGameplayHUDController>();
