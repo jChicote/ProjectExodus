@@ -15,11 +15,13 @@ namespace ProjectExodus.UserInterface.Controllers
 
         [SerializeField] private GameObject m_LoadingScreen;
         [SerializeField] private GameObject m_GameplayHUDScreen;
+        [SerializeField] private GameObject m_PauseScreen;
 
         private GameplaySceneGUIControllers m_GUIControllers;
 
         private IScreenState m_LoadingBarScreenState;
         private IScreenState m_GameplayHudScreenState;
+        private IScreenState m_PauseScreenState;
         
         private IScreenState m_CurrentScreenState;
         private IScreenState m_PreviousScreenState;
@@ -35,6 +37,7 @@ namespace ProjectExodus.UserInterface.Controllers
             
             this.m_LoadingBarScreenState = this.m_LoadingScreen.GetComponent<IScreenState>();
             this.m_GameplayHudScreenState = this.m_GameplayHUDScreen.GetComponent<IScreenState>();
+            this.m_PauseScreenState = this.m_PauseScreen.GetComponent<IScreenState>();
             
             this.m_GameplayHudScreenState.Initialize();
             _GamplayHUDController.Initialize();
@@ -54,6 +57,7 @@ namespace ProjectExodus.UserInterface.Controllers
             {
                 UIScreenType.LoadingScreen => this.m_LoadingBarScreenState,
                 UIScreenType.GameplayHUD => this.m_GameplayHudScreenState,
+                UIScreenType.PauseScreen => this.m_PauseScreenState,
                 _ => this.m_CurrentScreenState
             };
 

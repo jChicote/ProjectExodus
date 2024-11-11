@@ -7,7 +7,8 @@
         MainMenu,
         OptionsMenu,
         LoadingScreen,
-        GameplayHUD
+        GameplayHUD,
+        PauseScreen
     }
 
 }
