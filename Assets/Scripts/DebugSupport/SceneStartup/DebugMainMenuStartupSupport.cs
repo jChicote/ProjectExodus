@@ -21,6 +21,20 @@ namespace ProjectExodus.DebugSupport.SceneStartup
             // If the game manager support existed before the scene support... The scene debug should not run.
             if (this.ValidateSupportRequirements()) return;
             
+            // Check that no other scene debugger is running. This is to prevent errors when moving between scenes.
+            // Debug Support components are not built to co-exist with other debug support classes.
+            int _FoundDebugSupportSceneCount =
+                FindObjectsByType<DebugSceneStartupSupport>(
+                    FindObjectsInactive.Exclude, 
+                    FindObjectsSortMode.None).Length;
+            int _FoundDebugMainSupportCount =
+                FindObjectsByType<DebugMainMenuStartupSupport>(
+                    FindObjectsInactive.Exclude,
+                    FindObjectsSortMode.None).Length;
+            
+            if (_FoundDebugSupportSceneCount > 1 || _FoundDebugMainSupportCount > 1)
+                return;
+            
             this.LoadPersistenceScene();
         }
 

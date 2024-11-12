@@ -65,7 +65,7 @@ namespace ProjectExodus.Management.SceneManager
             => this.m_CurrentPlayer = currentPlayer;
 
         private bool DoesMultipleSceneControllersExist() 
-            => this.GetAllActiveSceneControllers().Length > 0;
+            => this.GetAllActiveSceneControllers().Length > 1;
 
         private ISceneController[] GetAllActiveSceneControllers()
         {
