@@ -1,3 +1,6 @@
+using ProjectExodus.GameLogic.Pause.PauseController;
+using ProjectExodus.UserInterface.Controllers;
+
 namespace ProjectExodus.UserInterface.GameplayHUD
 {
 
@@ -6,7 +9,7 @@ namespace ProjectExodus.UserInterface.GameplayHUD
 
         #region - - - - - - Initializers - - - - - -
 
-        void Initialize();
+        void Initialize(IPauseController pauseController, IUserInterfaceController userInterfaceController);
 
         #endregion Initializers
   

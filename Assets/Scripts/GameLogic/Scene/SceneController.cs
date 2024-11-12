@@ -1,4 +1,5 @@
 using ProjectExodus.Common.Services;
+using ProjectExodus.GameLogic.Pause.PauseController;
 using ProjectExodus.GameLogic.Scene.SetupHandlers;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ namespace ProjectExodus.GameLogic.Scene
         #region - - - - - - Fields - - - - - -
 
         [SerializeField] private SceneStartupHandler m_SceneStartupController;
+        [SerializeField] private PauseController m_PauseController;
 
         #endregion Fields
 
@@ -28,6 +30,13 @@ namespace ProjectExodus.GameLogic.Scene
 
         #endregion Initialisers
 
+        #region - - - - - - Properties - - - - - -
+        
+        IPauseController ISceneController.PauseController
+            => this.m_PauseController;
+
+        #endregion Properties
+  
         #region - - - - - - Methods - - - - - -
 
         bool ISceneController.IsActiveInScene()

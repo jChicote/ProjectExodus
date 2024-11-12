@@ -39,6 +39,7 @@ namespace ProjectExodus.Management.GameSaveManager
             => this.m_SelectedGameSaveModel = gameSaveModel ?? throw new ArgumentNullException(nameof(gameSaveModel));
 
         #endregion Methods
+        
     }
 
 }

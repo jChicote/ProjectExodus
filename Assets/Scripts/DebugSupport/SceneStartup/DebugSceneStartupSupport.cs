@@ -14,6 +14,7 @@ using ProjectExodus.GameLogic.Facades.WeaponActionFacade;
 using ProjectExodus.GameLogic.Scene.SetupHandlers;
 using ProjectExodus.Management.GameSaveManager;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 using SceneManager = UnityEngine.SceneManagement.SceneManager;
@@ -43,6 +44,20 @@ namespace ProjectExodus.DebugSupport.SceneStartup
         {
             // Validate whether boot scene was run first
             if (this.ValidateSupportRequirements()) return;
+            
+            // Check that no other scene debugger is running. This is to prevent errors when moving between scenes.
+            // Debug Support components are not built to co-exist with other debug support classes.
+            int _FoundDebugSupportSceneCount =
+                FindObjectsByType<DebugSceneStartupSupport>(
+                        FindObjectsInactive.Exclude, 
+                        FindObjectsSortMode.None).Length;
+            int _FoundDebugMainSupportCount =
+                FindObjectsByType<DebugMainMenuStartupSupport>(
+                    FindObjectsInactive.Exclude,
+                    FindObjectsSortMode.None).Length;
+            
+            if (_FoundDebugSupportSceneCount > 1 || _FoundDebugMainSupportCount > 1)
+                return;
             
             DebugSceneStartupSupport[] _StartupSupport = 
                 Object.FindObjectsByType<DebugSceneStartupSupport>(FindObjectsSortMode.None);

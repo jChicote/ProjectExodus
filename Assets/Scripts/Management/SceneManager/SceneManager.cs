@@ -51,11 +51,14 @@ namespace ProjectExodus.Management.SceneManager
 
         ISceneController ISceneManager.GetActiveSceneController()
         {
-            if (this.m_ActiveSceneController != null && this.m_ActiveSceneController.IsActiveInScene())
-                return this.m_ActiveSceneController;
-            
-            if (this.DoesMultipleSceneControllersExist())
-                Debug.LogWarning("[WARNING]: Multiple SceneControllers were found.");
+            // ---------------------------------------------------------------------------------------------
+            // Validation is commented out as destroyed gameobject maintain their reference but point to null.
+            // ---------------------------------------------------------------------------------------------
+            // if (this.m_ActiveSceneController != null && this.m_ActiveSceneController.IsActiveInScene())
+            //     return this.m_ActiveSceneController;
+            //
+            // if (this.DoesMultipleSceneControllersExist())
+            //     Debug.LogWarning("[WARNING]: Multiple SceneControllers were found.");
             
             this.m_ActiveSceneController = this.GetAllActiveSceneControllers().FirstOrDefault();
             return this.m_ActiveSceneController;
@@ -65,7 +68,7 @@ namespace ProjectExodus.Management.SceneManager
             => this.m_CurrentPlayer = currentPlayer;
 
         private bool DoesMultipleSceneControllersExist() 
-            => this.GetAllActiveSceneControllers().Length > 0;
+            => this.GetAllActiveSceneControllers().Length > 1;
 
         private ISceneController[] GetAllActiveSceneControllers()
         {

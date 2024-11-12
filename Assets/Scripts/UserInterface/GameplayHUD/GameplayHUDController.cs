@@ -1,3 +1,7 @@
+using System;
+using ProjectExodus.GameLogic.Pause.PauseController;
+using ProjectExodus.Management.Enumeration;
+using ProjectExodus.UserInterface.Controllers;
 using UnityEngine;
 
 namespace ProjectExodus.UserInterface.GameplayHUD
@@ -9,21 +13,29 @@ namespace ProjectExodus.UserInterface.GameplayHUD
         #region - - - - - - Fields - - - - - -
 
         private GameplayHUDView m_View;
+        private IUserInterfaceController m_UserInterfaceController;
+        private IPauseController m_PauseController;
 
         #endregion Fields
   
         #region - - - - - - Initializers - - - - - -
 
-        void IGameplayHUDController.Initialize()
+        void IGameplayHUDController.Initialize(
+            IPauseController pauseController, 
+            IUserInterfaceController userInterfaceController)
         {
+            this.m_PauseController = pauseController ?? throw new ArgumentNullException(nameof(pauseController));
+            this.m_UserInterfaceController = userInterfaceController ??
+                                             throw new ArgumentNullException(nameof(userInterfaceController));
+            
             this.m_View = this.GetComponent<GameplayHUDView>();
-            this.m_View.PauseButton.onClick.AddListener(this.PauseGame);
+            this.BindMethodsToView();
         }
 
         #endregion Initializers
 
         #region - - - - - - Methods - - - - - -
-
+        
         void IGameplayHUDController.SetMaxHealthValues(float maxPlating, float maxShield)
             => this.m_View.SetMaxHealthValues(maxPlating, maxShield);
 
@@ -36,8 +48,14 @@ namespace ProjectExodus.UserInterface.GameplayHUD
         void IScreenStateController.ShowScreen()
             => this.m_View.ShowHUD();
 
-        private void PauseGame() 
-            => Debug.LogWarning("[WARNING]: No pause behaviour implemented.");
+        private void BindMethodsToView() 
+            => this.m_View.PauseButton.onClick.AddListener(this.PauseGame);
+
+        private void PauseGame()
+        {
+            this.m_UserInterfaceController.OpenScreen(UIScreenType.PauseScreen);
+            this.m_PauseController.Pause();
+        }
 
         #endregion Methods
 
