@@ -1,4 +1,6 @@
-﻿namespace ProjectExodus.UserInterface.ShipSelectionScreen
+﻿using ProjectExodus.GameLogic.Infrastructure.Providers;
+
+namespace ProjectExodus.UserInterface.ShipSelectionScreen
 {
 
     public interface IShipSelectionScreenPresenter
@@ -6,7 +8,7 @@
 
         #region - - - - - - Methods - - - - - -
 
-        void Initialize();
+        void Initialize(IShipAssetProvider shipAssetProvider);
 
         #endregion Methods
 

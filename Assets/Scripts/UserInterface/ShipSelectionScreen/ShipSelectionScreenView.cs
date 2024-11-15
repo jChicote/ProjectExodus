@@ -49,6 +49,11 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
   
         #region - - - - - - Methods - - - - - -
 
+        public void ShowPresentedShip(SelectedShipDto selectedShip)
+        {
+            
+        }
+
         public void HideScreen()
             => this.m_ContentGroup.SetActive(false);
 
@@ -57,6 +62,17 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
 
         #endregion Methods
 
+    }
+
+    public class SelectedShipDto
+    {
+
+        #region - - - - - - Properties - - - - - -
+
+        
+
+        #endregion Properties
+  
     }
 
 }

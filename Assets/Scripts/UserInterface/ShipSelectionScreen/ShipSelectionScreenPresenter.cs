@@ -1,6 +1,6 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
 using ProjectExodus.Domain.Models;
+using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.ScriptableObjects.AssetEntities;
 using ProjectExodus.UserInterface.Controllers;
@@ -21,17 +21,19 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
         private IUserInterfaceController m_UserInterfaceController;
         
         private ShipModel m_AvailableShips;
-        private ShipAssetObject m_AllShips;
+        private List<ShipAssetObject> m_AllShips;
 
         #endregion Fields
 
         #region - - - - - - Initializers - - - - - -
 
-        void IShipSelectionScreenPresenter.Initialize()
+        void IShipSelectionScreenPresenter.Initialize(IShipAssetProvider shipAssetProvider)
         {
             this.m_View = this.GetComponent<ShipSelectionScreenView>();
+            this.m_AllShips = shipAssetProvider.GetAllShips();
             
             this.BindMethodsToView();
+            
         }
 
         #endregion Initializers
