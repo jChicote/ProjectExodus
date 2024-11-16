@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.Management.Enumeration;
@@ -19,21 +21,25 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
         
         private ShipSelectionScreenView m_View;
         private IUserInterfaceController m_UserInterfaceController;
-        
-        private ShipModel m_AvailableShips;
+
+        private int m_SelectedIndex = 0;
+        private List<ShipModel> m_AvailableShips;
         private List<ShipAssetObject> m_AllShips;
 
         #endregion Fields
 
         #region - - - - - - Initializers - - - - - -
 
-        void IShipSelectionScreenPresenter.Initialize(IShipAssetProvider shipAssetProvider)
+        void IShipSelectionScreenPresenter.Initialize(
+            List<ShipModel> availableShips, 
+            IShipAssetProvider shipAssetProvider)
         {
             this.m_View = this.GetComponent<ShipSelectionScreenView>();
+            this.m_AvailableShips = availableShips;
             this.m_AllShips = shipAssetProvider.GetAllShips();
             
             this.BindMethodsToView();
-            
+            this.SelectShipInCollection(0);
         }
 
         #endregion Initializers
@@ -50,12 +56,14 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
 
         private void LeftButtonSelection()
         {
-            
+            this.m_SelectedIndex = Math.Clamp(this.m_SelectedIndex--, 0, this.m_AvailableShips.Count);
+            this.SelectShipInCollection(this.m_SelectedIndex);
         }
 
         private void RightButtonSelection()
         {
-            
+            this.m_SelectedIndex = Math.Clamp(this.m_SelectedIndex++, 0, this.m_AvailableShips.Count);
+            this.SelectShipInCollection(this.m_SelectedIndex);
         }
 
         private void SelectShip()
@@ -78,7 +86,19 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
 
         private void SelectShipInCollection(int index)
         {
+            ShipAssetObject _SelectedShip = this.m_AllShips[index];
+            if (this.m_AvailableShips.Any(sm => sm.AssetID == _SelectedShip.ID))
+            {
+                this.m_View.PresentAvailableShip(new SelectedShipDto()
+                {
+                    Model = this.m_AvailableShips.Single(sm => sm.AssetID == _SelectedShip.ID),
+                    AssetObject = _SelectedShip
+                });
+            }
+            else
+                this.m_View.PresentUnAvailableShip(new SelectedShipDto { AssetObject = _SelectedShip });
             
+            this.UpdateScreenStateControls();
         }
 
         private void UpdateScreenStateControls()

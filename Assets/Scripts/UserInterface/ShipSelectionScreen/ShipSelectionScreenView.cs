@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using ProjectExodus.Domain.Models;
+using ProjectExodus.ScriptableObjects.AssetEntities;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -49,7 +51,12 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
   
         #region - - - - - - Methods - - - - - -
 
-        public void ShowPresentedShip(SelectedShipDto selectedShip)
+        public void PresentAvailableShip(SelectedShipDto selectedShip)
+        {
+            
+        }
+
+        public void PresentUnAvailableShip(SelectedShipDto selectedShip)
         {
             
         }
@@ -69,7 +76,9 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
 
         #region - - - - - - Properties - - - - - -
 
+        public ShipModel Model { get; set; }
         
+        public ShipAssetObject AssetObject { get; set; }
 
         #endregion Properties
   

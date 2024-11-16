@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.GetPlayer;
@@ -16,6 +17,8 @@ namespace ProjectExodus.Management.GameSaveManager
 
         #region - - - - - - Fields - - - - - -
 
+        public static GameSaveManager Instance;
+
         private IDataContext m_DataContext;
         private IPlayerActionFacade m_PlayerActionFacade;
         
@@ -32,10 +35,26 @@ namespace ProjectExodus.Management.GameSaveManager
 
         #endregion Initializers
 
+        #region - - - - - - Unity Lifecycle Methods - - - - - -
+
+        private void Awake()
+        {
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(gameObject);
+        }
+
+        #endregion Unity Lifecycle Methods
+  
         #region - - - - - - Properties - - - - - -
 
         GameSaveModel IGameSaveManager.GameSaveModel 
             => this.m_SelectedGameSaveModel;
+
+        public List<ShipModel> PlayerShips
+            => this.m_SelectedPlayer.Ships;
+            
 
         #endregion Properties
   

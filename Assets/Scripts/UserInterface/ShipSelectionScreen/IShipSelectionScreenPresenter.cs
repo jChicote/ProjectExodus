@@ -1,4 +1,6 @@
-﻿using ProjectExodus.GameLogic.Infrastructure.Providers;
+﻿using System.Collections.Generic;
+using ProjectExodus.Domain.Models;
+using ProjectExodus.GameLogic.Infrastructure.Providers;
 
 namespace ProjectExodus.UserInterface.ShipSelectionScreen
 {
@@ -8,7 +10,7 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
 
         #region - - - - - - Methods - - - - - -
 
-        void Initialize(IShipAssetProvider shipAssetProvider);
+        void Initialize(List<ShipModel> availableShips, IShipAssetProvider shipAssetProvider);
 
         #endregion Methods
 
