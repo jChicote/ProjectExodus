@@ -1,6 +1,10 @@
 using System;
+using System.Linq;
 using ProjectExodus.Backend.JsonDataContext;
+using ProjectExodus.Backend.UseCases.PlayerUseCases.GetPlayer;
 using ProjectExodus.Domain.Models;
+using ProjectExodus.GameLogic.Facades.PlayerActionFacades;
+using ProjectExodus.GameLogic.OutputHandlers;
 using UnityEngine;
 
 namespace ProjectExodus.Management.GameSaveManager
@@ -13,6 +17,7 @@ namespace ProjectExodus.Management.GameSaveManager
         #region - - - - - - Fields - - - - - -
 
         private IDataContext m_DataContext;
+        private IPlayerActionFacade m_PlayerActionFacade;
         
         // Loaded Data
         private GameSaveModel m_SelectedGameSaveModel;
@@ -37,23 +42,58 @@ namespace ProjectExodus.Management.GameSaveManager
         #region - - - - - - Methods - - - - - -
         
         void IGameSaveManager.SaveGameSave()
-            => this.m_DataContext.SaveChanges();
+        {
+            this.SaveGameplayData();
+            this.m_DataContext.SaveChanges();
+        }
 
         void IGameSaveManager.SetGameSave(GameSaveModel gameSaveModel)
-            => this.m_SelectedGameSaveModel = gameSaveModel ?? throw new ArgumentNullException(nameof(gameSaveModel));
+        {
+            this.m_SelectedGameSaveModel = gameSaveModel ?? throw new ArgumentNullException(nameof(gameSaveModel));
+            this.LoadGameplayData();
+        }
 
         private void LoadGameplayData()
         {
-            // Load the weapon data
+            if (this.m_SelectedGameSaveModel == null)
+            {
+                Debug.LogError("[ERROR]: A GameSave must be loaded and selected before loading the Player.");
+                return;
+            }
             
-            // Load the ship data
+            GetPlayerOutputResult _PlayerOutput = new GetPlayerOutputResult();
+            this.m_PlayerActionFacade.GetPlayer(
+                new GetPlayerInputPort { ID = this.m_SelectedGameSaveModel.PlayerID },
+                _PlayerOutput);
+
+            if (_PlayerOutput.IsSuccessful)
+                this.m_SelectedPlayer = _PlayerOutput.Result;
+        }
+
+        private void SaveGameplayData()
+        {
+            // Save the player object
+            if (this.m_SelectedPlayer == null)
+            {
+                Debug.LogError("[ERROR]: Save action is aborted. A Player must be loaded in order to be saved.");
+                return;
+            }
             
-            // Load the player data
+            // Save the Ships
+            foreach (ShipModel _Ship in this.m_SelectedPlayer.Ships)
+            {
+                
+            }
             
+            // Save the Weapons
+            foreach (WeaponModel _Weapon in this.m_SelectedPlayer.Ships.SelectMany(s => s.Weapons))
+            {
+                
+            }
         }
         
         #endregion Methods
         
     }
-
+    
 }

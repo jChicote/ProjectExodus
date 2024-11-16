@@ -1,0 +1,37 @@
+﻿using System;
+using ProjectExodus.Backend.UseCases.PlayerUseCases.GetPlayer;
+using ProjectExodus.Domain.Models;
+using UnityEngine;
+
+namespace ProjectExodus.GameLogic.OutputHandlers
+{
+
+    public class GetPlayerOutputResult : IGetPlayerOutputPort
+    {
+
+        #region - - - - - - Properties - - - - - -
+
+        public PlayerModel Result;
+        public bool IsSuccessful;
+
+        #endregion Properties
+  
+        #region - - - - - - Methods - - - - - -
+
+        void IGetPlayerOutputPort.PresentPlayer(PlayerModel player)
+        {
+            this.Result = player;
+            this.IsSuccessful = true;
+        }
+
+        void IGetPlayerOutputPort.PresentPlayerNotFound()
+        {
+            Debug.Log("[ERROR]: Player is not found in file.");
+            this.IsSuccessful = false;
+        }
+
+        #endregion Methods
+  
+    }
+
+}
