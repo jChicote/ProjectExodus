@@ -22,7 +22,7 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
         private ShipSelectionScreenView m_View;
         private IUserInterfaceController m_UserInterfaceController;
 
-        private int m_SelectedIndex = 0;
+        private int m_SelectedIndex;
         private List<ShipModel> m_AvailableShips;
         private List<ShipAssetObject> m_AllShips;
 
@@ -92,18 +92,21 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
                 this.m_View.PresentAvailableShip(new SelectedShipDto()
                 {
                     Model = this.m_AvailableShips.Single(sm => sm.AssetID == _SelectedShip.ID),
-                    AssetObject = _SelectedShip
+                    ShipAsset = _SelectedShip
                 });
             }
             else
-                this.m_View.PresentUnAvailableShip(new SelectedShipDto { AssetObject = _SelectedShip });
+                this.m_View.PresentUnAvailableShip(new SelectedShipDto { ShipAsset = _SelectedShip });
             
             this.UpdateScreenStateControls();
         }
 
         private void UpdateScreenStateControls()
         {
-            
+            this.m_View.LeftButton.enabled = this.m_SelectedIndex > 0;
+            this.m_View.RightButton.enabled = this.m_SelectedIndex < this.m_AvailableShips.Count;
+            this.m_View.SelectButton.enabled =
+                this.m_AvailableShips.Any(sm => sm.AssetID == this.m_AllShips[this.m_SelectedIndex].ID);
         }
 
         #endregion Methods
