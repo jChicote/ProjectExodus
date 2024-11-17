@@ -3,6 +3,7 @@ using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Backend.Repositories;
 using ProjectExodus.Backend.Repositories.GameOptionsRepository;
 using ProjectExodus.Backend.UseCases;
+using ProjectExodus.Backend.UseCases.Common;
 using ProjectExodus.Backend.UseCases.GameOptionsUseCases.CreateGameOptions;
 using ProjectExodus.Backend.UseCases.GameOptionsUseCases.UpdateGameOptions;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.Common;
@@ -83,7 +84,8 @@ namespace ProjectExodus.Backend.Configuration
             _ = new UpdateShipMapper(this.m_MapperRegister);
             
             // Player
-            _ = new CreatePlayerMapper(_DataContext, this.m_Mapper, this.m_MapperRegister);
+            _ = new PlayerMapper(_DataContext, this.m_Mapper, this.m_MapperRegister);
+            _ = new CreatePlayerMapper(this.m_MapperRegister);
             _ = new UpdatePlayerMapper(this.m_MapperRegister);
             
             // Weapon

@@ -4,7 +4,6 @@ using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Domain.Entities;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Mappers;
-using UnityEngine;
 
 namespace ProjectExodus.Backend.UseCases.ShipUseCases.GetShip
 {
