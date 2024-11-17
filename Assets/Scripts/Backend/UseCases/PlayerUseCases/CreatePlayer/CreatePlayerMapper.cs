@@ -39,7 +39,7 @@ namespace ProjectExodus.Backend.UseCases.PlayerUseCases.CreatePlayer
         private void MapCreatePlayerInputPortToPlayerEntity(CreatePlayerInputPort source, Player destination)
         {
             destination.ID = Guid.NewGuid();
-            destination.Ships = new() { source.StartShip.ID };
+            destination.Ships = new List<Guid> { source.StartShip.ID };
         }
 
         private void MapPlayerToPlayerModel(Player source, PlayerModel destination)

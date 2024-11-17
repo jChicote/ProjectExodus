@@ -1,23 +1,23 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ProjectExodus.Backend.UseCases.ShipUseCases.CreateShip
+namespace ProjectExodus.Backend.UseCases.ShipUseCases.UpdateShip
 {
 
-    public class CreateShipInputPort
+    public class UpdateShipInputPort
     {
 
         #region - - - - - - Properties - - - - - -
 
-        public int AssetID { get; set; }
-        
+        public Guid ID { get; set; }
+                
         public float PlatingHealthModifier { get; set; }
 
         public float ShieldHealthModifier { get; set; }
 
         public List<Guid> Weapons { get; set; }
 
-        #endregion properties
+        #endregion Properties
   
     }
 

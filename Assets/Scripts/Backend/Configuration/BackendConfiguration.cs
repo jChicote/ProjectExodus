@@ -15,6 +15,8 @@ using ProjectExodus.Backend.UseCases.PlayerUseCases.GetPlayer;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.UpdatePlayer;
 using ProjectExodus.Backend.UseCases.ShipUseCases.Common;
 using ProjectExodus.Backend.UseCases.ShipUseCases.CreateShip;
+using ProjectExodus.Backend.UseCases.ShipUseCases.GetShip;
+using ProjectExodus.Backend.UseCases.ShipUseCases.UpdateShip;
 using ProjectExodus.Backend.UseCases.WeaponUseCases.Common;
 using ProjectExodus.Backend.UseCases.WeaponUseCases.CreateWeapon;
 using ProjectExodus.Backend.UseCases.WeaponUseCases.GetWeapons;
@@ -78,6 +80,7 @@ namespace ProjectExodus.Backend.Configuration
             // Ship
             _ = new ShipMapper(_DataContext, this.m_Mapper, this.m_MapperRegister);
             _ = new CreateShipMapper(this.m_MapperRegister);
+            _ = new UpdateShipMapper(this.m_MapperRegister);
             
             // Player
             _ = new CreatePlayerMapper(_DataContext, this.m_Mapper, this.m_MapperRegister);
@@ -122,6 +125,12 @@ namespace ProjectExodus.Backend.Configuration
             this.m_ServiceLocator.RegisterService(
                 (IUseCaseInteractor<CreateShipInputPort, ICreateShipOutputPort>)
                     new CreateShipInteractor(_DataContext, this.m_Mapper));
+            this.m_ServiceLocator.RegisterService(
+                (IUseCaseInteractor<GetShipInputPort, IGetShipOutputPort>)
+                    new GetShipInteractor(_DataContext, this.m_Mapper));
+            this.m_ServiceLocator.RegisterService(
+                (IUseCaseInteractor<UpdateShipInputPort, IUpdateShipOutputPort>)
+                    new UpdateShipInteractor(_DataContext, this.m_Mapper));
             
             // Player
             this.m_ServiceLocator.RegisterService(

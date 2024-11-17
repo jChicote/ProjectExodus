@@ -21,6 +21,8 @@ namespace ProjectExodus.Backend.UseCases.ShipUseCases.CreateShip
         {
             destination.ID = Guid.NewGuid();
             destination.AssetID = source.AssetID;
+            destination.PlatingHealthModifier = source.PlatingHealthModifier;
+            destination.ShieldHealthModifier = source.ShieldHealthModifier;
             destination.Weapons = source.Weapons;
         }
 

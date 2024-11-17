@@ -1,11 +1,37 @@
-﻿using System;
+﻿using ProjectExodus.Backend.UseCases.PlayerUseCases.CreatePlayer;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.GetPlayer;
 using ProjectExodus.Domain.Models;
 using UnityEngine;
 
 namespace ProjectExodus.GameLogic.OutputHandlers
 {
+    
+    public class CreatePlayerOutputResult : ICreatePlayerOutputPort
+    {
 
+        #region - - - - - - Properties - - - - - -
+
+        public PlayerModel Result { get; set; }
+        
+        public bool IsSuccessful { get; set; }
+
+        #endregion Properties
+
+        #region - - - - - - Methods - - - - - -
+
+        void ICreatePlayerOutputPort.PresentCreatedPlayer(PlayerModel player)
+        {
+            this.Result = player;
+            this.IsSuccessful = true;
+        }
+
+        void ICreatePlayerOutputPort.PresentUnsuccessfulCreationOfPlayer()
+            => this.IsSuccessful = false;
+
+        #endregion Methods
+  
+    }
+    
     public class GetPlayerOutputResult : IGetPlayerOutputPort
     {
 

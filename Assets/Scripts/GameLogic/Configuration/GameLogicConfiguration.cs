@@ -9,6 +9,8 @@ using ProjectExodus.Backend.UseCases.PlayerUseCases.CreatePlayer;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.GetPlayer;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.UpdatePlayer;
 using ProjectExodus.Backend.UseCases.ShipUseCases.CreateShip;
+using ProjectExodus.Backend.UseCases.ShipUseCases.GetShip;
+using ProjectExodus.Backend.UseCases.ShipUseCases.UpdateShip;
 using ProjectExodus.Backend.UseCases.WeaponUseCases.CreateWeapon;
 using ProjectExodus.Backend.UseCases.WeaponUseCases.GetWeapons;
 using ProjectExodus.Common.Services;
@@ -125,7 +127,9 @@ namespace ProjectExodus.GameLogic.Configuration
             this.m_ServiceLocator.RegisterService(_PlayerControllers);
 
             IShipActionFacade _ShipActionFacade = new ShipActionFacade(
-                this.m_ServiceLocator.GetService<IUseCaseInteractor<CreateShipInputPort, ICreateShipOutputPort>>());
+                this.m_ServiceLocator.GetService<IUseCaseInteractor<CreateShipInputPort, ICreateShipOutputPort>>(),
+                this.m_ServiceLocator.GetService<IUseCaseInteractor<GetShipInputPort, IGetShipOutputPort>>(),
+                this.m_ServiceLocator.GetService<IUseCaseInteractor<UpdateShipInputPort, IUpdateShipOutputPort>>());
             this.m_ServiceLocator.RegisterService(_ShipActionFacade);
             
             IWeaponActionFacade _WeaponActionFacade = new WeaponActionFacade(

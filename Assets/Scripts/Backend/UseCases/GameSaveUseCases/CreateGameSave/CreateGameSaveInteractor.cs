@@ -38,13 +38,13 @@ namespace ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave
             ICreateGameSaveOutputPort outputPort)
         {
             // Create new player for save
-            Player _Player = new Player();
-            _Player.ID = Guid.NewGuid();
-            this.m_DataContext.Add(_Player);
+            // Player _Player = new Player();
+            // _Player.ID = Guid.NewGuid();
+            // this.m_DataContext.Add(_Player);
             
             GameSave _GameSave = new GameSave();
             this.m_Mapper.Map(inputPort, _GameSave);
-            _GameSave.PlayerID = _Player.ID;
+            // _GameSave.PlayerID = _Player.ID;
             this.m_DataContext.Add(_GameSave);
 
             outputPort.PresentCreatedGameSave(this.m_Mapper.Map(_GameSave, new GameSaveModel()));
