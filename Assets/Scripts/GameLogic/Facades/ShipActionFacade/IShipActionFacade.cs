@@ -1,4 +1,5 @@
 using ProjectExodus.Backend.UseCases.ShipUseCases.CreateShip;
+using ProjectExodus.Backend.UseCases.ShipUseCases.GetShip;
 
 namespace ProjectExodus.GameLogic.Facades.ShipActionFacade
 {
@@ -9,6 +10,8 @@ namespace ProjectExodus.GameLogic.Facades.ShipActionFacade
         #region - - - - - - Methods - - - - - -
 
         void CreateShip(CreateShipInputPort inputPort, ICreateShipOutputPort outputPort);
+
+        void GetShip(GetShipInputPort inputPort, IGetShipOutputPort outputPort);
 
         #endregion Methods
 

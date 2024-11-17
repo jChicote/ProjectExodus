@@ -1,3 +1,4 @@
+using System;
 using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands;
 using ProjectExodus.UserInterface.LoadingScreen;
@@ -15,6 +16,8 @@ namespace GameLogic.SetupHandlers.SceneHandlers
         public IServiceLocator ServiceLocator { get; set; }
         
         public StartupDataOptions StartupDataOptions { get; set; }
+        
+        public Guid SelectedShipID { get; set; }
 
         #endregion Properties
   

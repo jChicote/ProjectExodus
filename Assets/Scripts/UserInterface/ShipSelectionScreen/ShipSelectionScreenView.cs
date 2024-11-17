@@ -64,17 +64,20 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
             this.m_ShipName.text = selectedShip.ShipAsset.Name;
             this.m_ShipImage.sprite = selectedShip.ShipAsset.ShipSprite;
 
-            for (int _Index = 0; _Index < selectedShip.WeaponAssets.Count; _Index++)
+            if (selectedShip.WeaponAssets != null)
             {
-                if (_Index > this.m_WeaponTiles.Count - 1)
+                for (int _Index = 0; _Index < selectedShip.WeaponAssets.Count; _Index++)
                 {
-                    Debug.LogWarning("[WARNING]: Number of weapons exceed the weapon tiles to present them.");
-                    return;
-                }
+                    if (_Index > this.m_WeaponTiles.Count - 1)
+                    {
+                        Debug.LogWarning("[WARNING]: Number of weapons exceed the weapon tiles to present them.");
+                        return;
+                    }
 
-                WeaponTileView _WeaponTile = this.m_WeaponTiles[_Index];
-                _WeaponTile.WeaponSprite.sprite = selectedShip.WeaponAssets[_Index].WeaponSprite;
-                _WeaponTile.WeaponSprite.enabled = true;
+                    WeaponTileView _WeaponTile = this.m_WeaponTiles[_Index];
+                    _WeaponTile.WeaponSprite.sprite = selectedShip.WeaponAssets[_Index].WeaponSprite;
+                    _WeaponTile.WeaponSprite.enabled = true;
+                }
             }
 
             this.m_LockedShipWarning.SetActive(false);

@@ -16,9 +16,41 @@ MonoBehaviour:
   - ID: 0
     Name: Red Reliable
     Asset: {fileID: 3396301712567387330, guid: 6d9992b4460aa814cb0ff2cf06876893, type: 3}
-    BaseShieldHealth: 100
+    ShipSprite: {fileID: -7918081665980052981, guid: b701eef69983fdb4ba31668617276a40, type: 3}
+    BaseShieldHealth: 60
+    BasePlatingHealth: 60
+  - ID: 1
+    Name: Green Reliant
+    Asset: {fileID: 3396301712567387330, guid: bb8e18a58d4b3ea45b9c657208334dab, type: 3}
+    ShipSprite: {fileID: -7698356724329513834, guid: 74066b15d996e7f46a0d0c7cbdf326ed, type: 3}
+    BaseShieldHealth: 120
+    BasePlatingHealth: 120
+  - ID: 2
+    Name: Steel Hunter
+    Asset: {fileID: 3396301712567387330, guid: ad14547167554234da5fadcacf702e84, type: 3}
+    ShipSprite: {fileID: 7229229408729921471, guid: ca055b44435e6424a9874247579e963d, type: 3}
+    BaseShieldHealth: 20
+    BasePlatingHealth: 80
+  - ID: 3
+    Name: Iron Legacy
+    Asset: {fileID: 3396301712567387330, guid: 3c44873b5eaca454ba7aafd73737a3e1, type: 3}
+    ShipSprite: {fileID: 918624204419710873, guid: 6be83e5efc2a8cc4585bbc53c34e24a0, type: 3}
+    BaseShieldHealth: 20
     BasePlatingHealth: 100
+  - ID: 4
+    Name: Violet Burst
+    Asset: {fileID: 3396301712567387330, guid: 4258eb66c33e2144e9834debd684dc19, type: 3}
+    ShipSprite: {fileID: -335176462717264134, guid: 4ce0210d1e0a5a549a0e2287eb865323, type: 3}
+    BaseShieldHealth: 200
+    BasePlatingHealth: 40
+  - ID: 5
+    Name: Nomadic
+    Asset: {fileID: 3396301712567387330, guid: d348f31e48dca0f4b99806cb9e6aeb5b, type: 3}
+    ShipSprite: {fileID: 5436838822286441753, guid: 7ebb6caaaf02b554aa23343ff8b18b08, type: 3}
+    BaseShieldHealth: 150
+    BasePlatingHealth: 150
   WeaponPrefabs:
   - ID: 0
     Name: Turrent
     Asset: {fileID: 2792052741373065619, guid: 3b0bfcb30d9904a8d89ca204cd068948, type: 3}
+    WeaponSprite: {fileID: 0}

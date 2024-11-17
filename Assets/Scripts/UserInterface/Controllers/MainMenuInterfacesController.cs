@@ -2,7 +2,6 @@ using System;
 using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.Management.Enumeration;
-using ProjectExodus.Management.GameSaveManager;
 using ProjectExodus.StateManagement.ScreenStates;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu;
 using ProjectExodus.UserInterface.MainMenu;
@@ -40,7 +39,6 @@ namespace ProjectExodus.UserInterface.Controllers
         void IUserInterfaceController.InitialiseUserInterfaceController()
         {
             GameManager _GameManager = GameManager.Instance;
-            GameSaveManager _GameSaveManager = GameSaveManager.Instance;
             IServiceLocator _ServiceLocator = _GameManager.ServiceLocator;
 
             this.m_LoadingBarScreenState = this.m_LoadingBarScreen.GetComponent<IScreenState>();
@@ -49,6 +47,10 @@ namespace ProjectExodus.UserInterface.Controllers
             this.m_OptionsMenuScreenState = this.m_OptionsMenuScreen.GetComponent<IScreenState>();
             this.m_ShipSelectionScreenState = this.m_ShipSelectionScreen.GetComponent<IScreenState>();
             
+            // Initialize screen states
+            this.m_ShipSelectionScreenState.Initialize();
+            
+            // Initialize Presenters and Controllers
             this.m_GameSaveMenuScreen.GetComponent<IGameSaveSelectionMenuController>()
                 .InitializeGameSelectionMenuController(
                     _GameManager.DataContext,
@@ -64,8 +66,10 @@ namespace ProjectExodus.UserInterface.Controllers
                     _GameManager.Mapper,
                     this);
             this.m_ShipSelectionScreen.GetComponent<IShipSelectionScreenPresenter>()
-                .Initialize(_GameSaveManager.PlayerShips,
-                _ServiceLocator.GetService<IShipAssetProvider>());
+                .Initialize(
+                    _GameManager.GameStateManager,
+                    _ServiceLocator.GetService<IShipAssetProvider>(),
+                    this);
         }
 
         void IUserInterfaceController.OpenScreen(UIScreenType uiScreenType)

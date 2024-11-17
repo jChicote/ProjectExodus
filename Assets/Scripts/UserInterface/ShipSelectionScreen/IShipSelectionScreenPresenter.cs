@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using ProjectExodus.Domain.Models;
-using ProjectExodus.GameLogic.Infrastructure.Providers;
+﻿using ProjectExodus.GameLogic.Infrastructure.Providers;
+using ProjectExodus.Management.GameStateManager;
+using ProjectExodus.UserInterface.Controllers;
 
 namespace ProjectExodus.UserInterface.ShipSelectionScreen
 {
@@ -10,7 +10,10 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
 
         #region - - - - - - Methods - - - - - -
 
-        void Initialize(List<ShipModel> availableShips, IShipAssetProvider shipAssetProvider);
+        void Initialize(
+            IGameStateManager gameStateManager,
+            IShipAssetProvider shipAssetProvider, 
+            IUserInterfaceController userInterfaceController);
 
         #endregion Methods
 

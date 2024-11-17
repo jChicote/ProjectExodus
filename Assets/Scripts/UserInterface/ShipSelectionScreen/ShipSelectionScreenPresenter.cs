@@ -4,6 +4,9 @@ using System.Linq;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.Management.Enumeration;
+using ProjectExodus.Management.GameSaveManager;
+using ProjectExodus.Management.GameStateManager;
+using ProjectExodus.Management.SceneManager;
 using ProjectExodus.ScriptableObjects.AssetEntities;
 using ProjectExodus.UserInterface.Controllers;
 using UnityEngine;
@@ -20,10 +23,12 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
         #region - - - - - - Fields - - - - - -
         
         private ShipSelectionScreenView m_View;
+        private IGameStateManager m_GameStateManager;
         private IUserInterfaceController m_UserInterfaceController;
 
         private int m_SelectedIndex;
-        private List<ShipModel> m_AvailableShips;
+        private Guid? m_SelectedShipID;
+        private List<ShipModel> m_PlayerShips;
         private List<ShipAssetObject> m_AllShips;
 
         #endregion Fields
@@ -31,15 +36,17 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
         #region - - - - - - Initializers - - - - - -
 
         void IShipSelectionScreenPresenter.Initialize(
-            List<ShipModel> availableShips, 
-            IShipAssetProvider shipAssetProvider)
+            IGameStateManager gameStateManager,
+            IShipAssetProvider shipAssetProvider,
+            IUserInterfaceController userInterfaceController)
         {
-            this.m_View = this.GetComponent<ShipSelectionScreenView>();
-            this.m_AvailableShips = availableShips;
             this.m_AllShips = shipAssetProvider.GetAllShips();
+            this.m_GameStateManager = gameStateManager ?? throw new ArgumentNullException(nameof(gameStateManager));
+            this.m_UserInterfaceController = userInterfaceController ??
+                                             throw new ArgumentNullException(nameof(userInterfaceController));
+            this.m_View = this.GetComponent<ShipSelectionScreenView>();
             
             this.BindMethodsToView();
-            this.SelectShipInCollection(0);
         }
 
         #endregion Initializers
@@ -56,19 +63,21 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
 
         private void LeftButtonSelection()
         {
-            this.m_SelectedIndex = Math.Clamp(this.m_SelectedIndex--, 0, this.m_AvailableShips.Count);
+            this.m_SelectedIndex = Math.Clamp(this.m_SelectedIndex - 1, 0, this.m_AllShips.Count - 1);
             this.SelectShipInCollection(this.m_SelectedIndex);
         }
 
         private void RightButtonSelection()
         {
-            this.m_SelectedIndex = Math.Clamp(this.m_SelectedIndex++, 0, this.m_AvailableShips.Count);
+            this.m_SelectedIndex = Math.Clamp(this.m_SelectedIndex + 1, 0, this.m_AllShips.Count - 1);
             this.SelectShipInCollection(this.m_SelectedIndex);
         }
 
         private void SelectShip()
         {
-            
+            ShipAssetObject _SelectedShip = this.m_AllShips[this.m_SelectedIndex];
+            SceneManager.Instance.SelectedShipID = this.m_PlayerShips.Single(sm => sm.AssetID == _SelectedShip.ID).ID;
+            this.m_GameStateManager.ChangeGameState(GameState.Gameplay);
         }
 
         private void ReturnBackToMenu() 
@@ -82,16 +91,24 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
             => this.m_View.HideScreen();
 
         void IScreenStateController.ShowScreen()
-            => this.m_View.ShowScreen();
+        {
+            this.m_PlayerShips = GameSaveManager.Instance.PlayerShips;
+            this.SelectShipInCollection(0);
+            
+            this.m_View.ShowScreen();
+        }
 
         private void SelectShipInCollection(int index)
         {
+            if (this.m_PlayerShips == null || this.m_PlayerShips.Count == 0)
+                return;
+            
             ShipAssetObject _SelectedShip = this.m_AllShips[index];
-            if (this.m_AvailableShips.Any(sm => sm.AssetID == _SelectedShip.ID))
+            if (this.m_PlayerShips.Any(sm => sm.AssetID == _SelectedShip.ID))
             {
                 this.m_View.PresentAvailableShip(new SelectedShipDto()
                 {
-                    Model = this.m_AvailableShips.Single(sm => sm.AssetID == _SelectedShip.ID),
+                    Model = this.m_PlayerShips.Single(sm => sm.AssetID == _SelectedShip.ID),
                     ShipAsset = _SelectedShip
                 });
             }
@@ -103,10 +120,10 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
 
         private void UpdateScreenStateControls()
         {
-            this.m_View.LeftButton.enabled = this.m_SelectedIndex > 0;
-            this.m_View.RightButton.enabled = this.m_SelectedIndex < this.m_AvailableShips.Count;
-            this.m_View.SelectButton.enabled =
-                this.m_AvailableShips.Any(sm => sm.AssetID == this.m_AllShips[this.m_SelectedIndex].ID);
+            this.m_View.LeftButton.interactable = this.m_SelectedIndex > 0;
+            this.m_View.RightButton.interactable = this.m_SelectedIndex < this.m_AllShips.Count - 1;
+            this.m_View.SelectButton.interactable =
+                this.m_PlayerShips.Any(sm => sm.AssetID == this.m_AllShips[this.m_SelectedIndex].ID);
         }
 
         #endregion Methods

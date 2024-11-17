@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.GetPlayer;
+using ProjectExodus.Backend.UseCases.ShipUseCases.CreateShip;
+using ProjectExodus.Backend.UseCases.ShipUseCases.GetShip;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.PlayerActionFacades;
+using ProjectExodus.GameLogic.Facades.ShipActionFacade;
 using ProjectExodus.GameLogic.OutputHandlers;
 using UnityEngine;
 
@@ -21,6 +24,7 @@ namespace ProjectExodus.Management.GameSaveManager
 
         private IDataContext m_DataContext;
         private IPlayerActionFacade m_PlayerActionFacade;
+        private IShipActionFacade m_ShipActionFacade;
         
         // Loaded Data
         private GameSaveModel m_SelectedGameSaveModel;
@@ -30,8 +34,14 @@ namespace ProjectExodus.Management.GameSaveManager
   
         #region - - - - - - Initializers - - - - - -
 
-        void IGameSaveManager.InitializeGameSaveManager(IDataContext dataContext)
-            => this.m_DataContext = dataContext ?? throw new ArgumentNullException(nameof(dataContext));
+        void IGameSaveManager.InitializeGameSaveManager(
+            IDataContext dataContext, 
+            IPlayerActionFacade playerActionFacade)
+        {
+            this.m_DataContext = dataContext ?? throw new ArgumentNullException(nameof(dataContext));
+            this.m_PlayerActionFacade =
+                playerActionFacade ?? throw new ArgumentNullException(nameof(playerActionFacade));
+        }
 
         #endregion Initializers
 
@@ -55,7 +65,6 @@ namespace ProjectExodus.Management.GameSaveManager
         public List<ShipModel> PlayerShips
             => this.m_SelectedPlayer.Ships;
             
-
         #endregion Properties
   
         #region - - - - - - Methods - - - - - -
@@ -92,16 +101,33 @@ namespace ProjectExodus.Management.GameSaveManager
         private void SaveGameplayData()
         {
             // Save the player object
-            if (this.m_SelectedPlayer == null)
+            if (this.m_SelectedGameSaveModel == null || this.m_SelectedPlayer == null)
             {
-                Debug.LogError("[ERROR]: Save action is aborted. A Player must be loaded in order to be saved.");
+                Debug.LogWarning("[ERROR]: Save action is aborted. A GameSave or Player must be loaded in order to be saved.");
                 return;
             }
             
             // Save the Ships
             foreach (ShipModel _Ship in this.m_SelectedPlayer.Ships)
             {
-                
+                GetShipOutputResult _ShipResult = new GetShipOutputResult();
+                this.m_ShipActionFacade.GetShip(new GetShipInputPort { ID = _Ship.ID }, _ShipResult);
+
+                if (_ShipResult.IsSuccessful)
+                {
+                    CreateShipOutputResult _CreatedShipResult = new CreateShipOutputResult();
+                    this.m_ShipActionFacade.CreateShip();
+                }
+                else
+                {
+                    CreateShipOutputResult _CreatedShipResult = new CreateShipOutputResult();
+                    this.m_ShipActionFacade.CreateShip(new CreateShipInputPort()
+                    {
+                        AssetID = _Ship.AssetID,
+                        Weapons = _Ship.Weapons.Select(w => w.ID).ToList()
+                    },
+                    _CreatedShipResult);
+                }
             }
             
             // Save the Weapons

@@ -7,11 +7,11 @@ using ProjectExodus.GameLogic.Camera;
 using ProjectExodus.GameLogic.Facades.PlayerActionFacades;
 using ProjectExodus.GameLogic.Infrastructure.DataLoading;
 using ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands;
-using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.GameLogic.Player.PlayerSpawner;
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.GameSaveManager;
 using ProjectExodus.Management.InputManager;
+using ProjectExodus.Management.SceneManager;
 using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.UserInterface.Controllers;
 using ProjectExodus.UserInterface.LoadingScreen;
@@ -120,7 +120,8 @@ namespace ProjectExodus.GameLogic.Scene.SetupHandlers
             {
                 LoadingScreenController = this.m_LoadingScreenController,
                 ServiceLocator = this.m_ServiceLocator,
-                StartupDataOptions = this.m_StartupDataOptions
+                StartupDataOptions = this.m_StartupDataOptions,
+                SelectedShipID = SceneManager.Instance.SelectedShipID,
             });
             
             yield return null;

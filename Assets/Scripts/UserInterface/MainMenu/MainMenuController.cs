@@ -61,8 +61,11 @@ namespace ProjectExodus.UserInterface.MainMenu
         void IScreenStateController.ShowScreen() 
             => this.m_ContentGroup.SetActive(true);
         
-        private void PlaySelectionTriggered() 
-            => this.m_GameStateManager.ChangeGameState(GameState.Gameplay);
+        private void PlaySelectionTriggered()
+        {
+            // this.m_GameStateManager.ChangeGameState(GameState.Gameplay);
+            this.m_UserInterfaceController.OpenScreen(UIScreenType.ShipSelectionScreen);
+        }
 
         private void OptionsSelectionTriggered() 
             => this.m_UserInterfaceController.OpenScreen(UIScreenType.OptionsMenu);

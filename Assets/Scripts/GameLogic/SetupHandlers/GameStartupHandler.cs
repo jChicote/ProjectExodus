@@ -7,6 +7,7 @@ using ProjectExodus.Common.Services;
 using ProjectExodus.DebugSupport;
 using ProjectExodus.Domain.Configuration;
 using ProjectExodus.GameLogic.Configuration;
+using ProjectExodus.GameLogic.Facades.PlayerActionFacades;
 using ProjectExodus.GameLogic.Infrastructure;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.Management.Enumeration;
@@ -142,7 +143,9 @@ namespace ProjectExodus.GameLogic.SetupHandlers
             GameSaveManager _GameSaveManager = 
                 GameObject.FindFirstObjectByType<GameSaveManager>() 
                     ?? throw new NullReferenceException(nameof(GameSaveManager));
-            ((IGameSaveManager)_GameSaveManager).InitializeGameSaveManager(_DataContext);
+            ((IGameSaveManager)_GameSaveManager).InitializeGameSaveManager(
+                _DataContext,
+                _ServiceLocator.GetService<IPlayerActionFacade>());
             _ServiceLocator.RegisterService((IGameSaveManager)_GameSaveManager);
 
             UserInterfaceManager _UserInterfaceManager =

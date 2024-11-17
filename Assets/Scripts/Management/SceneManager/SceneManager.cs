@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Scene;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace ProjectExodus.Management.SceneManager
 {
@@ -16,15 +18,15 @@ namespace ProjectExodus.Management.SceneManager
 
         #region - - - - - - Fields - - - - - -
 
+        public static SceneManager Instance;
+        
         private ISceneController m_ActiveSceneController; // Debug Only
-        private PlayerModel m_CurrentPlayer;
 
         #endregion Fields
 
         #region - - - - - - Properties' - - - - - -
 
-        public PlayerModel Player
-            => this.m_CurrentPlayer;
+        public Guid SelectedShipID { get; set; }
 
         #endregion Properties'
   
@@ -36,6 +38,14 @@ namespace ProjectExodus.Management.SceneManager
         #endregion Initialisers
   
         #region - - - - - - Unity Lifecycle Methods - - - - - -
+        
+        private void Awake()
+        {
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(gameObject);
+        }
 
         private void Start()
         {
@@ -64,8 +74,8 @@ namespace ProjectExodus.Management.SceneManager
             return this.m_ActiveSceneController;
         }
 
-        void ISceneManager.SetCurrentPlayerModel(PlayerModel currentPlayer) 
-            => this.m_CurrentPlayer = currentPlayer;
+        // void ISceneManager.SetCurrentPlayerModel(PlayerModel currentPlayer) 
+        //     => this.m_CurrentPlayer = currentPlayer;
 
         private bool DoesMultipleSceneControllersExist() 
             => this.GetAllActiveSceneControllers().Length > 1;
