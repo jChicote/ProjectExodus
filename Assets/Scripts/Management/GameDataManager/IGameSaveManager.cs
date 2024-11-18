@@ -2,10 +2,10 @@ using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.PlayerActionFacades;
 
-namespace ProjectExodus.Management.GameSaveManager
+namespace ProjectExodus.Management.GameDataManager
 {
 
-    public interface IGameSaveManager
+    public interface IGameDataManager
     {
 
         #region - - - - - - Properties - - - - - -

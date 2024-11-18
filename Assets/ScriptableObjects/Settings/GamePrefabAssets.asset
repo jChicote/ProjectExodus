@@ -53,4 +53,4 @@ MonoBehaviour:
   - ID: 0
     Name: Turrent
     Asset: {fileID: 2792052741373065619, guid: 3b0bfcb30d9904a8d89ca204cd068948, type: 3}
-    WeaponSprite: {fileID: 0}
+    WeaponSprite: {fileID: 7229229408729921471, guid: ca055b44435e6424a9874247579e963d, type: 3}

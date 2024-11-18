@@ -12,9 +12,8 @@ using ProjectExodus.GameLogic.Facades.PlayerActionFacades;
 using ProjectExodus.GameLogic.Facades.ShipActionFacade;
 using ProjectExodus.GameLogic.Facades.WeaponActionFacade;
 using ProjectExodus.GameLogic.Scene.SetupHandlers;
-using ProjectExodus.Management.GameSaveManager;
+using ProjectExodus.Management.GameDataManager;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 using SceneManager = UnityEngine.SceneManagement.SceneManager;
@@ -164,7 +163,7 @@ namespace ProjectExodus.DebugSupport.SceneStartup
                         .Single(gs => gs.GameSaveName == DebugGameContansts.DEBUG_GAMESAVENAME);
             }
             
-            IGameSaveManager _GameSaveManager = _ServiceLocator.GetService<IGameSaveManager>();
+            IGameDataManager _GameSaveManager = _ServiceLocator.GetService<IGameDataManager>();
             _GameSaveManager.SetGameSave(_DebugGameSaveModel);
         }
 

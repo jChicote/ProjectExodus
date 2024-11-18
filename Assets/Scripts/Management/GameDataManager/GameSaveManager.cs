@@ -19,16 +19,16 @@ using ProjectExodus.GameLogic.OutputHandlers;
 using ProjectExodus.ScriptableObjects.AssetEntities;
 using UnityEngine;
 
-namespace ProjectExodus.Management.GameSaveManager
+namespace ProjectExodus.Management.GameDataManager
 {
 
     // TODO: Convert the class to a GameDataManager
-    public class GameSaveManager : MonoBehaviour, IGameSaveManager
+    public class GameDataManager : MonoBehaviour, IGameDataManager
     {
 
         #region - - - - - - Fields - - - - - -
 
-        public static GameSaveManager Instance;
+        public static GameDataManager Instance;
 
         private IDataContext m_DataContext;
         private IGameSaveFacade m_GameSaveActions;
@@ -45,7 +45,7 @@ namespace ProjectExodus.Management.GameSaveManager
   
         #region - - - - - - Initializers - - - - - -
 
-        void IGameSaveManager.InitializeGameSaveManager(
+        void IGameDataManager.InitializeGameSaveManager(
             IDataContext dataContext, 
             IPlayerActionFacade playerActionFacade)
         {
@@ -76,7 +76,7 @@ namespace ProjectExodus.Management.GameSaveManager
   
         #region - - - - - - Properties - - - - - -
 
-        GameSaveModel IGameSaveManager.GameSaveModel 
+        GameSaveModel IGameDataManager.GameSaveModel 
             => this.m_SelectedGameSaveModel;
 
         public List<ShipModel> PlayerShips
@@ -86,13 +86,13 @@ namespace ProjectExodus.Management.GameSaveManager
   
         #region - - - - - - Methods - - - - - -
         
-        void IGameSaveManager.SaveGameSave()
+        void IGameDataManager.SaveGameSave()
         {
             // this.SaveGameplayData();
             this.m_DataContext.SaveChanges();
         }
 
-        void IGameSaveManager.SetGameSave(GameSaveModel gameSaveModel)
+        void IGameDataManager.SetGameSave(GameSaveModel gameSaveModel)
         {
             this.m_SelectedGameSaveModel = gameSaveModel ?? throw new ArgumentNullException(nameof(gameSaveModel));
             this.LoadGameplayData();

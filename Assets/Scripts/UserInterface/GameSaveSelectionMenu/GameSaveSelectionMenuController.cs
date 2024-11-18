@@ -9,7 +9,7 @@ using ProjectExodus.Domain.Models;
 using ProjectExodus.Domain.Services;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Mappers;
-using ProjectExodus.Management.GameSaveManager;
+using ProjectExodus.Management.GameDataManager;
 using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.ScriptableObjects;
 using ProjectExodus.StateManagement.ScreenStates;
@@ -45,7 +45,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
         [SerializeField] private UserInterfaceSettings m_UserInterfaceSettings;
 
         private IGameSaveFacade m_GameSaveFacade;
-        private IGameSaveManager m_GameSaveManager;
+        private IGameDataManager m_GameSaveManager;
         private IObjectMapper m_Mapper;
         private IGameSaveSelectionMenuMediator m_Mediator;
         private IUserInterfaceController m_UserInterfaceController;
@@ -66,7 +66,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu
             
             this.m_GameSaveFacade = gameSaveFacade ?? throw new ArgumentNullException(nameof(gameSaveFacade));
             this.m_Mapper = objectMapper ?? throw new ArgumentNullException(nameof(objectMapper));
-            this.m_GameSaveManager = _ServiceLocator.GetService<IGameSaveManager>();
+            this.m_GameSaveManager = _ServiceLocator.GetService<IGameDataManager>();
 
             var _UserInterfaceManager = _ServiceLocator.GetService<IUserInterfaceManager>();
             this.m_UserInterfaceController = _UserInterfaceManager.GetTheActiveUserInterfaceController() 

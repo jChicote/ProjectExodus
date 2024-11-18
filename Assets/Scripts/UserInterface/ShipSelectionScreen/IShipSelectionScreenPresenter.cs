@@ -13,7 +13,8 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
         void Initialize(
             IGameStateManager gameStateManager,
             IShipAssetProvider shipAssetProvider, 
-            IUserInterfaceController userInterfaceController);
+            IUserInterfaceController userInterfaceController,
+            IWeaponAssetProvider weaponAssetProvider);
 
         #endregion Methods
 

@@ -3,7 +3,7 @@ using ProjectExodus.Backend.UseCases.PlayerUseCases.GetPlayer;
 using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.PlayerActionFacades;
-using ProjectExodus.Management.GameSaveManager;
+using ProjectExodus.Management.GameDataManager;
 using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands
@@ -20,7 +20,7 @@ namespace ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands
         #region - - - - - - Fields - - - - - -
 
         private readonly IPlayerActionFacade m_PlayerControllers;
-        private readonly IGameSaveManager m_GameSaveManager;
+        private readonly IGameDataManager m_GameSaveManager;
 
         private bool m_IsComplete = false;
         private StartupDataOptions m_Options;
@@ -29,7 +29,7 @@ namespace ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands
   
         #region - - - - - - Constructors - - - - - -
 
-        public StartupLoadCommand(IGameSaveManager gameSaveManager, IPlayerActionFacade playerControllers)
+        public StartupLoadCommand(IGameDataManager gameSaveManager, IPlayerActionFacade playerControllers)
         {
             this.m_GameSaveManager = gameSaveManager ?? throw new ArgumentNullException(nameof(gameSaveManager));
             this.m_PlayerControllers = playerControllers ?? throw new ArgumentNullException(nameof(playerControllers));

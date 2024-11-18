@@ -69,7 +69,8 @@ namespace ProjectExodus.UserInterface.Controllers
                 .Initialize(
                     _GameManager.GameStateManager,
                     _ServiceLocator.GetService<IShipAssetProvider>(),
-                    this);
+                    this,
+                    _ServiceLocator.GetService<IWeaponAssetProvider>());
         }
 
         void IUserInterfaceController.OpenScreen(UIScreenType uiScreenType)

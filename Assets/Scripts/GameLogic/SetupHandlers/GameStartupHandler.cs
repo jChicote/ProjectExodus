@@ -11,7 +11,7 @@ using ProjectExodus.GameLogic.Facades.PlayerActionFacades;
 using ProjectExodus.GameLogic.Infrastructure;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.Management.Enumeration;
-using ProjectExodus.Management.GameSaveManager;
+using ProjectExodus.Management.GameDataManager;
 using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.ScriptableObjects;
 using ProjectExodus.UserInterface.Configuration;
@@ -140,13 +140,13 @@ namespace ProjectExodus.GameLogic.SetupHandlers
             IServiceLocator _ServiceLocator = this.m_ServiceLocator;
             IDataContext _DataContext = _ServiceLocator.GetService<IDataContext>();
             
-            GameSaveManager _GameSaveManager = 
-                GameObject.FindFirstObjectByType<GameSaveManager>() 
-                    ?? throw new NullReferenceException(nameof(GameSaveManager));
-            ((IGameSaveManager)_GameSaveManager).InitializeGameSaveManager(
+            GameDataManager _GameSaveManager = 
+                GameObject.FindFirstObjectByType<GameDataManager>() 
+                    ?? throw new NullReferenceException(nameof(GameDataManager));
+            ((IGameDataManager)_GameSaveManager).InitializeGameSaveManager(
                 _DataContext,
                 _ServiceLocator.GetService<IPlayerActionFacade>());
-            _ServiceLocator.RegisterService((IGameSaveManager)_GameSaveManager);
+            _ServiceLocator.RegisterService((IGameDataManager)_GameSaveManager);
 
             UserInterfaceManager _UserInterfaceManager =
                 GameObject.FindFirstObjectByType<UserInterfaceManager>() 

@@ -93,12 +93,18 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
             
             this.m_LockedShipWarning.SetActive(true);
         }
-
+        
         public void HideScreen()
             => this.m_ContentGroup.SetActive(false);
 
         public void ShowScreen()
             => this.m_ContentGroup.SetActive(true);
+
+        private void UpdateShipStatOverviewI(ShipModel playerShip, ShipAssetObject shipAsset)
+        {
+            this.m_PlatingSlider.value = (shipAsset.BasePlatingHealth + playerShip.PlatingHealthModifier) / 500;
+            this.m_ShieldSlider.value = (shipAsset.BaseShieldHealth + playerShip.ShieldHealthModifier) / 500;
+        }
 
         #endregion Methods
 

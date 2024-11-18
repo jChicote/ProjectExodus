@@ -9,7 +9,7 @@ using ProjectExodus.GameLogic.Infrastructure.DataLoading;
 using ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands;
 using ProjectExodus.GameLogic.Player.PlayerSpawner;
 using ProjectExodus.Management.Enumeration;
-using ProjectExodus.Management.GameSaveManager;
+using ProjectExodus.Management.GameDataManager;
 using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.SceneManager;
 using ProjectExodus.Management.UserInterfaceManager;
@@ -81,7 +81,7 @@ namespace ProjectExodus.GameLogic.Scene.SetupHandlers
             // Run load options and prepare data
             IDataLoader _DataLoader = this.m_ServiceLocator.GetService<IDataLoader>();
             StartupLoadCommand _LoadCommand = new StartupLoadCommand(
-                this.m_ServiceLocator.GetService<IGameSaveManager>(),
+                this.m_ServiceLocator.GetService<IGameDataManager>(),
                 this.m_ServiceLocator.GetService<IPlayerActionFacade>());
             yield return StartCoroutine(
                 _DataLoader.RunLoadOperation(

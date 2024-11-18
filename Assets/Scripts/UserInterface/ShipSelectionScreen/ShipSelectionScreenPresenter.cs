@@ -4,7 +4,7 @@ using System.Linq;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.Management.Enumeration;
-using ProjectExodus.Management.GameSaveManager;
+using ProjectExodus.Management.GameDataManager;
 using ProjectExodus.Management.GameStateManager;
 using ProjectExodus.Management.SceneManager;
 using ProjectExodus.ScriptableObjects.AssetEntities;
@@ -25,6 +25,7 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
         private ShipSelectionScreenView m_View;
         private IGameStateManager m_GameStateManager;
         private IUserInterfaceController m_UserInterfaceController;
+        private IWeaponAssetProvider m_WeaponAssetProvider;
 
         private int m_SelectedIndex;
         private Guid? m_SelectedShipID;
@@ -38,13 +39,16 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
         void IShipSelectionScreenPresenter.Initialize(
             IGameStateManager gameStateManager,
             IShipAssetProvider shipAssetProvider,
-            IUserInterfaceController userInterfaceController)
+            IUserInterfaceController userInterfaceController,
+            IWeaponAssetProvider weaponAssetProvider)
         {
             this.m_AllShips = shipAssetProvider.GetAllShips();
             this.m_GameStateManager = gameStateManager ?? throw new ArgumentNullException(nameof(gameStateManager));
             this.m_UserInterfaceController = userInterfaceController ??
                                              throw new ArgumentNullException(nameof(userInterfaceController));
             this.m_View = this.GetComponent<ShipSelectionScreenView>();
+            this.m_WeaponAssetProvider =
+                weaponAssetProvider ?? throw new ArgumentNullException(nameof(weaponAssetProvider));
             
             this.BindMethodsToView();
         }
@@ -92,7 +96,7 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
 
         void IScreenStateController.ShowScreen()
         {
-            this.m_PlayerShips = GameSaveManager.Instance.PlayerShips;
+            this.m_PlayerShips = GameDataManager.Instance.PlayerShips;
             this.SelectShipInCollection(0);
             
             this.m_View.ShowScreen();
@@ -106,10 +110,16 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
             ShipAssetObject _SelectedShip = this.m_AllShips[index];
             if (this.m_PlayerShips.Any(sm => sm.AssetID == _SelectedShip.ID))
             {
+                ShipModel _ShipModel = this.m_PlayerShips.Single(sm => sm.AssetID == _SelectedShip.ID);
+                List<WeaponAssetObject> _WeaponAssets = _ShipModel.Weapons
+                    .Select(wm => this.m_WeaponAssetProvider.Provide(wm.AssetID))
+                    .ToList();
+                
                 this.m_View.PresentAvailableShip(new SelectedShipDto()
                 {
-                    Model = this.m_PlayerShips.Single(sm => sm.AssetID == _SelectedShip.ID),
-                    ShipAsset = _SelectedShip
+                    Model = _ShipModel,
+                    ShipAsset = _SelectedShip,
+                    WeaponAssets = _WeaponAssets
                 });
             }
             else
