@@ -26,7 +26,7 @@ namespace ProjectExodus.Management.SceneManager
 
         #region - - - - - - Properties' - - - - - -
 
-        public Guid SelectedShipID { get; set; }
+        public Guid SelectedShipID { get; set; } // TODO: Remove this, data related values are ties to the GameDataManager
 
         #endregion Properties'
   

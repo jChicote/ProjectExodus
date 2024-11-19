@@ -1,7 +1,5 @@
 using System;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using ProjectExodus;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Camera;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
@@ -69,20 +67,16 @@ namespace GameLogic.SetupHandlers.SceneHandlers
                 initializationContext.ServiceLocator.GetService<IShipAssetProvider>(),
                 initializationContext.ServiceLocator.GetService<IWeaponAssetProvider>());
             
-            // Temp: The first ship object is used.
             ShipModel _ShipToSpawn = initializationContext
                 .StartupDataOptions
                 .Player
                 .Ships
-                .Single(sm => sm.ID == initializationContext.SelectedShipID);
+                .Single(sm => sm.ID == initializationContext.StartupDataOptions.SelectedShip.ID);
             
             // Create Player ship
             GameObject _Player = this.m_PlayerSpawner.SpawnPlayerShip(_ShipToSpawn);
             this.m_CameraController.SetCameraFollowTarget(_Player.transform);
             this.m_PlayerProvider.SetActivePlayer(_Player);
-            
-            // // TODO: Move this out of the context of the scene setup to the start of the main menu.
-            // GameManager.Instance.SceneManager.SetCurrentPlayerModel(initializationContext.StartupDataOptions.Player);
             
             // Hook to input system
             this.m_InputManager.PossesGameplayInputControls();

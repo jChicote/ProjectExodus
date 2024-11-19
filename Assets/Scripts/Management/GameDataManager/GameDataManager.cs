@@ -81,7 +81,12 @@ namespace ProjectExodus.Management.GameDataManager
 
         public List<ShipModel> PlayerShips
             => this.m_SelectedPlayer.Ships;
-            
+
+        public PlayerModel SelectedPlayer
+            => this.m_SelectedPlayer;
+
+        public ShipModel SelectedShip { get; set; }
+        
         #endregion Properties
   
         #region - - - - - - Methods - - - - - -

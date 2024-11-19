@@ -15,10 +15,8 @@ namespace GameLogic.SetupHandlers.SceneHandlers
 
         public IServiceLocator ServiceLocator { get; set; }
         
-        public StartupDataOptions StartupDataOptions { get; set; }
+        public StartupDataContext StartupDataOptions { get; set; }
         
-        public Guid SelectedShipID { get; set; }
-
         #endregion Properties
   
     }

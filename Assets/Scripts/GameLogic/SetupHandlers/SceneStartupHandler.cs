@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using GameLogic.SetupHandlers;
 using GameLogic.SetupHandlers.SceneHandlers;
+using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Common.Services;
+using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Camera;
 using ProjectExodus.GameLogic.Facades.PlayerActionFacades;
 using ProjectExodus.GameLogic.Infrastructure.DataLoading;
@@ -36,7 +38,8 @@ namespace ProjectExodus.GameLogic.Scene.SetupHandlers
         private ILoadingScreenController m_LoadingScreenController;
         private IServiceLocator m_ServiceLocator;
 
-        private StartupDataOptions m_StartupDataOptions;
+        // private StartupDataContext m_StartupDataOptions;
+        private SceneSetupInitializationContext m_SceneSetupInitializationContext;
 
         #endregion Fields
 
@@ -60,8 +63,21 @@ namespace ProjectExodus.GameLogic.Scene.SetupHandlers
         {
             this.m_LoadingScreenController.ShowScreen();
 
+            StartupDataContext _StartupData = new StartupDataContext()
+            {
+                Player = GameDataManager.Instance.SelectedPlayer,
+                SelectedShip = GameDataManager.Instance.SelectedShip
+            };
+
+            this.m_SceneSetupInitializationContext = new SceneSetupInitializationContext()
+            {
+                LoadingScreenController = this.m_LoadingScreenController,
+                ServiceLocator = this.m_ServiceLocator,
+                StartupDataOptions = _StartupData
+            };
+
             yield return this.StartCoroutine(this.StartSceneStartup());
-            yield return this.StartCoroutine(this.SetupSceneData());
+            // yield return this.StartCoroutine(this.SetupSceneData());
             yield return this.StartCoroutine(this.SetupSceneServicesAndControllers());
             yield return this.StartCoroutine(this.SetupPlayer());
             yield return this.StartCoroutine(this.SetupEnemies());
@@ -79,14 +95,14 @@ namespace ProjectExodus.GameLogic.Scene.SetupHandlers
         private IEnumerator SetupSceneData()
         {
             // Run load options and prepare data
-            IDataLoader _DataLoader = this.m_ServiceLocator.GetService<IDataLoader>();
-            StartupLoadCommand _LoadCommand = new StartupLoadCommand(
-                this.m_ServiceLocator.GetService<IGameDataManager>(),
-                this.m_ServiceLocator.GetService<IPlayerActionFacade>());
-            yield return StartCoroutine(
-                _DataLoader.RunLoadOperation(
-                    _LoadCommand, 
-                    options => this.m_StartupDataOptions = options as StartupDataOptions));
+            // IDataLoader _DataLoader = this.m_ServiceLocator.GetService<IDataLoader>();
+            // StartupLoadCommand _LoadCommand = new StartupLoadCommand(
+            //     this.m_ServiceLocator.GetService<IGameDataManager>(),
+            //     this.m_ServiceLocator.GetService<IPlayerActionFacade>());
+            // yield return StartCoroutine(
+            //     _DataLoader.RunLoadOperation(
+            //         _LoadCommand, 
+            //         options => this.m_StartupDataOptions = options as StartupDataContext));
             
             this.m_LoadingScreenController.UpdateLoadProgress(20f);
             yield return null;
@@ -116,13 +132,7 @@ namespace ProjectExodus.GameLogic.Scene.SetupHandlers
                 _ActiveUserInterfaceController);
             
             // TODO: Refactor into a mapper 
-            _PlayerSetupHandler.Handle(new SceneSetupInitializationContext()
-            {
-                LoadingScreenController = this.m_LoadingScreenController,
-                ServiceLocator = this.m_ServiceLocator,
-                StartupDataOptions = this.m_StartupDataOptions,
-                SelectedShipID = SceneManager.Instance.SelectedShipID,
-            });
+            _PlayerSetupHandler.Handle(this.m_SceneSetupInitializationContext);
             
             yield return null;
         }
@@ -146,6 +156,6 @@ namespace ProjectExodus.GameLogic.Scene.SetupHandlers
         #endregion Methods
   
     }
-    
+
 }
 
