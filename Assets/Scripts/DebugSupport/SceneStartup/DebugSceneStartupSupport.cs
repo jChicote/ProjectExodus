@@ -94,7 +94,7 @@ namespace ProjectExodus.DebugSupport.SceneStartup
                 _StartupHandler.InitialiseSceneStartupController(
                     GameManager.Instance.InputManager, 
                     GameManager.Instance.ServiceLocator);
-                this.StartCoroutine(_StartupHandler.RunSceneStartup());
+                _StartupHandler.RunSceneStartup();
             }
             
             yield return null;

@@ -43,7 +43,7 @@ namespace ProjectExodus.GameLogic.Scene
             => this.gameObject.activeInHierarchy;
 
         void ISceneController.RunSceneStartup() 
-            => this.StartCoroutine(this.m_SceneStartupController.RunSceneStartup());
+            => this.m_SceneStartupController.RunSceneStartup();
 
         #endregion Methods
   
