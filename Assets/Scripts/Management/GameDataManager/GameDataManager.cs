@@ -5,9 +5,12 @@ using ProjectExodus.Backend.JsonDataContext;
 using ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.CreatePlayer;
 using ProjectExodus.Backend.UseCases.PlayerUseCases.GetPlayer;
+using ProjectExodus.Backend.UseCases.PlayerUseCases.UpdatePlayer;
 using ProjectExodus.Backend.UseCases.ShipUseCases.CreateShip;
 using ProjectExodus.Backend.UseCases.ShipUseCases.GetShip;
 using ProjectExodus.Backend.UseCases.ShipUseCases.UpdateShip;
+using ProjectExodus.Backend.UseCases.WeaponUseCases.CreateWeapon;
+using ProjectExodus.Backend.UseCases.WeaponUseCases.UpdateWeapon;
 using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
@@ -22,7 +25,6 @@ using UnityEngine;
 namespace ProjectExodus.Management.GameDataManager
 {
 
-    // TODO: Convert the class to a GameDataManager
     public class GameDataManager : MonoBehaviour, IGameDataManager
     {
 
@@ -93,7 +95,7 @@ namespace ProjectExodus.Management.GameDataManager
         
         void IGameDataManager.SaveGameSave()
         {
-            // this.SaveGameplayData();
+            this.SaveGameplayData();
             this.m_DataContext.SaveChanges();
         }
 
@@ -111,7 +113,7 @@ namespace ProjectExodus.Management.GameDataManager
                 return;
             }
             
-            GetPlayerOutputResult _PlayerOutput = new GetPlayerOutputResult();
+            PlayerOutputResult _PlayerOutput = new PlayerOutputResult();
             this.m_PlayerActionFacade.GetPlayer(
                 new GetPlayerInputPort { ID = this.m_SelectedGameSaveModel.PlayerID },
                 _PlayerOutput);
@@ -154,7 +156,7 @@ namespace ProjectExodus.Management.GameDataManager
                 }
                 else
                 {
-                    CreateShipOutputResult _CreatedShipResult = new CreateShipOutputResult();
+                    ShipOutputResult _CreatedShipResult = new ShipOutputResult();
                     this.m_ShipActionFacade.CreateShip(new CreateShipInputPort()
                     {
                         AssetID = _Ship.AssetID,
@@ -166,11 +168,46 @@ namespace ProjectExodus.Management.GameDataManager
                 }
             }
             
+            GetWeaponOutputResult _AllWeaponResult = new GetWeaponOutputResult();
+            this.m_WeaponActionFacade.GetWeapons(_AllWeaponResult);
+            
             // Save the Weapons
             foreach (WeaponModel _Weapon in this.m_SelectedPlayer.Ships.SelectMany(s => s.Weapons))
             {
-                
+                if (_AllWeaponResult.Result.Any(w => w.ID == _Weapon.ID))
+                {
+                    UpdateWeaponOutputResult _UpdateWeaponResult = new UpdateWeaponOutputResult();
+                    this.m_WeaponActionFacade.UpdateWeapon(new UpdateWeaponInputPort
+                    {
+                        ID = _Weapon.ID,
+                        AssignedBayID = _Weapon.AssignedBayID
+                    },
+                    _UpdateWeaponResult);
+                }
+                else
+                {
+                    CreateWeaponOutputResult _CreatedWeaponResult = new CreateWeaponOutputResult();
+                    this.m_WeaponActionFacade.CreateWeapon(new CreateWeaponInputPort
+                    {
+                        AssetID = _Weapon.AssetID,
+                        AssignedBay = _Weapon.AssignedBayID
+                    },
+                    _CreatedWeaponResult);
+
+                    // Note: A new ID will be assigned to the ship, and will be overriden after creation.
+                    // This is so that future operations can reliably match between Models and Entities without mismatch.
+                    _Weapon.ID = _CreatedWeaponResult.Result.ID;
+                }
             }
+            
+            // Save the Player
+            UpdatePlayerOutputResult _PlayerUpdateOutput = new UpdatePlayerOutputResult();
+            this.m_PlayerActionFacade.UpdatePlayer(new UpdatePlayerInputPort
+            {
+                PlayerID = this.m_SelectedPlayer.ID,
+                Ships = this.m_SelectedPlayer.Ships.Select(s => s.ID).ToList()
+            },
+            _PlayerUpdateOutput);
         }
 
         public void CreateNewGameSave(
@@ -194,7 +231,7 @@ namespace ProjectExodus.Management.GameDataManager
             
             // Create a starting ship for the new player
             ShipAssetObject _StartingShip = this.m_ShipAssetProvider.Provide(0);
-            CreateShipOutputResult _CreatedShip = new CreateShipOutputResult();
+            ShipOutputResult _CreatedShip = new ShipOutputResult();
             this.m_ShipActionFacade.CreateShip(new CreateShipInputPort
             {
                 AssetID = _StartingShip.ID, // The default is always 0

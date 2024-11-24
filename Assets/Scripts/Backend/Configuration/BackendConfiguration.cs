@@ -21,6 +21,7 @@ using ProjectExodus.Backend.UseCases.ShipUseCases.UpdateShip;
 using ProjectExodus.Backend.UseCases.WeaponUseCases.Common;
 using ProjectExodus.Backend.UseCases.WeaponUseCases.CreateWeapon;
 using ProjectExodus.Backend.UseCases.WeaponUseCases.GetWeapons;
+using ProjectExodus.Backend.UseCases.WeaponUseCases.UpdateWeapon;
 using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Entities;
 using ProjectExodus.Domain.Services;
@@ -91,6 +92,7 @@ namespace ProjectExodus.Backend.Configuration
             // Weapon
             _ = new WeaponMapper(this.m_MapperRegister);
             _ = new CreateWeaponMapper(this.m_MapperRegister);
+            _ = new UpdateWeaponMapper(this.m_MapperRegister);
         }
         
         private void ConfigureUseCases()
@@ -122,6 +124,9 @@ namespace ProjectExodus.Backend.Configuration
             this.m_ServiceLocator.RegisterService(
                 (IUseCaseInteractor<GetWeaponInputPort, IGetWeaponOutputPort>)
                     new GetWeaponInteractor(this.m_Mapper, _WeaponRepository));
+            this.m_ServiceLocator.RegisterService(
+                (IUseCaseInteractor<UpdateWeaponInputPort, IUpdateWeaponOutputPort>)
+                    new UpdateWeaponInteractor(_DataContext, this.m_Mapper));
             
             // Ship
             this.m_ServiceLocator.RegisterService(

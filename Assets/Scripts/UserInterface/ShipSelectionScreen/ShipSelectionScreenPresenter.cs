@@ -6,7 +6,6 @@ using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.GameDataManager;
 using ProjectExodus.Management.GameStateManager;
-using ProjectExodus.Management.SceneManager;
 using ProjectExodus.ScriptableObjects.AssetEntities;
 using ProjectExodus.UserInterface.Controllers;
 using UnityEngine;
