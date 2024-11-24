@@ -1,7 +1,9 @@
 using System;
+using Codice.Client.BaseCommands;
 using ProjectExodus.Backend.UseCases;
 using ProjectExodus.Backend.UseCases.WeaponUseCases.CreateWeapon;
 using ProjectExodus.Backend.UseCases.WeaponUseCases.GetWeapons;
+using ProjectExodus.Backend.UseCases.WeaponUseCases.UpdateWeapon;
 
 namespace ProjectExodus.GameLogic.Facades.WeaponActionFacade
 {
@@ -13,6 +15,7 @@ namespace ProjectExodus.GameLogic.Facades.WeaponActionFacade
 
         private readonly IUseCaseInteractor<CreateWeaponInputPort, ICreateWeaponOutputPort> m_CreateWeaponInteractor;
         private readonly IUseCaseInteractor<GetWeaponInputPort, IGetWeaponOutputPort> m_GetWeaponInteractor;
+        private readonly IUseCaseInteractor<UpdateWeaponInputPort, IUpdateWeaponOutputPort> m_UpdateWeaponInteractor;
 
         #endregion Fields
   
@@ -20,12 +23,15 @@ namespace ProjectExodus.GameLogic.Facades.WeaponActionFacade
 
         public WeaponActionFacade(
             IUseCaseInteractor<CreateWeaponInputPort, ICreateWeaponOutputPort> createWeaponInteractor,
-            IUseCaseInteractor<GetWeaponInputPort, IGetWeaponOutputPort> getWeaponInteractor)
+            IUseCaseInteractor<GetWeaponInputPort, IGetWeaponOutputPort> getWeaponInteractor,
+            IUseCaseInteractor<UpdateWeaponInputPort, IUpdateWeaponOutputPort> updateWeaponInteractor)
         {
             this.m_CreateWeaponInteractor = createWeaponInteractor
                 ?? throw new ArgumentNullException(nameof(createWeaponInteractor));
             this.m_GetWeaponInteractor = getWeaponInteractor
                 ?? throw new ArgumentNullException(nameof(getWeaponInteractor));
+            this.m_UpdateWeaponInteractor = updateWeaponInteractor
+                ?? throw new ArgumentNullException(nameof(updateWeaponInteractor));
         }
 
         #endregion Constructors
@@ -37,6 +43,9 @@ namespace ProjectExodus.GameLogic.Facades.WeaponActionFacade
 
         void IWeaponActionFacade.GetWeapons(IGetWeaponOutputPort outputPort)
             => this.m_GetWeaponInteractor.Handle(new GetWeaponInputPort(), outputPort);
+
+        void IWeaponActionFacade.UpdateWeapon(UpdateWeaponInputPort inputPort, IUpdateWeaponOutputPort outputPort)
+            => this.m_UpdateWeaponInteractor.Handle(inputPort, outputPort);
 
         #endregion Methods
 
