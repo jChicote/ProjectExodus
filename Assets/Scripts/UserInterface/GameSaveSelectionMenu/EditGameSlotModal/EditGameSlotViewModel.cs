@@ -6,6 +6,7 @@ using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.GameSaveFacade;
 using ProjectExodus.GameLogic.Mappers;
+using ProjectExodus.Management.GameDataManager;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu.Common;
 using UserInterface.GameSaveSelectionMenu.Mediator;
 using Random = UnityEngine.Random;
@@ -153,7 +154,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.EditGameSlotModal
         {
             CreateGameSaveInputPort _InputPort = new();
             this.m_Mapper.Map(this, _InputPort);
-            this.m_GameSaveFacade.CreateGameSave(_InputPort, this.m_CreateOutputPort);
+            GameDataManager.Instance.CreateNewGameSave(_InputPort, this.m_CreateOutputPort);
             
             this.m_Mediator.Invoke(GameSaveMenuEventType.GameSaveMenuInteraction_Enabled);
         }

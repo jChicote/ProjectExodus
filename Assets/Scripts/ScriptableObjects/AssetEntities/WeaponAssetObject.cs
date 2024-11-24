@@ -14,6 +14,8 @@ namespace ProjectExodus.ScriptableObjects.AssetEntities
 
         public GameObject Asset;
 
+        public Sprite WeaponSprite;
+
         #endregion Fields
 
     }

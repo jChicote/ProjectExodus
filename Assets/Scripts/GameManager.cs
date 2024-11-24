@@ -13,6 +13,7 @@ using ProjectExodus.Management.GameStateManager;
 using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.SceneManager;
 using ProjectExodus.Management.UserInterfaceManager;
+using ProjectExodus.Utility.GameValidation;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -108,6 +109,16 @@ namespace ProjectExodus
         #endregion Unity Methods
 
         #region - - - - - - Methods - - - - - -
+
+        public bool IsMembersValid()
+        {
+            return GameValidator.NotNull(this.m_GameOptionsFacade, nameof(this.m_GameOptionsFacade))
+                   && GameValidator.NotNull(this.m_GameSaveFacade, nameof(this.m_GameSaveFacade))
+                   && GameValidator.NotNull(this.m_DataContext, nameof(this.m_DataContext))
+                   && GameValidator.NotNull(this.m_GameSettings, nameof(this.m_GameSettings))
+                   && GameValidator.NotNull(this.m_ObjectMapper, nameof(this.m_ObjectMapper))
+                   && GameValidator.NotNull(this.m_ServiceLocator, nameof(this.m_ServiceLocator));
+        }
 
         private void SetupGame()
         {

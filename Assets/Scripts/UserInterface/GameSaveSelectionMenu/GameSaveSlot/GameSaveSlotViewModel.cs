@@ -7,7 +7,7 @@ using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Mappers;
 using ProjectExodus.Management.Enumeration;
-using ProjectExodus.Management.GameSaveManager;
+using ProjectExodus.Management.GameDataManager;
 using ProjectExodus.UserInterface.Controllers;
 using ProjectExodus.UserInterface.GameSaveSelectionMenu.Common;
 using UnityEngine;
@@ -26,7 +26,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
 
         #region - - - - - - Fields - - - - - -
 
-        private readonly IGameSaveManager m_GameSaveManager;
+        private readonly IGameDataManager m_GameSaveManager;
         private readonly IObjectMapper m_Mapper;
         private readonly IGameSaveSelectionMenuMediator m_Mediator;
         private readonly IUserInterfaceController m_UserInterfaceController;
@@ -42,7 +42,7 @@ namespace ProjectExodus.UserInterface.GameSaveSelectionMenu.GameSaveSlot
         #region - - - - - - Constructors - - - - - -
 
         public GameSaveSlotViewModel(
-            IGameSaveManager gameSaveManager,
+            IGameDataManager gameSaveManager,
             GameSaveModel gameSaveModel,
             IGameSaveSlotView gameSaveSlotView,
             IGameSaveSelectionMenuMediator gameSaveSelectionMenuMediator,

@@ -14,6 +14,8 @@ namespace ProjectExodus.ScriptableObjects.AssetEntities
 
         public GameObject Asset;
 
+        public Sprite ShipSprite;
+
         public float BaseShieldHealth;
 
         public float BasePlatingHealth;

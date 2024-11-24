@@ -1,6 +1,5 @@
-﻿using System;
-using ProjectExodus.UserInterface.Controllers;
-using ProjectExodus.UserInterface.GameplayHUD;
+﻿using ProjectExodus.UserInterface.Controllers;
+using ProjectExodus.Utility.GameValidation;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -15,22 +14,21 @@ namespace ProjectExodus.Management.UserInterfaceManager
 
         #region - - - - - - Fields - - - - - -
 
+        public static UserInterfaceManager Instance;
+
         private IUserInterfaceController m_UserInterfaceController;
-        private GameplaySceneGUIControllers m_GameplaySceneGUIControllers;
 
         #endregion Fields
 
-        #region - - - - - - Properties - - - - - -
-
-        public GameplaySceneGUIControllers GameplaySceneGUIControllers
-            => this.m_GameplaySceneGUIControllers;
-
-        #endregion Properties
-  
         #region - - - - - - Unity Methods - - - - - -
 
         private void Awake()
         {
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(gameObject);
+            
             UserInterfaceManager[] _UserInterfaceManager = Object.FindObjectsByType<UserInterfaceManager>(FindObjectsSortMode.None);
             if (_UserInterfaceManager.Length > 1)
                 Debug.LogError($"Multiple {nameof(UserInterfaceManager)}s detected. " +
@@ -40,6 +38,11 @@ namespace ProjectExodus.Management.UserInterfaceManager
         #endregion Unity Methods
   
         #region - - - - - - Methods - - - - - -
+
+        public bool IsMembersValid()
+        {
+            return GameValidator.NotNull(this.m_UserInterfaceController, nameof(this.m_UserInterfaceController));
+        }
 
         /// <remarks>
         /// This method is expensive, reserve for only transitions between scenes.

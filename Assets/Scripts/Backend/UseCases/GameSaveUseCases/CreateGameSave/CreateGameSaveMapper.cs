@@ -1,8 +1,6 @@
 using System;
 using ProjectExodus.Backend.UseCases.GameOptionsUseCases.CreateGameOptions;
 using ProjectExodus.Domain.Entities;
-using ProjectExodus.Domain.Models;
-using ProjectExodus.Domain.Services;
 using ProjectExodus.GameLogic.Mappers;
 
 namespace ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave
@@ -16,13 +14,13 @@ namespace ProjectExodus.Backend.UseCases.GameSaveUseCases.CreateGameSave
         public CreateGameSaveMapper(
             IObjectMapperRegister objectMapperRegister) 
             => objectMapperRegister
-                .AddMappingAction<CreateGameSaveInputPort, GameSave>(MapCreateGameSaveInputPortToGameOptions);
+                .AddMappingAction<CreateGameSaveInputPort, GameSave>(MapCreateGameSaveInputPortToGameSave);
 
         #endregion Constructors
 
         #region - - - - - - Methods - - - - - -
 
-        private void MapCreateGameSaveInputPortToGameOptions(
+        private void MapCreateGameSaveInputPortToGameSave(
             CreateGameSaveInputPort source,
             GameSave destination)
         {

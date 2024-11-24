@@ -4,7 +4,7 @@ using ProjectExodus.GameLogic.Coroutines;
 using ProjectExodus.GameLogic.Enumeration;
 using ProjectExodus.GameLogic.Scene.SceneLoader;
 using ProjectExodus.Management.Enumeration;
-using ProjectExodus.Management.GameSaveManager;
+using ProjectExodus.Management.GameDataManager;
 using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.UserInterface.Controllers;
@@ -20,7 +20,7 @@ namespace ProjectExodus.StateManagement.GameStates.MainMenuState
 
         private readonly ICoroutineManager m_CoroutineManager;
         private readonly IInputManager m_InputManager;
-        private readonly IGameSaveManager m_GameSaveManager;
+        private readonly IGameDataManager m_GameSaveManager;
         private readonly ISceneLoader m_SceneLoader;
         private readonly IUserInterfaceManager m_UserInterfaceManager;
 
@@ -31,7 +31,7 @@ namespace ProjectExodus.StateManagement.GameStates.MainMenuState
         public MainMenuState(
             ICoroutineManager coroutineManager,
             IInputManager inputManager, 
-            IGameSaveManager gameSaveManager,
+            IGameDataManager gameSaveManager,
             ISceneLoader sceneLoader,
             IUserInterfaceManager userInterfaceManager)
         {

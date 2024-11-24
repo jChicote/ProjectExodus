@@ -3,7 +3,7 @@ using ProjectExodus.Backend.UseCases.PlayerUseCases.GetPlayer;
 using ProjectExodus.Common.Services;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Facades.PlayerActionFacades;
-using ProjectExodus.Management.GameSaveManager;
+using ProjectExodus.Management.GameDataManager;
 using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands
@@ -13,28 +13,28 @@ namespace ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands
     /// Responsible for loading data and injecting to scene scoped services.
     /// </summary>
     public class StartupLoadCommand : 
-        ILoadCommand<StartupDataOptions>,
+        ILoadCommand<StartupDataContext>,
         IGetPlayerOutputPort
     {
 
         #region - - - - - - Fields - - - - - -
 
         private readonly IPlayerActionFacade m_PlayerControllers;
-        private readonly IGameSaveManager m_GameSaveManager;
+        private readonly IGameDataManager m_GameSaveManager;
 
         private bool m_IsComplete = false;
-        private StartupDataOptions m_Options;
+        private StartupDataContext m_Options;
 
         #endregion Fields
   
         #region - - - - - - Constructors - - - - - -
 
-        public StartupLoadCommand(IGameSaveManager gameSaveManager, IPlayerActionFacade playerControllers)
+        public StartupLoadCommand(IGameDataManager gameSaveManager, IPlayerActionFacade playerControllers)
         {
             this.m_GameSaveManager = gameSaveManager ?? throw new ArgumentNullException(nameof(gameSaveManager));
             this.m_PlayerControllers = playerControllers ?? throw new ArgumentNullException(nameof(playerControllers));
             
-            this.m_Options = new StartupDataOptions();
+            this.m_Options = new StartupDataContext();
         }
 
         #endregion Constructors
@@ -50,13 +50,13 @@ namespace ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands
         bool ICommand.CanExecute() 
             => this.m_PlayerControllers != null && this.m_GameSaveManager != null && this.m_Options != null;
 
-        string ILoadCommand<StartupDataOptions>.GetLoadCommandName()
+        string ILoadCommand<StartupDataContext>.GetLoadCommandName()
             => nameof(StartupLoadCommand);
 
-        StartupDataOptions ILoadCommand<StartupDataOptions>.GetLoadedOptionsObject() 
+        StartupDataContext ILoadCommand<StartupDataContext>.GetLoadedOptionsObject() 
             => this.m_Options;
 
-        bool ILoadCommand<StartupDataOptions>.IsLoadComplete() 
+        bool ILoadCommand<StartupDataContext>.IsLoadComplete() 
             => this.m_IsComplete;
 
         void IGetPlayerOutputPort.PresentPlayer(PlayerModel player)
@@ -72,12 +72,14 @@ namespace ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands
 
     }
 
-    public class StartupDataOptions
+    public class StartupDataContext
     {
 
         #region - - - - - - Properties - - - - - -
 
         public PlayerModel Player { get; set; }
+        
+        public ShipModel SelectedShip { get; set; }
 
         #endregion Properties
   

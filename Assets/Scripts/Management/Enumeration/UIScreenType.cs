@@ -8,7 +8,8 @@
         OptionsMenu,
         LoadingScreen,
         GameplayHUD,
-        PauseScreen
+        PauseScreen,
+        ShipSelectionScreen
     }
 
 }

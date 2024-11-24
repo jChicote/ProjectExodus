@@ -3,7 +3,7 @@ using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Coroutines;
 using ProjectExodus.GameLogic.Scene.SceneLoader;
 using ProjectExodus.Management.Enumeration;
-using ProjectExodus.Management.GameSaveManager;
+using ProjectExodus.Management.GameDataManager;
 using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.SceneManager;
 using ProjectExodus.Management.UserInterfaceManager;
@@ -42,7 +42,7 @@ namespace ProjectExodus.Management.GameStateManager
             IServiceLocator _ServiceLocator = GameManager.Instance.ServiceLocator;
             
             IInputManager _InputManager = GameManager.Instance.InputManager;
-            IGameSaveManager _GameSaveManager = _ServiceLocator.GetService<IGameSaveManager>();
+            IGameDataManager _GameSaveManager = _ServiceLocator.GetService<IGameDataManager>();
             ISceneManager _SceneManager = GameManager.Instance.SceneManager;
             IUserInterfaceManager _UserInterfaceManager = _ServiceLocator.GetService<IUserInterfaceManager>();
 

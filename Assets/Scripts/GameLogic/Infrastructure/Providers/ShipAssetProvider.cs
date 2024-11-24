@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using ProjectExodus.ScriptableObjects;
 using ProjectExodus.ScriptableObjects.AssetEntities;
@@ -13,6 +14,8 @@ namespace ProjectExodus.GameLogic.Infrastructure.Providers
         #region - - - - - - Methods - - - - - -
 
         ShipAssetObject Provide(int id);
+
+        List<ShipAssetObject> GetAllShips();
 
         #endregion Methods
 
@@ -47,8 +50,11 @@ namespace ProjectExodus.GameLogic.Infrastructure.Providers
             return this.m_GamePrefabAssets.ShipPrefabs.Single(sao => sao.ID == id);
         }
 
+        List<ShipAssetObject> IShipAssetProvider.GetAllShips()
+            => this.m_GamePrefabAssets.ShipPrefabs;
+
         #endregion Methods
-  
+
     }
 
 }
