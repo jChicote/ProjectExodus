@@ -80,7 +80,8 @@ namespace ProjectExodus.UserInterface.ShipSelectionScreen
         private void SelectShip()
         {
             ShipAssetObject _SelectedShip = this.m_AllShips[this.m_SelectedIndex];
-            SceneManager.Instance.SelectedShipID = this.m_PlayerShips.Single(sm => sm.AssetID == _SelectedShip.ID).ID;
+            // SceneManager.Instance.SelectedShipID = this.m_PlayerShips.Single(sm => sm.AssetID == _SelectedShip.ID).ID; // Need to remove
+            GameDataManager.Instance.SelectedShip = this.m_PlayerShips.Single(sm => sm.AssetID == _SelectedShip.ID);
             this.m_GameStateManager.ChangeGameState(GameState.Gameplay);
         }
 

@@ -55,13 +55,13 @@ namespace ProjectExodus.GameLogic.Scene.SetupHandlers
                 return;
             }
             
-            StartupDataContext _StartupData = new StartupDataContext()
+            StartupDataContext _StartupData = new StartupDataContext
             {
                 Player = GameDataManager.Instance.SelectedPlayer,
                 SelectedShip = GameDataManager.Instance.SelectedShip
             };
 
-            SceneSetupInitializationContext _InitializationContext = new SceneSetupInitializationContext()
+            SceneSetupInitializationContext _InitializationContext = new SceneSetupInitializationContext
             {
                 InputManager = this.m_InputManager,
                 LoadingScreenController = this.m_LoadingScreenController,

@@ -117,7 +117,12 @@ namespace ProjectExodus.Management.GameDataManager
                 _PlayerOutput);
 
             if (_PlayerOutput.IsSuccessful)
+            {
                 this.m_SelectedPlayer = _PlayerOutput.Result;
+                
+                // On loading a game save, the first default ship is always selected.
+                this.SelectedShip = _PlayerOutput.Result.Ships.First(s => s.AssetID == 0);
+            }
         }
 
         private void SaveGameplayData()

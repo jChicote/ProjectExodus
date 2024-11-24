@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Scene;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -24,11 +23,11 @@ namespace ProjectExodus.Management.SceneManager
 
         #endregion Fields
 
-        #region - - - - - - Properties' - - - - - -
+        #region - - - - - - Properties - - - - - -
 
-        public Guid SelectedShipID { get; set; } // TODO: Remove this, data related values are ties to the GameDataManager
+        // public Guid SelectedShipID { get; set; } // TODO: Remove this, data related values are ties to the GameDataManager
 
-        #endregion Properties'
+        #endregion Properties
   
         #region - - - - - - Initialisers - - - - - -
 

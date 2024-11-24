@@ -475,19 +475,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7074605820995331329, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7074605820995331329, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9125139199920498774, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9125139199920498774, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -200
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -698,9 +698,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f8df8a16da4432385013c3e88938146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerSpawner: {fileID: 0}
-  PlayerProvider: {fileID: 0}
-  CameraController: {fileID: 0}
+  PlayerSpawner: {fileID: 211138123}
+  PlayerProvider: {fileID: 1379387251}
+  CameraController: {fileID: 1080787494}
 --- !u!4 &776508583
 Transform:
   m_ObjectHideFlags: 0
