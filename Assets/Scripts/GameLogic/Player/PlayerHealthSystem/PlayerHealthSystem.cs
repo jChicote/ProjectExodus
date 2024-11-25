@@ -11,6 +11,9 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
 
         #region - - - - - - Fields - - - - - -
 
+        private const float MAXIMUM_SUPPORTED_PLATING = 500f;
+        private const float MAXIMUM_SUPPORTED_SHIELDS = 500f;
+
         private IGameplayHUDController m_GameplayHUDController;
 
         private float m_CurrentPlatingHealth;
@@ -52,20 +55,35 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
                 this.m_CurrentShieldHealth > damage ? 0 : damage - this.m_CurrentShieldHealth;
 
             if (this.m_CurrentShieldHealth > 0)
-                this.m_CurrentShieldHealth = Math.Clamp(
-                    this.m_CurrentShieldHealth - damage, 
-                    0, 
-                    this.m_MaxShieldHealth);
-            
+                this.m_CurrentShieldHealth = 
+                    Math.Clamp(this.m_CurrentShieldHealth - damage, 0, this.m_MaxShieldHealth);
             else
-                this.m_CurrentPlatingHealth = Math.Clamp(
-                    this.m_CurrentPlatingHealth - _PlatingDamage, 
-                    0, 
-                    this.m_MaxPlatingHealth);
+                this.m_CurrentPlatingHealth = 
+                    Math.Clamp(this.m_CurrentPlatingHealth - _PlatingDamage, 0, this.m_MaxPlatingHealth);
             
             this.m_GameplayHUDController.SetHealthValues(this.m_CurrentPlatingHealth, this.m_CurrentShieldHealth);
         }
 
+        void IPlayerHealthSystem.UpgradePlating(float upgradeValue)
+        {
+            this.m_MaxPlatingHealth =
+                Math.Clamp(this.m_CurrentPlatingHealth + upgradeValue, 0, MAXIMUM_SUPPORTED_PLATING);
+            this.m_CurrentPlatingHealth = this.m_MaxPlatingHealth;
+            
+            // TODO: The GUD controller needs to animate and await for the health to approach full bar.
+            this.m_GameplayHUDController.SetHealthValues(this.m_CurrentPlatingHealth, this.m_CurrentShieldHealth);
+        }
+
+        void IPlayerHealthSystem.UpgradeShields(float upgradeValue)
+        {
+            this.m_MaxShieldHealth =
+                Math.Clamp(this.m_CurrentShieldHealth + upgradeValue, 0, MAXIMUM_SUPPORTED_SHIELDS);
+            this.m_CurrentShieldHealth = this.m_MaxShieldHealth;
+            
+            // TODO: The GUD controller needs to animate and await for the health to approach full bar.
+            this.m_GameplayHUDController.SetHealthValues(this.m_CurrentPlatingHealth, this.m_CurrentShieldHealth);
+        }
+        
         #endregion Methods
   
     }
