@@ -67,20 +67,22 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
         void IPlayerHealthSystem.UpgradePlating(float upgradeValue)
         {
             this.m_MaxPlatingHealth =
-                Math.Clamp(this.m_CurrentPlatingHealth + upgradeValue, 0, MAXIMUM_SUPPORTED_PLATING);
+                Math.Clamp(this.m_MaxPlatingHealth + upgradeValue, 0, MAXIMUM_SUPPORTED_PLATING);
             this.m_CurrentPlatingHealth = this.m_MaxPlatingHealth;
             
             // TODO: The GUD controller needs to animate and await for the health to approach full bar.
+            this.m_GameplayHUDController.SetMaxHealthValues(this.m_MaxPlatingHealth, this.m_MaxShieldHealth);
             this.m_GameplayHUDController.SetHealthValues(this.m_CurrentPlatingHealth, this.m_CurrentShieldHealth);
         }
 
         void IPlayerHealthSystem.UpgradeShields(float upgradeValue)
         {
             this.m_MaxShieldHealth =
-                Math.Clamp(this.m_CurrentShieldHealth + upgradeValue, 0, MAXIMUM_SUPPORTED_SHIELDS);
+                Math.Clamp(this.m_MaxShieldHealth + upgradeValue, 0, MAXIMUM_SUPPORTED_SHIELDS);
             this.m_CurrentShieldHealth = this.m_MaxShieldHealth;
             
             // TODO: The GUD controller needs to animate and await for the health to approach full bar.
+            this.m_GameplayHUDController.SetMaxHealthValues(this.m_MaxPlatingHealth, this.m_MaxShieldHealth);
             this.m_GameplayHUDController.SetHealthValues(this.m_CurrentPlatingHealth, this.m_CurrentShieldHealth);
         }
         
