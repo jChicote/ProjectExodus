@@ -10,6 +10,10 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
 
         void Initializer(IGameplayHUDController gameplayHUDController, float platingHealth, float shieldHealth);
 
+        void UpgradePlating(float upgradeValue);
+
+        void UpgradeShields(float upgradeValue);
+
         #endregion Methods
 
     }
