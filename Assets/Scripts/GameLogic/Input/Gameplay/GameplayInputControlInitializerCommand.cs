@@ -1,7 +1,9 @@
 using System;
 using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Player.Movement;
+using ProjectExodus.GameLogic.Player.PlayerTargetingSystem;
 using ProjectExodus.GameLogic.Player.Weapons;
+using ProjectExodus.Utility.GameValidation;
 using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Input.Gameplay
@@ -39,15 +41,19 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
         {
             GameplayInputControlServiceContainer _ServiceControllers = new GameplayInputControlServiceContainer();
             _ServiceControllers.PlayerMovement = this.m_ActivePlayer.GetComponent<IPlayerMovement>();
+            _ServiceControllers.PlayerTargetingSystem = this.m_ActivePlayer.GetComponent<IPlayerTargetingSystem>();
             _ServiceControllers.PlayerWeaponSystems = this.m_ActivePlayer.GetComponent<IPlayerWeaponSystems>();
             
             this.m_GameplayInputControl.SetServiceContainer(_ServiceControllers);
         }
 
-        bool ICommand.CanExecute() => true; // No validation currently needed.
+        bool ICommand.CanExecute()
+            => GameValidator.NotNull(this.m_ActivePlayer, nameof(this.m_ActivePlayer))
+               && GameValidator.NotNull(this.m_SessionUser, nameof(this.m_SessionUser))
+               && GameValidator.NotNull(this.m_GameplayInputControl, nameof(this.m_GameplayInputControl));
 
         #endregion Methods
-  
+
     }
 
 }

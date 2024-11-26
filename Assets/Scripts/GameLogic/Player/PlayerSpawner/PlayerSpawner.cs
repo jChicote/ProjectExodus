@@ -3,7 +3,10 @@ using System.Linq;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.GameLogic.Player.PlayerHealthSystem;
+using ProjectExodus.GameLogic.Player.PlayerTargetingSystem;
 using ProjectExodus.GameLogic.Player.Weapons;
+using ProjectExodus.GameLogic.Scene;
+using ProjectExodus.Management.SceneManager;
 using ProjectExodus.ScriptableObjects.AssetEntities;
 using ProjectExodus.UserInterface.GameplayHUD;
 using UnityEngine;
@@ -42,6 +45,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
 
         GameObject IPlayerSpawner.SpawnPlayerShip(ShipModel shipToSpawn)
         {
+            ISceneController _SceneController = SceneManager.Instance.GetActiveSceneController();
             ShipAssetObject _ShipAsset = this.m_ShipAssetProvider.Provide(shipToSpawn.AssetID);
             GameObject _PlayerShip = Instantiate(_ShipAsset.Asset, Vector2.zero, this.transform.rotation);
             
@@ -55,6 +59,10 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
                     this.m_GameplayHUDController,
                     _ShipAsset.BaseShieldHealth + shipToSpawn.ShieldHealthModifier, 
                     _ShipAsset.BasePlatingHealth + shipToSpawn.PlatingHealthModifier);
+            
+            // Setup Targeting System
+            _PlayerShip.GetComponent<IPlayerTargetingSystem>()
+                .Initialize(_SceneController.Camera);
 
             return _PlayerShip;
         }

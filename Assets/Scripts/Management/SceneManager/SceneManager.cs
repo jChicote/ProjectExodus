@@ -58,7 +58,7 @@ namespace ProjectExodus.Management.SceneManager
   
         #region - - - - - - Methods - - - - - -
 
-        ISceneController ISceneManager.GetActiveSceneController()
+        public ISceneController GetActiveSceneController()
         {
             // ---------------------------------------------------------------------------------------------
             // Validation is commented out as destroyed gameobject maintain their reference but point to null.

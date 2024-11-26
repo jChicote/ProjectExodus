@@ -9,6 +9,8 @@ namespace ProjectExodus.GameLogic.Scene
         #region - - - - - - Properties - - - - - -
 
         IPauseController PauseController { get; }
+        
+        UnityEngine.Camera Camera { get; }
 
         #endregion Properties
   

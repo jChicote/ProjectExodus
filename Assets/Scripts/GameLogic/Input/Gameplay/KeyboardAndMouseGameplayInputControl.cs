@@ -75,6 +75,8 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             // Calculate look direction assuming screen center as origin point
             this.m_ServiceControllers.PlayerMovement.SetLookDirection(
                 callback.ReadValue<Vector2>() - this.m_ScreenCenter);
+            
+            this.m_ServiceControllers.PlayerTargetingSystem.SearchForTarget(callback.ReadValue<Vector2>());
         }
 
         void IGameplayInputControl.OnMove(InputAction.CallbackContext callback)

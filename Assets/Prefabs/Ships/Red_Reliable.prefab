@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 9111556964303807427}
   - component: {fileID: 4067972612123224677}
   - component: {fileID: 2292532457163706279}
+  - component: {fileID: 8172254529325503734}
   m_Layer: 0
   m_Name: Red_Reliable
   m_TagString: Player
@@ -153,6 +154,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32fc34d4cb33461894ed27b2e0527420, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8172254529325503734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3396301712567387330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cd8764b007d44788e7543cf9fcd235e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3558195065215818036

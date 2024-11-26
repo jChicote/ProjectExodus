@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Camera;

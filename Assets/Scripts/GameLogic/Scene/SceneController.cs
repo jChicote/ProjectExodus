@@ -11,6 +11,7 @@ namespace ProjectExodus.GameLogic.Scene
 
         #region - - - - - - Fields - - - - - -
 
+        [SerializeField] private UnityEngine.Camera m_Camera;
         [SerializeField] private SceneStartupHandler m_SceneStartupController;
         [SerializeField] private PauseController m_PauseController;
 
@@ -31,6 +32,9 @@ namespace ProjectExodus.GameLogic.Scene
         #endregion Initialisers
 
         #region - - - - - - Properties - - - - - -
+
+        public UnityEngine.Camera Camera
+            => this.m_Camera;
         
         IPauseController ISceneController.PauseController
             => this.m_PauseController;
