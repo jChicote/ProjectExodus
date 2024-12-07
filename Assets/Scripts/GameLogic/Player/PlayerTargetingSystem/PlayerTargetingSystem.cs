@@ -81,6 +81,8 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
 
         void IPlayerTargetingSystem.SearchForTarget(Vector2 screenPosition)
         {
+            if (this.m_CanTargetTrack || this.m_CanTractorTrack) return;
+            
             this.m_MouseWorldPosition = this.m_Camera.ScreenToWorldPoint(
                 new Vector3(screenPosition.x, screenPosition.y, 0));
             this.m_MouseWorldPosition2D = new Vector2(m_MouseWorldPosition.x, m_MouseWorldPosition.y);
@@ -113,6 +115,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
         {
             Debug.Log("RunTractorLocking is started.");
             this.m_CanTargetTrack = true;
+            this.m_TargetTrackingHUDController.ShowScreen();
         }
 
         private IEnumerator RunTractorLockingSystem()
@@ -127,8 +130,9 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
             if (!this.m_CanTargetTrack) return;
             
             // Check that the target has not been lost
-            
-            this.m_TargetTrackingHUDController.SetTargetCrosshairPosition(this.m_MouseWorldPosition2D);
+            Debug.Log("Is tracking");
+            this.m_TargetTrackingHUDController.SetTargetCrosshairPosition(
+                this.m_Camera.WorldToScreenPoint(this.m_TargetTransform.position));
         }
 
         private void TrackTractoredObject()
@@ -166,6 +170,8 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
             this.m_TargetTransform = null;
             
             this.StopCoroutine(this.RunTractorLockingSystem());
+            
+            this.m_TargetTrackingHUDController.HideScreen();
         }
 
         #endregion Methods

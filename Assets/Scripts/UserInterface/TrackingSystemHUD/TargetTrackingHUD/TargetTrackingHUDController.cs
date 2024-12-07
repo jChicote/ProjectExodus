@@ -24,10 +24,10 @@ namespace ProjectExodus.UserInterface.TrackingSystemHUD.TargetTrackingHUD
         public void SetTargetCrosshairPosition(Vector2 screenPosition) 
             => this.m_View.UpdateCrosshairPosition(screenPosition);
 
-        void IScreenStateController.HideScreen() 
+        public void HideScreen() 
             => this.m_View.HideGUI();
 
-        void IScreenStateController.ShowScreen() 
+        public void ShowScreen() 
             => this.m_View.ShowGUI();
 
         #endregion Methods

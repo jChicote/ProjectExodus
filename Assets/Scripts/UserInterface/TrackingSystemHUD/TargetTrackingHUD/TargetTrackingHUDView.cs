@@ -11,12 +11,20 @@ namespace ProjectExodus.UserInterface.TrackingSystemHUD.TargetTrackingHUD
         [SerializeField] private GameObject m_ContentGroup;
         [SerializeField] private RectTransform m_CrosshairTransform;
 
+        private RectTransform m_ContentGroupRectTransform;
+
         #endregion Fields
 
-        #region - - - - - - Methods - - - - - -
+        #region - - - - - - Unity Methods - - - - - -
 
-        public void SetCrosshairPosition(Vector2 crosshairPosition) 
-            => this.m_CrosshairTransform.anchoredPosition = crosshairPosition;
+        private void Start()
+        {
+            this.m_ContentGroupRectTransform = this.m_ContentGroup.GetComponent<RectTransform>();
+        }
+
+        #endregion Unity Methods
+  
+        #region - - - - - - Methods - - - - - -
 
         public void HideGUI()
             => this.m_ContentGroup.SetActive(false);
@@ -25,7 +33,16 @@ namespace ProjectExodus.UserInterface.TrackingSystemHUD.TargetTrackingHUD
             => this.m_ContentGroup.SetActive(true);
 
         public void UpdateCrosshairPosition(Vector2 screenPosition)
-            => this.m_CrosshairTransform.anchoredPosition = screenPosition;
+        {
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    this.m_ContentGroupRectTransform,
+                    screenPosition,
+                    null, // Set to null as the Canvas is done in Screen Overlay
+                    out Vector2 _CanvasPosition))
+                return;
+            
+            this.m_CrosshairTransform.anchoredPosition = _CanvasPosition;
+        }
 
         #endregion Methods
 

@@ -5,6 +5,7 @@ using ProjectExodus.StateManagement.ScreenStates;
 using ProjectExodus.UserInterface.GameplayHUD;
 using ProjectExodus.UserInterface.OptionsMenu;
 using ProjectExodus.UserInterface.PauseScreen;
+using ProjectExodus.UserInterface.TrackingSystemHUD.TargetTrackingHUD;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -16,10 +17,14 @@ namespace ProjectExodus.UserInterface.Controllers
 
         #region - - - - - - Fields - - - - - -
 
+        [Header("Switchable Screens")]
         [SerializeField] private GameObject m_LoadingScreen;
         [SerializeField] private GameObject m_GameplayHUDScreen;
         [SerializeField] private GameObject m_PauseScreen;
         [SerializeField] private GameObject m_OptionsScreen;
+        
+        [Header("Scene-Persistence Views")]
+        [SerializeField] private TargetTrackingHUDController m_TargetTrackingHUDController;
 
         private GameplaySceneGUIControllers m_GUIControllers;
 
@@ -48,6 +53,7 @@ namespace ProjectExodus.UserInterface.Controllers
             this.m_GameplayHudScreenState.Initialize();
             this.m_PauseScreenState.Initialize();
             this.m_OptionsScreenState.Initialize();
+            ((ITrackingHUDController)this.m_TargetTrackingHUDController).Initialize();
             
             // Initialize screens
             IGameplayHUDController _GamplayHUDController =
