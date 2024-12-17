@@ -1,6 +1,7 @@
 ﻿using System;
 using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
+using ProjectExodus.UserInterface.Controllers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,6 +19,8 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         private Vector2 m_ScreenCenter;
         private bool m_IsInputActive;
+
+        private bool m_CtrlPressed;
 
         #endregion Fields
 
@@ -59,6 +62,22 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             this.m_ServiceControllers.PlayerWeaponSystems.ToggleWeaponFire(false);
         }
 
+        void IGameplayInputControl.OnControlOptionPressed(InputAction.CallbackContext callback)
+        {
+            if (this.m_IsPaused || !this.m_IsInputActive)
+                return;
+
+            this.m_CtrlPressed = true;
+        }
+
+        void IGameplayInputControl.OnControlOptionReleased(InputAction.CallbackContext callback)
+        {
+            if (this.m_IsPaused || !this.m_IsInputActive)
+                return;
+
+            this.m_CtrlPressed = false;
+        }
+
         void IGameplayInputControl.OnInteract(InputAction.CallbackContext callbackContext)
         {
             if (this.m_IsPaused || !this.m_IsInputActive)
@@ -95,6 +114,15 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             Debug.LogWarning("[NOT IMPLEMENTED] >> No implemented behavior for OnPause.");
         }
 
+        void IGameplayInputControl.OnSecondaryAction(InputAction.CallbackContext callback)
+        {
+            if (this.m_IsPaused || !this.m_IsInputActive)
+                return;
+            
+            if (this.m_CtrlPressed)
+                this.m_ServiceControllers.PlayerTargetingSystem.ConfirmTargetLock();
+        }
+
         void IGameplayInputControl.OnSprint(InputAction.CallbackContext callbackContext)
         {
             if (this.m_IsPaused || !this.m_IsInputActive)
@@ -116,6 +144,13 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             playerInput.actions[GameplayInputActionConstants.INTERACT].performed +=
                 ((IGameplayInputControl)this).OnInteract;
             playerInput.actions[GameplayInputActionConstants.PAUSE].performed += ((IGameplayInputControl)this).OnPause;
+
+            playerInput.actions[GameplayInputActionConstants.SECONDARY].performed += 
+                ((IGameplayInputControl)this).OnSecondaryAction;
+            playerInput.actions[GameplayInputActionConstants.CONTROL_OPTION].performed += 
+                ((IGameplayInputControl)this).OnControlOptionPressed;
+            playerInput.actions[GameplayInputActionConstants.CONTROL_OPTION].canceled +=
+                ((IGameplayInputControl)this).OnControlOptionReleased;
             
             // Look
             playerInput.actions[GameplayInputActionConstants.LOOK].performed += ((IGameplayInputControl)this).OnLook;
@@ -141,6 +176,13 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             playerInput.actions[GameplayInputActionConstants.INTERACT].performed -=
                 ((IGameplayInputControl)this).OnInteract;
             playerInput.actions[GameplayInputActionConstants.PAUSE].performed -= ((IGameplayInputControl)this).OnPause;
+            
+            playerInput.actions[GameplayInputActionConstants.SECONDARY].performed -= 
+                ((IGameplayInputControl)this).OnSecondaryAction;
+            playerInput.actions[GameplayInputActionConstants.CONTROL_OPTION].performed -= 
+                ((IGameplayInputControl)this).OnControlOptionPressed;
+            playerInput.actions[GameplayInputActionConstants.CONTROL_OPTION].canceled -=
+                ((IGameplayInputControl)this).OnControlOptionReleased;
             
             // Look
             playerInput.actions[GameplayInputActionConstants.LOOK].performed -= ((IGameplayInputControl)this).OnLook;

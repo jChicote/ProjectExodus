@@ -168,8 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cd8764b007d44788e7543cf9fcd235e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TargetingLockOnTimeLength: 3
-  m_PointerRange: 2
+  m_PointerRange: 4
 --- !u!1 &3558195065215818036
 GameObject:
   m_ObjectHideFlags: 0

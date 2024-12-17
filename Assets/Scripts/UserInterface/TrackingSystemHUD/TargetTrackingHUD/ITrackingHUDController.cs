@@ -3,7 +3,7 @@ using UnityEngine;
 namespace ProjectExodus.UserInterface.TrackingSystemHUD.TargetTrackingHUD
 {
 
-    public interface ITrackingHUDController
+    public interface ITrackingHUDController : IScreenStateController
     {
 
         #region - - - - - - Initializers - - - - - -

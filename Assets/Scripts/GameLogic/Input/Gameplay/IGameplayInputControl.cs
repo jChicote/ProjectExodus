@@ -23,6 +23,12 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void OnPause(InputAction.CallbackContext callback);
 
+        void OnSecondaryAction(InputAction.CallbackContext callback);
+
+        void OnControlOptionPressed(InputAction.CallbackContext callback);
+
+        void OnControlOptionReleased(InputAction.CallbackContext callback);
+
         void OnSprint(InputAction.CallbackContext callbackContext);
 
         void SetServiceContainer(GameplayInputControlServiceContainer serviceContainer);

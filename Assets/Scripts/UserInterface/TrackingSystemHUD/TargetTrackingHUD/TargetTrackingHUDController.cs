@@ -3,7 +3,7 @@ using UnityEngine;
 namespace ProjectExodus.UserInterface.TrackingSystemHUD.TargetTrackingHUD
 {
 
-    public class TargetTrackingHUDController : MonoBehaviour, ITrackingHUDController, IScreenStateController
+    public class TargetTrackingHUDController : MonoBehaviour, ITrackingHUDController
     {
 
         #region - - - - - - Fields - - - - - -

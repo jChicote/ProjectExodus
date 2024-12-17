@@ -1,55 +1,28 @@
 ﻿using System;
-using System.Collections;
-using Codice.CM.Common;
 using ProjectExodus.GameLogic.Enumeration;
 using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
 using ProjectExodus.UserInterface.TrackingSystemHUD.TargetTrackingHUD;
-using ProjectExodus.UserInterface.TrackingSystemHUD.TractorBeamTrackingHUD;
 using UnityEngine;
-using Object = System.Object;
 
 namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
 {
 
-    public interface IPlayerTargetingSystem
-    {
-
-        #region - - - - - - Initializers - - - - - -
-
-        void Initialize(UnityEngine.Camera camera);
-
-        #endregion Initializers
-  
-        #region - - - - - - Methods - - - - - -
-
-        void SearchForTarget(Vector2 screenPosition);
-
-        #endregion Methods
-
-    }
-    
     public class PlayerTargetingSystem : PausableMonoBehavior, IPlayerTargetingSystem
     {
 
         #region - - - - - - Fields - - - - - -
         
         // This should be handled by settings or player data
-        [SerializeField] private float m_TargetingLockOnTimeLength = 8f;
         [SerializeField] private float m_PointerRange = 2f;
 
         private UnityEngine.Camera m_Camera;
-        private TargetTrackingHUDController m_TargetTrackingHUDController;
-        private TractorBeamTrackingHUDController m_TractorBeamTrackingHUDController;
+        private WeaponTargetingHandler m_WeaponTargetingHandler;
+        private TractorBeamTrackingHandler m_TractorBeamTargetingHandler;
 
         // Target Object Fields
-        private Transform m_TargetTransform;
-        private int m_TargetObjectID;
-        private float m_TargetSqrMagnitudeDistance;
+        private GameObject m_PossibleTarget;
         private Vector3 m_MouseWorldPosition;
         private Vector2 m_MouseWorldPosition2D;
-
-        private bool m_CanTargetTrack;
-        private bool m_CanTractorTrack;
 
         #endregion Fields
 
@@ -58,9 +31,13 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
         void IPlayerTargetingSystem.Initialize(UnityEngine.Camera camera)
         {
             this.m_Camera = camera ?? throw new ArgumentNullException(nameof(camera));
-
-            this.m_TargetTrackingHUDController = FindFirstObjectByType<TargetTrackingHUDController>();
-            // this.m_TractorBeamTrackingHUDController = FindFirstObjectByType<TractorBeamTrackingHUDController>();
+            
+            this.m_WeaponTargetingHandler = 
+                new WeaponTargetingHandler(
+                    this.m_PointerRange, 
+                    this.m_Camera,
+                    FindFirstObjectByType<TargetTrackingHUDController>());
+            this.m_TractorBeamTargetingHandler = new TractorBeamTrackingHandler();
         }
 
         #endregion Initializers
@@ -69,109 +46,65 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
 
         private void Update()
         {
-            if (this.m_IsPaused) return;
+            if (this.m_IsPaused 
+                || this.m_WeaponTargetingHandler == null
+                || this.m_TractorBeamTargetingHandler == null)
+                // || !GameValidator.NotNull(this.m_WeaponTargetingHandler, "", false)
+                // || !GameValidator.NotNull(this.m_TractorBeamTargetingHandler, "", false)) 
+                return;
             
-            this.TrackTarget();
-            this.TrackTractoredObject();
+            this.m_WeaponTargetingHandler.TrackTarget();
+            this.m_TractorBeamTargetingHandler.TrackTarget();
         }
 
         #endregion Methods
   
         #region - - - - - - Methods - - - - - -
 
+        void IPlayerTargetingSystem.ConfirmTargetLock()
+        {
+            if (this.m_PossibleTarget == null)
+            {
+                this.m_WeaponTargetingHandler.EndWeaponTargeting();
+                return;
+            }
+            
+            this.RunTargetingAction(this.m_PossibleTarget);
+        }
+
         void IPlayerTargetingSystem.SearchForTarget(Vector2 screenPosition)
         {
-            if (this.m_CanTargetTrack || this.m_CanTractorTrack) return;
-            
             this.m_MouseWorldPosition = this.m_Camera.ScreenToWorldPoint(
                 new Vector3(screenPosition.x, screenPosition.y, 0));
             this.m_MouseWorldPosition2D = new Vector2(m_MouseWorldPosition.x, m_MouseWorldPosition.y);
-
-            // Track the hit
-            if (this.m_TargetTransform)
-            {
-                this.m_TargetSqrMagnitudeDistance = 
-                    (new Vector2(
-                        x: this.m_TargetTransform.position.x, 
-                        y: this.m_TargetTransform.position.y) - this.m_MouseWorldPosition2D)
-                    .sqrMagnitude;
-
-                if (!(this.m_TargetSqrMagnitudeDistance > this.m_PointerRange * this.m_PointerRange)) 
-                    return;
-                
-                this.ResetTargetingSystem();
-            }
+            
+            this.m_WeaponTargetingHandler.SetPointerPosition(this.m_MouseWorldPosition2D);
+            
+            if (this.m_WeaponTargetingHandler.CanTrack || this.m_TractorBeamTargetingHandler.CanTrack) return;
             
             // Trace through scene
             RaycastHit2D _RaycastHit = Physics2D.Raycast(this.m_MouseWorldPosition2D, Vector2.zero, 0);
             if (!_RaycastHit)
-                this.ResetTargetingSystem();
+            {
+                this.m_PossibleTarget = null;
+                return;
+            }
             
-            else if (_RaycastHit.collider.gameObject.GetInstanceID() != this.m_TargetObjectID) 
-                this.RunTargetingAction(_RaycastHit.collider.gameObject);
-        }
-
-        private void RunTargetingSystem()
-        {
-            Debug.Log("RunTractorLocking is started.");
-            this.m_CanTargetTrack = true;
-            this.m_TargetTrackingHUDController.ShowScreen();
-        }
-
-        private IEnumerator RunTractorLockingSystem()
-        {
-            yield return new WaitForSeconds(this.m_TargetingLockOnTimeLength);
-            Debug.Log("RunTractorLocking is started.");
-            this.m_CanTractorTrack = true;
-        }
-
-        private void TrackTarget()
-        {
-            if (!this.m_CanTargetTrack) return;
-            
-            // Check that the target has not been lost
-            Debug.Log("Is tracking");
-            this.m_TargetTrackingHUDController.SetTargetCrosshairPosition(
-                this.m_Camera.WorldToScreenPoint(this.m_TargetTransform.position));
-        }
-
-        private void TrackTractoredObject()
-        {
-            if (!this.m_CanTractorTrack) return;
-            
-            // Check that the tractored object is not lost
-            this.m_CanTractorTrack = false;
-        }
-
-        private void SetNewTarget(GameObject newTarget)
-        {
-            this.m_TargetObjectID = newTarget.GetInstanceID();
-            this.m_TargetTransform = newTarget.transform;
+            this.m_PossibleTarget = _RaycastHit.collider.gameObject;
         }
 
         private void RunTargetingAction(GameObject hitObject)
         {
             if (hitObject.tag == GameTag.Enemy)
             {
-                this.SetNewTarget(hitObject);
-                this.RunTargetingSystem();
+                this.m_WeaponTargetingHandler.SetNewTarget(hitObject);
+                this.m_WeaponTargetingHandler.StartWeaponTargeting();
             }
             else if (hitObject.tag == GameTag.Interactable)
             {
-                this.SetNewTarget(hitObject);
-                this.StartCoroutine(this.RunTractorLockingSystem());
+                this.m_TractorBeamTargetingHandler.SetNewTarget(hitObject);
+                this.StartCoroutine(this.m_TractorBeamTargetingHandler.StartTargeting());
             }
-        }
-
-        private void ResetTargetingSystem()
-        {
-            this.m_MouseWorldPosition2D = Vector2.zero;
-            this.m_TargetObjectID = 0;
-            this.m_TargetTransform = null;
-            
-            this.StopCoroutine(this.RunTractorLockingSystem());
-            
-            this.m_TargetTrackingHUDController.HideScreen();
         }
 
         #endregion Methods
@@ -180,21 +113,18 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
 
         private void OnDrawGizmos()
         {
-            if (!this.m_TargetTransform) return;
-            
-            float _SqrMagnitude = 
-                ((new Vector2(
-                    x: this.m_TargetTransform.position.x, 
-                    y: this.m_TargetTransform.position.y) - this.m_MouseWorldPosition2D))
-                .magnitude;
-            
-            // Draw circular bounds
-            Gizmos.color = new Color(255, 0, 0, 1);
-            Gizmos.DrawWireSphere(this.m_TargetTransform.position, this.m_PointerRange);
-            
-            // Draw circular distance
-            Gizmos.color = new Color(0, 255, 255, 1);
-            Gizmos.DrawWireSphere(this.m_TargetTransform.position, _SqrMagnitude);
+            this.m_WeaponTargetingHandler.CalculateDrawGizmos(out Vector2 _TransformPosition, out float _Magnitude);
+
+            if (this.m_WeaponTargetingHandler.CanTrack)
+            {
+                // Draw circular bounds
+                Gizmos.color = new Color(255, 0, 0, 1);
+                Gizmos.DrawWireSphere(_TransformPosition, _Magnitude);
+                
+                // Draw circular distance
+                Gizmos.color = new Color(0, 255, 255, 1);
+                Gizmos.DrawWireSphere(_TransformPosition, _Magnitude);
+            }
         }
 
         #endregion Gizmos
