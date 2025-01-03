@@ -23,6 +23,8 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
         private GameObject m_PossibleTarget;
         private Vector3 m_MouseWorldPosition;
         private Vector2 m_MouseWorldPosition2D;
+        
+        private bool m_IsTrackingEnabled;
 
         #endregion Fields
 
@@ -37,7 +39,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
                     this.m_PointerRange, 
                     this.m_Camera,
                     FindFirstObjectByType<TargetTrackingHUDController>());
-            this.m_TractorBeamTargetingHandler = new TractorBeamTrackingHandler();
+            this.m_TractorBeamTargetingHandler = new TractorBeamTrackingHandler(this.transform);
         }
 
         #endregion Initializers
@@ -54,7 +56,6 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
                 return;
             
             this.m_WeaponTargetingHandler.TrackTarget();
-            this.m_TractorBeamTargetingHandler.TrackTarget();
         }
 
         #endregion Methods
@@ -63,7 +64,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
 
         void IPlayerTargetingSystem.ConfirmTargetLock()
         {
-            if (this.m_PossibleTarget == null)
+            if (!this.m_IsTrackingEnabled || this.m_PossibleTarget == null)
             {
                 this.m_WeaponTargetingHandler.EndWeaponTargeting();
                 return;
@@ -72,8 +73,16 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
             this.RunTargetingAction(this.m_PossibleTarget);
         }
 
+        void IPlayerTargetingSystem.ActivateTargeting() 
+            => this.m_IsTrackingEnabled = true;
+
+        void IPlayerTargetingSystem.DeactivateTargeting() 
+            => this.m_IsTrackingEnabled = false;
+
         void IPlayerTargetingSystem.SearchForTarget(Vector2 screenPosition)
         {
+            if (!this.m_IsTrackingEnabled) return;
+            
             this.m_MouseWorldPosition = this.m_Camera.ScreenToWorldPoint(
                 new Vector3(screenPosition.x, screenPosition.y, 0));
             this.m_MouseWorldPosition2D = new Vector2(m_MouseWorldPosition.x, m_MouseWorldPosition.y);

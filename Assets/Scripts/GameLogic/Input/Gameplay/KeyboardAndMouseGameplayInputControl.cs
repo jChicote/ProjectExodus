@@ -68,6 +68,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
                 return;
 
             this.m_CtrlPressed = true;
+            this.m_ServiceControllers.PlayerTargetingSystem.ActivateTargeting();
         }
 
         void IGameplayInputControl.OnControlOptionReleased(InputAction.CallbackContext callback)
@@ -76,6 +77,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
                 return;
 
             this.m_CtrlPressed = false;
+            this.m_ServiceControllers.PlayerTargetingSystem.DeactivateTargeting();
         }
 
         void IGameplayInputControl.OnInteract(InputAction.CallbackContext callbackContext)

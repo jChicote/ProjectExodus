@@ -14,6 +14,10 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
   
         #region - - - - - - Methods - - - - - -
 
+        void ActivateTargeting();
+
+        void DeactivateTargeting();
+
         void ConfirmTargetLock();
 
         void SearchForTarget(Vector2 screenPosition);
