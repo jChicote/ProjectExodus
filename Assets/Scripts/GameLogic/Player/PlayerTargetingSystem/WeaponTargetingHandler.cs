@@ -41,12 +41,17 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
 
         public bool CanTrack => this.m_CanTrack;
 
+        public Transform CurrentTargetEnemy => this.m_TargetTransform;
+
         #endregion Properties
   
         #region - - - - - - Methods - - - - - -
 
         public void TrackTarget()
         {
+            GameLogger.Log(
+                (nameof(m_CanTrack), m_CanTrack),
+                (nameof(m_TargetTransform), m_TargetTransform));
             if (!this.m_CanTrack || this.m_TargetTransform == null) return;
             
             this.m_TargetSqrMagnitudeDistance = 
@@ -58,6 +63,8 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
             // Check that the target has not been lost
             this.m_TargetTrackingHUDController.SetTargetCrosshairPosition(
                 this.m_Camera.WorldToScreenPoint(this.m_TargetTransform.position));
+            
+            Debug.Log("Can weapon tracks");
             
             // TODO: This needs to change to the width of the screen.
             if (this.m_TargetSqrMagnitudeDistance > this.m_PointerRange * this.m_PointerRange) 

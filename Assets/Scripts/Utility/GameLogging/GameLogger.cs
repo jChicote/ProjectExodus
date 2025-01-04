@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 namespace ProjectExodus.Utility.GameLogging
@@ -31,6 +32,17 @@ namespace ProjectExodus.Utility.GameLogging
 
         #endregion Methods
   
+        #region - - - - - - Custom Logging Methods - - - - - -
+
+        public static void Log(params (string paramName, object value)[] parameters)
+        {
+            #if UNITY_EDITOR || DEVELOPMENT_BUILD
+                Debug.Log(string.Join(", ", parameters.Select(p => $"{p.paramName}: {p.value}")));
+            #endif
+        }
+
+        #endregion Custom Logging Methods
+        
     }
 
 }

@@ -2,6 +2,7 @@
 using ProjectExodus.GameLogic.Enumeration;
 using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
 using ProjectExodus.UserInterface.TrackingSystemHUD.TargetTrackingHUD;
+using ProjectExodus.Utility.GameLogging;
 using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
@@ -16,6 +17,8 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
         [SerializeField] private float m_PointerRange = 2f;
 
         private UnityEngine.Camera m_Camera;
+        
+        // Targeting Handlers
         private WeaponTargetingHandler m_WeaponTargetingHandler;
         private TractorBeamTrackingHandler m_TractorBeamTargetingHandler;
 
@@ -56,6 +59,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
                 return;
             
             this.m_WeaponTargetingHandler.TrackTarget();
+            // this.m_TractorBeamTargetingHandler.TrackTarget();
         }
 
         #endregion Methods
@@ -67,10 +71,29 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
             if (!this.m_IsTrackingEnabled || this.m_PossibleTarget == null)
             {
                 this.m_WeaponTargetingHandler.EndWeaponTargeting();
+                // this.m_TractorBeamTargetingHandler.EndWeaponTargeting();
                 return;
             }
             
-            this.RunTargetingAction(this.m_PossibleTarget);
+            // TODO: Move to WeaponTargeting            
+            if (this.m_PossibleTarget.tag == GameTag.Enemy && this.m_WeaponTargetingHandler.CurrentTargetEnemy != null)
+            {
+                bool _IsTargetReselected = this.m_PossibleTarget.GetInstanceID() ==
+                                           this.m_WeaponTargetingHandler.CurrentTargetEnemy.gameObject.GetInstanceID();
+                GameLogger.Log((nameof(_IsTargetReselected), _IsTargetReselected));
+                if (_IsTargetReselected)
+                {
+                    this.m_WeaponTargetingHandler.EndWeaponTargeting();
+                    return;
+                    
+                }
+            }
+            else if (this.m_PossibleTarget.tag == GameTag.Interactable)
+            {
+                // No behavior implemented yet.
+            }
+            
+            this.StartTargetingAction(this.m_PossibleTarget);
         }
 
         void IPlayerTargetingSystem.ActivateTargeting() 
@@ -83,13 +106,14 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
         {
             if (!this.m_IsTrackingEnabled) return;
             
+            // Prevent targeting from disengaging if mouse exits the targeting area.
+            if (this.m_WeaponTargetingHandler.CanTrack || this.m_TractorBeamTargetingHandler.CanTrack) return;
+            
             this.m_MouseWorldPosition = this.m_Camera.ScreenToWorldPoint(
                 new Vector3(screenPosition.x, screenPosition.y, 0));
             this.m_MouseWorldPosition2D = new Vector2(m_MouseWorldPosition.x, m_MouseWorldPosition.y);
-            
             this.m_WeaponTargetingHandler.SetPointerPosition(this.m_MouseWorldPosition2D);
             
-            if (this.m_WeaponTargetingHandler.CanTrack || this.m_TractorBeamTargetingHandler.CanTrack) return;
             
             // Trace through scene
             RaycastHit2D _RaycastHit = Physics2D.Raycast(this.m_MouseWorldPosition2D, Vector2.zero, 0);
@@ -99,16 +123,23 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
                 return;
             }
             
+            GameLogger.Log(
+                (nameof(m_IsTrackingEnabled), m_IsTrackingEnabled),
+                (nameof(_RaycastHit), _RaycastHit));
+            
             this.m_PossibleTarget = _RaycastHit.collider.gameObject;
         }
 
-        private void RunTargetingAction(GameObject hitObject)
+        private void StartTargetingAction(GameObject hitObject)
         {
+            Debug.Log(hitObject.tag);
+            // TODO: Move to WeaponTargeting
             if (hitObject.tag == GameTag.Enemy)
             {
                 this.m_WeaponTargetingHandler.SetNewTarget(hitObject);
                 this.m_WeaponTargetingHandler.StartWeaponTargeting();
             }
+            // TODO: Move to TractorBeamTracking
             else if (hitObject.tag == GameTag.Interactable)
             {
                 this.m_TractorBeamTargetingHandler.SetNewTarget(hitObject);

@@ -6,9 +6,9 @@ namespace ProjectExodus.GameLogic.Enumeration
 
         #region - - - - - - Fields - - - - - -
 
-        public static GameTag Player = new("Player", 1);
-        public static GameTag Enemy = new("Enemy", 2);
-        public static GameTag Interactable = new("Interactable", 3);
+        public static GameTag Player = new("Player", 2);
+        public static GameTag Enemy = new("Enemy", 1);
+        public static GameTag Interactable = new("Interactable", 0);
 
         #endregion Fields
   
