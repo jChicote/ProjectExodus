@@ -1,4 +1,4 @@
-namespace ProjectExodus.UserInterface.TrackingSystemHUD.TractorBeamTrackingHUD
+namespace ProjectExodus
 {
 
     public interface ITractorBeamTrackingHUDController

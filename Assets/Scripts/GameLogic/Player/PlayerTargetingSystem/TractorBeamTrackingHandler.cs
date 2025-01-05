@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using ProjectExodus.UserInterface.TrackingSystemHUD.TractorBeamTrackingHUD;
+using ProjectExodus.Utility.GameLogging;
 using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
@@ -14,54 +14,90 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
     // 4.5 If within radius keep the beam line blue, but if distant make it red
     // 5. Move the target object's position to inverse-smooth-damp move to player's position
     // 6. Once object within a 'near radius', end the track.
-    public class TractorBeamTrackingHandler
+    public class TractorBeamTrackingHandler : MonoBehaviour
     {
 
         #region - - - - - - Fields - - - - - -
+
+        private const float DISTANCE_PADDING = 20f;
         
         private UnityEngine.Camera m_Camera;
         private Transform m_PlayerTransform;
-        private int m_TargetObjectID;
-        private Transform m_TargetTransform;
         private TractorBeamTrackingHUDController m_TractorBeamTrackingHUDController;
 
-        private float m_MaxBeamLength = 8;
+        private Transform m_CurrentTargetTransform;
+        private Transform m_PossibleNextTargetTransform;
+
+        private float m_MaxBeamLength = 100;
         private float m_TargetingLockOnTimeLength = 8f; // TODO: Change to use the virtual weight of the object.
         private bool m_CanTrack;
 
+        private bool m_IsCurrentlyHoverTracking;
+
         #endregion Fields
 
-        #region - - - - - - Constructors - - - - - -
+        #region - - - - - - Initializers - - - - - -
 
-        public TractorBeamTrackingHandler(Transform playerTransform)
+        public void Initialise(Transform playerTransform, TractorBeamTrackingHUDController tractorBeamTrackingHUDController)
         {
             this.m_PlayerTransform = playerTransform ?? throw new ArgumentNullException(nameof(playerTransform));
+            this.m_TractorBeamTrackingHUDController = tractorBeamTrackingHUDController ??
+                                                      throw new ArgumentNullException(
+                                                          nameof(tractorBeamTrackingHUDController));
+
+            this.m_TractorBeamTrackingHUDController.PlayerTransform = playerTransform;
         }
 
-        #endregion Constructors
+        #endregion Initializers
   
         #region - - - - - - Properties - - - - - -
 
         public bool CanTrack => this.m_CanTrack;
 
+        public Transform CurrentTargetTransform => this.m_CurrentTargetTransform;
+
+        public Transform NextTargetTransform
+        {
+            get => this.m_PossibleNextTargetTransform;
+            set => this.m_PossibleNextTargetTransform = value;
+        }
+
+        public bool IsHoverTargeting => this.m_IsCurrentlyHoverTracking;
+
         #endregion Properties
-  
+
         #region - - - - - - Methods - - - - - -
 
-        public void TrackTarget(out bool _HasStoppedTracking)
+        public void TrackCurrentTarget()
         {
+            if (this.m_CurrentTargetTransform == null) return;
+            
+            if (this.IsLockedTargetOutsideTrackingBoundary()) 
+                this.m_TractorBeamTrackingHUDController.EndTargetingLock();
+        }
+
+        public void LockAndTrackToTarget(out bool _HasStoppedTracking)
+        {
+            // if (this.m_PossibleNextTargetTransform == null)
+            // {
+            //     _HasStoppedTracking = true;
+            //     return;
+            // }
+            
+            Debug.Log("Is Locking");
+            
             // Get position of object
             Vector2 _PlayerPosition = this.m_PlayerTransform.position;
-
+            
             // Get position of player ship
-            Vector2 _TargetPosition = this.m_TargetTransform.position;
+            Vector2 _TargetPosition = this.m_PossibleNextTargetTransform.position;
             
             // Get sqr magnitude distance
             float _SqrMagnitude = (_TargetPosition - _PlayerPosition).sqrMagnitude;
 
             // Calculate beam stregth based on distance
             float _BeamStrength = Mathf.Clamp(this.m_MaxBeamLength - _SqrMagnitude, 0, 1);
-
+            
             // If distance is too great, disengage beam.
             if (_BeamStrength <= 0)
             {
@@ -71,26 +107,72 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
 
             _HasStoppedTracking = false;
         }
-        
-        public void SetNewTarget(GameObject newTarget) 
-            => this.m_TargetTransform = newTarget.transform;
 
+        public bool IsLockedTargetOutsideTrackingBoundary()
+        {
+            float _SqrMagnitude =
+                (this.m_PlayerTransform.position - this.m_CurrentTargetTransform.position).sqrMagnitude;
+            
+            // Calculate dimensions since the camera is orthographic
+            float _VerticalHaldSqrHeight = this.m_Camera.orthographicSize * 2;
+            float _VerticalHalfSqrWidth = this.m_Camera.aspect * _VerticalHaldSqrHeight;
+
+            return _SqrMagnitude > 
+                   new Vector2(_VerticalHalfSqrWidth, _VerticalHaldSqrHeight).sqrMagnitude + DISTANCE_PADDING;
+        }
+        
+        public void SetNewTarget(GameObject newTarget)
+        {
+            this.m_PossibleNextTargetTransform = newTarget.transform;
+            GameLogger.Log(
+                (nameof(m_PossibleNextTargetTransform),m_PossibleNextTargetTransform));
+            this.m_TractorBeamTrackingHUDController.NextTargetTransform = this.m_PossibleNextTargetTransform;
+            this.m_TractorBeamTrackingHUDController.StartTargetingSearch();
+        }
+
+        public void StartHoverTargetLock(GameObject nextTarget)
+        {
+            if (this.m_PossibleNextTargetTransform != null 
+                && this.m_PossibleNextTargetTransform.gameObject.GetInstanceID() == nextTarget.GetInstanceID()) return;
+            
+            this.m_PossibleNextTargetTransform = nextTarget.transform;
+            this.m_TractorBeamTrackingHUDController.NextTargetTransform = nextTarget.transform;
+            this.m_TractorBeamTrackingHUDController.StartTargetingSearch();
+
+            Debug.Log("Has triggered Hover lock");
+            
+            this.StartCoroutine(StartHoverTargeting());
+        }
+        
         // Note: This time length should be changed to tractor based on the virtual weight of the object.
-        public IEnumerator StartTargeting()
+        public IEnumerator StartHoverTargeting()
         {
             // yield return new WaitForSeconds(this.m_TargetingLockOnTimeLength);
-
+            this.m_IsCurrentlyHoverTracking = true;
+            
             float _RemainingTime = this.m_TargetingLockOnTimeLength;
             bool _StopTracking = false;
             while (_RemainingTime > 0 && !_StopTracking)
             {
                 _RemainingTime -= Time.deltaTime;
                 
-                this.TrackTarget(out bool _HasStoppedTracking);
-                if (_HasStoppedTracking)
-                    _StopTracking = true;
+                // this.LockAndTrackToTarget(out bool _HasStoppedTracking);
+                // if (_HasStoppedTracking)
+                //     _StopTracking = true;
 
                 yield return null;
+            }
+
+            if (_RemainingTime < 0)
+            {
+                this.m_CurrentTargetTransform = this.m_PossibleNextTargetTransform;
+                this.m_TractorBeamTrackingHUDController.StartTargetingLock();
+                this.m_TractorBeamTrackingHUDController.CurrentTargetTransform = this.m_PossibleNextTargetTransform;
+                this.m_IsCurrentlyHoverTracking = false;
+            }
+            else
+            {
+                this.EndTargeting();
             }
             
             Debug.Log("RunTractorLocking is started.");
@@ -99,7 +181,13 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
 
         public void EndTargeting()
         {
-            this.m_TargetTransform = null;
+            this.StopCoroutine(this.StartHoverTargeting());
+            this.m_TractorBeamTrackingHUDController.EndTargetingSearch();
+            
+            this.m_CurrentTargetTransform = null;
+            this.m_PossibleNextTargetTransform = null;
+            
+            this.m_IsCurrentlyHoverTracking = false;
             this.m_CanTrack = false;
         }
         

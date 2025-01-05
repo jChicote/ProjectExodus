@@ -1,5 +1,4 @@
 using System;
-using ProjectExodus.UserInterface.TrackingSystemHUD.TargetTrackingHUD;
 using ProjectExodus.Utility.GameLogging;
 using UnityEngine;
 
@@ -12,7 +11,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
         #region - - - - - - Fields - - - - - -
         
         private UnityEngine.Camera m_Camera;
-        private ITrackingHUDController m_TargetTrackingHUDController;
+        private IWeaponTrackingHUDController m_TargetWeaponTrackingHUDController;
         private Transform m_TargetTransform;
         
         private bool m_CanTrack;
@@ -27,12 +26,12 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
         public WeaponTargetingHandler(
             float targetToPointerRange,
             UnityEngine.Camera camera,
-            ITrackingHUDController trackingHUDController)
+            IWeaponTrackingHUDController weaponTrackingHUDController)
         {
             this.m_PointerRange = targetToPointerRange;
             this.m_Camera = camera ?? throw new ArgumentNullException(nameof(camera));
-            this.m_TargetTrackingHUDController =
-                trackingHUDController ?? throw new ArgumentNullException(nameof(trackingHUDController));
+            this.m_TargetWeaponTrackingHUDController =
+                weaponTrackingHUDController ?? throw new ArgumentNullException(nameof(weaponTrackingHUDController));
         }
 
         #endregion Constructors
@@ -61,7 +60,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
                  - this.m_PointerPosition).sqrMagnitude;
 
             // Check that the target has not been lost
-            this.m_TargetTrackingHUDController.SetTargetCrosshairPosition(
+            this.m_TargetWeaponTrackingHUDController.SetTargetCrosshairPosition(
                 this.m_Camera.WorldToScreenPoint(this.m_TargetTransform.position));
             
             Debug.Log("Can weapon tracks");
@@ -82,7 +81,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
             GameLogger.Log("RunTractorLocking is started.");
             
             this.m_CanTrack = true;
-            this.m_TargetTrackingHUDController.ShowScreen();
+            this.m_TargetWeaponTrackingHUDController.ShowScreen();
         }
 
         public void EndWeaponTargeting()
@@ -91,7 +90,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
             
             this.m_CanTrack = false;
             this.m_TargetTransform = null;
-            this.m_TargetTrackingHUDController.HideScreen();
+            this.m_TargetWeaponTrackingHUDController.HideScreen();
         }
 
         #endregion Methods

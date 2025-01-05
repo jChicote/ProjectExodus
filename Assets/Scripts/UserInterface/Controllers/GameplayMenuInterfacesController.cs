@@ -5,8 +5,8 @@ using ProjectExodus.StateManagement.ScreenStates;
 using ProjectExodus.UserInterface.GameplayHUD;
 using ProjectExodus.UserInterface.OptionsMenu;
 using ProjectExodus.UserInterface.PauseScreen;
-using ProjectExodus.UserInterface.TrackingSystemHUD.TargetTrackingHUD;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
 
 namespace ProjectExodus.UserInterface.Controllers
@@ -23,8 +23,10 @@ namespace ProjectExodus.UserInterface.Controllers
         [SerializeField] private GameObject m_PauseScreen;
         [SerializeField] private GameObject m_OptionsScreen;
         
+        [FormerlySerializedAs("weaponTargetTrackingHUDController")]
+        [FormerlySerializedAs("m_TargetTrackingHUDController")]
         [Header("Scene-Persistence Views")]
-        [SerializeField] private TargetTrackingHUDController m_TargetTrackingHUDController;
+        [SerializeField] private WeaponTargetWeaponTrackingHUDController weaponTargetWeaponTrackingHUDController;
 
         private GameplaySceneGUIControllers m_GUIControllers;
 
@@ -53,7 +55,7 @@ namespace ProjectExodus.UserInterface.Controllers
             this.m_GameplayHudScreenState.Initialize();
             this.m_PauseScreenState.Initialize();
             this.m_OptionsScreenState.Initialize();
-            ((ITrackingHUDController)this.m_TargetTrackingHUDController).Initialize();
+            ((IWeaponTrackingHUDController)this.weaponTargetWeaponTrackingHUDController).Initialize();
             
             // Initialize screens
             IGameplayHUDController _GamplayHUDController =
