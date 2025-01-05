@@ -1,9 +1,10 @@
+using ProjectExodus.UserInterface;
 using UnityEngine;
 
-namespace ProjectExodus.UserInterface.TrackingSystemHUD.TargetTrackingHUD
+namespace ProjectExodus
 {
 
-    public interface ITrackingHUDController : IScreenStateController
+    public interface IWeaponTrackingHUDController : IScreenStateController
     {
 
         #region - - - - - - Initializers - - - - - -
@@ -19,5 +20,6 @@ namespace ProjectExodus.UserInterface.TrackingSystemHUD.TargetTrackingHUD
         #endregion Methods
 
     }
+
 
 }

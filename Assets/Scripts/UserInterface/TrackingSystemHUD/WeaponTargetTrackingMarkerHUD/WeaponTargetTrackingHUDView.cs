@@ -1,9 +1,9 @@
 using UnityEngine;
 
-namespace ProjectExodus.UserInterface.TrackingSystemHUD.TargetTrackingHUD
+namespace ProjectExodus
 {
 
-    public class TargetTrackingHUDView : MonoBehaviour
+    public class WeaponTargetTrackingHUDView : MonoBehaviour
     {
 
         #region - - - - - - Fields - - - - - -
@@ -23,7 +23,7 @@ namespace ProjectExodus.UserInterface.TrackingSystemHUD.TargetTrackingHUD
         }
 
         #endregion Unity Methods
-  
+
         #region - - - - - - Methods - - - - - -
 
         public void HideGUI()
@@ -40,12 +40,13 @@ namespace ProjectExodus.UserInterface.TrackingSystemHUD.TargetTrackingHUD
                     null, // Set to null as the Canvas is done in Screen Overlay
                     out Vector2 _CanvasPosition))
                 return;
-            
+
             this.m_CrosshairTransform.anchoredPosition = _CanvasPosition;
         }
 
         #endregion Methods
 
     }
+
 
 }
