@@ -61,7 +61,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
                 // || !GameValidator.NotNull(this.m_TractorBeamTargetingHandler, "", false)) 
                 return;
             
-            this.m_WeaponTargetingHandler.TrackTarget();
+            // this.m_WeaponTargetingHandler.TrackTarget();
             this.m_TractorBeamTargetingHandler.TrackCurrentTarget();
         }
 
@@ -103,6 +103,10 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
             // }
             //
             this.StartTargetingAction(this.m_PossibleTarget);
+            
+            if (this.m_PossibleTarget.tag == GameTag.Interactable)
+                this.m_TractorBeamTargetingHandler.StartHoverTargetLock(this.m_PossibleTarget);
+            
         }
 
         void IPlayerTargetingSystem.ActivateTargeting() 
@@ -128,20 +132,21 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
             if (!_RaycastHit)
             {
                 this.m_PossibleTarget = null;
-                return;
             }
+            else if (this.m_PossibleTarget == null || _RaycastHit.collider.gameObject.GetInstanceID() != this.m_PossibleTarget.GetInstanceID())
+                this.m_PossibleTarget = _RaycastHit.collider.gameObject;
             
             // GameLogger.Log(
             //     (nameof(m_IsTrackingEnabled), m_IsTrackingEnabled),
             //     (nameof(_RaycastHit), _RaycastHit));
             
             // Temporary: Set the value directly into the handler
-
-            if (_RaycastHit.collider.gameObject.tag == GameTag.Interactable)
-            {
-                Debug.Log("This is being encountered");
-                this.m_TractorBeamTargetingHandler.StartHoverTargetLock(_RaycastHit.collider.gameObject);
-            }
+            //
+            // if (_RaycastHit.collider.gameObject.tag == GameTag.Interactable)
+            // {
+            //     Debug.Log("This is being encountered");
+            //     this.m_TractorBeamTargetingHandler.StartHoverTargetLock(_RaycastHit.collider.gameObject);
+            // }
         }
 
         private void StartTargetingAction(GameObject hitObject)

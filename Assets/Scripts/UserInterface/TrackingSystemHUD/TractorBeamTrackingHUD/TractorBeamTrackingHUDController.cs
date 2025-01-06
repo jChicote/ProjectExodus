@@ -48,6 +48,7 @@ namespace ProjectExodus
 
         public void StartTargetingSearch()
         {
+            Debug.Log("Targeting has started");
             this.m_View.ShowCircle();
             this.m_View.ShowLineBeam();
         }
