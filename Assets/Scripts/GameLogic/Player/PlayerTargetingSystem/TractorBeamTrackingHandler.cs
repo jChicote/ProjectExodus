@@ -76,8 +76,8 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
         {
             if (this.m_CurrentTargetTransform == null) return;
             
-            if (this.IsLockedTargetOutsideTrackingBoundary()) 
-                this.m_TractorBeamTrackingHUDController.EndTargetingLock();
+            // if (this.IsLockedTargetOutsideTrackingBoundary()) 
+            //     this.m_TractorBeamTrackingHUDController.EndTargetingLock();
         }
 
         // public void LockAndTrackToTarget(out bool _HasStoppedTracking)
@@ -127,17 +127,9 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
                    new Vector2(_VerticalHalfSqrWidth, _VerticalHaldSqrHeight).sqrMagnitude + DISTANCE_PADDING;
         }
 
-        public void ConfirmTrackedTarget()
+        private void ConfirmTrackedTarget()
         {
             this.m_CurrentTargetTransform = this.m_PossibleNextTargetTransform;
-            bool _IsTargetDeselected = this.m_PossibleNextTargetTransform.GetInstanceID() ==
-                                       this.m_CurrentTargetTransform.gameObject.GetInstanceID();
-            if (_IsTargetDeselected)
-            {
-                this.EndTargeting();
-                return;
-            }
-            
             this.m_TractorBeamTrackingHUDController.StartTargetingLock();
             this.m_TractorBeamTrackingHUDController.CurrentTargetTransform = this.m_PossibleNextTargetTransform;
             this.m_IsCurrentlyHoverTracking = false;
@@ -154,11 +146,30 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
 
         public void StartHoverTargetLock(GameObject nextTarget)
         {
-            if (this.m_PossibleNextTargetTransform != null 
-                && this.m_PossibleNextTargetTransform.gameObject.GetInstanceID() == nextTarget.GetInstanceID()) return;
+            // 2. Can cancel if attempting to retarget on a locked on object
+            bool _IsRetargetingSameLockedOnObject = this.m_CurrentTargetTransform != null &&
+                                                    this.m_CurrentTargetTransform.gameObject.GetInstanceID() ==
+                                                    nextTarget.GetInstanceID();
+            if (_IsRetargetingSameLockedOnObject)
+            {
+                this.EndLockedTargeting();
+                return;
+            }
+            
+            // 1. Can cancel if targeting an object but locked on another object without reseting the lock on object
+            bool _IsRetargetingSameTrackingObject = this.m_PossibleNextTargetTransform != null &&
+                                                    this.m_PossibleNextTargetTransform.gameObject.GetInstanceID() ==
+                                                    nextTarget.GetInstanceID();
+            if (_IsRetargetingSameTrackingObject)
+            {
+                this.EndTargeting();
+                return;
+            }
             
             this.m_PossibleNextTargetTransform = nextTarget.transform;
             this.m_TractorBeamTrackingHUDController.NextTargetTransform = nextTarget.transform;
+            
+            this.StopCoroutine(this.StartHoverTargeting()); // Stop any preexisting routine
             this.m_TractorBeamTrackingHUDController.StartTargetingSearch();
 
             Debug.Log("Has triggered Hover lock");
@@ -186,14 +197,9 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
             }
 
             if (_RemainingTime < 0)
-            {
-                // Engages Target Locked State
                 this.ConfirmTrackedTarget();
-            }
             else
-            {
                 this.EndTargeting();
-            }
             
             Debug.Log("RunTractorLocking is started.");
             this.m_CanTrack = true;
@@ -202,16 +208,21 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
         /// <summary>
         /// Ends all targeting.
         /// </summary>
-        public void EndTargeting()
+        private void EndTargeting()
         {
-            this.StopCoroutine(this.StartHoverTargeting());
+            this.StopAllCoroutines();
             this.m_TractorBeamTrackingHUDController.EndTargetingSearch();
             
-            this.m_CurrentTargetTransform = null;
             this.m_PossibleNextTargetTransform = null;
-            
             this.m_IsCurrentlyHoverTracking = false;
             this.m_CanTrack = false;
+        }
+
+        private void EndLockedTargeting()
+        {
+            this.StopAllCoroutines();
+            this.m_TractorBeamTrackingHUDController.EndTargetingLock();
+            this.m_CurrentTargetTransform = null;
         }
         
         #endregion Methods

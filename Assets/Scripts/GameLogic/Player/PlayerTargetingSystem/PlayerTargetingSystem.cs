@@ -1,8 +1,6 @@
 ﻿using System;
-using Codice.Client.BaseCommands.Differences;
 using ProjectExodus.GameLogic.Enumeration;
 using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
-using ProjectExodus.Utility.GameLogging;
 using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
@@ -23,7 +21,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
         private TractorBeamTrackingHandler m_TractorBeamTargetingHandler;
 
         // Target Object Fields
-        private GameObject m_PossibleTarget;
+        public GameObject m_PossibleTarget;
         private Vector3 m_MouseWorldPosition;
         private Vector2 m_MouseWorldPosition2D;
         
@@ -78,6 +76,11 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
                 return;
             }
             
+            Debug.Log("has passed this");
+            
+            if (this.m_PossibleTarget.tag == GameTag.Interactable)
+                this.m_TractorBeamTargetingHandler.StartHoverTargetLock(this.m_PossibleTarget);
+            
             // TODO: Move to WeaponTargeting            
             if (this.m_PossibleTarget.tag == GameTag.Enemy && this.m_WeaponTargetingHandler.CurrentTargetEnemy != null)
             {
@@ -103,10 +106,6 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
             // }
             //
             this.StartTargetingAction(this.m_PossibleTarget);
-            
-            if (this.m_PossibleTarget.tag == GameTag.Interactable)
-                this.m_TractorBeamTargetingHandler.StartHoverTargetLock(this.m_PossibleTarget);
-            
         }
 
         void IPlayerTargetingSystem.ActivateTargeting() 
@@ -120,7 +119,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
             if (!this.m_IsTrackingEnabled) return;
             
             // Prevent targeting from disengaging if mouse exits the targeting area.
-            if (this.m_WeaponTargetingHandler.CanTrack || this.m_TractorBeamTargetingHandler.CanTrack) return;
+            // if (this.m_WeaponTargetingHandler.CanTrack || this.m_TractorBeamTargetingHandler.CanTrack) return;
             
             this.m_MouseWorldPosition = this.m_Camera.ScreenToWorldPoint(
                 new Vector3(screenPosition.x, screenPosition.y, 0));
