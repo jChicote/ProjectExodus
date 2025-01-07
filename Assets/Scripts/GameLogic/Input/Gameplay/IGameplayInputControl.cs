@@ -32,6 +32,12 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
         void OnSprint(InputAction.CallbackContext callbackContext);
 
         void SetServiceContainer(GameplayInputControlServiceContainer serviceContainer);
+        
+        // Debug Related
+
+        void OnDebugConsole(InputAction.CallbackContext callback);
+
+        void OnSubmitCommand(InputAction.CallbackContext callback);
 
         #endregion Methods
 

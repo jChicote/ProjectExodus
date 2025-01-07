@@ -15,6 +15,8 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
         public IPlayerTargetingSystem PlayerTargetingSystem { get; set; }
         
         public IPlayerWeaponSystems PlayerWeaponSystems { get; set; }
+        
+        public IDebugHandler DebugHandler { get; set; }
 
         #endregion Properties
   

@@ -14,6 +14,10 @@
         public const string PAUSE = "pause";
         public const string SECONDARY = "secondary";
         public const string SPRINT = "sprint";
+        
+        // Debug
+        public const string DEBUGCONSOLE = "debugconsole";
+        public const string SUBMITCOMMAND = "submitcommand";
 
         #endregion Fields
 

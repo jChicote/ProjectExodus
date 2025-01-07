@@ -1,7 +1,6 @@
 ﻿using System;
 using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
-using ProjectExodus.UserInterface.Controllers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,6 +18,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         private Vector2 m_ScreenCenter;
         private bool m_IsInputActive;
+        private bool m_IsDebugConsoleEnabled;
 
         private bool m_CtrlPressed;
 
@@ -48,7 +48,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnAttack(InputAction.CallbackContext callback)
         {
-            if (this.m_IsPaused || !this.m_IsInputActive)
+            if (this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled)
                 return;
             
             this.m_ServiceControllers.PlayerWeaponSystems.ToggleWeaponFire(true);
@@ -56,7 +56,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnAttackRelease(InputAction.CallbackContext callback)
         {
-            if (this.m_IsPaused || !this.m_IsInputActive)
+            if (this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled)
                 return;
             
             this.m_ServiceControllers.PlayerWeaponSystems.ToggleWeaponFire(false);
@@ -64,7 +64,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnControlOptionPressed(InputAction.CallbackContext callback)
         {
-            if (this.m_IsPaused || !this.m_IsInputActive)
+            if (this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled)
                 return;
 
             this.m_CtrlPressed = true;
@@ -73,7 +73,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnControlOptionReleased(InputAction.CallbackContext callback)
         {
-            if (this.m_IsPaused || !this.m_IsInputActive)
+            if (this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled)
                 return;
 
             this.m_CtrlPressed = false;
@@ -82,7 +82,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnInteract(InputAction.CallbackContext callbackContext)
         {
-            if (this.m_IsPaused || !this.m_IsInputActive)
+            if (this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled)
                 return;
 
             Debug.LogWarning("[NOT IMPLEMENTED] >> No implemented behavior for OnInteract.");
@@ -90,7 +90,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnLook(InputAction.CallbackContext callback)
         {
-            if (this.m_IsPaused || !this.m_IsInputActive)
+            if (this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled)
                 return;
             
             // Calculate look direction assuming screen center as origin point
@@ -102,7 +102,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnMove(InputAction.CallbackContext callback)
         {
-            if (this.m_IsPaused || !this.m_IsInputActive)
+            if (this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled)
                 return;
             
             this.m_ServiceControllers.PlayerMovement.SetMoveDirection(callback.ReadValue<Vector2>()); // default for now
@@ -110,7 +110,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnPause(InputAction.CallbackContext callback)
         {
-            if (this.m_IsPaused || !this.m_IsInputActive)
+            if (this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled)
                 return;
 
             Debug.LogWarning("[NOT IMPLEMENTED] >> No implemented behavior for OnPause.");
@@ -118,7 +118,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnSecondaryAction(InputAction.CallbackContext callback)
         {
-            if (this.m_IsPaused || !this.m_IsInputActive)
+            if (this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled)
                 return;
             
             if (this.m_CtrlPressed)
@@ -127,10 +127,31 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnSprint(InputAction.CallbackContext callbackContext)
         {
-            if (this.m_IsPaused || !this.m_IsInputActive)
+            if (this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled)
                 return;
 
             this.m_ServiceControllers.PlayerMovement.ToggleAfterburn();
+        }
+        
+        // -----------------------------------------------------
+        // Debug related Events
+        // -----------------------------------------------------
+
+        void IGameplayInputControl.OnDebugConsole(InputAction.CallbackContext context)
+        {
+            if (!this.m_IsInputActive)
+                return;
+            
+            this.m_ServiceControllers.DebugHandler.ToggleDebugMenu();
+            this.m_IsDebugConsoleEnabled = !this.m_IsDebugConsoleEnabled;
+        }
+
+        void IGameplayInputControl.OnSubmitCommand(InputAction.CallbackContext context)
+        {
+            if (!this.m_IsInputActive)
+                return;
+            
+            this.m_ServiceControllers.DebugHandler.SubmitDebugCommand();
         }
 
         #endregion Events
@@ -167,6 +188,13 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
                 ((IGameplayInputControl)this).OnSprint;
             playerInput.actions[GameplayInputActionConstants.SPRINT].canceled +=
                 ((IGameplayInputControl)this).OnSprint;
+            
+            // Debug
+            playerInput.actions[GameplayInputActionConstants.DEBUGCONSOLE].performed +=
+                ((IGameplayInputControl)this).OnDebugConsole;
+            playerInput.actions[GameplayInputActionConstants.SUBMITCOMMAND].performed +=
+                ((IGameplayInputControl)this).OnSubmitCommand;
+
         }
 
         void IInputControl.UnbindInputControls(PlayerInput playerInput)
@@ -199,6 +227,12 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
                 ((IGameplayInputControl)this).OnSprint;
             playerInput.actions[GameplayInputActionConstants.SPRINT].canceled -=
                 ((IGameplayInputControl)this).OnSprint;
+            
+            // Debug
+            playerInput.actions[GameplayInputActionConstants.DEBUGCONSOLE].performed -=
+                ((IGameplayInputControl)this).OnDebugConsole;
+            playerInput.actions[GameplayInputActionConstants.SUBMITCOMMAND].performed -=
+                ((IGameplayInputControl)this).OnSubmitCommand;
         }
 
         bool IInputControl.IsInputControlIsActive()

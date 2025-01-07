@@ -44,6 +44,9 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             _ServiceControllers.PlayerTargetingSystem = this.m_ActivePlayer.GetComponent<IPlayerTargetingSystem>();
             _ServiceControllers.PlayerWeaponSystems = this.m_ActivePlayer.GetComponent<IPlayerWeaponSystems>();
             
+            // DebugHandler exists exclusively from the DebugManager object as it is not related to the player behavior.
+            _ServiceControllers.DebugHandler = DebugManager.Instance.gameObject.GetComponent<DebugHandler>();
+            
             this.m_GameplayInputControl.SetServiceContainer(_ServiceControllers);
         }
 
