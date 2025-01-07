@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using ProjectExodus.Utility.GameLogging;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 using SceneManager = ProjectExodus.Management.SceneManager.SceneManager;
 
@@ -76,41 +78,41 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
         {
             if (this.m_CurrentTargetTransform == null) return;
             
-            // if (this.IsLockedTargetOutsideTrackingBoundary()) 
-            //     this.m_TractorBeamTrackingHUDController.EndTargetingLock();
+            if (this.IsLockedTargetOutsideTrackingBoundary()) 
+                this.m_TractorBeamTrackingHUDController.EndTargetingLock();
         }
 
-        // public void LockAndTrackToTarget(out bool _HasStoppedTracking)
-        // {
-        //     // if (this.m_PossibleNextTargetTransform == null)
-        //     // {
-        //     //     _HasStoppedTracking = true;
-        //     //     return;
-        //     // }
-        //     
-        //     Debug.Log("Is Locking");
-        //     
-        //     // Get position of object
-        //     Vector2 _PlayerPosition = this.m_PlayerTransform.position;
-        //     
-        //     // Get position of player ship
-        //     Vector2 _TargetPosition = this.m_PossibleNextTargetTransform.position;
-        //     
-        //     // Get sqr magnitude distance
-        //     float _SqrMagnitude = (_TargetPosition - _PlayerPosition).sqrMagnitude;
-        //
-        //     // Calculate beam stregth based on distance
-        //     float _BeamStrength = Mathf.Clamp(this.m_MaxBeamLength - _SqrMagnitude, 0, 1);
-        //     
-        //     // If distance is too great, disengage beam.
-        //     if (_BeamStrength <= 0)
-        //     {
-        //         _HasStoppedTracking = true;
-        //         this.EndTargeting();
-        //     }
-        //
-        //     _HasStoppedTracking = false;
-        // }
+        public void LockAndTrackToTarget(out bool _HasStoppedTracking)
+        {
+            // if (this.m_PossibleNextTargetTransform == null)
+            // {
+            //     _HasStoppedTracking = true;
+            //     return;
+            // }
+            
+            Debug.Log("Is Locking");
+            
+            // Get position of object
+            Vector2 _PlayerPosition = this.m_PlayerTransform.position;
+            
+            // Get position of player ship
+            Vector2 _TargetPosition = this.m_PossibleNextTargetTransform.position;
+            
+            // Get sqr magnitude distance
+            float _SqrMagnitude = (_TargetPosition - _PlayerPosition).sqrMagnitude;
+        
+            // Calculate beam stregth based on distance
+            float _BeamStrength = Mathf.Clamp(this.m_MaxBeamLength - _SqrMagnitude, 0, 1);
+            
+            // If distance is too great, disengage beam.
+            if (_BeamStrength <= 0)
+            {
+                _HasStoppedTracking = true;
+                this.EndTargeting();
+            }
+        
+            _HasStoppedTracking = false;
+        }
 
         public bool IsLockedTargetOutsideTrackingBoundary()
         {
@@ -189,9 +191,14 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
             {
                 _RemainingTime -= Time.deltaTime;
                 
-                // this.LockAndTrackToTarget(out bool _HasStoppedTracking);
-                // if (_HasStoppedTracking)
-                //     _StopTracking = true;
+                // Update beam strength presentation
+                float _CurrentDistance = (this.m_PlayerTransform.position - this.m_PossibleNextTargetTransform.position)
+                    .sqrMagnitude;
+                this.m_TractorBeamTrackingHUDController.SetBeamStrengthColor(_CurrentDistance, this.m_MaxBeamLength);
+                
+                this.LockAndTrackToTarget(out bool _HasStoppedTracking);
+                if (_HasStoppedTracking)
+                    _StopTracking = true;
 
                 yield return null;
             }
@@ -226,6 +233,15 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
         }
         
         #endregion Methods
+
+        #region - - - - - - Debug GUI - - - - - -
+
+        private void OnGui()
+        {
+            GUILayout.Label($"Player Position: {transform.position}");
+        }
+
+        #endregion Debug GUI
   
     }
 

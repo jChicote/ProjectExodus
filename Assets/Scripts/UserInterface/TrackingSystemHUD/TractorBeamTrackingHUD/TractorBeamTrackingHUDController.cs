@@ -46,6 +46,12 @@ namespace ProjectExodus
             this.m_View.UpdateRecticle(this.m_Camera.WorldToScreenPoint(this.CurrentTargetTransform.position));
         }
 
+        public void SetBeamStrengthColor(float currentDistance, float maxDistance)
+        {
+            float _Strength = currentDistance / maxDistance;
+            this.m_View.UpdateBeamStrengthColor(_Strength);
+        }
+
         public void StartTargetingSearch()
         {
             Debug.Log("Targeting has started");

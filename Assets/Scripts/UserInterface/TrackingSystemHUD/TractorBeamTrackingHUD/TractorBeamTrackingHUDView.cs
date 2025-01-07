@@ -16,6 +16,11 @@ namespace ProjectExodus
 
         public RectTransform m_CanvasRectTransform;
 
+        public Color m_WeakBeamStrengthColor;
+        public Color m_FullBeamStrengthColor;
+
+        private Color m_CurrentBeamColor;        
+
         // Positions are handled in the scene's world space.
         public void SetLinePositions(Vector3 startPosition, Vector3 endPosition)
         {
@@ -45,6 +50,13 @@ namespace ProjectExodus
                     out Vector2 _CanvasPosition)) return;
             
             this.m_TractorRecticleTransform.anchoredPosition = _CanvasPosition;
+        }
+
+        public void UpdateBeamStrengthColor(float strength)
+        {
+            this.m_CurrentBeamColor = Color.Lerp(this.m_FullBeamStrengthColor, this.m_WeakBeamStrengthColor, strength);
+            this.m_TractorBeamLine.startColor = this.m_CurrentBeamColor;
+            this.m_TractorBeamLine.endColor = this.m_CurrentBeamColor;
         }
 
         public void ShowCircle()

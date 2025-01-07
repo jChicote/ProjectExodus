@@ -8,8 +8,11 @@ namespace ProjectExodus.DebugSupport.UserInterfaceDebuggers
     public class DebugTargetingSystemInterface : MonoBehaviour
     {
         public TMP_Text CurrentRaycastLabel;
+        public TMP_Text TrackingBeamDistanceLengthLabel;
 
+        
         public PlayerTargetingSystem PlayerTargetingSystem;
+        public TractorBeamTrackingHandler TractorBeamTrackingHandler;
         
         public void Update()
         {
@@ -20,6 +23,7 @@ namespace ProjectExodus.DebugSupport.UserInterfaceDebuggers
             }
             
             this.UpdateCurrentRaycastLabel();
+            this.UpdateTrackingBeamDistanceLengthLabel();
         }
 
         private void UpdateCurrentRaycastLabel()
@@ -27,9 +31,19 @@ namespace ProjectExodus.DebugSupport.UserInterfaceDebuggers
             this.CurrentRaycastLabel.text = $"Current Raycast Target: {this.PlayerTargetingSystem.m_PossibleTarget}";
         }
 
+        private void UpdateTrackingBeamDistanceLengthLabel()
+        {
+            this.TrackingBeamDistanceLengthLabel.text = "Tracking Beam Distance: " +
+                (this.TractorBeamTrackingHandler.NextTargetTransform == null 
+                    ? "0" 
+                    : (this.TractorBeamTrackingHandler.NextTargetTransform.position - 
+                        this.PlayerTargetingSystem.transform.position).sqrMagnitude);
+        }
+
         private void FindCurrentPlayer()
         {
             this.PlayerTargetingSystem = FindFirstObjectByType<PlayerTargetingSystem>(FindObjectsInactive.Exclude);
+            this.TractorBeamTrackingHandler = FindFirstObjectByType<TractorBeamTrackingHandler>(FindObjectsInactive.Exclude);
         }
     }
 
