@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-public class DebugManager : MonoBehaviour
+public class DebugManager : MonoBehaviour, IDebugCommandSystem
 {
 
     #region - - - - - - Fields - - - - - -
@@ -10,6 +10,7 @@ public class DebugManager : MonoBehaviour
     public static DebugManager Instance;
 
     public List<object> CommandList = new();
+    public DebugOverlayer DebugOverlayer;
     
     [SerializeField] private DebugConsole m_Console;
 
@@ -28,11 +29,16 @@ public class DebugManager : MonoBehaviour
         }
     }
 
-    private void Start() 
-        => this.InitializeCommands();
-
     #endregion Unity Methods
 
+    #region - - - - - - Initializers - - - - - -
+
+    // Custom initializer is used to ensure that added commands have valid function references after the scene starts.
+    public void Initialize() 
+        => this.InitializeCommands();
+
+    #endregion Initializers
+  
     #region - - - - - - Methods - - - - - -
 
     public void RegisterCommand(object command)
@@ -60,6 +66,17 @@ public class DebugManager : MonoBehaviour
         
         // TODO: Change the below command to instead invoke the SceneControl implementation of scene switching.
         // this.CommandList.Add(new DebugCommand("reset", "Restarts the game", "reset", () => SceneManager.LoadScene(GameScenes.MainMenu)));
+
+        // Configure command for clearing overlay entries
+        this.CommandList.Add(new DebugCommand(
+            "clear_overlay", 
+            "Clears the overlay of debugging info", 
+            "clear_overlay",
+            () => this.DebugOverlayer.ClearEntries()));
+        
+        // Register all commands
+        DebugCommandConfigurator _CommandConfigurator = new DebugCommandConfigurator();
+        _CommandConfigurator.ConfigureCommands();
     }
 
     #endregion Methods

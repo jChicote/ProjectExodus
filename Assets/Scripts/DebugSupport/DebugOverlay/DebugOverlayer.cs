@@ -21,7 +21,7 @@ public class DebugOverlayer : MonoBehaviour
   
     #region - - - - - - Methods - - - - - -
 
-    public void AddEntry(string entryTitle, Func<object> callback)
+    public void AddEntry(string entryTitle, Func<DebugOverlayInterfaceElements, object> callback)
     {
         DebugOverlayTextObjectEntry _NewEntry = Instantiate(
             this.DebugEntryTemplate, 

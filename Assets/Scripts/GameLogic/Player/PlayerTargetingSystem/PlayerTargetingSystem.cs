@@ -6,7 +6,10 @@ using UnityEngine;
 namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
 {
 
-    public class PlayerTargetingSystem : PausableMonoBehavior, IPlayerTargetingSystem
+    public class PlayerTargetingSystem : 
+        PausableMonoBehavior, 
+        IDebuggingDataProvider<PlayerTargetingSystemDebuggingData>,
+        IPlayerTargetingSystem
     {
 
         #region - - - - - - Fields - - - - - -
@@ -66,6 +69,12 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
         #endregion Methods
   
         #region - - - - - - Methods - - - - - -
+
+        PlayerTargetingSystemDebuggingData IDebuggingDataProvider<PlayerTargetingSystemDebuggingData>.GetData() 
+            => new()
+            {
+                PossibleTarget = this.m_PossibleTarget
+            };
 
         void IPlayerTargetingSystem.ConfirmTargetLock()
         {
@@ -186,6 +195,17 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
 
         #endregion Gizmos
   
+    }
+
+    public class PlayerTargetingSystemDebuggingData
+    {
+
+        #region - - - - - - Properties - - - - - -
+
+        public GameObject PossibleTarget { get; set; }
+
+        #endregion Properties
+
     }
 
 }

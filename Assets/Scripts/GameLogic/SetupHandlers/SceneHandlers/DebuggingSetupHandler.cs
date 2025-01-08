@@ -15,11 +15,19 @@ public class DebuggingSetupHandler : MonoBehaviour, ISetupHandler
 
     #endregion Fields
 
+    #region - - - - - - Methods - - - - - -
+
     void ISetupHandler.SetNext(ISetupHandler next)
         => this.m_NextHandler = next;
 
     void ISetupHandler.Handle(SceneSetupInitializationContext initializationContext)
     {
-        throw new System.NotImplementedException();
+        DebugManager _DebugManager = DebugManager.Instance;
+        _DebugManager.Initialize();
+        
+        this.m_NextHandler?.Handle(initializationContext);
     }
+
+    #endregion Methods
+  
 }

@@ -10,14 +10,29 @@ public class DebugConsole : MonoBehaviour
     private bool m_ShowHelp;
     private string m_Input;
     private DebugManager m_DebugManager;
+    
     private Vector2 m_Scroll;
+    private GUIStyle m_DarkBackgroundStyle;
 
     #endregion Fields
   
     #region - - - - - - Unity Methods - - - - - -
 
-    private void Start() 
-        => this.m_DebugManager = DebugManager.Instance;
+    private void Start()
+    {
+        this.m_DebugManager = DebugManager.Instance;
+        
+        // Create a new GUIStyle
+        this.m_DarkBackgroundStyle = new GUIStyle();
+
+        // Create a black texture
+        Texture2D _BlackTexture = new Texture2D(1, 1);
+        _BlackTexture.SetPixel(0, 0, new Color(0, 0, 0, 0.8f));
+        _BlackTexture.Apply();
+
+        // Assign the texture as the background for the GUIStyle
+        this.m_DarkBackgroundStyle.normal.background = _BlackTexture;
+    }
 
     #endregion Unity Methods
 
@@ -73,7 +88,7 @@ public class DebugConsole : MonoBehaviour
         // Show help menu
         if (this.m_ShowHelp)
         {
-            GUI.Box(new Rect(0, _Y, Screen.width, 100), string.Empty);
+            GUI.Box(new Rect(0, _Y, Screen.width, 100), string.Empty, this.m_DarkBackgroundStyle);
 
             Rect _ViewPort = new Rect(0, 0, Screen.width - 30, 20 * this.m_DebugManager.CommandList.Count);
             this.m_Scroll = GUI.BeginScrollView(new Rect(0, _Y + 5f, Screen.width, 90), this.m_Scroll, _ViewPort);
@@ -90,8 +105,8 @@ public class DebugConsole : MonoBehaviour
             _Y += 100;
         }
         
-        GUI.Box(new Rect(0, _Y, Screen.width, 30), string.Empty);
-        GUI.backgroundColor = new Color(0, 0, 0, 0);
+        GUI.Box(new Rect(0, _Y, Screen.width, 30), string.Empty, this.m_DarkBackgroundStyle);
+        GUI.backgroundColor = new Color(0, 0, 0, 0.8f);
 
         this.m_Input = GUI.TextField(new Rect(10f, _Y + 5f, Screen.width - 20f, 20f), this.m_Input);
     }

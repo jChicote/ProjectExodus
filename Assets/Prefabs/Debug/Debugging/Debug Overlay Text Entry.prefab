@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2572bd6c580748ba93c3411370fd17d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Label: {fileID: 7512189628048799655}
+  OverlayEntryText: {fileID: 7512189628048799655}
 --- !u!1 &6106833733607003912
 GameObject:
   m_ObjectHideFlags: 0

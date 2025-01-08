@@ -18,7 +18,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
     // 4.5 If within radius keep the beam line blue, but if distant make it red
     // 5. Move the target object's position to inverse-smooth-damp move to player's position
     // 6. Once object within a 'near radius', end the track.
-    public class TractorBeamTrackingHandler : MonoBehaviour
+    public class TractorBeamTrackingHandler : MonoBehaviour, IDebuggingDataProvider<TractorBeamTrackingHandlerData>
     {
 
         #region - - - - - - Fields - - - - - -
@@ -73,6 +73,14 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
         #endregion Properties
 
         #region - - - - - - Methods - - - - - -
+
+        TractorBeamTrackingHandlerData IDebuggingDataProvider<TractorBeamTrackingHandlerData>.GetData()
+            => new()
+            {
+                CurrentLockedOnTransform = this.m_CurrentTargetTransform,
+                NextTrackingTransform = this.m_PossibleNextTargetTransform,
+                PlayerTransform = this.m_PlayerTransform
+            };
 
         public void TrackCurrentTarget()
         {
@@ -242,6 +250,21 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
         }
 
         #endregion Debug GUI
+  
+    }
+
+    public class TractorBeamTrackingHandlerData
+    {
+
+        #region - - - - - - Properties - - - - - -
+
+        public Transform CurrentLockedOnTransform { get; set; }
+        
+        public Transform NextTrackingTransform { get; set; }
+        
+        public Transform PlayerTransform { get; set; }
+
+        #endregion Properties
   
     }
 
