@@ -17,20 +17,12 @@ namespace ProjectExodus
 
         #region - - - - - - Unity Methods - - - - - -
 
-        private void Start()
-        {
-            this.m_ContentGroupRectTransform = this.m_ContentGroup.GetComponent<RectTransform>();
-        }
+        private void Start() 
+            => this.m_ContentGroupRectTransform = this.m_ContentGroup.GetComponent<RectTransform>();
 
         #endregion Unity Methods
 
         #region - - - - - - Methods - - - - - -
-
-        public void HideGUI()
-            => this.m_ContentGroup.SetActive(false);
-
-        public void ShowGUI()
-            => this.m_ContentGroup.SetActive(true);
 
         public void UpdateCrosshairPosition(Vector2 screenPosition)
         {
@@ -43,6 +35,12 @@ namespace ProjectExodus
 
             this.m_CrosshairTransform.anchoredPosition = _CanvasPosition;
         }
+
+        public void ShowTargetRecticle()
+            => this.m_CrosshairTransform.gameObject.SetActive(true);
+
+        public void HideTargetRecticle()
+            => this.m_CrosshairTransform.gameObject.SetActive(false);
 
         #endregion Methods
 

@@ -25,10 +25,10 @@ namespace ProjectExodus
             => this.m_View.UpdateCrosshairPosition(screenPosition);
 
         public void HideScreen()
-            => this.m_View.HideGUI();
+            => this.m_View.HideTargetRecticle();
 
         public void ShowScreen()
-            => this.m_View.ShowGUI();
+            => this.m_View.ShowTargetRecticle();
 
         #endregion Methods
 

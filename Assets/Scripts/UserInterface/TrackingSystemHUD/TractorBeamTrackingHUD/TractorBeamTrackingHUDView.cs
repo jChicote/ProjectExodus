@@ -6,6 +6,9 @@ namespace ProjectExodus
 
     public class TractorBeamTrackingHUDView : MonoBehaviour
     {
+
+        #region - - - - - - Fields - - - - - -
+
         public GameObject m_ContentGroup;
         
         public Image m_TractorCircle;
@@ -13,13 +16,19 @@ namespace ProjectExodus
         public Image m_TractorRecticle;
         public RectTransform m_TractorRecticleTransform;
         public LineRenderer m_TractorBeamLine;
+        public RectTransform m_TractorMaxDistanceCircleTransform;
+        public GameObject m_OutOfRangeLabel;
 
         public RectTransform m_CanvasRectTransform;
 
         public Color m_WeakBeamStrengthColor;
         public Color m_FullBeamStrengthColor;
 
-        private Color m_CurrentBeamColor;        
+        private Color m_CurrentBeamColor;
+
+        #endregion Fields
+  
+        #region - - - - - - Methods - - - - - -
 
         // Positions are handled in the scene's world space.
         public void SetLinePositions(Vector3 startPosition, Vector3 endPosition)
@@ -59,46 +68,44 @@ namespace ProjectExodus
             this.m_TractorBeamLine.endColor = this.m_CurrentBeamColor;
         }
 
-        public void ShowCircle()
+        public void ShowCircle() 
+            => this.m_TractorCircleTransform.gameObject.SetActive(true);
+
+        public void HideCircle() 
+            => this.m_TractorCircleTransform.gameObject.SetActive(false);
+
+        public void ShowRecticle() 
+            => this.m_TractorRecticleTransform.gameObject.SetActive(true);
+
+        public void HideRecticle() 
+            => this.m_TractorRecticleTransform.gameObject.SetActive(false);
+
+        public void ShowLineBeam() 
+            => this.m_TractorBeamLine.gameObject.SetActive(true);
+
+        public void HideLineBeam() 
+            => this.m_TractorBeamLine.gameObject.SetActive(false);
+
+        public void ShowOutOfRangeElements()
         {
-            this.m_TractorCircleTransform.gameObject.SetActive(true);
+            this.m_TractorMaxDistanceCircleTransform.gameObject.SetActive(true);
+            this.m_OutOfRangeLabel.gameObject.SetActive(true);
         }
 
-        public void HideCircle()
+        public void HideOutofRangeElements()
         {
-            this.m_TractorCircleTransform.gameObject.SetActive(false);
+            this.m_TractorMaxDistanceCircleTransform.gameObject.SetActive(false);
+            this.m_OutOfRangeLabel.gameObject.SetActive(false);
         }
 
-        public void ShowRecticle()
-        {
-            this.m_TractorRecticleTransform.gameObject.SetActive(true);
-        }
+        public void ShowHUD() 
+            => this.m_ContentGroup.SetActive(true);
 
-        public void HideRecticle()
-        {
-            this.m_TractorRecticleTransform.gameObject.SetActive(false);
-        }
+        public void HideHUD() 
+            => this.m_ContentGroup.SetActive(false);
 
-        public void ShowLineBeam()
-        {
-            this.m_TractorBeamLine.gameObject.SetActive(true);
-        }
-
-        public void HideLineBeam()
-        {
-            this.m_TractorBeamLine.gameObject.SetActive(false);
-        }
-        
-        public void ShowHUD()
-        {
-            this.m_ContentGroup.SetActive(true);
-        }
-
-        public void HideHUD()
-        {
-            this.m_ContentGroup.SetActive(false);
-        }
-
+        #endregion Methods
+  
     }
 
 }

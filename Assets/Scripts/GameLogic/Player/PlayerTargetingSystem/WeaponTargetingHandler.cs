@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using ProjectExodus;
 using UnityEngine;
 
@@ -10,12 +11,12 @@ public class WeaponTargetingHandler : MonoBehaviour
     // Dependent components
     private Camera m_Camera;
     private IWeaponTrackingHUDController m_TargetWeaponTrackingHUDController;
+    private Transform m_PlayerTransform;
     private Transform m_TargetTransform;
     
     private bool m_CanTrack;
-    private float m_PointerRange;
-    private Vector2 m_PointerPosition = Vector2.zero;
     private float m_TargetSqrMagnitudeDistance;
+    private float m_ScreenWidth;
 
     #endregion Fields
 
@@ -26,19 +27,15 @@ public class WeaponTargetingHandler : MonoBehaviour
         Camera camera,
         IWeaponTrackingHUDController weaponTrackingHUDController)
     {
-        this.m_PointerRange = targetToPointerRange;
         this.m_Camera = camera ?? throw new ArgumentNullException(nameof(camera));
         this.m_TargetWeaponTrackingHUDController =
             weaponTrackingHUDController ?? throw new ArgumentNullException(nameof(weaponTrackingHUDController));
+        
+        this.m_PlayerTransform = this.transform;
+        this.m_ScreenWidth = Screen.width;
     }
 
     #endregion Constructors
-
-    #region - - - - - - Properties - - - - - -
-
-    public bool CanTrack => this.m_CanTrack; // Only used for debug gizmos on PlayerTargetingSystem.
-
-    #endregion Properties
 
     #region - - - - - - Methods - - - - - -
 
@@ -47,23 +44,18 @@ public class WeaponTargetingHandler : MonoBehaviour
         if (!this.m_CanTrack || this.m_TargetTransform == null) return;
         
         this.m_TargetSqrMagnitudeDistance = 
-            (new Vector2(
-                x: this.m_TargetTransform.position.x, 
-                y: this.m_TargetTransform.position.y) 
-             - this.m_PointerPosition).sqrMagnitude;
+            (new Vector2(this.m_TargetTransform.position.x, this.m_TargetTransform.position.y) 
+             - new Vector2(this.m_PlayerTransform.position.x, this.m_PlayerTransform.position.y)).sqrMagnitude;
 
         // Check that the target has not been lost
         this.m_TargetWeaponTrackingHUDController.SetTargetCrosshairPosition(
             this.m_Camera.WorldToScreenPoint(this.m_TargetTransform.position));
         
         // TODO: This needs to change to the width of the screen.
-        if (this.m_TargetSqrMagnitudeDistance > this.m_PointerRange * this.m_PointerRange) 
+        if (this.m_TargetSqrMagnitudeDistance > this.m_ScreenWidth) 
             this.EndTargeting();
     }
     
-    public void SetPointerPosition(Vector2 position)
-        => this.m_PointerPosition = position;
-
     public void StartTargeting(GameObject newTarget)
     {
         // End targeting if already targeting the current target.
@@ -90,23 +82,19 @@ public class WeaponTargetingHandler : MonoBehaviour
 
     #region - - - - - - Gizmos - - - - - -
 
-    public void CalculateDrawGizmos(out Vector2 _TransformPosition, out float _Magnitude)
+    private void OnDrawGizmos()
     {
-        if (!this.m_TargetTransform || !this.m_CanTrack)
-        {
-            _TransformPosition = Vector2.zero;
-            _Magnitude = 0;
-            return;
-        };
+        if (!this.m_TargetTransform || !this.m_CanTrack) return;
         
-        float _SqrMagnitude = 
-            (new Vector2(
-                x: this.m_TargetTransform.position.x, 
-                y: this.m_TargetTransform.position.y) - this.m_PointerPosition)
-            .magnitude;
-
-        _TransformPosition = this.m_TargetTransform.position;
-        _Magnitude = _SqrMagnitude;
+        Vector3 _TransformPosition = this.m_TargetTransform.position;
+        
+        // Draw circular bounds
+        Gizmos.color = new Color(255, 0, 0, 1);
+        Gizmos.DrawWireSphere(_TransformPosition, this.m_TargetSqrMagnitudeDistance);
+                
+        // Draw max circular distance
+        Gizmos.color = new Color(0, 255, 255, 1);
+        Gizmos.DrawWireSphere(_TransformPosition, this.m_ScreenWidth);
     }
 
     #endregion 

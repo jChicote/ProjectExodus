@@ -1,4 +1,5 @@
 ﻿using System;
+using ProjectExodus;
 using ProjectExodus.GameLogic.Player.PlayerTargetingSystem;
 using UnityEngine;
 using Object = UnityEngine.Object;
