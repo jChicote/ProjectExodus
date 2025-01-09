@@ -12,7 +12,7 @@ public class TractorBeamTrackingHandler : MonoBehaviour, IDebuggingDataProvider<
     private const float DISTANCE_PADDING = 20f;
 
     private readonly float m_MaxBeamLength = 100;
-    private readonly float m_TargetingLockOnTimeLength = 8f; // TODO: Change to use the virtual weight of the object.
+    private readonly float m_TargetingLockOnTimeLength = 8f;
     
     // Dependent components
     private Camera m_Camera;
@@ -27,7 +27,7 @@ public class TractorBeamTrackingHandler : MonoBehaviour, IDebuggingDataProvider<
 
     #region - - - - - - Initializers - - - - - -
 
-    public void Initialise(Transform playerTransform, TractorBeamTrackingHUDController tractorBeamTrackingHUDController)
+    public void Initialize(Transform playerTransform, TractorBeamTrackingHUDController tractorBeamTrackingHUDController)
     {
         this.m_PlayerTransform = playerTransform 
             ?? throw new ArgumentNullException(nameof(playerTransform));

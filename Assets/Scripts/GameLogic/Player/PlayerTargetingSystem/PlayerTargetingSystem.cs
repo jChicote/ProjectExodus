@@ -38,13 +38,13 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
         {
             this.m_Camera = camera ?? throw new ArgumentNullException(nameof(camera));
             
-            this.m_WeaponTargetingHandler = 
-                new WeaponTargetingHandler(
-                    this.m_PointerRange, 
-                    this.m_Camera,
-                    FindFirstObjectByType<WeaponTargetWeaponTrackingHUDController>());
+            this.m_WeaponTargetingHandler = this.GetComponent<WeaponTargetingHandler>();
+            this.m_WeaponTargetingHandler.Initialize(
+                this.m_PointerRange, 
+                this.m_Camera,
+                FindFirstObjectByType<WeaponTargetWeaponTrackingHUDController>());
             this.m_TractorBeamTargetingHandler = this.GetComponent<TractorBeamTrackingHandler>();
-            this.m_TractorBeamTargetingHandler.Initialise(
+            this.m_TractorBeamTargetingHandler.Initialize(
                 this.transform, 
                 FindFirstObjectByType<TractorBeamTrackingHUDController>());
         }
@@ -58,11 +58,9 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
             if (this.m_IsPaused 
                 || this.m_WeaponTargetingHandler == null
                 || this.m_TractorBeamTargetingHandler == null)
-                // || !GameValidator.NotNull(this.m_WeaponTargetingHandler, "", false)
-                // || !GameValidator.NotNull(this.m_TractorBeamTargetingHandler, "", false)) 
                 return;
             
-            // this.m_WeaponTargetingHandler.TrackTarget();
+            this.m_WeaponTargetingHandler.TrackTarget();
             this.m_TractorBeamTargetingHandler.TrackCurrentTarget();
         }
 
@@ -80,38 +78,14 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
         {
             if (!this.m_IsTrackingEnabled || this.m_PossibleTarget == null)
             {
-                this.m_WeaponTargetingHandler.EndWeaponTargeting(); // Fix naming
-                // this.m_TractorBeamTargetingHandler.EndTargeting();
+                this.m_WeaponTargetingHandler.EndTargeting();
                 return;
             }
             
             if (this.m_PossibleTarget.tag == GameTag.Interactable)
                 this.m_TractorBeamTargetingHandler.StartHoverTargetLock(this.m_PossibleTarget);
-            
-            // TODO: Move to WeaponTargeting            
-            if (this.m_PossibleTarget.tag == GameTag.Enemy && this.m_WeaponTargetingHandler.CurrentTargetEnemy != null)
-            {
-                bool _IsTargetReselected = this.m_PossibleTarget.GetInstanceID() ==
-                                           this.m_WeaponTargetingHandler.CurrentTargetEnemy.gameObject.GetInstanceID();
-                if (_IsTargetReselected)
-                {
-                    this.m_WeaponTargetingHandler.EndWeaponTargeting();
-                    return;
-                }
-            }
-            // else if (this.m_PossibleTarget.tag == GameTag.Interactable &&
-            //          this.m_TractorBeamTargetingHandler.CurrentTargetTransform != null)
-            // {
-            //     bool _IsTargetDeselected = this.m_PossibleTarget.GetInstanceID() ==
-            //                                this.m_TractorBeamTargetingHandler.CurrentTargetTransform.gameObject.GetInstanceID();
-            //     if (_IsTargetDeselected)
-            //     {
-            //         this.m_WeaponTargetingHandler.EndWeaponTargeting();
-            //         return;
-            //     }
-            // }
-            //
-            this.StartTargetingAction(this.m_PossibleTarget);
+            else if (this.m_PossibleTarget.tag == GameTag.Enemy)
+                this.m_WeaponTargetingHandler.StartTargeting(this.m_PossibleTarget);
         }
 
         void IPlayerTargetingSystem.ActivateTargeting() 
@@ -127,38 +101,15 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
             this.m_MouseWorldPosition = this.m_Camera.ScreenToWorldPoint(
                 new Vector3(screenPosition.x, screenPosition.y, 0));
             this.m_MouseWorldPosition2D = new Vector2(m_MouseWorldPosition.x, m_MouseWorldPosition.y);
-            this.m_WeaponTargetingHandler.SetPointerPosition(this.m_MouseWorldPosition2D);
+            this.m_WeaponTargetingHandler.SetPointerPosition(this.m_MouseWorldPosition2D); // Only used for debug gizmos
             
             // Trace through scene
             RaycastHit2D _RaycastHit = Physics2D.Raycast(this.m_MouseWorldPosition2D, Vector2.zero, 0);
             if (!_RaycastHit)
-            {
                 this.m_PossibleTarget = null;
-            }
-            else if (this.m_PossibleTarget == null || _RaycastHit.collider.gameObject.GetInstanceID() != this.m_PossibleTarget.GetInstanceID())
+            else if (this.m_PossibleTarget == null 
+                || _RaycastHit.collider.gameObject.GetInstanceID() != this.m_PossibleTarget.GetInstanceID())
                 this.m_PossibleTarget = _RaycastHit.collider.gameObject;
-            
-            // GameLogger.Log(
-            //     (nameof(m_IsTrackingEnabled), m_IsTrackingEnabled),
-            //     (nameof(_RaycastHit), _RaycastHit));
-            
-            // Temporary: Set the value directly into the handler
-            //
-            // if (_RaycastHit.collider.gameObject.tag == GameTag.Interactable)
-            // {
-            //     Debug.Log("This is being encountered");
-            //     this.m_TractorBeamTargetingHandler.StartHoverTargetLock(_RaycastHit.collider.gameObject);
-            // }
-        }
-
-        private void StartTargetingAction(GameObject hitObject)
-        {
-            // TODO: Move to WeaponTargeting
-            if (hitObject.tag == GameTag.Enemy)
-            {
-                this.m_WeaponTargetingHandler.SetNewTarget(hitObject);
-                this.m_WeaponTargetingHandler.StartWeaponTargeting();
-            }
         }
 
         #endregion Methods
