@@ -85,8 +85,6 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
                 return;
             }
             
-            Debug.Log("has passed this");
-            
             if (this.m_PossibleTarget.tag == GameTag.Interactable)
                 this.m_TractorBeamTargetingHandler.StartHoverTargetLock(this.m_PossibleTarget);
             
@@ -95,7 +93,6 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
             {
                 bool _IsTargetReselected = this.m_PossibleTarget.GetInstanceID() ==
                                            this.m_WeaponTargetingHandler.CurrentTargetEnemy.gameObject.GetInstanceID();
-                // GameLogger.Log((nameof(_IsTargetReselected), _IsTargetReselected));
                 if (_IsTargetReselected)
                 {
                     this.m_WeaponTargetingHandler.EndWeaponTargeting();
@@ -126,9 +123,6 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
         void IPlayerTargetingSystem.SearchForTarget(Vector2 screenPosition)
         {
             if (!this.m_IsTrackingEnabled) return;
-            
-            // Prevent targeting from disengaging if mouse exits the targeting area.
-            // if (this.m_WeaponTargetingHandler.CanTrack || this.m_TractorBeamTargetingHandler.CanTrack) return;
             
             this.m_MouseWorldPosition = this.m_Camera.ScreenToWorldPoint(
                 new Vector3(screenPosition.x, screenPosition.y, 0));
@@ -164,12 +158,6 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
             {
                 this.m_WeaponTargetingHandler.SetNewTarget(hitObject);
                 this.m_WeaponTargetingHandler.StartWeaponTargeting();
-            }
-            // TODO: Move to TractorBeamTracking
-            else if (hitObject.tag == GameTag.Interactable)
-            {
-                // this.m_TractorBeamTargetingHandler.SetNewTarget(hitObject);
-                // this.StartCoroutine(this.m_TractorBeamTargetingHandler.StartTargeting());
             }
         }
 
