@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using SceneManager = ProjectExodus.Management.SceneManager.SceneManager;
 
 namespace ProjectExodus
 {
 
-    public class TractorBeamTrackingHandler : MonoBehaviour, IDebuggingDataProvider<TractorBeamTrackingHandlerData>
+    public class TractorBeamTrackingHandler : 
+        MonoBehaviour, 
+        IDebuggingDataProvider<TractorBeamTrackingHandlerData>,
+        IInitialize<TractorBeamTrackingHandlerInitializationData>
     {
 
         #region - - - - - - Fields - - - - - -
@@ -18,7 +20,7 @@ namespace ProjectExodus
 
         // Dependent components
         private Camera m_Camera;
-        private TractorBeamTrackingHUDController m_TractorBeamTrackingHUDController;
+        private ITractorBeamTrackingHUDController m_TractorBeamTrackingHUDController;
 
         // Required target calculation transforms
         private Transform m_PlayerTransform;
@@ -29,17 +31,16 @@ namespace ProjectExodus
 
         #region - - - - - - Initializers - - - - - -
 
-        public void Initialize(Transform playerTransform,
-            TractorBeamTrackingHUDController tractorBeamTrackingHUDController)
+        public void Initialize(TractorBeamTrackingHandlerInitializationData initializationData)
         {
-            this.m_PlayerTransform = playerTransform
-                                     ?? throw new ArgumentNullException(nameof(playerTransform));
-            this.m_TractorBeamTrackingHUDController = tractorBeamTrackingHUDController
+            this.m_PlayerTransform = initializationData.PlayerTransform
+                                     ?? throw new ArgumentNullException(nameof(initializationData.PlayerTransform));
+            this.m_TractorBeamTrackingHUDController = initializationData.TractorBeamTrackingHUDController
                                                       ?? throw new ArgumentNullException(
-                                                          nameof(tractorBeamTrackingHUDController));
+                                                          nameof(initializationData.TractorBeamTrackingHUDController));
 
-            this.m_TractorBeamTrackingHUDController.PlayerTransform = playerTransform;
-            this.m_Camera = SceneManager.Instance.GetActiveSceneController().Camera;
+            this.m_TractorBeamTrackingHUDController.PlayerTransform = initializationData.PlayerTransform;
+            this.m_Camera = initializationData.Camera;
         }
 
         #endregion Initializers
@@ -194,6 +195,21 @@ namespace ProjectExodus
 
         #endregion Methods
 
+    }
+
+    public class TractorBeamTrackingHandlerInitializationData
+    {
+
+        #region - - - - - - Properties - - - - - -
+        
+        public Camera Camera { get; set; }
+
+        public Transform PlayerTransform { get; set; }
+        
+        public ITractorBeamTrackingHUDController TractorBeamTrackingHUDController { get; set; }
+
+        #endregion Properties
+  
     }
 
     public class TractorBeamTrackingHandlerData

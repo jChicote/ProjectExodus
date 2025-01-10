@@ -13,9 +13,6 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
     {
 
         #region - - - - - - Fields - - - - - -
-        
-        // This should be handled by settings or player data
-        [SerializeField] private float m_PointerRange = 2f;
 
         // Dependent components
         private UnityEngine.Camera m_Camera;
@@ -37,22 +34,16 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
 
         #region - - - - - - Initializers - - - - - -
 
-        void IPlayerTargetingSystem.Initialize(UnityEngine.Camera camera)
+        void IPlayerTargetingSystem.Initialize(
+            UnityEngine.Camera camera, 
+            IPlayerTargetingHUDController playerTargetingHUDController)
         {
             this.m_Camera = camera ?? throw new ArgumentNullException(nameof(camera));
+            this.m_HUDController = playerTargetingHUDController ??
+                                   throw new ArgumentNullException(nameof(playerTargetingHUDController));
 
-            this.m_HUDController = FindFirstObjectByType<PlayerTargetingHUDController>(FindObjectsInactive.Exclude);
-            this.m_HUDController.Initialize();
-            
             this.m_WeaponTargetingHandler = this.GetComponent<WeaponTargetingHandler>();
-            this.m_WeaponTargetingHandler.Initialize(
-                this.m_PointerRange, 
-                this.m_Camera,
-                FindFirstObjectByType<WeaponTargetWeaponTrackingHUDController>());
             this.m_TractorBeamTargetingHandler = this.GetComponent<TractorBeamTrackingHandler>();
-            this.m_TractorBeamTargetingHandler.Initialize(
-                this.transform, 
-                FindFirstObjectByType<TractorBeamTrackingHUDController>());
         }
 
         #endregion Initializers

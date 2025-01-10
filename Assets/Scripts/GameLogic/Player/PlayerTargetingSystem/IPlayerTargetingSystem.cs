@@ -8,7 +8,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerTargetingSystem
         
         #region - - - - - - Initializers - - - - - -
 
-        void Initialize(UnityEngine.Camera camera);
+        void Initialize(UnityEngine.Camera camera, IPlayerTargetingHUDController playerTargetingHUDController);
 
         #endregion Initializers
   

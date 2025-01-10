@@ -1,21 +1,18 @@
-using ProjectExodus.UserInterface;
 using UnityEngine;
 
 namespace ProjectExodus
 {
 
-    public interface IWeaponTrackingHUDController : IScreenStateController
+    public interface IWeaponTrackingHUDController : IInitialize<WeaponTargetTrackingHUDData>
     {
-
-        #region - - - - - - Initializers - - - - - -
-
-        void Initialize();
-
-        #endregion Initializers
 
         #region - - - - - - Methods - - - - - -
 
         void SetTargetCrosshairPosition(Vector2 screenPosition);
+
+        void HideScreen();
+
+        void ShowScreen();
 
         #endregion Methods
 

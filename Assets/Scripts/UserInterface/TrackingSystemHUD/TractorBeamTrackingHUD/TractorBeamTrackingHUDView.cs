@@ -1,35 +1,54 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ProjectExodus
 {
 
-    public class TractorBeamTrackingHUDView : MonoBehaviour
+    public class TractorBeamTrackingHUDView : MonoBehaviour, IInitialize<TractorBeamTrackingHUDData>
     {
 
         #region - - - - - - Fields - - - - - -
 
-        public GameObject m_ContentGroup;
-        public Camera m_Camera;
+        [SerializeField] private GameObject m_ContentGroup;
         
-        public Image m_TractorCircle;
-        public RectTransform m_TractorCircleTransform;
-        public Image m_TractorRecticle;
-        public RectTransform m_TractorRecticleTransform;
-        public LineRenderer m_TractorBeamLine;
-        public RectTransform m_TractorMaxDistanceCircleTransform;
-        public GameObject m_OutOfRangeLabel;
+        // Required Components
+        [Space]
+        [SerializeField] private RectTransform m_CanvasRectTransform;
+        [SerializeField] private Image m_TractorCircle;
+        [SerializeField] private RectTransform m_TractorCircleTransform;
+        [SerializeField] private Image m_TractorRecticle;
+        [SerializeField] private RectTransform m_TractorRecticleTransform;
+        [SerializeField] private LineRenderer m_TractorBeamLine;
+        [SerializeField] private RectTransform m_TractorMaxDistanceCircleTransform;
+        [SerializeField] private GameObject m_OutOfRangeLabel;
 
-        public RectTransform m_CanvasRectTransform;
-
-        public Color m_WeakBeamStrengthColor;
-        public Color m_FullBeamStrengthColor;
-
+        private Camera m_Camera;
+        
+        // Available colors
+        private Color m_FullBeamStrengthColor;
+        private Color m_WeakBeamStrengthColor;
         private Color m_CurrentBeamColor;
 
         #endregion Fields
+
+        #region - - - - - - Initializers - - - - - -
+
+        public void Initialize(TractorBeamTrackingHUDData initializerData)
+        {
+            this.m_Camera = initializerData.Camera ?? throw new ArgumentNullException(nameof(initializerData.Camera));
+
+            this.m_WeakBeamStrengthColor = initializerData.UserInterfaceSettings.WeakBeamStrengthColor;
+            this.m_FullBeamStrengthColor = initializerData.UserInterfaceSettings.FullBeamStregnthColor;
+        }
+
+        #endregion Initializers
   
         #region - - - - - - Methods - - - - - -
+        
+        // -------------------------------------
+        // Searching and tracking related
+        // -------------------------------------
 
         // Positions are handled in the scene's world space.
         public void SetLinePositions(Vector3 startPosition, Vector3 endPosition)
@@ -52,17 +71,6 @@ namespace ProjectExodus
         
         public void UpdateCircleSize(float size)
             => this.m_TractorCircleTransform.localScale = new Vector3(size, size, size);
-        
-        public void UpdateRecticle(Vector2 recticlePosition)
-        {
-            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                    this.m_CanvasRectTransform,
-                    recticlePosition,
-                    this.m_Camera, // Set to null as the Canvas is done in Screen Overlay
-                    out Vector2 _CanvasPosition)) return;
-            
-            this.m_TractorRecticleTransform.anchoredPosition = _CanvasPosition;
-        }
 
         public void UpdateBeamStrengthColor(float strength)
         {
@@ -80,17 +88,36 @@ namespace ProjectExodus
         public void HideCircle() 
             => this.m_TractorCircleTransform.gameObject.SetActive(false);
 
-        public void ShowRecticle() 
-            => this.m_TractorRecticleTransform.gameObject.SetActive(true);
-
-        public void HideRecticle() 
-            => this.m_TractorRecticleTransform.gameObject.SetActive(false);
-
         public void ShowLineBeam() 
             => this.m_TractorBeamLine.gameObject.SetActive(true);
 
         public void HideLineBeam() 
             => this.m_TractorBeamLine.gameObject.SetActive(false);
+        
+        // -------------------------------------
+        // Locked On Related
+        // -------------------------------------
+        
+        public void UpdateRecticle(Vector2 recticlePosition)
+        {
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    this.m_CanvasRectTransform,
+                    recticlePosition,
+                    this.m_Camera, // Set to null as the Canvas is done in Screen Overlay
+                    out Vector2 _CanvasPosition)) return;
+            
+            this.m_TractorRecticleTransform.anchoredPosition = _CanvasPosition;
+        }
+
+        public void ShowRecticle() 
+            => this.m_TractorRecticleTransform.gameObject.SetActive(true);
+
+        public void HideRecticle() 
+            => this.m_TractorRecticleTransform.gameObject.SetActive(false);
+        
+        // -------------------------------------
+        // Out Of Range Related
+        // -------------------------------------
 
         // The distance is passed as sqrmagnitude. Alter this so that its approximate to the magnitude distance.
         public void UpdateOutOfRangeCircleSize(float size) 

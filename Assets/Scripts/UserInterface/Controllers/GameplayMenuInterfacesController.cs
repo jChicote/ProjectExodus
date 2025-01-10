@@ -6,7 +6,6 @@ using ProjectExodus.UserInterface.GameplayHUD;
 using ProjectExodus.UserInterface.OptionsMenu;
 using ProjectExodus.UserInterface.PauseScreen;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
 
 namespace ProjectExodus.UserInterface.Controllers
@@ -23,8 +22,9 @@ namespace ProjectExodus.UserInterface.Controllers
         [SerializeField] private GameObject m_PauseScreen;
         [SerializeField] private GameObject m_OptionsScreen;
         
-        [FormerlySerializedAs("weaponTargetTrackingHUDController")]
-        [FormerlySerializedAs("m_TargetTrackingHUDController")]
+        [Header("Sub screens")]
+        [SerializeField] private GameObject m_TargetingHUDScreen;
+        
         [Header("Scene-Persistence Views")]
         [SerializeField] private WeaponTargetWeaponTrackingHUDController weaponTargetWeaponTrackingHUDController;
 
@@ -55,7 +55,6 @@ namespace ProjectExodus.UserInterface.Controllers
             this.m_GameplayHudScreenState.Initialize();
             this.m_PauseScreenState.Initialize();
             this.m_OptionsScreenState.Initialize();
-            ((IWeaponTrackingHUDController)this.weaponTargetWeaponTrackingHUDController).Initialize();
             
             // Initialize screens
             IGameplayHUDController _GamplayHUDController =
@@ -73,7 +72,11 @@ namespace ProjectExodus.UserInterface.Controllers
                     _GameManager.Mapper,
                     this);
 
-            this.m_GUIControllers = new GameplaySceneGUIControllers(_GamplayHUDController);
+            this.m_GUIControllers = new GameplaySceneGUIControllers(
+                _GamplayHUDController,
+                this.m_TargetingHUDScreen.GetComponent<IPlayerTargetingHUDController>(),
+                this.m_TargetingHUDScreen.GetComponent<ITractorBeamTrackingHUDController>(),
+                this.m_TargetingHUDScreen.GetComponent<IWeaponTrackingHUDController>());
         }
 
         void IUserInterfaceController.OpenScreen(UIScreenType uiScreenType)
@@ -123,18 +126,80 @@ namespace ProjectExodus.UserInterface.Controllers
         #region - - - - - - Fields - - - - - -
 
         private IGameplayHUDController m_GameplayHUDController;
+        private IPlayerTargetingHUDController m_PlayerTargetingHUDController;
+        private ITractorBeamTrackingHUDController m_TractorBeamTrackingHUDController;
+        private IWeaponTrackingHUDController m_WeaponTrackingHUDController;
 
         #endregion Fields
 
         #region - - - - - - Constructors - - - - - -
 
-        public GameplaySceneGUIControllers(IGameplayHUDController gameplayHUDController)
+        public GameplaySceneGUIControllers(
+            IGameplayHUDController gameplayHUDController,
+            IPlayerTargetingHUDController playerTargetingHUDController,
+            ITractorBeamTrackingHUDController tractorBeamTrackingHUDController,
+            IWeaponTrackingHUDController weaponTrackingHUDController)
         {
             this.m_GameplayHUDController =
                 gameplayHUDController ?? throw new ArgumentNullException(nameof(gameplayHUDController));
+            this.m_PlayerTargetingHUDController =
+                playerTargetingHUDController ?? throw new ArgumentNullException(nameof(playerTargetingHUDController));
+            this.m_TractorBeamTrackingHUDController =
+                tractorBeamTrackingHUDController ?? throw new ArgumentNullException(nameof(tractorBeamTrackingHUDController));
+            this.m_WeaponTrackingHUDController =
+                weaponTrackingHUDController ?? throw new ArgumentNullException(nameof(weaponTrackingHUDController));
         }
 
         #endregion Constructors
+
+        #region - - - - - - Properties - - - - - -
+
+        public IPlayerTargetingHUDController PlayerTargetingHUDController
+        {
+            get
+            {
+                if (this.m_PlayerTargetingHUDController != null)
+                    return this.m_PlayerTargetingHUDController;
+
+                if (!Object.FindAnyObjectByType<PlayerTargetingHUDController>())
+                    throw new NullReferenceException($"[ERROR]: No '{nameof(IPlayerTargetingHUDController)}' has been found");
+            
+                this.m_PlayerTargetingHUDController = Object.FindFirstObjectByType<PlayerTargetingHUDController>();
+                return this.m_PlayerTargetingHUDController;
+            }
+        }
+
+        public ITractorBeamTrackingHUDController TractorBeamTrackingHUDController
+        {
+            get
+            {
+                if (this.m_TractorBeamTrackingHUDController != null)
+                    return this.m_TractorBeamTrackingHUDController;
+
+                if (!Object.FindAnyObjectByType<TractorBeamTrackingHUDController>())
+                    throw new NullReferenceException($"[ERROR]: No '{nameof(ITractorBeamTrackingHUDController)}' has been found");
+            
+                this.m_TractorBeamTrackingHUDController = Object.FindFirstObjectByType<TractorBeamTrackingHUDController>();
+                return this.m_TractorBeamTrackingHUDController;
+            }
+        }
+        
+        public IWeaponTrackingHUDController WeaponTrackingHUDController
+        {
+            get
+            {
+                if (this.m_WeaponTrackingHUDController != null)
+                    return this.m_WeaponTrackingHUDController;
+
+                if (!Object.FindAnyObjectByType<WeaponTargetWeaponTrackingHUDController>())
+                    throw new NullReferenceException($"[ERROR]: No '{nameof(IWeaponTrackingHUDController)}' has been found");
+            
+                this.m_WeaponTrackingHUDController = Object.FindFirstObjectByType<WeaponTargetWeaponTrackingHUDController>();
+                return this.m_WeaponTrackingHUDController;
+            }
+        }
+
+        #endregion Properties
   
         #region - - - - - - Methods - - - - - -
 

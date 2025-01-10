@@ -1,5 +1,6 @@
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
+using ProjectExodus.UserInterface.Controllers;
 using ProjectExodus.UserInterface.GameplayHUD;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
         #region - - - - - - Methods - - - - - -
 
         void InitialisePlayerSpawner(
-            IGameplayHUDController gameplayHUDController,
+            GameplaySceneGUIControllers gameplaySceneGUIControllers,
             IShipAssetProvider shipAssetProvider,
             IWeaponAssetProvider weaponAssetProvider);
 

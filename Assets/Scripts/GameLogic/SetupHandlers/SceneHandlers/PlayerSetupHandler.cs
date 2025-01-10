@@ -42,10 +42,8 @@ namespace GameLogic.SetupHandlers.SceneHandlers
                 return;
             }
             
-            IGameplayHUDController _GameplayHUDController = 
-                ((GameplaySceneGUIControllers)_Controllers).GetGameplayHUDController();
             _PlayerSpawner.InitialisePlayerSpawner(
-                _GameplayHUDController,
+                (GameplaySceneGUIControllers)_Controllers,
                 initializationContext.ServiceLocator.GetService<IShipAssetProvider>(),
                 initializationContext.ServiceLocator.GetService<IWeaponAssetProvider>());
             

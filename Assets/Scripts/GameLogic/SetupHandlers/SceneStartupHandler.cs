@@ -61,13 +61,11 @@ namespace ProjectExodus.GameLogic.Scene.SetupHandlers
                 SelectedShip = GameDataManager.Instance.SelectedShip
             };
 
-            SceneSetupInitializationContext _InitializationContext = new SceneSetupInitializationContext
-            {
-                InputManager = this.m_InputManager,
-                LoadingScreenController = this.m_LoadingScreenController,
-                ServiceLocator = this.m_ServiceLocator,
-                StartupDataOptions = _StartupData
-            };
+            SceneSetupInitializationContext _InitializationContext = this.GetComponent<SceneSetupInitializationContext>();
+            _InitializationContext.InputManager = this.m_InputManager;
+            _InitializationContext.LoadingScreenController = this.m_LoadingScreenController;
+            _InitializationContext.ServiceLocator = this.m_ServiceLocator;
+            _InitializationContext.StartupDataOptions = _StartupData;
 
             List<ISetupHandler> _SetupHandlers = this.m_SetupHandlersObjects
                 .Select(sh => sh.GetComponent<ISetupHandler>())

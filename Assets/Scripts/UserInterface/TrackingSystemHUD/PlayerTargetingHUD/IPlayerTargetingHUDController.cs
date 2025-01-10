@@ -3,12 +3,10 @@
 namespace ProjectExodus
 {
 
-    public interface IPlayerTargetingHUDController
+    public interface IPlayerTargetingHUDController : IInitialize<PlayerTargetingHUDData>
     {
 
         #region - - - - - - Methods - - - - - -
-
-        void Initialize();
 
         void UpdateHoverTargetingIndicatorPosition(Vector2 screenPosition);
 

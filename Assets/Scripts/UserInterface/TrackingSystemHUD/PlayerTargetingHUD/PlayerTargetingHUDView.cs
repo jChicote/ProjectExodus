@@ -1,30 +1,47 @@
-﻿using ProjectExodus.GameLogic.Enumeration;
+﻿using System;
+using ProjectExodus.GameLogic.Enumeration;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ProjectExodus
 {
 
-    public class PlayerTargetingHUDView : MonoBehaviour
+    public class PlayerTargetingHUDView : MonoBehaviour, IInitialize<PlayerTargetingHUDData>
     {
 
         #region - - - - - - Fields - - - - - -
-        
-        public Camera m_Camera;
 
+        // Component Data
         [SerializeField] private GameObject m_ContentGroup;
         [SerializeField] private Image m_HoverTargetingRecticle;
         [SerializeField] private RectTransform m_HoverTargetingRecticleTransform;
-
-        [Space] [SerializeField] private Color m_DefaultColor;
-        [SerializeField] private Color m_EnemyColor;
-        [SerializeField] private Color m_InteractableColor;
-        [SerializeField] private Color m_InvalidColor;
-
+        
+        private Camera m_Camera;
         private RectTransform m_ContentGroupRectTransform;
+
+        // Available Colors
+        private Color m_DefaultColor;
+        private Color m_EnemyColor;
+        private Color m_InteractableColor;
+        private Color m_InvalidColor;
 
         #endregion Fields
 
+        #region - - - - - - Initialize - - - - - -
+
+        public void Initialize(PlayerTargetingHUDData initializationData)
+        {
+            this.m_Camera = initializationData.Camera ??
+                throw new ArgumentNullException(nameof(initializationData.Camera));
+
+            this.m_DefaultColor = initializationData.UserInterfaceSettings.DefaultColor;
+            this.m_EnemyColor = initializationData.UserInterfaceSettings.EnemyColor;
+            this.m_InteractableColor = initializationData.UserInterfaceSettings.InteractableColor;
+            this.m_InvalidColor = initializationData.UserInterfaceSettings.InvalidColor;
+        }
+
+        #endregion Initialize
+  
         #region - - - - - - Unity Methods - - - - - -
 
         private void Start()
@@ -67,6 +84,5 @@ namespace ProjectExodus
         #endregion Methods
 
     }
-
 
 }

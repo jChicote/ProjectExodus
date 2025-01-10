@@ -3,7 +3,9 @@ using UnityEngine;
 namespace ProjectExodus
 {
 
-    public class WeaponTargetWeaponTrackingHUDController : MonoBehaviour, IWeaponTrackingHUDController
+    public class WeaponTargetWeaponTrackingHUDController : 
+        MonoBehaviour, 
+        IWeaponTrackingHUDController
     {
 
         #region - - - - - - Fields - - - - - -
@@ -14,8 +16,11 @@ namespace ProjectExodus
 
         #region - - - - - - Initializers - - - - - -
 
-        void IWeaponTrackingHUDController.Initialize()
-            => this.m_View = this.GetComponent<WeaponTargetTrackingHUDView>();
+        public void Initialize(WeaponTargetTrackingHUDData initializerData)
+        {
+            this.m_View = this.GetComponent<WeaponTargetTrackingHUDView>();
+            this.m_View.Initialize(initializerData);
+        }
 
         #endregion Initializers
 
@@ -32,6 +37,17 @@ namespace ProjectExodus
 
         #endregion Methods
 
+    }
+
+    public class WeaponTargetTrackingHUDData
+    {
+
+        #region - - - - - - Properties - - - - - -
+
+        public Camera Camera { get; set; }
+
+        #endregion Properties
+  
     }
 
 }

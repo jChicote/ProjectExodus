@@ -1,28 +1,32 @@
+using System;
 using UnityEngine;
 
 namespace ProjectExodus
 {
 
-    public class WeaponTargetTrackingHUDView : MonoBehaviour
+    public class WeaponTargetTrackingHUDView : MonoBehaviour, IInitialize<WeaponTargetTrackingHUDData>
     {
 
         #region - - - - - - Fields - - - - - -
 
         [SerializeField] private GameObject m_ContentGroup;
-        public Camera m_Camera;
         [SerializeField] private RectTransform m_CrosshairTransform;
 
+        private Camera m_Camera;
         private RectTransform m_ContentGroupRectTransform;
 
         #endregion Fields
 
-        #region - - - - - - Unity Methods - - - - - -
+        #region - - - - - - Initializers - - - - - -
 
-        private void Start() 
-            => this.m_ContentGroupRectTransform = this.m_ContentGroup.GetComponent<RectTransform>();
+        public void Initialize(WeaponTargetTrackingHUDData initializerData)
+        {
+            this.m_Camera = initializerData.Camera ?? throw new ArgumentNullException(nameof(initializerData.Camera));
+            this.m_ContentGroupRectTransform = this.m_ContentGroup.GetComponent<RectTransform>();
+        }
 
-        #endregion Unity Methods
-
+        #endregion Initializers
+  
         #region - - - - - - Methods - - - - - -
 
         public void UpdateCrosshairPosition(Vector2 screenPosition)

@@ -1,10 +1,13 @@
 ﻿using ProjectExodus.GameLogic.Enumeration;
+using ProjectExodus.ScriptableObjects;
 using UnityEngine;
 
 namespace ProjectExodus
 {
 
-    public class PlayerTargetingHUDController : MonoBehaviour, IPlayerTargetingHUDController
+    public class PlayerTargetingHUDController : 
+        MonoBehaviour, 
+        IPlayerTargetingHUDController
     {
 
         #region - - - - - - Fields - - - - - -
@@ -15,8 +18,11 @@ namespace ProjectExodus
 
         #region - - - - - - Initializers - - - - - -
 
-        public void Initialize()
-            => this.m_View = this.GetComponent<PlayerTargetingHUDView>();
+        public void Initialize(PlayerTargetingHUDData initializationData)
+        {
+            this.m_View = this.GetComponent<PlayerTargetingHUDView>();
+            this.m_View.Initialize(initializationData);
+        }
 
         #endregion Initializers
 
@@ -38,6 +44,19 @@ namespace ProjectExodus
 
         #endregion Methods
 
+    }
+    
+    public class PlayerTargetingHUDData
+    {
+
+        #region - - - - - - Properties - - - - - -
+
+        public Camera Camera { get; set; }
+        
+        public UserInterfaceSettings UserInterfaceSettings { get; set; }
+
+        #endregion Properties
+  
     }
 
 }

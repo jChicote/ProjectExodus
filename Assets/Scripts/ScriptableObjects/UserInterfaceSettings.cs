@@ -14,6 +14,16 @@ namespace ProjectExodus.ScriptableObjects
         [Header("Image Sources")]
         public List<ProfileImageIDPair> ProfileImages;
 
+        [Header("Player / Weapon Targeting")] 
+        public Color DefaultColor;
+        public Color EnemyColor;
+        public Color InteractableColor;
+        public Color InvalidColor;
+
+        [Header("Tractor Beam Targeting")] 
+        public Color WeakBeamStrengthColor;
+        public Color FullBeamStregnthColor;
+        
         #endregion Fields
 
     }
