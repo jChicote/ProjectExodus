@@ -14,6 +14,8 @@ namespace ProjectExodus
         public Camera m_Camera; // Inject
         public TractorBeamTrackingHUDView m_View;
 
+        private float m_TimerSize = 5f;
+
         #endregion Fields
   
         #region - - - - - - Properties - - - - - -
@@ -45,7 +47,7 @@ namespace ProjectExodus
             if (this.NextTargetTransform == null) return;
             
             this.m_View.SetLinePositions(this.PlayerTransform.position, this.NextTargetTransform.position);
-            this.m_View.UpdateCircle(1, this.m_Camera.WorldToScreenPoint(this.NextTargetTransform.position));
+            this.m_View.UpdateCirclePosition(this.m_Camera.WorldToScreenPoint(this.NextTargetTransform.position));
         }
 
         public void SetConfirmedTarget()
@@ -55,20 +57,38 @@ namespace ProjectExodus
             this.m_View.UpdateRecticle(this.m_Camera.WorldToScreenPoint(this.CurrentTargetTransform.position));
         }
 
+        public void UpdateTimerCircle(float currentTime, float maxTime) 
+            => this.m_View.UpdateCircleSize((currentTime / maxTime) * this.m_TimerSize);
+
         public void SetBeamStrengthColor(float currentDistance, float maxDistance)
         {
             float _Strength = currentDistance / maxDistance;
             this.m_View.UpdateBeamStrengthColor(_Strength);
         }
+        
+        // The distance is passed as sqrmagnitude. Alter this so that its approximate to the magnitude distance.
+        public void SetOutOfRangeCircleSize(float distance)
+        {
+            // This may be expensive
+            this.m_View.UpdateOutOfRangeCircleSize(Mathf.Sqrt(distance));
+            this.m_View.UpdateOutOfRangeCirclePosition(this.m_Camera.WorldToScreenPoint(this.PlayerTransform.position));
+        }
 
         public void ShowOutOfRange()
         {
             this.StopCoroutine(this.StartRevealingOutOfRange());
+            this.StartCoroutine(this.StartRevealingOutOfRange());
             this.m_View.ShowOutOfRangeElements();
         }
 
         public void HideOutOfRange() 
             => this.m_View.HideOutofRangeElements();
+
+        private IEnumerator StartRevealingOutOfRange()
+        {
+            yield return new WaitForSeconds(2.5f);
+            this.HideOutOfRange();
+        }
 
         public void StartTargetingSearch()
         {
@@ -97,13 +117,6 @@ namespace ProjectExodus
 
         public void ShowScreen() 
             => this.m_View.ShowHUD();
-
-        private IEnumerator StartRevealingOutOfRange()
-        {
-            yield return new WaitForSeconds(2.5f);
-            Debug.Log("Is Done");
-            this.HideOutOfRange();
-        }
 
         #endregion Methods
   

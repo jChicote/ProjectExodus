@@ -86,7 +86,9 @@ namespace ProjectExodus
 
             if (this.IsOutsideOfTargetRange())
             {
+                this.m_TractorBeamTrackingHUDController.SetOutOfRangeCircleSize(this.m_MaxBeamLength);
                 this.m_TractorBeamTrackingHUDController.ShowOutOfRange();
+                this.EndTargeting();
                 return;
             }
 
@@ -110,6 +112,9 @@ namespace ProjectExodus
             while (_RemainingTime > 0 && !_StopTracking)
             {
                 _RemainingTime -= Time.deltaTime;
+                this.m_TractorBeamTrackingHUDController.UpdateTimerCircle(
+                    _RemainingTime, 
+                    this.m_TargetingLockOnTimeLength);
 
                 // Update beam strength presentation
                 float _CurrentDistance = (this.m_PlayerTransform.position - this.m_PossibleNextTargetTransform.position)
@@ -183,7 +188,6 @@ namespace ProjectExodus
 
         private void EndLockedTargeting()
         {
-            this.StopAllCoroutines();
             this.m_TractorBeamTrackingHUDController.EndTargetingLock();
             this.m_CurrentTargetTransform = null;
         }

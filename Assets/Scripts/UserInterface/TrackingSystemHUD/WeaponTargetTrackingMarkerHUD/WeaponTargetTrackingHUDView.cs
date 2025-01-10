@@ -9,6 +9,7 @@ namespace ProjectExodus
         #region - - - - - - Fields - - - - - -
 
         [SerializeField] private GameObject m_ContentGroup;
+        public Camera m_Camera;
         [SerializeField] private RectTransform m_CrosshairTransform;
 
         private RectTransform m_ContentGroupRectTransform;
@@ -29,7 +30,7 @@ namespace ProjectExodus
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
                     this.m_ContentGroupRectTransform,
                     screenPosition,
-                    null, // Set to null as the Canvas is done in Screen Overlay
+                    this.m_Camera, // Set to null as the Canvas is done in Screen Overlay
                     out Vector2 _CanvasPosition))
                 return;
 

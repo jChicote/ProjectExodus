@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 namespace ProjectExodus
 {
@@ -10,6 +10,7 @@ namespace ProjectExodus
         #region - - - - - - Fields - - - - - -
 
         public GameObject m_ContentGroup;
+        public Camera m_Camera;
         
         public Image m_TractorCircle;
         public RectTransform m_TractorCircleTransform;
@@ -38,24 +39,26 @@ namespace ProjectExodus
         }
 
         // Position should be in Screen Position
-        public void UpdateCircle(float size, Vector2 circlePosition)
+        public void UpdateCirclePosition(Vector2 circlePosition)
         {
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
                     this.m_CanvasRectTransform,
                     circlePosition,
-                    null, // Set to null as the Canvas is done in Screen Overlay
+                    this.m_Camera, // Set to null as the Canvas is done in Screen Overlay
                     out Vector2 _CanvasPosition)) return;
             
-            this.m_TractorCircleTransform.localScale = new Vector3(size, size, size);
             this.m_TractorCircleTransform.anchoredPosition = _CanvasPosition;
         }
-
+        
+        public void UpdateCircleSize(float size)
+            => this.m_TractorCircleTransform.localScale = new Vector3(size, size, size);
+        
         public void UpdateRecticle(Vector2 recticlePosition)
         {
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
                     this.m_CanvasRectTransform,
                     recticlePosition,
-                    null, // Set to null as the Canvas is done in Screen Overlay
+                    this.m_Camera, // Set to null as the Canvas is done in Screen Overlay
                     out Vector2 _CanvasPosition)) return;
             
             this.m_TractorRecticleTransform.anchoredPosition = _CanvasPosition;
@@ -64,8 +67,11 @@ namespace ProjectExodus
         public void UpdateBeamStrengthColor(float strength)
         {
             this.m_CurrentBeamColor = Color.Lerp(this.m_FullBeamStrengthColor, this.m_WeakBeamStrengthColor, strength);
+            
             this.m_TractorBeamLine.startColor = this.m_CurrentBeamColor;
             this.m_TractorBeamLine.endColor = this.m_CurrentBeamColor;
+
+            this.m_TractorCircle.color = this.m_CurrentBeamColor;
         }
 
         public void ShowCircle() 
@@ -85,6 +91,21 @@ namespace ProjectExodus
 
         public void HideLineBeam() 
             => this.m_TractorBeamLine.gameObject.SetActive(false);
+
+        // The distance is passed as sqrmagnitude. Alter this so that its approximate to the magnitude distance.
+        public void UpdateOutOfRangeCircleSize(float size) 
+            => this.m_TractorMaxDistanceCircleTransform.localScale = new Vector3(size, size, 0);
+        
+        public void UpdateOutOfRangeCirclePosition(Vector2 screenPosition)
+        {
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    this.m_CanvasRectTransform,
+                    screenPosition,
+                    this.m_Camera, // Set to null as the Canvas is done in Screen Overlay
+                    out Vector2 _CanvasPosition)) return;
+            
+            this.m_TractorMaxDistanceCircleTransform.anchoredPosition = _CanvasPosition;
+        }
 
         public void ShowOutOfRangeElements()
         {
