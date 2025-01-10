@@ -12,8 +12,6 @@ namespace GameLogic.SetupHandlers.SceneHandlers
 
         #region - - - - - - Fields - - - - - -
 
-        [SerializeField] private GameObject m_TargetingSystemHUD;
-
         private ISetupHandler m_NextHandler;
 
         #endregion Fields

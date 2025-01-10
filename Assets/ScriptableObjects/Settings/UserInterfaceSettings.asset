@@ -31,7 +31,7 @@ MonoBehaviour:
     Image: {fileID: 7049981877192592992, guid: aa87e4655057e184c80687d73cf8cd4b, type: 3}
   DefaultColor: {r: 1, g: 1, b: 1, a: 1}
   EnemyColor: {r: 1, g: 0, b: 0, a: 1}
-  InteractableColor: {r: 0.15044165, g: 1, b: 0, a: 1}
+  InteractableColor: {r: 0, g: 0.36037755, b: 1, a: 1}
   InvalidColor: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
   WeakBeamStrengthColor: {r: 1, g: 0, b: 0, a: 1}
   FullBeamStregnthColor: {r: 1, g: 1, b: 1, a: 1}
