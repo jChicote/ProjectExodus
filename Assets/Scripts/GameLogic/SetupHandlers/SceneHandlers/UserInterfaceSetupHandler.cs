@@ -39,6 +39,7 @@ namespace GameLogic.SetupHandlers.SceneHandlers
                 return;
             }
 
+            // Initialise targeting HUD
             PlayerTargetingHUDData _PlayerTargetingHUDData = new()
             {
                 Camera = initializationContext.MainCamera,

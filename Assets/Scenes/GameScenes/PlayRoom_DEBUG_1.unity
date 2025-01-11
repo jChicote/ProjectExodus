@@ -1200,8 +1200,8 @@ GameObject:
   - component: {fileID: 559210841}
   - component: {fileID: 559210847}
   - component: {fileID: 559210846}
-  - component: {fileID: 559210843}
   - component: {fileID: 559210842}
+  - component: {fileID: 559210843}
   - component: {fileID: 559210845}
   - component: {fileID: 559210844}
   m_Layer: 5
