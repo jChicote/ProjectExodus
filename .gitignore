@@ -9,6 +9,7 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
+/Local/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
@@ -75,6 +76,7 @@ crashlytics-build.properties
 **/.DS_Store
 
 # User specific
+.idea
 **/.idea/**/workspace.xml
 **/.idea/**/tasks.xml
 **/.idea/shelf/*
@@ -101,7 +103,14 @@ crashlytics-build.properties
 [Bb]in/
 [Oo]bj/
 _UpgradeReport_Files/
-[Pp]ackages/
 
 Thumbs.db
 Desktop.ini
+
+#GameCI
+/[Aa]rtifacts/
+/[Cc]odeCoverage/
+
+#Nuget Plugins
+**/[Pp]ackages/*
+**/NuGet/*

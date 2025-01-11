@@ -1,0 +1,22 @@
+name: ProjectExodus Github Actions
+run-name: ${{ github.actor }} is verifying pull-request.
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  Check-Unity-Meta-Files:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: DeNA/unity-meta-check@v3
+
+#   Inspect-Code-With-ReSharper:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: JetBrains ReSharper Inspect Code
+#         uses: JetBrains/ReSharper-InspectCode@v0.5
+#         with:
+#             solution: 'ProjectExodus.sln'
