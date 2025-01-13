@@ -1,4 +1,5 @@
 ﻿using MBT;
+using ProjectExodus.GameLogic.Common.Health;
 using UnityEngine;
 
 namespace ProjectExodus
@@ -16,7 +17,7 @@ namespace ProjectExodus
 
     }
     
-    public class EnemyHealthSystem : MonoBehaviour
+    public class EnemyHealthSystem : MonoBehaviour, IDamageable
     {
 
         #region - - - - - - Fields - - - - - -
@@ -50,7 +51,12 @@ namespace ProjectExodus
         }
 
         #endregion Methods
-  
+
+        public bool CanDamage() 
+            => this.m_HealthVariable.Value > 0;
+
+        public void SendDamage(float damage) 
+            => this.m_HealthVariable.Value -= damage;
     }
 
 }
