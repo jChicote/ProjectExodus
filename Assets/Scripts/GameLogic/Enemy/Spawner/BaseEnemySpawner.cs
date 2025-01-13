@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
+using UnityEngine;
 
 namespace ProjectExodus
 {
 
-    public class BaseEnemySpawner : MonoBehaviour
+    public class BaseEnemySpawner : PausableMonoBehavior
     {
         
     }

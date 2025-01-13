@@ -27,6 +27,16 @@ namespace ProjectExodus.GameLogic.Common.Timers
 
         #endregion Constructors
 
+        #region - - - - - - Properties - - - - - -
+
+        public float TimerLength
+        {
+            get => this.m_TimerLength;
+            set => this.m_TimerLength = value;
+        }
+        
+        #endregion Properties
+  
         #region - - - - - - Methods - - - - - -
 
         public void TickTimer()
