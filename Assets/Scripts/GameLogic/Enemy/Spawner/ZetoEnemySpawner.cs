@@ -4,6 +4,7 @@ using ProjectExodus.GameLogic.Common.Timers;
 using ProjectExodus.GameLogic.Enumeration;
 using ProjectExodus.GameLogic.Player.PlayerProvider;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace ProjectExodus
 {
@@ -20,6 +21,7 @@ namespace ProjectExodus
         public float m_SpawnInterval;
         public float m_SpawnRadius;
         public EventTimer m_SpawnTimer;
+        public CircleCollider2D m_DetectionCollider;
 
         private bool m_IsSpawnerActive;
         private IPlayerProvider m_PlayerProvider;
@@ -41,6 +43,8 @@ namespace ProjectExodus
             this.m_SpawnTimer = new(this.m_SpawnInterval, Time.deltaTime, this.SpawnEnemy);
             this.m_PlayerProvider = initializerData.PlayerProvider ??
                                     throw new ArgumentNullException(nameof(initializerData.PlayerProvider));
+
+            this.m_DetectionCollider.radius = this.m_SpawnRadius;
         }
 
         #endregion Initializers
@@ -49,7 +53,7 @@ namespace ProjectExodus
 
         private void Update()
         {
-            if (this.m_IsPaused || this.m_IsSpawnerActive) return;
+            if (this.m_IsPaused || !this.m_IsSpawnerActive) return;
 
             this.m_SpawnTimer.TickTimer();
         }
@@ -72,7 +76,11 @@ namespace ProjectExodus
 
         public void SpawnEnemy()
         {
-            GameObject _SpawnedEnemy = Instantiate(this.m_EnemyTemplate, this.m_SpawnPoint.position, Quaternion.identity);
+            Vector2 _RandomizedSpawnPoint = new Vector2(
+                Random.Range(0, this.m_SpawnRadius),
+                Random.Range(0, this.m_SpawnRadius));
+            
+            GameObject _SpawnedEnemy = Instantiate(this.m_EnemyTemplate, _RandomizedSpawnPoint, Quaternion.identity);
             ICommand _CommandInitializer = _SpawnedEnemy.GetComponent<ICommand>();
             _CommandInitializer.Execute();
         }
