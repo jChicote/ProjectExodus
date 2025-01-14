@@ -1,24 +1,14 @@
-﻿using ProjectExodus.Common.Services;
+﻿using System;
+using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Common.Timers;
+using ProjectExodus.GameLogic.Enumeration;
+using ProjectExodus.GameLogic.Player.PlayerProvider;
 using UnityEngine;
 
 namespace ProjectExodus
 {
 
-    public interface IEnemySpawner
-    {
-
-        #region - - - - - - Methods - - - - - -
-
-        void StartSpawner();
-        
-        void StopSpawner();
-
-        #endregion Methods
-  
-    }
-    
-    public class ZetoEnemySpawner : BaseEnemySpawner, IEnemySpawner, IInitialize<ZetoEnemySpawnerInitializerData>
+    public class ZetoEnemySpawner : BaseEnemySpawner, IInitialize<ZetoEnemySpawnerInitializerData>
     {
 
         #region - - - - - - Fields - - - - - -
@@ -28,9 +18,12 @@ namespace ProjectExodus
         
         // Change to serialized
         public float m_SpawnInterval;
+        public float m_SpawnRadius;
         public EventTimer m_SpawnTimer;
 
         private bool m_IsSpawnerActive;
+        private IPlayerProvider m_PlayerProvider;
+        private Transform m_PlayerTransform;
 
         #endregion Fields
 
@@ -43,8 +36,12 @@ namespace ProjectExodus
 
         #region - - - - - - Initializers - - - - - -
 
-        public void Initialize(ZetoEnemySpawnerInitializerData initializerData) 
-            => this.m_SpawnTimer = new(this.m_SpawnInterval, Time.deltaTime, this.SpawnEnemy);
+        public void Initialize(ZetoEnemySpawnerInitializerData initializerData)
+        {
+            this.m_SpawnTimer = new(this.m_SpawnInterval, Time.deltaTime, this.SpawnEnemy);
+            this.m_PlayerProvider = initializerData.PlayerProvider ??
+                                    throw new ArgumentNullException(nameof(initializerData.PlayerProvider));
+        }
 
         #endregion Initializers
 
@@ -53,8 +50,20 @@ namespace ProjectExodus
         private void Update()
         {
             if (this.m_IsPaused || this.m_IsSpawnerActive) return;
-            
+
             this.m_SpawnTimer.TickTimer();
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.gameObject.tag != GameTag.Player) return;
+            this.StartSpawner();
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (other.gameObject.tag != GameTag.Player) return;
+            this.StopSpawner();
         }
 
         #endregion Unity Events
@@ -83,15 +92,22 @@ namespace ProjectExodus
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(this.m_SpawnPoint.position, 2f);
+            Gizmos.DrawWireSphere(this.m_SpawnPoint.position, this.m_SpawnRadius);
         }
-
+        
         #endregion Gizmos
   
     }
 
     public class ZetoEnemySpawnerInitializerData
     {
+
+        #region - - - - - - Properties - - - - - -
+
+        public IPlayerProvider PlayerProvider { get; set; }
+
+        #endregion Properties
+  
     }
 
 }
