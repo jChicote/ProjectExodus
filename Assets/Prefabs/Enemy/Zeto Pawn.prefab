@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3450359959515039369}
   - component: {fileID: 5785318865993165463}
   - component: {fileID: 8151327881478078817}
+  - component: {fileID: 6740156097898326282}
   m_Layer: 0
   m_Name: Zeto Pawn
   m_TagString: Untagged
@@ -177,6 +178,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Rigidbody: {fileID: 3450359959515039369}
+  m_Blackboard: {fileID: 377349746635914686}
+--- !u!114 &6740156097898326282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2581424714131056309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 413562acb3914cd3aa1b1c28b43651f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   m_Blackboard: {fileID: 377349746635914686}
 --- !u!1 &6615411892899660845
 GameObject:

@@ -1,4 +1,5 @@
-﻿using MBT;
+﻿using System;
+using MBT;
 using UnityEngine;
 
 namespace ProjectExodus
@@ -14,7 +15,7 @@ namespace ProjectExodus
         public FloatReference Health = new();
 
         #endregion Fields
-  
+
         #region - - - - - - Methods - - - - - -
 
         public override bool Check() => this.Health.Value < 0;

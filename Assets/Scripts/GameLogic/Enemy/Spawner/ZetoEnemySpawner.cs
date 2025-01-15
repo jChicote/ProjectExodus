@@ -77,8 +77,8 @@ namespace ProjectExodus
         public void SpawnEnemy()
         {
             Vector2 _RandomizedSpawnPoint = new Vector2(
-                Random.Range(0, this.m_SpawnRadius),
-                Random.Range(0, this.m_SpawnRadius));
+                Random.Range(this.transform.position.x - this.m_SpawnRadius, this.transform.position.x + this.m_SpawnRadius),
+                Random.Range(this.transform.position.y - this.m_SpawnRadius, this.transform.position.y + this.m_SpawnRadius));
             
             GameObject _SpawnedEnemy = Instantiate(this.m_EnemyTemplate, _RandomizedSpawnPoint, Quaternion.identity);
             ICommand _CommandInitializer = _SpawnedEnemy.GetComponent<ICommand>();
@@ -100,7 +100,8 @@ namespace ProjectExodus
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(this.m_SpawnPoint.position, this.m_SpawnRadius);
+            Gizmos.DrawWireCube(this.m_SpawnPoint.position, new Vector3(this.m_SpawnRadius * 2, this.m_SpawnRadius * 2, this.m_SpawnRadius * 2));
+            Gizmos.DrawWireSphere(this.transform.position, 0.5f);
         }
         
         #endregion Gizmos

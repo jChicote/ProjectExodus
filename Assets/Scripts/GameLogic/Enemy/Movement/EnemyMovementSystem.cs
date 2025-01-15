@@ -44,6 +44,7 @@ namespace ProjectExodus
                 this.m_Blackboard.GetVariable<FloatVariable>(EnemyMovementKeys.MovementSpeed);
 
             this.m_MoveDirectionReference.Value = new Vector2(this.transform.up.x, this.transform.up.y);
+            Debug.Log(this.m_MoveDirectionReference.Value);
             this.m_MovementSpeedReference.Value = 5f;
         }
 
@@ -55,7 +56,6 @@ namespace ProjectExodus
                 return;
             }
 
-            Debug.Log(this.m_MovementVelocityReference.Value);
             this.m_Rigidbody.linearVelocity = this.m_MovementVelocityReference.Value;
         }
 
