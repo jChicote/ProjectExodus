@@ -5364,27 +5364,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5695793020061722467, guid: ef323778f3bac4aa0a1eb676688776fc, type: 3}
       propertyPath: rect.x
-      value: 300
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 5695793020061722467, guid: ef323778f3bac4aa0a1eb676688776fc, type: 3}
       propertyPath: rect.y
-      value: 404
+      value: 399
       objectReference: {fileID: 0}
     - target: {fileID: 7978515072070060300, guid: ef323778f3bac4aa0a1eb676688776fc, type: 3}
       propertyPath: rect.x
-      value: 300
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 7978515072070060300, guid: ef323778f3bac4aa0a1eb676688776fc, type: 3}
       propertyPath: rect.y
-      value: 476
+      value: 460
       objectReference: {fileID: 0}
     - target: {fileID: 8286838828125766293, guid: ef323778f3bac4aa0a1eb676688776fc, type: 3}
       propertyPath: rect.x
-      value: 100
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 8286838828125766293, guid: ef323778f3bac4aa0a1eb676688776fc, type: 3}
       propertyPath: rect.y
-      value: 401
+      value: 396
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

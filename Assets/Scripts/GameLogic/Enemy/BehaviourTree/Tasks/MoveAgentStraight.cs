@@ -22,7 +22,7 @@ namespace ProjectExodus
         public override NodeResult Execute()
         {
             this.AgentMoveVelocity.Value = this.AgentMoveDirection.Value * this.MovementSpeed.Value;
-            return NodeResult.success;
+            return NodeResult.running;
         }
 
         #endregion Methods
