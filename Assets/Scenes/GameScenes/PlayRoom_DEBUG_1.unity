@@ -5314,6 +5314,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 154671659860868401, guid: ef323778f3bac4aa0a1eb676688776fc, type: 3}
+      propertyPath: rect.y
+      value: 279
+      objectReference: {fileID: 0}
     - target: {fileID: 2581424714131056309, guid: ef323778f3bac4aa0a1eb676688776fc, type: 3}
       propertyPath: m_Name
       value: Zeto Pawn
@@ -5358,33 +5362,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 232.38
       objectReference: {fileID: 0}
-    - target: {fileID: 5202210138677682599, guid: ef323778f3bac4aa0a1eb676688776fc, type: 3}
-      propertyPath: repeatOnFinish
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5695793020061722467, guid: ef323778f3bac4aa0a1eb676688776fc, type: 3}
-      propertyPath: rect.x
-      value: 200
-      objectReference: {fileID: 0}
     - target: {fileID: 5695793020061722467, guid: ef323778f3bac4aa0a1eb676688776fc, type: 3}
       propertyPath: rect.y
-      value: 399
-      objectReference: {fileID: 0}
-    - target: {fileID: 7978515072070060300, guid: ef323778f3bac4aa0a1eb676688776fc, type: 3}
-      propertyPath: rect.x
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 7978515072070060300, guid: ef323778f3bac4aa0a1eb676688776fc, type: 3}
-      propertyPath: rect.y
-      value: 460
-      objectReference: {fileID: 0}
-    - target: {fileID: 8286838828125766293, guid: ef323778f3bac4aa0a1eb676688776fc, type: 3}
-      propertyPath: rect.x
       value: 400
-      objectReference: {fileID: 0}
-    - target: {fileID: 8286838828125766293, guid: ef323778f3bac4aa0a1eb676688776fc, type: 3}
-      propertyPath: rect.y
-      value: 396
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

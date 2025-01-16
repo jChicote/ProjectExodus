@@ -1,5 +1,4 @@
-﻿using System;
-using MBT;
+﻿using MBT;
 using UnityEngine;
 
 namespace ProjectExodus

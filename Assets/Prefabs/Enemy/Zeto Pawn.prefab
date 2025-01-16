@@ -205,7 +205,6 @@ GameObject:
   - component: {fileID: 5202210138677682599}
   - component: {fileID: 7196800823814340919}
   - component: {fileID: 5328686210739083232}
-  - component: {fileID: 2649087312775817142}
   - component: {fileID: 8286838828125766293}
   - component: {fileID: 770927715999655643}
   - component: {fileID: 2809217543704312664}
@@ -215,6 +214,7 @@ GameObject:
   - component: {fileID: 5695793020061722467}
   - component: {fileID: 7978515072070060300}
   - component: {fileID: 3630516689640308769}
+  - component: {fileID: 154671659860868401}
   m_Layer: 0
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -269,8 +269,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 0}
-  repeatOnFinish: 0
+  selectedEditorNode: {fileID: 5328686210739083232}
+  repeatOnFinish: 1
   maxExecutionsPerTick: 1
   parent: {fileID: 0}
 --- !u!114 &7196800823814340919
@@ -307,37 +307,10 @@ MonoBehaviour:
     height: 44
   parent: {fileID: 0}
   children:
-  - {fileID: 2649087312775817142}
+  - {fileID: 154671659860868401}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
---- !u!114 &2649087312775817142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6615411892899660845}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c78c7da6b00e1b46bad07949050f82f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  title: Sequence
-  rect:
-    serializedVersion: 2
-    x: 300
-    y: 300
-    width: 160
-    height: 44
-  parent: {fileID: 5328686210739083232}
-  children:
-  - {fileID: 5695793020061722467}
-  - {fileID: 8286838828125766293}
-  behaviourTree: {fileID: 0}
-  runtimePriority: 0
-  breakpoint: 0
-  random: 0
 --- !u!114 &8286838828125766293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,11 +326,11 @@ MonoBehaviour:
   title: Move Agent in Straight Line
   rect:
     serializedVersion: 2
-    x: 300
-    y: 400
+    x: 400
+    y: 396
     width: 160
     height: 59
-  parent: {fileID: 2649087312775817142}
+  parent: {fileID: 0}
   children: []
   behaviourTree: {fileID: 0}
   runtimePriority: 0
@@ -465,11 +438,11 @@ MonoBehaviour:
   title: Is Dead
   rect:
     serializedVersion: 2
-    x: 100
-    y: 400
+    x: 200
+    y: 399
     width: 160
     height: 44
-  parent: {fileID: 2649087312775817142}
+  parent: {fileID: 0}
   children:
   - {fileID: 7978515072070060300}
   behaviourTree: {fileID: 0}
@@ -496,8 +469,8 @@ MonoBehaviour:
   title: Kill Agent
   rect:
     serializedVersion: 2
-    x: 100
-    y: 480
+    x: 200
+    y: 460
     width: 160
     height: 44
   parent: {fileID: 5695793020061722467}
@@ -525,3 +498,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: Health
   val: 0
+--- !u!114 &154671659860868401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6615411892899660845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08540605df275034fafc8e05c6704214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Selector
+  rect:
+    serializedVersion: 2
+    x: 300
+    y: 280
+    width: 160
+    height: 44
+  parent: {fileID: 5328686210739083232}
+  children:
+  - {fileID: 5695793020061722467}
+  - {fileID: 8286838828125766293}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  random: 0
