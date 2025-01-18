@@ -12,10 +12,13 @@ namespace ProjectExodus.GameLogic.Enumeration
 
         private static readonly Dictionary<string, GameTag> Tags = new();
 
-        public static GameTag Player = new("Player", 2);
-        public static GameTag Enemy = new("Enemy", 1);
         public static GameTag Interactable = new("Interactable", 0);
+        public static GameTag Enemy = new("Enemy", 1);
+        public static GameTag Projectile = new("Projectile", 2);
         public static GameTag Default = new("Default", 999);
+        
+        // Pre-existing tags
+        public static GameTag Player = new("Player", 2);
 
         #endregion Fields
   

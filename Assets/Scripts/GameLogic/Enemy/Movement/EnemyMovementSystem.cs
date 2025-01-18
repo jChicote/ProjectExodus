@@ -10,6 +10,7 @@ namespace ProjectExodus
 
         #region - - - - - - Fields - - - - - -
 
+        public const string AgentTransform = "AgentTransform";
         public const string MoveDirection = "AgentMoveDirection";
         public const string MovementVelocity = "MovementVelocity";
         public const string MovementSpeed = "MovementSpeed";
@@ -27,7 +28,6 @@ namespace ProjectExodus
         [SerializeField] private Blackboard m_Blackboard;
 
         private Vector2Variable m_MovementVelocityReference;
-        private Vector2Variable m_MoveDirectionReference;
         private FloatVariable m_MovementSpeedReference;
         
         #endregion Fields
@@ -38,13 +38,11 @@ namespace ProjectExodus
         {
             this.m_MovementVelocityReference =
                 this.m_Blackboard.GetVariable<Vector2Variable>(EnemyMovementKeys.MovementVelocity);
-            this.m_MoveDirectionReference =
-                this.m_Blackboard.GetVariable<Vector2Variable>(EnemyMovementKeys.MoveDirection);
             this.m_MovementSpeedReference =
                 this.m_Blackboard.GetVariable<FloatVariable>(EnemyMovementKeys.MovementSpeed);
 
-            this.m_MoveDirectionReference.Value = this.transform.rotation * Vector2.up;
-            this.m_MovementSpeedReference.Value = 5f;
+            // TODO: Needs to be set in the passed in command data
+            this.m_MovementSpeedReference.Value = 7f;
         }
 
         private void Update()

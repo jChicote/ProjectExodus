@@ -117,7 +117,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!61 &5785318865993165463
 BoxCollider2D:
@@ -192,6 +192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Blackboard: {fileID: 377349746635914686}
+  m_CurrentHealth: 0
 --- !u!1 &6615411892899660845
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,6 +216,16 @@ GameObject:
   - component: {fileID: 7978515072070060300}
   - component: {fileID: 3630516689640308769}
   - component: {fileID: 154671659860868401}
+  - component: {fileID: 414991717076162162}
+  - component: {fileID: 6121948132566008063}
+  - component: {fileID: 713257170055726741}
+  - component: {fileID: 475816421482428887}
+  - component: {fileID: 792319920552068513}
+  - component: {fileID: 4698294366318356325}
+  - component: {fileID: 2236821415033426612}
+  - component: {fileID: 1291530171162367566}
+  - component: {fileID: 5034837384397895569}
+  - component: {fileID: 1478480522522369419}
   m_Layer: 0
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -256,6 +267,10 @@ MonoBehaviour:
   - {fileID: 1912341312092514552}
   - {fileID: 6199302780214660401}
   - {fileID: 3630516689640308769}
+  - {fileID: 414991717076162162}
+  - {fileID: 6121948132566008063}
+  - {fileID: 713257170055726741}
+  - {fileID: 5034837384397895569}
   masterBlackboard: {fileID: 0}
 --- !u!114 &5202210138677682599
 MonoBehaviour:
@@ -269,7 +284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 5328686210739083232}
+  selectedEditorNode: {fileID: 0}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1
   parent: {fileID: 0}
@@ -301,8 +316,8 @@ MonoBehaviour:
   title: Root
   rect:
     serializedVersion: 2
-    x: 300
-    y: 200
+    x: 200
+    y: 196
     width: 160
     height: 44
   parent: {fileID: 0}
@@ -323,29 +338,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19cc8238decf49869dfae8d3bb303fd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: Move Agent in Straight Line
+  title: Move Agent Forward
   rect:
     serializedVersion: 2
-    x: 400
-    y: 396
+    x: 440
+    y: 480
     width: 160
-    height: 59
-  parent: {fileID: 0}
+    height: 44
+  parent: {fileID: 1291530171162367566}
   children: []
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
+  AgentTransform:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 377349746635914686}
+    key: AgentTransform
+    constantValue: {fileID: 0}
   AgentMoveVelocity:
     useConstant: 0
     mode: 0
     blackboard: {fileID: 377349746635914686}
     key: MovementVelocity
-    constantValue: {x: 0, y: 0}
-  AgentMoveDirection:
-    useConstant: 0
-    mode: 0
-    blackboard: {fileID: 377349746635914686}
-    key: AgentMoveDirection
     constantValue: {x: 0, y: 0}
   MovementSpeed:
     useConstant: 0
@@ -438,11 +453,11 @@ MonoBehaviour:
   title: Is Dead
   rect:
     serializedVersion: 2
-    x: 200
-    y: 399
+    x: -40
+    y: 480
     width: 160
     height: 44
-  parent: {fileID: 0}
+  parent: {fileID: 4698294366318356325}
   children:
   - {fileID: 7978515072070060300}
   behaviourTree: {fileID: 0}
@@ -469,8 +484,8 @@ MonoBehaviour:
   title: Kill Agent
   rect:
     serializedVersion: 2
-    x: 200
-    y: 460
+    x: -40
+    y: 560
     width: 160
     height: 44
   parent: {fileID: 5695793020061722467}
@@ -513,15 +528,254 @@ MonoBehaviour:
   title: Selector
   rect:
     serializedVersion: 2
-    x: 300
-    y: 280
+    x: 200
+    y: 300
     width: 160
     height: 44
   parent: {fileID: 5328686210739083232}
   children:
+  - {fileID: 4698294366318356325}
+  - {fileID: 475816421482428887}
+  - {fileID: 1291530171162367566}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  random: 0
+--- !u!114 &414991717076162162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6615411892899660845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a280585a974a40e59661cc863248813a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: AgentTransform
+  val: {fileID: 2953920824567882899}
+--- !u!114 &6121948132566008063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6615411892899660845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4be6860a83fe93e4bbd689336d96bdc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: CollisionHitCount
+  val: 0
+--- !u!114 &713257170055726741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6615411892899660845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4be6860a83fe93e4bbd689336d96bdc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: MaxCollisionHitCount
+  val: 2
+--- !u!114 &475816421482428887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6615411892899660845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 098a6b19f2334b1b9ed9e4b8763efe80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Has Exceeded Max Collisions
+  rect:
+    serializedVersion: 2
+    x: 200
+    y: 400
+    width: 160
+    height: 59
+  parent: {fileID: 154671659860868401}
+  children:
+  - {fileID: 2236821415033426612}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  MaxCollisionHitCount:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 377349746635914686}
+    key: MaxCollisionHitCount
+    constantValue: 0
+  CollisionHitCount:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 377349746635914686}
+    key: CollisionHitCount
+    constantValue: 0
+--- !u!114 &792319920552068513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6615411892899660845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5406805d1af44251a74b195c90482290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Kill Agent
+  rect:
+    serializedVersion: 2
+    x: 300
+    y: 640
+    width: 160
+    height: 44
+  parent: {fileID: 2236821415033426612}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  IsDead:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 377349746635914686}
+    key: IsDead
+    constantValue: 0
+--- !u!114 &4698294366318356325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6615411892899660845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c78c7da6b00e1b46bad07949050f82f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: 'Check Health [Sequence]'
+  rect:
+    serializedVersion: 2
+    x: -40
+    y: 400
+    width: 160
+    height: 44
+  parent: {fileID: 154671659860868401}
+  children:
   - {fileID: 5695793020061722467}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  random: 0
+--- !u!114 &2236821415033426612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6615411892899660845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c78c7da6b00e1b46bad07949050f82f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: 'Kill Enemy [Sequence]'
+  rect:
+    serializedVersion: 2
+    x: 200
+    y: 480
+    width: 160
+    height: 44
+  parent: {fileID: 475816421482428887}
+  children:
+  - {fileID: 1478480522522369419}
+  - {fileID: 792319920552068513}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  random: 0
+--- !u!114 &1291530171162367566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6615411892899660845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c78c7da6b00e1b46bad07949050f82f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: 'Move [Sequence]'
+  rect:
+    serializedVersion: 2
+    x: 440
+    y: 400
+    width: 160
+    height: 44
+  parent: {fileID: 154671659860868401}
+  children:
   - {fileID: 8286838828125766293}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
   random: 0
+--- !u!114 &5034837384397895569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6615411892899660845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cdb61a66fcb1c549a844f093811f6c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: DeathEffect
+  val: {fileID: 2010537941153600407, guid: ebcbce93d32fc0442827d50b1f94eeff, type: 3}
+--- !u!114 &1478480522522369419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6615411892899660845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fb249fdcb6b41b397398f620ddab14d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Play Death Effect
+  rect:
+    serializedVersion: 2
+    x: 100
+    y: 640
+    width: 160
+    height: 44
+  parent: {fileID: 2236821415033426612}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  DeathEffect:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 377349746635914686}
+    key: DeathEffect
+    constantValue: {fileID: 0}
+  AgentTransform:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 377349746635914686}
+    key: AgentTransform
+    constantValue: {fileID: 0}
