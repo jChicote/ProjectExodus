@@ -1,5 +1,5 @@
-using System;
 using System.Linq;
+using MBT;
 using ProjectExodus.Common.Services;
 using UnityEngine;
 
@@ -11,7 +11,10 @@ namespace ProjectExodus
 
         #region - - - - - - Fields - - - - - -
 
-        private EnemySettings m_EnemySettings;
+        [RequiredField] 
+        [SerializeField] 
+        private Blackboard m_Blackboard;
+
         private EnemyAssetObject m_EnemySpawnData;
 
         #endregion Fields
@@ -23,10 +26,7 @@ namespace ProjectExodus
         private void Awake()
         {
             EnemyManager _EnemyManager = EnemyManager.Instance;
-            
-            this.m_EnemySettings = _EnemyManager.EnemySettings;
-            this.m_EnemySpawnData =
-                _EnemyManager.EnemySettings.Enemies.Single(eao => eao.Name == EnemyConstants.ZetoPawn); // TODO: Change from constants to SmartEnum
+            this.m_EnemySpawnData = _EnemyManager.EnemySettings.Enemies.Single(eao => eao.Name == EnemyType.ZetoPawn);
         }
 
         #endregion Unity Methods
@@ -35,16 +35,29 @@ namespace ProjectExodus
         
         public void Execute()
         {
-            throw new NotImplementedException();
+            IInitialize<EnemyMovementSystemInitializerData> _MovementSystemInitializer =
+                this.GetComponent<IInitialize<EnemyMovementSystemInitializerData>>();
+            _MovementSystemInitializer.Initialize(new()
+            {
+                MovementSpeed = this.m_EnemySpawnData.Speed
+            });
+
+            IInitialize<EnemyHealthSystemInitializerData> _HealthSystemInitializer =
+                this.GetComponent<IInitialize<EnemyHealthSystemInitializerData>>();
+            _HealthSystemInitializer.Initialize(new()
+            {
+                Health = this.m_EnemySpawnData.Health
+            });
+
+            // Set Prefab Template values to the blackboard
+            this.m_Blackboard.GetVariable<GameObjectVariable>(EnemyHealthSystemKeys.DeathEffect);
         }
 
         public bool CanExecute()
-        {
-            throw new NotImplementedException();
-        }
+            => true;
 
         #endregion Methods
-  
+
     }
 
 }

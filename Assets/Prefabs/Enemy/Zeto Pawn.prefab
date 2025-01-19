@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 5785318865993165463}
   - component: {fileID: 8151327881478078817}
   - component: {fileID: 6740156097898326282}
-  m_Layer: 0
+  - component: {fileID: 3154795492956878486}
+  m_Layer: 9
   m_Name: Zeto Pawn
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -192,7 +193,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Blackboard: {fileID: 377349746635914686}
-  m_CurrentHealth: 0
+--- !u!114 &3154795492956878486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2581424714131056309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd3a5bc148864b9fbac38ac3749b87df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Blackboard: {fileID: 377349746635914686}
 --- !u!1 &6615411892899660845
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,26 +220,25 @@ GameObject:
   - component: {fileID: 7196800823814340919}
   - component: {fileID: 5328686210739083232}
   - component: {fileID: 8286838828125766293}
-  - component: {fileID: 770927715999655643}
   - component: {fileID: 2809217543704312664}
   - component: {fileID: 4679316840649964644}
   - component: {fileID: 1912341312092514552}
   - component: {fileID: 6199302780214660401}
   - component: {fileID: 5695793020061722467}
-  - component: {fileID: 7978515072070060300}
   - component: {fileID: 3630516689640308769}
   - component: {fileID: 154671659860868401}
   - component: {fileID: 414991717076162162}
   - component: {fileID: 6121948132566008063}
   - component: {fileID: 713257170055726741}
   - component: {fileID: 475816421482428887}
-  - component: {fileID: 792319920552068513}
-  - component: {fileID: 4698294366318356325}
-  - component: {fileID: 2236821415033426612}
   - component: {fileID: 1291530171162367566}
   - component: {fileID: 5034837384397895569}
-  - component: {fileID: 1478480522522369419}
-  m_Layer: 0
+  - component: {fileID: 2012368744529359829}
+  - component: {fileID: 8876178246335769166}
+  - component: {fileID: 3894862619218264613}
+  - component: {fileID: 2088231415172729955}
+  - component: {fileID: 2474777785440645580}
+  m_Layer: 9
   m_Name: BehaviourTree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,7 +257,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 939952128676333767}
   m_Father: {fileID: 2953920824567882899}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &377349746635914686
@@ -261,7 +274,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   variables:
-  - {fileID: 770927715999655643}
   - {fileID: 2809217543704312664}
   - {fileID: 4679316840649964644}
   - {fileID: 1912341312092514552}
@@ -271,6 +283,7 @@ MonoBehaviour:
   - {fileID: 6121948132566008063}
   - {fileID: 713257170055726741}
   - {fileID: 5034837384397895569}
+  - {fileID: 8876178246335769166}
   masterBlackboard: {fileID: 0}
 --- !u!114 &5202210138677682599
 MonoBehaviour:
@@ -316,8 +329,8 @@ MonoBehaviour:
   title: Root
   rect:
     serializedVersion: 2
-    x: 200
-    y: 196
+    x: 100
+    y: 200
     width: 160
     height: 44
   parent: {fileID: 0}
@@ -341,7 +354,7 @@ MonoBehaviour:
   title: Move Agent Forward
   rect:
     serializedVersion: 2
-    x: 440
+    x: 400
     y: 480
     width: 160
     height: 44
@@ -368,20 +381,6 @@ MonoBehaviour:
     blackboard: {fileID: 377349746635914686}
     key: MovementSpeed
     constantValue: 0
---- !u!114 &770927715999655643
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6615411892899660845}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaa62ce5e63cc9d45ae0efc52561ace7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: AgentMoveDirection
-  val: {x: 0, y: 0}
 --- !u!114 &2809217543704312664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,13 +452,13 @@ MonoBehaviour:
   title: Is Dead
   rect:
     serializedVersion: 2
-    x: -40
-    y: 480
+    x: -200
+    y: 400
     width: 160
     height: 44
-  parent: {fileID: 4698294366318356325}
+  parent: {fileID: 154671659860868401}
   children:
-  - {fileID: 7978515072070060300}
+  - {fileID: 3894862619218264613}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -468,36 +467,6 @@ MonoBehaviour:
     mode: 0
     blackboard: {fileID: 377349746635914686}
     key: Health
-    constantValue: 0
---- !u!114 &7978515072070060300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6615411892899660845}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5406805d1af44251a74b195c90482290, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  title: Kill Agent
-  rect:
-    serializedVersion: 2
-    x: -40
-    y: 560
-    width: 160
-    height: 44
-  parent: {fileID: 5695793020061722467}
-  children: []
-  behaviourTree: {fileID: 0}
-  runtimePriority: 0
-  breakpoint: 0
-  IsDead:
-    useConstant: 0
-    mode: 0
-    blackboard: {fileID: 377349746635914686}
-    key: IsDead
     constantValue: 0
 --- !u!114 &3630516689640308769
 MonoBehaviour:
@@ -528,13 +497,14 @@ MonoBehaviour:
   title: Selector
   rect:
     serializedVersion: 2
-    x: 200
-    y: 300
+    x: 100
+    y: 260
     width: 160
     height: 44
   parent: {fileID: 5328686210739083232}
   children:
-  - {fileID: 4698294366318356325}
+  - {fileID: 5695793020061722467}
+  - {fileID: 2012368744529359829}
   - {fileID: 475816421482428887}
   - {fileID: 1291530171162367566}
   behaviourTree: {fileID: 0}
@@ -604,7 +574,7 @@ MonoBehaviour:
     height: 59
   parent: {fileID: 154671659860868401}
   children:
-  - {fileID: 2236821415033426612}
+  - {fileID: 2474777785440645580}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -620,89 +590,6 @@ MonoBehaviour:
     blackboard: {fileID: 377349746635914686}
     key: CollisionHitCount
     constantValue: 0
---- !u!114 &792319920552068513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6615411892899660845}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5406805d1af44251a74b195c90482290, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  title: Kill Agent
-  rect:
-    serializedVersion: 2
-    x: 300
-    y: 640
-    width: 160
-    height: 44
-  parent: {fileID: 2236821415033426612}
-  children: []
-  behaviourTree: {fileID: 0}
-  runtimePriority: 0
-  breakpoint: 0
-  IsDead:
-    useConstant: 0
-    mode: 0
-    blackboard: {fileID: 377349746635914686}
-    key: IsDead
-    constantValue: 0
---- !u!114 &4698294366318356325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6615411892899660845}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c78c7da6b00e1b46bad07949050f82f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  title: 'Check Health [Sequence]'
-  rect:
-    serializedVersion: 2
-    x: -40
-    y: 400
-    width: 160
-    height: 44
-  parent: {fileID: 154671659860868401}
-  children:
-  - {fileID: 5695793020061722467}
-  behaviourTree: {fileID: 0}
-  runtimePriority: 0
-  breakpoint: 0
-  random: 0
---- !u!114 &2236821415033426612
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6615411892899660845}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c78c7da6b00e1b46bad07949050f82f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  title: 'Kill Enemy [Sequence]'
-  rect:
-    serializedVersion: 2
-    x: 200
-    y: 480
-    width: 160
-    height: 44
-  parent: {fileID: 475816421482428887}
-  children:
-  - {fileID: 1478480522522369419}
-  - {fileID: 792319920552068513}
-  behaviourTree: {fileID: 0}
-  runtimePriority: 0
-  breakpoint: 0
-  random: 0
 --- !u!114 &1291530171162367566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -718,7 +605,7 @@ MonoBehaviour:
   title: 'Move [Sequence]'
   rect:
     serializedVersion: 2
-    x: 440
+    x: 400
     y: 400
     width: 160
     height: 44
@@ -743,7 +630,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: DeathEffect
   val: {fileID: 2010537941153600407, guid: ebcbce93d32fc0442827d50b1f94eeff, type: 3}
---- !u!114 &1478480522522369419
+--- !u!114 &2012368744529359829
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -752,17 +639,271 @@ MonoBehaviour:
   m_GameObject: {fileID: 6615411892899660845}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91c8e51777ba48edbc09f623f41b57ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Has Lifetime Expired
+  rect:
+    serializedVersion: 2
+    x: -0
+    y: 400
+    width: 160
+    height: 44
+  parent: {fileID: 154671659860868401}
+  children:
+  - {fileID: 2088231415172729955}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  LifeTime:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 377349746635914686}
+    key: Lifetime
+    constantValue: 0
+--- !u!114 &8876178246335769166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6615411892899660845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e5f4db414f0ab4c82c187a7653e99d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Lifetime
+  val: 6
+--- !u!114 &3894862619218264613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6615411892899660845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efee2c6abc08f1d42acf5b1a33db992c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: 'Kill Agent [SubTree]'
+  rect:
+    serializedVersion: 2
+    x: -200
+    y: 480
+    width: 160
+    height: 44
+  parent: {fileID: 5695793020061722467}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  tree: {fileID: 1441661213069574322}
+--- !u!114 &2088231415172729955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6615411892899660845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efee2c6abc08f1d42acf5b1a33db992c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: 'Kill Agent [SubTree]'
+  rect:
+    serializedVersion: 2
+    x: -0
+    y: 480
+    width: 160
+    height: 44
+  parent: {fileID: 2012368744529359829}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  tree: {fileID: 1441661213069574322}
+--- !u!114 &2474777785440645580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6615411892899660845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efee2c6abc08f1d42acf5b1a33db992c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: 'Kill Agent [SubTree]'
+  rect:
+    serializedVersion: 2
+    x: 200
+    y: 480
+    width: 160
+    height: 44
+  parent: {fileID: 475816421482428887}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  tree: {fileID: 1441661213069574322}
+--- !u!1 &7214176034010837909
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 939952128676333767}
+  - component: {fileID: 1441661213069574322}
+  - component: {fileID: 9020213209169651021}
+  - component: {fileID: 8662038383103036576}
+  - component: {fileID: 1974200133457655587}
+  - component: {fileID: 1429317226053167207}
+  m_Layer: 9
+  m_Name: DeathTree
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &939952128676333767
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7214176034010837909}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 294153652179576026}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1441661213069574322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7214176034010837909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedEditorNode: {fileID: 1974200133457655587}
+  repeatOnFinish: 0
+  maxExecutionsPerTick: 1
+  parent: {fileID: 5202210138677682599}
+--- !u!114 &9020213209169651021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7214176034010837909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 538645f2f9090fd43bc6154b2e89e2d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Root
+  rect:
+    serializedVersion: 2
+    x: 400
+    y: 200
+    width: 160
+    height: 44
+  parent: {fileID: 0}
+  children:
+  - {fileID: 8662038383103036576}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+--- !u!114 &8662038383103036576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7214176034010837909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c78c7da6b00e1b46bad07949050f82f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Sequence
+  rect:
+    serializedVersion: 2
+    x: 400
+    y: 280
+    width: 160
+    height: 44
+  parent: {fileID: 9020213209169651021}
+  children:
+  - {fileID: 1429317226053167207}
+  - {fileID: 1974200133457655587}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  random: 0
+--- !u!114 &1974200133457655587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7214176034010837909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5406805d1af44251a74b195c90482290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Kill Agent
+  rect:
+    serializedVersion: 2
+    x: 500
+    y: 380
+    width: 160
+    height: 44
+  parent: {fileID: 8662038383103036576}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  IsDead:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 377349746635914686}
+    key: IsDead
+    constantValue: 0
+--- !u!114 &1429317226053167207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7214176034010837909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fb249fdcb6b41b397398f620ddab14d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   title: Play Death Effect
   rect:
     serializedVersion: 2
-    x: 100
-    y: 640
+    x: 300
+    y: 380
     width: 160
     height: 44
-  parent: {fileID: 2236821415033426612}
+  parent: {fileID: 8662038383103036576}
   children: []
   behaviourTree: {fileID: 0}
   runtimePriority: 0

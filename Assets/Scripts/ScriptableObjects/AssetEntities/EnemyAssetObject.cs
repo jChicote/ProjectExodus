@@ -13,16 +13,21 @@ namespace ProjectExodus
 
         public string Name;
 
+        [Header("Templates")]
         public GameObject SpawnTemplate;
+        public GameObject DeathEffect;
 
+        [Header("Enemy Metadata")]
         public float Health;
-
-        public float AttackDamage;
-
+        public float Lifetime;
         public float Speed;
+        public int MaxCollisionHitCount;
 
+        [Header("Attach Defaults")]
+        public float AttackDamage;
         public float TrackingDistance;
-        
+
+
         #endregion Fields
 
     }

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using ProjectExodus.Domain.Models;
+using ProjectExodus.GameLogic.Enumeration;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.GameLogic.Player.PlayerHealthSystem;
 using ProjectExodus.GameLogic.Player.PlayerTargetingSystem;
@@ -47,10 +48,12 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
         GameObject IPlayerSpawner.SpawnPlayerShip(ShipModel shipToSpawn)
         {
             ISceneController _SceneController = SceneManager.Instance.GetActiveSceneController();
-            ShipAssetObject _ShipAsset = this.m_ShipAssetProvider.Provide(shipToSpawn.AssetID);
-            GameObject _PlayerShip = Instantiate(_ShipAsset.Asset, Vector2.zero, this.transform.rotation);
             IGameplayHUDController _GameplayHUDController =
                 this.m_GameplaySceneGUIControllers.GetGameplayHUDController();
+            ShipAssetObject _ShipAsset = this.m_ShipAssetProvider.Provide(shipToSpawn.AssetID);
+            
+            GameObject _PlayerShip = Instantiate(_ShipAsset.Asset, Vector2.zero, this.transform.rotation);
+            _PlayerShip.layer = GameLayer.Player;
             
             // Setup Weapons
             _PlayerShip.GetComponent<IPlayerWeaponSystems>()

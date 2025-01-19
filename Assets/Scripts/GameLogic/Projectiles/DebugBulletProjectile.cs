@@ -1,3 +1,6 @@
+using ProjectExodus.GameLogic.Common.Health;
+using UnityEngine;
+
 namespace ProjectExodus.GameLogic.Projectiles
 {
 
@@ -12,6 +15,14 @@ namespace ProjectExodus.GameLogic.Projectiles
             
             this.Move();
             this.m_LifespanTimer.TickTimer();
+        }
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            IDamageable _DamageableObject = other.gameObject.GetComponent<IDamageable>();
+            _DamageableObject.SendDamage(this.m_Damage);
+            
+            this.DestroyProjectile();
         }
 
         #endregion Unity Lifecycle Methods

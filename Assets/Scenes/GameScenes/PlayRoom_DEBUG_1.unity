@@ -3429,7 +3429,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1331554494
 Transform:
   m_ObjectHideFlags: 0
@@ -5973,10 +5973,6 @@ PrefabInstance:
     - target: {fileID: 2581424714131056309, guid: ef323778f3bac4aa0a1eb676688776fc, type: 3}
       propertyPath: m_Name
       value: Zeto Pawn
-      objectReference: {fileID: 0}
-    - target: {fileID: 2581424714131056309, guid: ef323778f3bac4aa0a1eb676688776fc, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2953920824567882899, guid: ef323778f3bac4aa0a1eb676688776fc, type: 3}
       propertyPath: m_LocalPosition.x

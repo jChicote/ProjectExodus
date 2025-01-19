@@ -4,6 +4,7 @@ using UnityEngine;
 namespace ProjectExodus
 {
 
+    [CreateAssetMenu(fileName = "EnemySettings", menuName = "ScriptableObjects/EnemySettings", order = 0)]
     public class EnemySettings : ScriptableObject
     {
 

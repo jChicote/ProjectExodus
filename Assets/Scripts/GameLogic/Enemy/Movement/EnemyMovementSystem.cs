@@ -1,4 +1,5 @@
-﻿using MBT;
+﻿using System;
+using MBT;
 using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
 using UnityEngine;
 
@@ -10,8 +11,6 @@ namespace ProjectExodus
 
         #region - - - - - - Fields - - - - - -
 
-        public const string AgentTransform = "AgentTransform";
-        public const string MoveDirection = "AgentMoveDirection";
         public const string MovementVelocity = "MovementVelocity";
         public const string MovementSpeed = "MovementSpeed";
 
@@ -19,7 +18,18 @@ namespace ProjectExodus
 
     }
 
-    public class EnemyMovementSystem : PausableMonoBehavior
+    public class EnemyMovementSystemInitializerData
+    {
+
+        #region - - - - - - Properties - - - - - -
+
+        public float MovementSpeed { get; set; }
+
+        #endregion Properties
+  
+    }
+
+    public class EnemyMovementSystem : PausableMonoBehavior, IInitialize<EnemyMovementSystemInitializerData>
     {
 
         #region - - - - - - Fields - - - - - -
@@ -32,18 +42,21 @@ namespace ProjectExodus
         
         #endregion Fields
 
-        #region - - - - - - Unity Methods - - - - - -
+        #region - - - - - - Constructors - - - - - -
 
-        private void Start()
+        public void Initialize(EnemyMovementSystemInitializerData initializationData)
         {
             this.m_MovementVelocityReference =
                 this.m_Blackboard.GetVariable<Vector2Variable>(EnemyMovementKeys.MovementVelocity);
             this.m_MovementSpeedReference =
                 this.m_Blackboard.GetVariable<FloatVariable>(EnemyMovementKeys.MovementSpeed);
-
-            // TODO: Needs to be set in the passed in command data
-            this.m_MovementSpeedReference.Value = 7f;
+            
+            this.m_MovementSpeedReference.Value = initializationData.MovementSpeed;
         }
+
+        #endregion Constructors
+  
+        #region - - - - - - Unity Methods - - - - - -
 
         private void Update()
         {
@@ -57,7 +70,7 @@ namespace ProjectExodus
         }
 
         #endregion Unity Methods
-
+        
     }
 
 }

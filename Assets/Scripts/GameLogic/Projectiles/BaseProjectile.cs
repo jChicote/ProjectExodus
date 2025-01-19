@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ProjectExodus.GameLogic.Projectiles
 {
 
-    public class BaseProjectile : PausableMonoBehavior
+    public class BaseProjectile : PausableMonoBehavior, IProjectile
     {
 
         #region - - - - - - Fields - - - - - -
@@ -18,7 +18,7 @@ namespace ProjectExodus.GameLogic.Projectiles
         private float m_DeltaTime;
 
         #endregion Fields
-
+  
         #region - - - - - - Unity Lifecycle Methods - - - - - -
 
         private void Start()
@@ -32,7 +32,7 @@ namespace ProjectExodus.GameLogic.Projectiles
         #region - - - - - - Methods - - - - - -
 
         protected virtual void Move() 
-            => this.transform.position += this.transform.up * (this.m_Speed * this.m_DeltaTime);
+            => this.transform.position += this.transform.up * (this.m_Speed * Time.deltaTime);
 
         protected virtual void DestroyProjectile()
             => Destroy(this.gameObject);
