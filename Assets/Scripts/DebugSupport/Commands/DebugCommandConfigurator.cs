@@ -1,4 +1,6 @@
-﻿public class DebugCommandConfigurator
+﻿using ProjectExodus;
+
+public class DebugCommandConfigurator
 {
 
     #region - - - - - - Fields - - - - - -
@@ -18,7 +20,11 @@
 
     public void ConfigureCommands()
     {
+        // UI Debuggers
         new Debug_DisplayTargetingSystemInfoCommand().RegisterCommand(this.m_DebugManager);
+        
+        // Spawning
+        new Debug_SpawnZetoPawn().RegisterCommand(this.m_DebugManager);
     }
 
     #endregion Methods
