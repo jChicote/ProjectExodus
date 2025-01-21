@@ -23,3 +23,13 @@ MonoBehaviour:
     MaxCollisionHitCount: 2
     AttackDamage: 5
     TrackingDistance: 0
+  - ID: 2
+    Name: Zeto Fighter
+    SpawnTemplate: {fileID: 2581424714131056309, guid: ef323778f3bac4aa0a1eb676688776fc, type: 3}
+    DeathEffect: {fileID: 2010537941153600407, guid: ebcbce93d32fc0442827d50b1f94eeff, type: 3}
+    Health: 20
+    Lifetime: 6
+    Speed: 10
+    MaxCollisionHitCount: 3
+    AttackDamage: 3
+    TrackingDistance: 20

@@ -1,4 +1,5 @@
 using ProjectExodus.GameLogic.Common.Health;
+using ProjectExodus.GameLogic.Enumeration;
 using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Projectiles
@@ -19,9 +20,12 @@ namespace ProjectExodus.GameLogic.Projectiles
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            IDamageable _DamageableObject = other.gameObject.GetComponent<IDamageable>();
-            _DamageableObject.SendDamage(this.m_Damage);
+            if (other.gameObject.layer == GameLayer.Environment) return;
             
+            IDamageable _DamageableObject = other.gameObject.GetComponent<IDamageable>();
+            if (_DamageableObject == null) return;
+            
+            _DamageableObject.SendDamage(this.m_Damage);
             this.DestroyProjectile();
         }
 
