@@ -1,14 +1,14 @@
-using MBT;
+﻿using MBT;
 using UnityEngine;
 
 namespace ProjectExodus
 {
 
     [AddComponentMenu("")]
-    [MBTNode(name = "Tasks/Track Player Position")]
-    public class TrackPlayerPosition : Leaf
+    [MBTNode(name = "Conditions/Is Within Attack Cone")]
+    public class AttackConeCondition : Condition
     {
-        public override NodeResult Execute()
+        public override bool Check()
         {
             throw new System.NotImplementedException();
         }

@@ -6980,6 +6980,9 @@ GameObject:
   - component: {fileID: 8955072203757413778}
   - component: {fileID: 8955072203757413781}
   - component: {fileID: 8955072203757413780}
+  - component: {fileID: 8955072203757413786}
+  - component: {fileID: 8955072203757413785}
+  - component: {fileID: 8955072203757413784}
   m_Layer: 9
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -7202,7 +7205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 8955072203757413780}
+  selectedEditorNode: {fileID: 8955072203757413785}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1
   parent: {fileID: 0}
@@ -7328,7 +7331,9 @@ MonoBehaviour:
     width: 160
     height: 44
   parent: {fileID: 8955072203757413781}
-  children: []
+  children:
+  - {fileID: 8955072203757413786}
+  - {fileID: 8955072203757413785}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -7427,6 +7432,97 @@ MonoBehaviour:
   runtimePriority: 0
   breakpoint: 0
   random: 0
+--- !u!114 &8955072203757413784
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7086186710092355117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f608fe10f004ef0bbf9fb2a2dbbf1d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Fire Weapon
+  rect:
+    serializedVersion: 2
+    x: 580
+    y: 840
+    width: 160
+    height: 44
+  parent: {fileID: 8955072203757413785}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+--- !u!114 &8955072203757413785
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7086186710092355117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0d62d01b2d145d7bb5690f2b2bc5767, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Is Within Attack Cone
+  rect:
+    serializedVersion: 2
+    x: 580
+    y: 740
+    width: 160
+    height: 44
+  parent: {fileID: 8955072203757413780}
+  children:
+  - {fileID: 8955072203757413784}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+--- !u!114 &8955072203757413786
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7086186710092355117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7f583b8ae42431298baf54f7e176c0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Rotate To Target
+  rect:
+    serializedVersion: 2
+    x: 360
+    y: 744
+    width: 160
+    height: 44
+  parent: {fileID: 8955072203757413780}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  SourceTransform:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: {fileID: 0}
+  TargetTransform:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: {fileID: 0}
+  TurnSpeed:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: 0
 --- !u!1001 &9219060389279853501
 PrefabInstance:
   m_ObjectHideFlags: 0
