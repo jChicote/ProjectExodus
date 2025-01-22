@@ -25,6 +25,7 @@ public class DebugCommandConfigurator
         
         // Spawning
         new Debug_SpawnZetoPawn().RegisterCommand(this.m_DebugManager);
+        new Debug_SpawnZetoFighter().RegisterCommand(this.m_DebugManager);
     }
 
     #endregion Methods

@@ -9,6 +9,7 @@ namespace ProjectExodus
         #region - - - - - - Fields - - - - - -
 
         public static EnemyType ZetoPawn = new("Zeto Pawn", 1);
+        public static EnemyType ZetoFighter = new("Zeto Fighter", 2);
 
         #endregion Fields
 
