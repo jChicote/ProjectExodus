@@ -1,3 +1,4 @@
+using System;
 using MBT;
 using UnityEngine;
 
@@ -19,6 +20,12 @@ namespace ProjectExodus
             return Vector3.Distance(
                 this.SourceTransform.Value.position, 
                 this.TargetTransform.Value.position) < this.DetectionDistance.Value;
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(this.SourceTransform.Value.position, this.DetectionDistance.Value);
         }
     }
 
