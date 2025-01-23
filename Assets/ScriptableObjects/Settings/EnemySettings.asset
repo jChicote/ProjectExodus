@@ -28,8 +28,8 @@ MonoBehaviour:
     SpawnTemplate: {fileID: 8739472934000758447, guid: 86e465b3aa59b4db190879f21cf0f061, type: 3}
     DeathEffect: {fileID: 2010537941153600407, guid: ebcbce93d32fc0442827d50b1f94eeff, type: 3}
     Health: 20
-    Lifetime: 6
-    Speed: 10
-    MaxCollisionHitCount: 3
+    Lifetime: 999
+    Speed: 2
+    MaxCollisionHitCount: 999
     AttackDamage: 3
     TrackingDistance: 20

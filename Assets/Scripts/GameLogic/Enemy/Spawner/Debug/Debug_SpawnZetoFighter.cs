@@ -1,5 +1,7 @@
 using System.Linq;
+using MBT;
 using ProjectExodus.Common.Services;
+using ProjectExodus.GameLogic.Enumeration;
 using UnityEngine;
 
 namespace ProjectExodus
@@ -32,6 +34,13 @@ namespace ProjectExodus
                 Quaternion.identity);
             ICommand _CommandInitializer = _SpawnedEnemy.GetComponent<ICommand>();
             _CommandInitializer.Execute();
+            
+            // Temporary set the target transform
+            var _SpawnedEnemyBT = _SpawnedEnemy.GetComponentInChildren<Blackboard>();
+            var _TransformVariable = _SpawnedEnemyBT.GetVariable<TransformVariable>("PlayerTargetTransform");
+            _TransformVariable.Value = Object
+                .FindObjectsByType<GameObject>(FindObjectsInactive.Exclude, FindObjectsSortMode.None)
+                .Where(x => x.tag == GameTag.Player).FirstOrDefault().transform;
         }
 
         // TODO: Please move this to its own class and possibly as an extension.

@@ -195,14 +195,12 @@ GameObject:
   - component: {fileID: 123098833168104946}
   - component: {fileID: 2010836639008607325}
   - component: {fileID: 6503619501729372589}
-  - component: {fileID: 1065255760671259096}
   - component: {fileID: 4095075232142601020}
   - component: {fileID: 6250380022668381685}
   - component: {fileID: 6888389723813883121}
   - component: {fileID: 1880744229994168122}
   - component: {fileID: 171535752419694914}
   - component: {fileID: 8284466026308089791}
-  - component: {fileID: 3628834404508951018}
   - component: {fileID: 3251396951592033566}
   - component: {fileID: 5822250229895857662}
   - component: {fileID: 6767619272292977105}
@@ -211,6 +209,7 @@ GameObject:
   - component: {fileID: 1553917809270044092}
   - component: {fileID: 726797194551752704}
   - component: {fileID: 937244719126645586}
+  - component: {fileID: 6509767817734328039}
   m_Layer: 9
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -273,7 +272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 2709320353828033177}
+  selectedEditorNode: {fileID: 0}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1
   parent: {fileID: 0}
@@ -330,11 +329,11 @@ MonoBehaviour:
   title: Move Agent Forward
   rect:
     serializedVersion: 2
-    x: 760
-    y: 460
+    x: 380
+    y: 560
     width: 160
     height: 44
-  parent: {fileID: 1065255760671259096}
+  parent: {fileID: 6509767817734328039}
   children: []
   behaviourTree: {fileID: 0}
   runtimePriority: 0
@@ -370,7 +369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: MovementSpeed
-  val: 5
+  val: 2
 --- !u!114 &7482351694194643520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -482,8 +481,7 @@ MonoBehaviour:
   - {fileID: 637092232836288816}
   - {fileID: 6250380022668381685}
   - {fileID: 6503619501729372589}
-  - {fileID: 3628834404508951018}
-  - {fileID: 1065255760671259096}
+  - {fileID: 6509767817734328039}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -529,7 +527,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: MaxCollisionHitCount
-  val: 2
+  val: 999
 --- !u!114 &6503619501729372589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -567,32 +565,6 @@ MonoBehaviour:
     blackboard: {fileID: 1091220996072956865}
     key: CollisionHitCount
     constantValue: 0
---- !u!114 &1065255760671259096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568491025053358227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c78c7da6b00e1b46bad07949050f82f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  title: 'Move [Sequence]'
-  rect:
-    serializedVersion: 2
-    x: 760
-    y: 400
-    width: 160
-    height: 44
-  parent: {fileID: 7917987135681338436}
-  children:
-  - {fileID: 2709320353828033177}
-  behaviourTree: {fileID: 0}
-  runtimePriority: 0
-  breakpoint: 0
-  random: 0
 --- !u!114 &4095075232142601020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -651,7 +623,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Lifetime
-  val: 8
+  val: 999
 --- !u!114 &1880744229994168122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -727,33 +699,6 @@ MonoBehaviour:
   runtimePriority: 0
   breakpoint: 0
   tree: {fileID: 5504634755108251380}
---- !u!114 &3628834404508951018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568491025053358227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08540605df275034fafc8e05c6704214, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  title: 'Track Player [Selector]'
-  rect:
-    serializedVersion: 2
-    x: 420
-    y: 400
-    width: 160
-    height: 44
-  parent: {fileID: 7917987135681338436}
-  children:
-  - {fileID: 3251396951592033566}
-  - {fileID: 1921881211910184089}
-  behaviourTree: {fileID: 0}
-  runtimePriority: 0
-  breakpoint: 0
-  random: 0
 --- !u!114 &3251396951592033566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -769,11 +714,11 @@ MonoBehaviour:
   title: Track Player Position
   rect:
     serializedVersion: 2
-    x: 340
-    y: 560
+    x: 760
+    y: 540
     width: 160
     height: 44
-  parent: {fileID: 3628834404508951018}
+  parent: {fileID: 0}
   children: []
   behaviourTree: {fileID: 0}
   runtimePriority: 0
@@ -805,7 +750,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: DistanceToTarget
-  val: 0
+  val: 10
 --- !u!114 &1921881211910184089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -821,11 +766,11 @@ MonoBehaviour:
   title: Is Target Within Radius
   rect:
     serializedVersion: 2
-    x: 520
+    x: 580
     y: 560
     width: 160
     height: 44
-  parent: {fileID: 3628834404508951018}
+  parent: {fileID: 6509767817734328039}
   children:
   - {fileID: 2217033098449189651}
   behaviourTree: {fileID: 0}
@@ -864,12 +809,14 @@ MonoBehaviour:
   title: Selector
   rect:
     serializedVersion: 2
-    x: 520
+    x: 580
     y: 620
     width: 160
     height: 44
   parent: {fileID: 1921881211910184089}
-  children: []
+  children:
+  - {fileID: 1553917809270044092}
+  - {fileID: 726797194551752704}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -893,7 +840,7 @@ MonoBehaviour:
     y: 740
     width: 160
     height: 44
-  parent: {fileID: 0}
+  parent: {fileID: 2217033098449189651}
   children: []
   behaviourTree: {fileID: 0}
   runtimePriority: 0
@@ -935,7 +882,7 @@ MonoBehaviour:
     y: 740
     width: 160
     height: 44
-  parent: {fileID: 0}
+  parent: {fileID: 2217033098449189651}
   children: []
   behaviourTree: {fileID: 0}
   runtimePriority: 0
@@ -965,7 +912,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: TurnSpeed
-  val: 0
+  val: 10
+--- !u!114 &6509767817734328039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568491025053358227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c78c7da6b00e1b46bad07949050f82f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Sequence
+  rect:
+    serializedVersion: 2
+    x: 473
+    y: 402
+    width: 160
+    height: 44
+  parent: {fileID: 7917987135681338436}
+  children:
+  - {fileID: 2709320353828033177}
+  - {fileID: 1921881211910184089}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  random: 0
 --- !u!1 &8739472934000758447
 GameObject:
   m_ObjectHideFlags: 0
@@ -980,7 +954,7 @@ GameObject:
   - component: {fileID: 6344455628031576762}
   - component: {fileID: 4971320230845308471}
   - component: {fileID: 1174632220505170030}
-  - component: {fileID: 6759636394346491412}
+  - component: {fileID: 7840105387070121656}
   m_Layer: 9
   m_Name: Zeto Fighter
   m_TagString: Enemy
@@ -1159,7 +1133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Blackboard: {fileID: 1091220996072956865}
---- !u!114 &6759636394346491412
+--- !u!114 &7840105387070121656
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1168,7 +1142,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8739472934000758447}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd3a5bc148864b9fbac38ac3749b87df, type: 3}
+  m_Script: {fileID: 11500000, guid: 9eeb413e2cc34d929ba60c037105110c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Blackboard: {fileID: 1091220996072956865}
