@@ -10,7 +10,7 @@ namespace ProjectExodus
     {
         public override NodeResult Execute()
         {
-            throw new System.NotImplementedException();
+            return NodeResult.success;
         }
     }
 

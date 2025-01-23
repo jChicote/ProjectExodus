@@ -23,7 +23,6 @@ namespace ProjectExodus
 
         private void SpawnSingleZetoFighter()
         {
-            Camera _MainCamera = Camera.main;
             EnemyAssetObject _ZetoFighterAsset = EnemyManager.Instance.EnemySettings.Enemies
                 .Single(eao => eao.Name == EnemyType.ZetoFighter);
             
@@ -39,12 +38,14 @@ namespace ProjectExodus
         private Vector2 GenerateRandomPositionWithinView()
         {
             Camera _MainCamera = Camera.main;
+            float _Width = 10f;
+            float _Height = 10f;
 
             Vector2 _RandomPosition = new(
-                x: Random.Range(_MainCamera.transform.position.x - Screen.width / 2,
-                    _MainCamera.transform.position.y + Screen.width / 2),
-                y: Random.Range(_MainCamera.transform.position.y - Screen.height / 2,
-                    _MainCamera.transform.position.y + Screen.width / 2));
+                x: Random.Range(_MainCamera.transform.position.x - _Width / 2,
+                    _MainCamera.transform.position.y + _Width / 2),
+                y: Random.Range(_MainCamera.transform.position.y - _Height / 2,
+                    _MainCamera.transform.position.y + _Height / 2));
             return _RandomPosition;
         }
 
