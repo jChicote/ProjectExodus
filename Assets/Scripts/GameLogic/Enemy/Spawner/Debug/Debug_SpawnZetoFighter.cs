@@ -40,15 +40,16 @@ namespace ProjectExodus
             var _TransformVariable = _SpawnedEnemyBT.GetVariable<TransformVariable>("PlayerTargetTransform");
             _TransformVariable.Value = Object
                 .FindObjectsByType<GameObject>(FindObjectsInactive.Exclude, FindObjectsSortMode.None)
-                .Where(x => x.tag == GameTag.Player).FirstOrDefault().transform;
+                .FirstOrDefault(x => x.tag == GameTag.Player)
+                ?.transform;
         }
 
         // TODO: Please move this to its own class and possibly as an extension.
         private Vector2 GenerateRandomPositionWithinView()
         {
             Camera _MainCamera = Camera.main;
-            float _Width = 10f;
-            float _Height = 10f;
+            float _Width = 20f;
+            float _Height = 20f;
 
             Vector2 _RandomPosition = new(
                 x: Random.Range(_MainCamera.transform.position.x - _Width / 2,

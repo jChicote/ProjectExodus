@@ -912,7 +912,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: TurnSpeed
-  val: 10
+  val: 3
 --- !u!114 &6509767817734328039
 MonoBehaviour:
   m_ObjectHideFlags: 0
