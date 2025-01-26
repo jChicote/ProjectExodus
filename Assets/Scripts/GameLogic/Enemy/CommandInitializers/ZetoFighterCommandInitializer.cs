@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using MBT;
 using ProjectExodus.Common.Services;
+using UnityEditor.TextCore.Text;
 using UnityEngine;
 
 namespace ProjectExodus
@@ -49,6 +50,10 @@ namespace ProjectExodus
                 Health = this.m_EnemySpawnData.Health
             });
 
+            IInitialize<EnemyWeaponSystemInitializerData> _WeaponSystemInitializer =
+                this.GetComponent<IInitialize<EnemyWeaponSystemInitializerData>>();
+            _WeaponSystemInitializer.Initialize(new());
+            
             // Set Prefab Template values to the blackboard
             this.m_Blackboard.GetVariable<GameObjectVariable>(EnemyHealthSystemKeys.DeathEffect);
         }

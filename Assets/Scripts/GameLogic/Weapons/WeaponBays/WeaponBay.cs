@@ -1,6 +1,5 @@
 using ProjectExodus.GameLogic.Enumeration;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace ProjectExodus.GameLogic.Weapons.WeaponBays
 {
