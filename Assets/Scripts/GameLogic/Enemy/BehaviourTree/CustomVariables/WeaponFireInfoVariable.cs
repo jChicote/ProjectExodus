@@ -53,6 +53,7 @@ namespace ProjectExodus
   
     }
     
+    [Serializable]
     public class WeaponFireInfo
     {
 

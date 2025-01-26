@@ -22,11 +22,11 @@ namespace ProjectExodus
         public float Lifetime;
         public float Speed;
         public int MaxCollisionHitCount;
+        public float TurnSpeed;
 
-        [Header("Attach Defaults")]
+        [Header("Attack Defaults")]
         public float AttackDamage;
         public float TrackingDistance;
-
 
         #endregion Fields
 

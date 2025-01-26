@@ -201,7 +201,6 @@ GameObject:
   - component: {fileID: 1880744229994168122}
   - component: {fileID: 171535752419694914}
   - component: {fileID: 8284466026308089791}
-  - component: {fileID: 3251396951592033566}
   - component: {fileID: 5822250229895857662}
   - component: {fileID: 6767619272292977105}
   - component: {fileID: 1921881211910184089}
@@ -210,6 +209,8 @@ GameObject:
   - component: {fileID: 726797194551752704}
   - component: {fileID: 937244719126645586}
   - component: {fileID: 6509767817734328039}
+  - component: {fileID: 4181434698138631317}
+  - component: {fileID: 1548911594087833131}
   m_Layer: 9
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -259,6 +260,7 @@ MonoBehaviour:
   - {fileID: 5822250229895857662}
   - {fileID: 6767619272292977105}
   - {fileID: 937244719126645586}
+  - {fileID: 1548911594087833131}
   masterBlackboard: {fileID: 0}
 --- !u!114 &2325866333002139523
 MonoBehaviour:
@@ -272,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 0}
+  selectedEditorNode: {fileID: 4181434698138631317}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1
   parent: {fileID: 0}
@@ -699,30 +701,6 @@ MonoBehaviour:
   runtimePriority: 0
   breakpoint: 0
   tree: {fileID: 5504634755108251380}
---- !u!114 &3251396951592033566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568491025053358227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b544728d6df34ec0aa68b868decf0065, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  title: Track Player Position
-  rect:
-    serializedVersion: 2
-    x: 760
-    y: 540
-    width: 160
-    height: 44
-  parent: {fileID: 0}
-  children: []
-  behaviourTree: {fileID: 0}
-  runtimePriority: 0
-  breakpoint: 0
 --- !u!114 &5822250229895857662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -836,7 +814,7 @@ MonoBehaviour:
   title: Rotate To Target
   rect:
     serializedVersion: 2
-    x: 360
+    x: 480
     y: 740
     width: 160
     height: 44
@@ -878,12 +856,13 @@ MonoBehaviour:
   title: Is Within Attack Cone
   rect:
     serializedVersion: 2
-    x: 580
+    x: 680
     y: 740
     width: 160
     height: 44
   parent: {fileID: 2217033098449189651}
-  children: []
+  children:
+  - {fileID: 4181434698138631317}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -912,7 +891,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: TurnSpeed
-  val: 3
+  val: 2
 --- !u!114 &6509767817734328039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -940,6 +919,48 @@ MonoBehaviour:
   runtimePriority: 0
   breakpoint: 0
   random: 0
+--- !u!114 &4181434698138631317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568491025053358227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f608fe10f004ef0bbf9fb2a2dbbf1d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Fire Weapon
+  rect:
+    serializedVersion: 2
+    x: 680
+    y: 800
+    width: 160
+    height: 44
+  parent: {fileID: 726797194551752704}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  WeaponFireReference:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 1091220996072956865}
+    key: WeaponFireDetails
+--- !u!114 &1548911594087833131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568491025053358227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf4124f4ba764e4ca6de4f94a9cfed04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: WeaponFireDetails
 --- !u!1 &8739472934000758447
 GameObject:
   m_ObjectHideFlags: 0
