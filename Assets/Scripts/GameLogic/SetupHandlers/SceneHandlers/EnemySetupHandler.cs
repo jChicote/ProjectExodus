@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ProjectExodus;
 using ProjectExodus.GameLogic.Player.PlayerProvider;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace GameLogic.SetupHandlers.SceneHandlers
 
         private ISetupHandler m_NextHandler;
 
-        public ZetoEnemySpawner EnemySpawner;
+        public List<ZetoEnemySpawner> EnemySpawners;
         public PlayerProvider PlayerProvider;
 
         #endregion Fields
@@ -24,10 +25,8 @@ namespace GameLogic.SetupHandlers.SceneHandlers
 
         void ISetupHandler.Handle(SceneSetupInitializationContext initializationContext)
         {
-            this.EnemySpawner.Initialize(new()
-            {
-                PlayerProvider = PlayerProvider
-            });
+            foreach (ZetoEnemySpawner _EnemySpawner in this.EnemySpawners)
+                _EnemySpawner.Initialize(new() { PlayerProvider = PlayerProvider });
             
             initializationContext.LoadingScreenController.UpdateLoadProgress(80f);
             this.m_NextHandler?.Handle(initializationContext);

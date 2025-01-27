@@ -4,8 +4,8 @@ using ProjectExodus.GameLogic.Camera;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.GameLogic.Player.PlayerProvider;
 using ProjectExodus.GameLogic.Player.PlayerSpawner;
+using ProjectExodus.Management.SceneManager;
 using ProjectExodus.UserInterface.Controllers;
-using ProjectExodus.UserInterface.GameplayHUD;
 using UnityEngine;
 
 namespace GameLogic.SetupHandlers.SceneHandlers
@@ -44,6 +44,7 @@ namespace GameLogic.SetupHandlers.SceneHandlers
             
             _PlayerSpawner.InitialisePlayerSpawner(
                 (GameplaySceneGUIControllers)_Controllers,
+                initializationContext.PlayerObserver,
                 initializationContext.ServiceLocator.GetService<IShipAssetProvider>(),
                 initializationContext.ServiceLocator.GetService<IWeaponAssetProvider>());
             
@@ -58,6 +59,9 @@ namespace GameLogic.SetupHandlers.SceneHandlers
             _CameraController.SetCameraFollowTarget(_Player.transform);
             _PlayerProvider.SetActivePlayer(_Player);
             
+            // Set any management values
+            this.AssignToManager(initializationContext);
+            
             // Hook to input system
             initializationContext.InputManager.PossesGameplayInputControls();
             initializationContext.InputManager.DisableActiveInputControl();
@@ -65,6 +69,9 @@ namespace GameLogic.SetupHandlers.SceneHandlers
             initializationContext.LoadingScreenController.UpdateLoadProgress(60f);
             this.m_NextHandler?.Handle(initializationContext);
         }
+
+        private void AssignToManager(SceneSetupInitializationContext context) 
+            => SceneManager.Instance.PlayerObserver = context.PlayerObserver;
 
         #endregion Methods
   

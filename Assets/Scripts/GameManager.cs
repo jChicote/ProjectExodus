@@ -13,6 +13,7 @@ using ProjectExodus.Management.GameStateManager;
 using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.SceneManager;
 using ProjectExodus.Management.UserInterfaceManager;
+using ProjectExodus.ScriptableObjects;
 using ProjectExodus.Utility.GameValidation;
 using UnityEngine;
 using Object = UnityEngine.Object;

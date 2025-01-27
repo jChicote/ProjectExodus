@@ -1,3 +1,4 @@
+using ProjectExodus;
 using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Infrastructure.DataLoading.LoadCommands;
 using ProjectExodus.Management.InputManager;
@@ -16,6 +17,7 @@ namespace GameLogic.SetupHandlers.SceneHandlers
 
         [RequiredField] public Camera MainCamera;
         [RequiredField] public UserInterfaceSettings UserInterfaceSettings;
+        [RequiredField] public PlayerObserver PlayerObserver;
         public StartupDataContext StartupDataOptions;
 
         #endregion Fields

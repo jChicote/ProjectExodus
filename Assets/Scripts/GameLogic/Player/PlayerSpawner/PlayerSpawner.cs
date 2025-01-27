@@ -22,6 +22,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
         #region - - - - - - Fields - - - - - -
 
         private GameplaySceneGUIControllers m_GameplaySceneGUIControllers;
+        private IPlayerObserver m_PlayerObserver;
         private IShipAssetProvider m_ShipAssetProvider;
         private IWeaponAssetProvider m_WeaponAssetProvider;
 
@@ -31,14 +32,18 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
         
         void IPlayerSpawner.InitialisePlayerSpawner(
             GameplaySceneGUIControllers gameplaySceneGUIControllers,
+            IPlayerObserver playerObserver,
             IShipAssetProvider shipAssetProvider,
             IWeaponAssetProvider weaponAssetProvider)
         {
-            this.m_GameplaySceneGUIControllers =
-                gameplaySceneGUIControllers ?? throw new ArgumentNullException(nameof(gameplaySceneGUIControllers));
-            this.m_ShipAssetProvider = shipAssetProvider ?? throw new ArgumentNullException(nameof(shipAssetProvider));
-            this.m_WeaponAssetProvider =
-                weaponAssetProvider ?? throw new ArgumentNullException(nameof(weaponAssetProvider));
+            this.m_GameplaySceneGUIControllers = gameplaySceneGUIControllers 
+                ?? throw new ArgumentNullException(nameof(gameplaySceneGUIControllers));
+            this.m_PlayerObserver = playerObserver
+                ?? throw new ArgumentNullException(nameof(playerObserver));
+            this.m_ShipAssetProvider = shipAssetProvider 
+                ?? throw new ArgumentNullException(nameof(shipAssetProvider));
+            this.m_WeaponAssetProvider = weaponAssetProvider 
+                ?? throw new ArgumentNullException(nameof(weaponAssetProvider));
         }
 
         #endregion Initializers
@@ -63,6 +68,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
             _PlayerShip.GetComponent<IPlayerHealthSystem>()
                 .Initializer(
                     _GameplayHUDController,
+                    this.m_PlayerObserver,
                     _ShipAsset.BaseShieldHealth + shipToSpawn.ShieldHealthModifier, 
                     _ShipAsset.BasePlatingHealth + shipToSpawn.PlatingHealthModifier);
             
@@ -82,10 +88,13 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
                     Camera = SceneManager.Instance.GetActiveSceneController().Camera,
                     WeaponTrackingHUDController = this.m_GameplaySceneGUIControllers.WeaponTrackingHUDController
                 });
+            
+            // Broadcast to all components reliant on the Player's gameobject
+            this.m_PlayerObserver.OnPlayerSpawned?.Invoke(_PlayerShip);
 
             return _PlayerShip;
         }
-
+        
         #endregion Methods
   
     }

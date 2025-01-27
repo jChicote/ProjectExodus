@@ -3,7 +3,6 @@ using ProjectExodus.GameLogic.Input;
 using ProjectExodus.GameLogic.Input.Gameplay;
 using ProjectExodus.GameLogic.Input.UserInterface;
 using ProjectExodus.GameLogic.Player.PlayerProvider;
-using ProjectExodus.Management.SceneManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Object = UnityEngine.Object;

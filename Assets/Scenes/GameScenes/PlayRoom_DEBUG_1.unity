@@ -293,7 +293,7 @@ GameObject:
   - component: {fileID: 284386221}
   - component: {fileID: 284386220}
   m_Layer: 0
-  m_Name: Controller-Group
+  m_Name: '[GROUP] Controller and Observers'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2464,6 +2464,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainCamera: {fileID: 2044013418}
   UserInterfaceSettings: {fileID: 11400000, guid: 621b35aba753e70478d8ecdb280e1e32, type: 2}
+  PlayerObserver: {fileID: 1143688067}
+--- !u!1 &951331380
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 951331381}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &951331381
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951331380}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 957777811}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &954017612
 GameObject:
   m_ObjectHideFlags: 0
@@ -2509,6 +2541,93 @@ Transform:
   - {fileID: 501816658}
   - {fileID: 1977858551}
   - {fileID: 535444612}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &957777808
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 957777811}
+  - component: {fileID: 957777810}
+  - component: {fileID: 957777809}
+  m_Layer: 0
+  m_Name: ZetoFighterSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!58 &957777809
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957777808}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
+--- !u!114 &957777810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957777808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 693e814314a7478185f813fcd7246cf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EnemyTemplate: {fileID: 8739472934000758447, guid: 86e465b3aa59b4db190879f21cf0f061, type: 3}
+  m_SpawnPoint: {fileID: 951331381}
+  m_SpawnInterval: 1
+  m_SpawnRadius: 5
+  m_DetectionCollider: {fileID: 957777809}
+--- !u!4 &957777811
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957777808}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 16.45, y: -8.23, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 951331381}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &970642608
@@ -3175,6 +3294,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1132220637}
   m_CullTransparentMesh: 1
+--- !u!1 &1143688065
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1143688066}
+  - component: {fileID: 1143688067}
+  m_Layer: 0
+  m_Name: PlayerObserver
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1143688066
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143688065}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1745827563}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1143688067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143688065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76ef62a554c54acf87ab431d68e66a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1174162354
 GameObject:
   m_ObjectHideFlags: 0
@@ -3187,12 +3350,12 @@ GameObject:
   - component: {fileID: 1174162355}
   - component: {fileID: 1174162357}
   m_Layer: 0
-  m_Name: EnemySpawner
+  m_Name: ZetoPawnSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1174162355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3575,7 +3738,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52270067cb934e3bbb1274aa1232311b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemySpawner: {fileID: 1174162355}
+  EnemySpawners:
+  - {fileID: 1174162355}
+  - {fileID: 957777810}
   PlayerProvider: {fileID: 1379387251}
 --- !u!4 &1368923788
 Transform:
@@ -4234,7 +4399,7 @@ GameObject:
   - component: {fileID: 1745827563}
   - component: {fileID: 1745827562}
   m_Layer: 0
-  m_Name: Player-Group
+  m_Name: '[GROUP] Player Services & Objects'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4265,6 +4430,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1143688066}
   - {fileID: 1379387250}
   - {fileID: 211138124}
   m_Father: {fileID: 0}
@@ -6471,7 +6637,6 @@ SceneRoots:
   - {fileID: 1471437951}
   - {fileID: 155043756}
   - {fileID: 902847390}
-  - {fileID: 284386221}
   - {fileID: 1745827563}
   - {fileID: 2132147132}
   - {fileID: 2044013419}
@@ -6483,3 +6648,5 @@ SceneRoots:
   - {fileID: 2126850217}
   - {fileID: 1174162356}
   - {fileID: 160802012}
+  - {fileID: 957777811}
+  - {fileID: 284386221}
