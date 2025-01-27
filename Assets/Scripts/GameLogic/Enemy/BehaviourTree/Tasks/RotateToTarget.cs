@@ -1,4 +1,3 @@
-using System;
 using MBT;
 using UnityEngine;
 
@@ -9,6 +8,9 @@ namespace ProjectExodus
     [MBTNode(name = "Tasks/Rotate To Target")]
     public class RotateToTarget : Leaf
     {
+
+        #region - - - - - - Fields - - - - - -
+
         public TransformReference SourceTransform = new();
         public TransformReference TargetTransform = new();
         public FloatReference TurnSpeed = new();
@@ -16,18 +18,26 @@ namespace ProjectExodus
         private Vector3 m_Direction;
         private float m_Angle;
 
+        #endregion Fields
+  
+        #region - - - - - - Unity Methods - - - - - -
+
         private void Update()
         {
-            if (m_Direction != Vector3.zero)
-            {
-                Vector3 rotatedVectorToTarget = Quaternion.Euler(0, 0, 90) * m_Direction;
-                
-                // Calculate the desired rotation
-                var _PreferredEuler = Quaternion.Euler(Vector3.forward * (m_Angle + 90f));
-                this.SourceTransform.Value.rotation = Quaternion.Lerp(this.SourceTransform.Value.rotation, _PreferredEuler, Time.deltaTime * 5);
-            }
+            if (m_Direction == Vector3.zero) return;
+
+            // Calculate the desired rotation
+            var _PreferredEuler = Quaternion.Euler(Vector3.forward * (m_Angle + 90f));
+            this.SourceTransform.Value.rotation = Quaternion.Lerp(
+                this.SourceTransform.Value.rotation, 
+                _PreferredEuler, 
+                Time.deltaTime * this.TurnSpeed.Value);
         }
-        
+
+        #endregion Unity Methods
+
+        #region - - - - - - Methods - - - - - -
+
         public override NodeResult Execute()
         {
             if (this.TargetTransform.Value == null) return NodeResult.failure;
@@ -40,11 +50,18 @@ namespace ProjectExodus
             return NodeResult.success;
         }
 
+        #endregion Methods
+  
+        #region - - - - - - Gizmos - - - - - -
+
         public void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(this.SourceTransform.Value.position, this.m_Direction * -1);
         }
+
+        #endregion Gizmos
+  
     }
 
 }

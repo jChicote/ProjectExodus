@@ -1,5 +1,4 @@
-﻿using System;
-using MBT;
+﻿using MBT;
 using UnityEngine;
 
 namespace ProjectExodus
@@ -9,16 +8,36 @@ namespace ProjectExodus
     [MBTNode(name = "Conditions/Is Within Attack Cone")]
     public class AttackConeCondition : Condition
     {
+
+        #region - - - - - - Fields - - - - - -
+
         public TransformReference AgentTransform = new();
         public TransformReference TargetTransform = new();
-        public WeaponFireInfo WeaponFireInfo = new();
+        public WeaponSystemsInfoReference WeaponSystemsInfo = new();
         
         private float FiringArc = 45f;
-        
+
+        #endregion Fields
+
+        #region - - - - - - Methods - - - - - -
+
         public override bool Check()
         {
-            throw new System.NotImplementedException();
+            Vector2 _DirectionToTarget = this.TargetTransform.Value.position - this.AgentTransform.Value.position;
+            _DirectionToTarget.Normalize();
+
+            float _DotProduct = Vector2.Dot(this.AgentTransform.Value.up, _DirectionToTarget);
+            float _AngleToTarget = Mathf.Acos(_DotProduct) * Mathf.Rad2Deg;
+                
+            // float _AngleToTarget = Vector3.Angle(this.AgentTransform.Value.up, _DirectionToTarget);
+            bool _IsWithinCone = _AngleToTarget <= this.FiringArc / 2;
+            Debug.Log(_IsWithinCone);
+            return _IsWithinCone;
         }
+
+        #endregion Methods
+
+        #region - - - - - - Gizmos - - - - - -
 
         private void OnDrawGizmos()
         {
@@ -32,6 +51,9 @@ namespace ProjectExodus
             Gizmos.DrawLine(transform.position, transform.position + (Vector3)leftBoundary * 10);
             Gizmos.DrawLine(transform.position, transform.position + (Vector3)rightBoundary * 10);
         }
+
+        #endregion Gizmos
+  
     }
 
 }

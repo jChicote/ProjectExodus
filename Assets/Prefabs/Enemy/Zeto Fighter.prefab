@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 2495181698899779902}
+  selectedEditorNode: {fileID: 2115189292688265209}
   repeatOnFinish: 0
   maxExecutionsPerTick: 1
   parent: {fileID: 2325866333002139523}
@@ -131,7 +131,7 @@ MonoBehaviour:
   IsDead:
     useConstant: 0
     mode: 0
-    blackboard: {fileID: 1091220996072956865}
+    blackboard: {fileID: 31365097159186596}
     key: IsDead
     constantValue: 0
 --- !u!114 &2115189292688265209
@@ -161,13 +161,13 @@ MonoBehaviour:
   DeathEffect:
     useConstant: 0
     mode: 0
-    blackboard: {fileID: 1091220996072956865}
+    blackboard: {fileID: 31365097159186596}
     key: DeathEffect
     constantValue: {fileID: 0}
   AgentTransform:
     useConstant: 0
     mode: 0
-    blackboard: {fileID: 1091220996072956865}
+    blackboard: {fileID: 31365097159186596}
     key: AgentTransform
     constantValue: {fileID: 0}
 --- !u!1 &1285450837053815286
@@ -261,38 +261,39 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2660713890468984872}
-  - component: {fileID: 1091220996072956865}
-  - component: {fileID: 2325866333002139523}
+  - component: {fileID: 31365097159186596}
   - component: {fileID: 8426814322175186382}
+  - component: {fileID: 2325866333002139523}
   - component: {fileID: 876974338744005530}
   - component: {fileID: 2709320353828033177}
-  - component: {fileID: 666890863672411108}
-  - component: {fileID: 7482351694194643520}
-  - component: {fileID: 174535617427917426}
-  - component: {fileID: 8632360942157448097}
   - component: {fileID: 637092232836288816}
-  - component: {fileID: 3959688610579915771}
   - component: {fileID: 7917987135681338436}
-  - component: {fileID: 1558295623379357096}
-  - component: {fileID: 123098833168104946}
-  - component: {fileID: 2010836639008607325}
   - component: {fileID: 6503619501729372589}
-  - component: {fileID: 4095075232142601020}
   - component: {fileID: 6250380022668381685}
-  - component: {fileID: 6888389723813883121}
   - component: {fileID: 1880744229994168122}
   - component: {fileID: 171535752419694914}
   - component: {fileID: 8284466026308089791}
-  - component: {fileID: 5822250229895857662}
-  - component: {fileID: 6767619272292977105}
   - component: {fileID: 1921881211910184089}
-  - component: {fileID: 2217033098449189651}
   - component: {fileID: 1553917809270044092}
   - component: {fileID: 726797194551752704}
-  - component: {fileID: 937244719126645586}
   - component: {fileID: 6509767817734328039}
   - component: {fileID: 4181434698138631317}
-  - component: {fileID: 1548911594087833131}
+  - component: {fileID: 7714295090338733277}
+  - component: {fileID: 4884560396803690728}
+  - component: {fileID: 4145590055475884840}
+  - component: {fileID: 8775109792926336925}
+  - component: {fileID: 4746179622679096152}
+  - component: {fileID: 3740212146150465327}
+  - component: {fileID: 5798797943074413062}
+  - component: {fileID: 2719508543635070451}
+  - component: {fileID: 4080473341498776218}
+  - component: {fileID: 5412659537390059582}
+  - component: {fileID: 5069549066356228831}
+  - component: {fileID: 81465012966984149}
+  - component: {fileID: 8362225361554142861}
+  - component: {fileID: 802770041409527407}
+  - component: {fileID: 6990436375482712623}
+  - component: {fileID: 5040549946580144282}
   m_Layer: 9
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -316,7 +317,7 @@ Transform:
   - {fileID: 2023217651675139191}
   m_Father: {fileID: 8119181458987764988}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1091220996072956865
+--- !u!114 &31365097159186596
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -329,37 +330,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   variables:
-  - {fileID: 666890863672411108}
-  - {fileID: 7482351694194643520}
-  - {fileID: 174535617427917426}
-  - {fileID: 8632360942157448097}
-  - {fileID: 3959688610579915771}
-  - {fileID: 1558295623379357096}
-  - {fileID: 123098833168104946}
-  - {fileID: 2010836639008607325}
-  - {fileID: 4095075232142601020}
-  - {fileID: 6888389723813883121}
-  - {fileID: 5822250229895857662}
-  - {fileID: 6767619272292977105}
-  - {fileID: 937244719126645586}
-  - {fileID: 1548911594087833131}
+  - {fileID: 7714295090338733277}
+  - {fileID: 4884560396803690728}
+  - {fileID: 4145590055475884840}
+  - {fileID: 8775109792926336925}
+  - {fileID: 4746179622679096152}
+  - {fileID: 3740212146150465327}
+  - {fileID: 5798797943074413062}
+  - {fileID: 2719508543635070451}
+  - {fileID: 4080473341498776218}
+  - {fileID: 5412659537390059582}
+  - {fileID: 5069549066356228831}
+  - {fileID: 81465012966984149}
+  - {fileID: 8362225361554142861}
+  - {fileID: 802770041409527407}
   masterBlackboard: {fileID: 0}
---- !u!114 &2325866333002139523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568491025053358227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 4181434698138631317}
-  repeatOnFinish: 1
-  maxExecutionsPerTick: 1
-  parent: {fileID: 0}
 --- !u!114 &8426814322175186382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,6 +358,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monoBehaviourTree: {fileID: 2325866333002139523}
+--- !u!114 &2325866333002139523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568491025053358227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedEditorNode: {fileID: 876974338744005530}
+  repeatOnFinish: 1
+  maxExecutionsPerTick: 1
+  parent: {fileID: 0}
 --- !u!114 &876974338744005530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,8 +389,8 @@ MonoBehaviour:
   title: Root
   rect:
     serializedVersion: 2
-    x: 100
-    y: 200
+    x: 181
+    y: 199
     width: 160
     height: 44
   parent: {fileID: 0}
@@ -413,8 +414,8 @@ MonoBehaviour:
   title: Move Agent Forward
   rect:
     serializedVersion: 2
-    x: 380
-    y: 560
+    x: 400
+    y: 480
     width: 160
     height: 44
   parent: {fileID: 6509767817734328039}
@@ -425,77 +426,21 @@ MonoBehaviour:
   AgentTransform:
     useConstant: 0
     mode: 0
-    blackboard: {fileID: 1091220996072956865}
+    blackboard: {fileID: 31365097159186596}
     key: AgentTransform
     constantValue: {fileID: 0}
   AgentMoveVelocity:
     useConstant: 0
     mode: 0
-    blackboard: {fileID: 1091220996072956865}
+    blackboard: {fileID: 31365097159186596}
     key: MovementVelocity
     constantValue: {x: 0, y: 0}
   MovementSpeed:
     useConstant: 0
     mode: 0
-    blackboard: {fileID: 1091220996072956865}
+    blackboard: {fileID: 31365097159186596}
     key: MovementSpeed
     constantValue: 0
---- !u!114 &666890863672411108
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568491025053358227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4e5f4db414f0ab4c82c187a7653e99d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: MovementSpeed
-  val: 2
---- !u!114 &7482351694194643520
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568491025053358227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ae15c5e6bcb1714080f2e8296c3d17a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: IsPaused
-  val: 0
---- !u!114 &174535617427917426
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568491025053358227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaa62ce5e63cc9d45ae0efc52561ace7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: MovementVelocity
-  val: {x: 0, y: 0}
---- !u!114 &8632360942157448097
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568491025053358227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ae15c5e6bcb1714080f2e8296c3d17a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: IsDead
-  val: 0
 --- !u!114 &637092232836288816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -524,23 +469,9 @@ MonoBehaviour:
   Health:
     useConstant: 0
     mode: 0
-    blackboard: {fileID: 1091220996072956865}
+    blackboard: {fileID: 31365097159186596}
     key: Health
     constantValue: 0
---- !u!114 &3959688610579915771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568491025053358227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4e5f4db414f0ab4c82c187a7653e99d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: Health
-  val: 20
 --- !u!114 &7917987135681338436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -556,7 +487,7 @@ MonoBehaviour:
   title: Selector
   rect:
     serializedVersion: 2
-    x: 100
+    x: 200
     y: 260
     width: 160
     height: 44
@@ -566,52 +497,11 @@ MonoBehaviour:
   - {fileID: 6250380022668381685}
   - {fileID: 6503619501729372589}
   - {fileID: 6509767817734328039}
+  - {fileID: 5040549946580144282}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
   random: 0
---- !u!114 &1558295623379357096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568491025053358227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a280585a974a40e59661cc863248813a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: AgentTransform
-  val: {fileID: 8119181458987764988}
---- !u!114 &123098833168104946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568491025053358227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4be6860a83fe93e4bbd689336d96bdc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: CollisionHitCount
-  val: 0
---- !u!114 &2010836639008607325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568491025053358227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4be6860a83fe93e4bbd689336d96bdc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: MaxCollisionHitCount
-  val: 999
 --- !u!114 &6503619501729372589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -640,29 +530,15 @@ MonoBehaviour:
   MaxCollisionHitCount:
     useConstant: 0
     mode: 0
-    blackboard: {fileID: 1091220996072956865}
+    blackboard: {fileID: 31365097159186596}
     key: MaxCollisionHitCount
     constantValue: 0
   CollisionHitCount:
     useConstant: 0
     mode: 0
-    blackboard: {fileID: 1091220996072956865}
+    blackboard: {fileID: 31365097159186596}
     key: CollisionHitCount
     constantValue: 0
---- !u!114 &4095075232142601020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568491025053358227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cdb61a66fcb1c549a844f093811f6c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: DeathEffect
-  val: {fileID: 2010537941153600407, guid: ebcbce93d32fc0442827d50b1f94eeff, type: 3}
 --- !u!114 &6250380022668381685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -678,7 +554,7 @@ MonoBehaviour:
   title: Has Lifetime Expired
   rect:
     serializedVersion: 2
-    x: -0
+    x: 0
     y: 400
     width: 160
     height: 44
@@ -691,23 +567,9 @@ MonoBehaviour:
   LifeTime:
     useConstant: 0
     mode: 0
-    blackboard: {fileID: 1091220996072956865}
+    blackboard: {fileID: 31365097159186596}
     key: Lifetime
     constantValue: 0
---- !u!114 &6888389723813883121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568491025053358227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4e5f4db414f0ab4c82c187a7653e99d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: Lifetime
-  val: 999
 --- !u!114 &1880744229994168122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -783,34 +645,6 @@ MonoBehaviour:
   runtimePriority: 0
   breakpoint: 0
   tree: {fileID: 5504634755108251380}
---- !u!114 &5822250229895857662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568491025053358227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a280585a974a40e59661cc863248813a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: PlayerTargetTransform
-  val: {fileID: 0}
---- !u!114 &6767619272292977105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568491025053358227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4e5f4db414f0ab4c82c187a7653e99d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: DistanceToTarget
-  val: 10
 --- !u!114 &1921881211910184089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -827,60 +661,33 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 580
-    y: 560
+    y: 480
     width: 160
     height: 44
   parent: {fileID: 6509767817734328039}
   children:
-  - {fileID: 2217033098449189651}
+  - {fileID: 6990436375482712623}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
   SourceTransform:
     useConstant: 0
     mode: 0
-    blackboard: {fileID: 1091220996072956865}
+    blackboard: {fileID: 31365097159186596}
     key: AgentTransform
     constantValue: {fileID: 0}
   TargetTransform:
     useConstant: 0
     mode: 0
-    blackboard: {fileID: 1091220996072956865}
+    blackboard: {fileID: 31365097159186596}
     key: PlayerTargetTransform
     constantValue: {fileID: 0}
   DetectionDistance:
     useConstant: 0
     mode: 0
-    blackboard: {fileID: 1091220996072956865}
+    blackboard: {fileID: 31365097159186596}
     key: DistanceToTarget
     constantValue: 0
---- !u!114 &2217033098449189651
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568491025053358227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08540605df275034fafc8e05c6704214, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  title: Selector
-  rect:
-    serializedVersion: 2
-    x: 580
-    y: 620
-    width: 160
-    height: 44
-  parent: {fileID: 1921881211910184089}
-  children:
-  - {fileID: 1553917809270044092}
-  - {fileID: 726797194551752704}
-  behaviourTree: {fileID: 0}
-  runtimePriority: 0
-  breakpoint: 0
-  random: 0
 --- !u!114 &1553917809270044092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -897,10 +704,10 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 480
-    y: 740
+    y: 660
     width: 160
     height: 44
-  parent: {fileID: 2217033098449189651}
+  parent: {fileID: 6990436375482712623}
   children: []
   behaviourTree: {fileID: 0}
   runtimePriority: 0
@@ -908,19 +715,19 @@ MonoBehaviour:
   SourceTransform:
     useConstant: 0
     mode: 0
-    blackboard: {fileID: 1091220996072956865}
+    blackboard: {fileID: 31365097159186596}
     key: AgentTransform
     constantValue: {fileID: 0}
   TargetTransform:
     useConstant: 0
     mode: 0
-    blackboard: {fileID: 1091220996072956865}
+    blackboard: {fileID: 31365097159186596}
     key: PlayerTargetTransform
     constantValue: {fileID: 0}
   TurnSpeed:
     useConstant: 0
     mode: 0
-    blackboard: {fileID: 1091220996072956865}
+    blackboard: {fileID: 31365097159186596}
     key: TurnSpeed
     constantValue: 0
 --- !u!114 &726797194551752704
@@ -939,10 +746,10 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 680
-    y: 740
+    y: 660
     width: 160
     height: 44
-  parent: {fileID: 2217033098449189651}
+  parent: {fileID: 6990436375482712623}
   children:
   - {fileID: 4181434698138631317}
   behaviourTree: {fileID: 0}
@@ -951,29 +758,21 @@ MonoBehaviour:
   AgentTransform:
     useConstant: 0
     mode: 0
-    blackboard: {fileID: 1091220996072956865}
+    blackboard: {fileID: 31365097159186596}
     key: AgentTransform
     constantValue: {fileID: 0}
   TargetTransform:
     useConstant: 0
     mode: 0
-    blackboard: {fileID: 1091220996072956865}
+    blackboard: {fileID: 31365097159186596}
     key: PlayerTargetTransform
     constantValue: {fileID: 0}
---- !u!114 &937244719126645586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568491025053358227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4e5f4db414f0ab4c82c187a7653e99d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: TurnSpeed
-  val: 2
+  WeaponSystemsInfo:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 31365097159186596}
+    key: WeaponSystemsInfo
+    constantValue: {fileID: 0}
 --- !u!114 &6509767817734328039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1013,11 +812,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f608fe10f004ef0bbf9fb2a2dbbf1d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: Fire Weapon
+  title: Start Firing Weapon
   rect:
     serializedVersion: 2
-    x: 679
-    y: 800
+    x: 680
+    y: 720
     width: 160
     height: 44
   parent: {fileID: 726797194551752704}
@@ -1025,12 +824,181 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  WeaponFireReference:
+  WeaponSystemsInfo:
     useConstant: 0
     mode: 0
-    blackboard: {fileID: 1091220996072956865}
-    key: WeaponFireDetails
---- !u!114 &1548911594087833131
+    blackboard: {fileID: 31365097159186596}
+    key: WeaponSystemsInfo
+    constantValue: {fileID: 0}
+--- !u!114 &7714295090338733277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568491025053358227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e5f4db414f0ab4c82c187a7653e99d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: MovementSpeed
+  val: 2
+--- !u!114 &4884560396803690728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568491025053358227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ae15c5e6bcb1714080f2e8296c3d17a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: IsPaused
+  val: 0
+--- !u!114 &4145590055475884840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568491025053358227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ae15c5e6bcb1714080f2e8296c3d17a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: IsDead
+  val: 0
+--- !u!114 &8775109792926336925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568491025053358227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaa62ce5e63cc9d45ae0efc52561ace7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: MovementVelocity
+  val: {x: 0, y: 0}
+--- !u!114 &4746179622679096152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568491025053358227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e5f4db414f0ab4c82c187a7653e99d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Health
+  val: 20
+--- !u!114 &3740212146150465327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568491025053358227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a280585a974a40e59661cc863248813a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: AgentTransform
+  val: {fileID: 8119181458987764988}
+--- !u!114 &5798797943074413062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568491025053358227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4be6860a83fe93e4bbd689336d96bdc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: MaxCollisionHitCount
+  val: 999
+--- !u!114 &2719508543635070451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568491025053358227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cdb61a66fcb1c549a844f093811f6c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: DeathEffect
+  val: {fileID: 2010537941153600407, guid: ebcbce93d32fc0442827d50b1f94eeff, type: 3}
+--- !u!114 &4080473341498776218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568491025053358227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e5f4db414f0ab4c82c187a7653e99d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Lifetime
+  val: 999
+--- !u!114 &5412659537390059582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568491025053358227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a280585a974a40e59661cc863248813a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: PlayerTargetTransform
+  val: {fileID: 0}
+--- !u!114 &5069549066356228831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568491025053358227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e5f4db414f0ab4c82c187a7653e99d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: DistanceToTarget
+  val: 10
+--- !u!114 &81465012966984149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568491025053358227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e5f4db414f0ab4c82c187a7653e99d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: TurnSpeed
+  val: 0.5
+--- !u!114 &8362225361554142861
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1042,7 +1010,79 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4124f4ba764e4ca6de4f94a9cfed04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  key: WeaponFireDetails
+  key: WeaponSystemsInfo
+  val: {fileID: 0}
+--- !u!114 &802770041409527407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568491025053358227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4be6860a83fe93e4bbd689336d96bdc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: CollisionHitCount
+  val: 0
+--- !u!114 &6990436375482712623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568491025053358227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c78c7da6b00e1b46bad07949050f82f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Sequence
+  rect:
+    serializedVersion: 2
+    x: 580
+    y: 580
+    width: 160
+    height: 44
+  parent: {fileID: 1921881211910184089}
+  children:
+  - {fileID: 1553917809270044092}
+  - {fileID: 726797194551752704}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  random: 0
+--- !u!114 &5040549946580144282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568491025053358227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e3d3418dd384b61af76f8b3273fec85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Stop Firing Weapons
+  rect:
+    serializedVersion: 2
+    x: 680
+    y: 400
+    width: 160
+    height: 44
+  parent: {fileID: 7917987135681338436}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  WeaponSystemsInfo:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 31365097159186596}
+    key: WeaponSystemsInfo
+    constantValue: {fileID: 0}
 --- !u!1 &8739472934000758447
 GameObject:
   m_ObjectHideFlags: 0
@@ -1058,6 +1098,8 @@ GameObject:
   - component: {fileID: 4971320230845308471}
   - component: {fileID: 1174632220505170030}
   - component: {fileID: 7840105387070121656}
+  - component: {fileID: 4778393852819598035}
+  - component: {fileID: 4589782016980362613}
   m_Layer: 9
   m_Name: Zeto Fighter
   m_TagString: Enemy
@@ -1223,7 +1265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Rigidbody: {fileID: 5238197444034098580}
-  m_Blackboard: {fileID: 1091220996072956865}
+  m_Blackboard: {fileID: 31365097159186596}
 --- !u!114 &1174632220505170030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1236,7 +1278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 413562acb3914cd3aa1b1c28b43651f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Blackboard: {fileID: 1091220996072956865}
+  m_Blackboard: {fileID: 31365097159186596}
 --- !u!114 &7840105387070121656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1249,4 +1291,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eeb413e2cc34d929ba60c037105110c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Blackboard: {fileID: 1091220996072956865}
+  m_Blackboard: {fileID: 31365097159186596}
+--- !u!114 &4778393852819598035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8739472934000758447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e442b40c8e74099b3787d77c33188d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BehaviourTree: {fileID: 31365097159186596}
+--- !u!114 &4589782016980362613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8739472934000758447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3350317b6e794bc1840e8cfbe0a94d9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

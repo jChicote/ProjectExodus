@@ -6,12 +6,12 @@ namespace ProjectExodus
 {
 
     [AddComponentMenu("")]
-    public class WeaponFireInfoVariable : Variable<WeaponFireInfo>
+    public class WeaponSystemsInfoVariable : Variable<WeaponSystemsInfo>
     {
 
         #region - - - - - - Methods - - - - - -
 
-        protected override bool ValueEquals(WeaponFireInfo val1, WeaponFireInfo val2) 
+        protected override bool ValueEquals(WeaponSystemsInfo val1, WeaponSystemsInfo val2) 
             => val1 == val2;
 
         #endregion Methods
@@ -19,15 +19,15 @@ namespace ProjectExodus
     }
     
     [Serializable]
-    public class WeaponFireReference : VariableReference<WeaponFireInfoVariable, WeaponFireInfo>
+    public class WeaponSystemsInfoReference : VariableReference<WeaponSystemsInfoVariable, WeaponSystemsInfo>
     {
 
         #region - - - - - - Constructors - - - - - -
 
-        public WeaponFireReference(VarRefMode mode = VarRefMode.EnableConstant) 
+        public WeaponSystemsInfoReference(VarRefMode mode = VarRefMode.EnableConstant) 
             => SetMode(mode);
 
-        public WeaponFireReference(WeaponFireInfo defaultConstant)
+        public WeaponSystemsInfoReference(WeaponSystemsInfo defaultConstant)
         {
             useConstant = true;
             constantValue = defaultConstant;
@@ -37,7 +37,7 @@ namespace ProjectExodus
 
         #region - - - - - - Properties - - - - - -
 
-        public WeaponFireInfo Value
+        public WeaponSystemsInfo Value
         {
             get => useConstant? constantValue : this.GetVariable().Value;
             set
@@ -49,20 +49,6 @@ namespace ProjectExodus
             }
         }
 
-        #endregion Properties
-  
-    }
-    
-    [Serializable]
-    public class WeaponFireInfo
-    {
-
-        #region - - - - - - Properties - - - - - -
-
-        public float FireRate { get; set; }
-        
-        public float FiringViewArc { get; set; }
-        
         #endregion Properties
   
     }
