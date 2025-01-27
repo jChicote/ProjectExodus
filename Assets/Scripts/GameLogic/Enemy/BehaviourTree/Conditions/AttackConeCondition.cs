@@ -15,7 +15,7 @@ namespace ProjectExodus
         public TransformReference TargetTransform = new();
         public WeaponSystemsInfoReference WeaponSystemsInfo = new();
         
-        private float FiringArc = 45f;
+        private float FiringArc = 45f; // TODO: Use Weapon systems info
 
         #endregion Fields
 
@@ -29,9 +29,7 @@ namespace ProjectExodus
             float _DotProduct = Vector2.Dot(this.AgentTransform.Value.up, _DirectionToTarget);
             float _AngleToTarget = Mathf.Acos(_DotProduct) * Mathf.Rad2Deg;
                 
-            // float _AngleToTarget = Vector3.Angle(this.AgentTransform.Value.up, _DirectionToTarget);
             bool _IsWithinCone = _AngleToTarget <= this.FiringArc / 2;
-            Debug.Log(_IsWithinCone);
             return _IsWithinCone;
         }
 
