@@ -20,17 +20,11 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
         private Vector2 m_ScreenCenter;
         private bool m_IsInputActive;
         private bool m_IsDebugConsoleEnabled;
+        private bool m_IsPlayerControllable = true;
 
         private bool m_CtrlPressed;
 
         #endregion Fields
-
-        #region - - - - - - Properties - - - - - -
-
-        // Ensures that input is sent if the player exists.
-        public bool IsPlayerControllable { get; set; }
-
-        #endregion Properties
 
         #region - - - - - - Initializers - - - - - -
 
@@ -41,8 +35,8 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
                 initializerCommand.Execute();
             
             IPlayerObserver _PlayerObserver = SceneManager.Instance.PlayerObserver;
-            _PlayerObserver.OnPlayerSpawned.AddListener( _ => this.IsPlayerControllable = true);
-            _PlayerObserver.OnPlayerDeath.AddListener(() => this.IsPlayerControllable = false);
+            _PlayerObserver.OnPlayerSpawned.AddListener( _ => this.m_IsPlayerControllable = true);
+            _PlayerObserver.OnPlayerDeath.AddListener(() => this.m_IsPlayerControllable = false);
             _PlayerObserver.OnPlayerSpawned.AddListener(this.RebindInputControlToRespawnedPlayer);
         }
 
@@ -61,7 +55,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnAttack(InputAction.CallbackContext callback)
         {
-            if (this.IsInputControlValid() || !this.IsPlayerControllable)
+            if (this.IsInputControlValid() || !this.m_IsPlayerControllable)
                 return;
             
             this.m_ServiceControllers.PlayerWeaponSystems?.ToggleWeaponFire(true);
@@ -69,7 +63,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnAttackRelease(InputAction.CallbackContext callback)
         {
-            if (this.IsInputControlValid() || !this.IsPlayerControllable)
+            if (this.IsInputControlValid() || !this.m_IsPlayerControllable)
                 return;
             
             this.m_ServiceControllers.PlayerWeaponSystems?.ToggleWeaponFire(false);
@@ -77,7 +71,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnControlOptionPressed(InputAction.CallbackContext callback)
         {
-            if (this.IsInputControlValid() || !this.IsPlayerControllable)
+            if (this.IsInputControlValid() || !this.m_IsPlayerControllable)
                 return;
 
             this.m_CtrlPressed = true;
@@ -86,7 +80,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnControlOptionReleased(InputAction.CallbackContext callback)
         {
-            if (this.IsInputControlValid() || !this.IsPlayerControllable)
+            if (this.IsInputControlValid() || !this.m_IsPlayerControllable)
                 return;
 
             this.m_CtrlPressed = false;
@@ -103,7 +97,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnLook(InputAction.CallbackContext callback)
         {
-            if (this.IsInputControlValid() || !this.IsPlayerControllable)
+            if (this.IsInputControlValid() || !this.m_IsPlayerControllable)
                 return;
             
             // Calculate look direction assuming screen center as origin point
@@ -115,7 +109,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnMove(InputAction.CallbackContext callback)
         {
-            if (this.IsInputControlValid() || !this.IsPlayerControllable)
+            if (this.IsInputControlValid() || !this.m_IsPlayerControllable)
                 return;
             
             this.m_ServiceControllers.PlayerMovement.SetMoveDirection(callback.ReadValue<Vector2>()); // default for now
@@ -131,7 +125,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnSecondaryAction(InputAction.CallbackContext callback)
         {
-            if (this.IsInputControlValid() || !this.IsPlayerControllable)
+            if (this.IsInputControlValid() || !this.m_IsPlayerControllable)
                 return;
             
             if (this.m_CtrlPressed)
@@ -140,7 +134,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnSprint(InputAction.CallbackContext callbackContext)
         {
-            if (this.IsInputControlValid() || !this.IsPlayerControllable)
+            if (this.IsInputControlValid() || !this.m_IsPlayerControllable)
                 return;
 
             this.m_ServiceControllers.PlayerMovement?.ToggleAfterburn();

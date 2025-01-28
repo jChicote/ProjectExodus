@@ -48,12 +48,18 @@ namespace ProjectExodus.Debugging
         private void RespawnPlayer()
         {
             GameObject _ExistingPlayer = Object
-                                             .FindObjectsByType<GameObject>(FindObjectsInactive.Exclude, FindObjectsSortMode.None)
-                                             .FirstOrDefault(x => x.tag == GameTag.Player)
-                                         ?? throw new NullReferenceException("No Player is found in the scene");
+                .FindObjectsByType<GameObject>(FindObjectsInactive.Exclude, FindObjectsSortMode.None)
+                .FirstOrDefault(x => x.tag == GameTag.Player);
+
+            if (_ExistingPlayer == null)
+            {
+                Debug.LogError("Cannot perform command: No Player is found in the scene.");
+                return;
+            }
 
             IDamageable _PlayerDamageHandle = _ExistingPlayer.GetComponent<IDamageable>();
-            _PlayerDamageHandle.SendDamage(9999);
+            _PlayerDamageHandle.SendDamage(999);
+            _PlayerDamageHandle.SendDamage(999); // Performed twice to also damage the plating.
             
             StartupDataContext _StartupData = new StartupDataContext
             {
@@ -61,9 +67,7 @@ namespace ProjectExodus.Debugging
                 SelectedShip = GameDataManager.Instance.SelectedShip
             };
             
-            ShipModel _ShipToSpawn = _StartupData
-                .Player
-                .Ships
+            ShipModel _ShipToSpawn = _StartupData.Player.Ships
                 .Single(sm => sm.ID == _StartupData.SelectedShip.ID);
 
             this.m_PlayerSpawner.SpawnPlayerShip(_ShipToSpawn);

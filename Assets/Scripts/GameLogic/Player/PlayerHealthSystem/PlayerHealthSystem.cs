@@ -55,6 +55,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
 
         void IDamageable.SendDamage(float damage)
         {
+            // TODO: The health system needs to be changed to allow for damage of both shields and plating in one single hit.
             float _PlatingDamage = 
                 this.m_CurrentShieldHealth > damage ? 0 : damage - this.m_CurrentShieldHealth;
 
