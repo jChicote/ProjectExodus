@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Cinemachine;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Enumeration;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
@@ -94,7 +95,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
 
             return _PlayerShip;
         }
-        
+
         #endregion Methods
   
     }

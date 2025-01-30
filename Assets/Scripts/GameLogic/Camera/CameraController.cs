@@ -1,10 +1,14 @@
 using Cinemachine;
+using ProjectExodus.Management.SceneManager;
 using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Camera
 {
 
-    public class CameraController : MonoBehaviour, ICameraController
+    public class CameraController : 
+        MonoBehaviour, 
+        ICameraController, 
+        IInitialize<CameraControllerInitializerData>
     {
 
         #region - - - - - - Fields - - - - - -
@@ -12,14 +16,28 @@ namespace ProjectExodus.GameLogic.Camera
         [SerializeField] private CinemachineVirtualCamera m_VirtualCamera;
 
         #endregion Fields
+
+        #region - - - - - - Initializers - - - - - -
+
+        public void Initialize(CameraControllerInitializerData initializerData)
+        {
+            IPlayerObserver _PlayerObserver = SceneManager.Instance.PlayerObserver;
+            _PlayerObserver.OnPlayerSpawned.AddListener(newPlayer => this.SetCameraFollowTarget(newPlayer.transform));
+        }
+
+        #endregion Initializers
   
         #region - - - - - - Methods - - - - - -
 
-        void ICameraController.SetCameraFollowTarget(Transform target)
+        public void SetCameraFollowTarget(Transform target)
             => this.m_VirtualCamera.Follow = target;
 
         #endregion Methods
 
+    }
+
+    public class CameraControllerInitializerData
+    {
     }
 
 }

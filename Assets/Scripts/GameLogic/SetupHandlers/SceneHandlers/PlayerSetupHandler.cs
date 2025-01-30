@@ -31,7 +31,7 @@ namespace GameLogic.SetupHandlers.SceneHandlers
 
         void ISetupHandler.Handle(SceneSetupInitializationContext initializationContext)
         {
-            ICameraController _CameraController = CameraController;
+            ICameraController _CameraController = initializationContext.CameraController;
             IPlayerProvider _PlayerProvider = PlayerProvider;
             IPlayerSpawner _PlayerSpawner = PlayerSpawner;
             
@@ -59,9 +59,6 @@ namespace GameLogic.SetupHandlers.SceneHandlers
             _CameraController.SetCameraFollowTarget(_Player.transform);
             _PlayerProvider.SetActivePlayer(_Player);
             
-            // Set any management values
-            this.AssignToManager(initializationContext);
-            
             // Hook to input system
             initializationContext.InputManager.PossesGameplayInputControls();
             initializationContext.InputManager.DisableActiveInputControl();
@@ -69,9 +66,6 @@ namespace GameLogic.SetupHandlers.SceneHandlers
             initializationContext.LoadingScreenController.UpdateLoadProgress(60f);
             this.m_NextHandler?.Handle(initializationContext);
         }
-
-        private void AssignToManager(SceneSetupInitializationContext context) 
-            => SceneManager.Instance.PlayerObserver = context.PlayerObserver;
 
         #endregion Methods
   

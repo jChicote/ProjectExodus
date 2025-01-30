@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Cinemachine;
 using ProjectExodus.GameLogic.Scene;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -18,7 +19,11 @@ namespace ProjectExodus.Management.SceneManager
 
         public static SceneManager Instance;
 
+        // Player
         public PlayerObserver PlayerObserver;
+
+        // Camera
+        public CinemachineVirtualCamera MainVirtualCamera;
         
         // Debug
         private ISceneController m_ActiveSceneController;
