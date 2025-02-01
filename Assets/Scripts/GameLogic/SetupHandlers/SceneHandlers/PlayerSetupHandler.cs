@@ -6,6 +6,7 @@ using ProjectExodus.GameLogic.Player.PlayerProvider;
 using ProjectExodus.GameLogic.Player.PlayerSpawner;
 using ProjectExodus.Management.SceneManager;
 using ProjectExodus.UserInterface.Controllers;
+using ProjectExodus.Utility.GameLogging;
 using UnityEngine;
 
 namespace GameLogic.SetupHandlers.SceneHandlers
@@ -64,6 +65,8 @@ namespace GameLogic.SetupHandlers.SceneHandlers
             initializationContext.InputManager.DisableActiveInputControl();
             
             initializationContext.LoadingScreenController.UpdateLoadProgress(60f);
+            
+            GameLogger.Log("PlayerSetupHandler has run.");
             this.m_NextHandler?.Handle(initializationContext);
         }
 

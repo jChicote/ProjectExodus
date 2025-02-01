@@ -1,5 +1,6 @@
 using ProjectExodus;
 using ProjectExodus.Management.UserInterfaceManager;
+using ProjectExodus.Utility.GameLogging;
 using UnityEngine;
 
 namespace GameLogic.SetupHandlers.SceneHandlers
@@ -30,6 +31,7 @@ namespace GameLogic.SetupHandlers.SceneHandlers
             initializationContext.InputManager.EnableActiveInputControl();
             initializationContext.LoadingScreenController.UpdateLoadProgress(100);
 
+            GameLogger.Log("FinalizeSceneSetupHandler has run.");
             this.m_NextHandler?.Handle(initializationContext);
         }
 

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using ProjectExodus;
 using ProjectExodus.GameLogic.Player.PlayerProvider;
+using ProjectExodus.Utility.GameLogging;
 using UnityEngine;
 
 namespace GameLogic.SetupHandlers.SceneHandlers
@@ -29,6 +30,8 @@ namespace GameLogic.SetupHandlers.SceneHandlers
                 _EnemySpawner.Initialize(new() { PlayerProvider = PlayerProvider });
             
             initializationContext.LoadingScreenController.UpdateLoadProgress(80f);
+            
+            GameLogger.Log("EnemySetupHandler has run.");
             this.m_NextHandler?.Handle(initializationContext);
         }
 

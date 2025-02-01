@@ -1,3 +1,4 @@
+using ProjectExodus.Utility.GameLogging;
 using UnityEngine;
 
 namespace GameLogic.SetupHandlers.SceneHandlers
@@ -21,6 +22,7 @@ namespace GameLogic.SetupHandlers.SceneHandlers
         {
             this.SetupCameraControl(initializationContext);
             
+            GameLogger.Log("CameraSetupHandler has run.");
             this.m_NextHandler?.Handle(initializationContext);
         }
         

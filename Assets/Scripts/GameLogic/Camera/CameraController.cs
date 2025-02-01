@@ -22,6 +22,7 @@ namespace ProjectExodus.GameLogic.Camera
         public void Initialize(CameraControllerInitializerData initializerData)
         {
             IPlayerObserver _PlayerObserver = SceneManager.Instance.PlayerObserver;
+            Debug.Log(_PlayerObserver);
             _PlayerObserver.OnPlayerSpawned.AddListener(newPlayer => this.SetCameraFollowTarget(newPlayer.transform));
         }
 
@@ -30,7 +31,10 @@ namespace ProjectExodus.GameLogic.Camera
         #region - - - - - - Methods - - - - - -
 
         public void SetCameraFollowTarget(Transform target)
-            => this.m_VirtualCamera.Follow = target;
+        {
+            this.m_VirtualCamera.Follow = target;
+            Debug.Log("Camera target is set");
+        }
 
         #endregion Methods
 
