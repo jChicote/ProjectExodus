@@ -257,8 +257,12 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
         private bool IsInputControlValid()
             => this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled;
 
-        private void RebindInputControlToRespawnedPlayer(GameObject player) 
-            => this.m_ServiceControllers.SetNewPlayerComponents(player);
+        private void RebindInputControlToRespawnedPlayer(GameObject player)
+        {
+            this.m_IsPlayerControllable = false;
+            this.m_ServiceControllers.SetNewPlayerComponents(player);
+            this.m_IsPlayerControllable = true;
+        }
 
         #endregion Methods
 
