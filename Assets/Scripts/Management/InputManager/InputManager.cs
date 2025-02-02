@@ -18,6 +18,8 @@ namespace ProjectExodus.Management.InputManager
 
         #region - - - - - - Fields - - - - - -
 
+        public static InputManager Instance; 
+
         [Header("Target input destinations")]
         [SerializeField] private GameObject m_SessionUser;
         [SerializeField] private PlayerInput m_PlayerInput;
@@ -36,12 +38,12 @@ namespace ProjectExodus.Management.InputManager
 
         private void Awake()
         {
-            InputManager[] _InputManager = Object.FindObjectsByType<InputManager>(FindObjectsSortMode.None);
-            if (_InputManager.Length > 1)
-                Debug.LogError($"Multiple {nameof(InputManager)}s detected. " +
-                               $"Only one {nameof(InputManager)} should exist, unexpected behaviour will occur.");
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(gameObject);
         }
-
+        
         #endregion Unity Methods
   
         #region - - - - - - Methods - - - - - -
@@ -50,7 +52,6 @@ namespace ProjectExodus.Management.InputManager
         {
             // Note: Ensure all values exist and references are set. Avoid setting the active input control.
             ((IInputManager)this).PossesUserInterfaceInputControls();
-            
             Debug.Log("InputManager initialised."); // Temp debug only
         }
 

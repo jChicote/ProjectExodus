@@ -38,7 +38,7 @@ namespace ProjectExodus.Debugging
         {
             DebugCommand _RespawnPlayer = new DebugCommand(
                 "player_respawn",
-                "Respawns the player object in scene.",
+                "Respawns the player. (Resets the debug console)",
                 "player_respawn",
                 this.RespawnPlayer);
             

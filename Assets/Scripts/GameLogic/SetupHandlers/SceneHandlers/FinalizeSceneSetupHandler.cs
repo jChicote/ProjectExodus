@@ -29,9 +29,9 @@ namespace GameLogic.SetupHandlers.SceneHandlers
             initializationContext.LoadingScreenController.HideScreen();
             initializationContext.LoadingScreenController.ResetLoadingScreen();
             initializationContext.InputManager.EnableActiveInputControl();
-            initializationContext.LoadingScreenController.UpdateLoadProgress(100);
 
             GameLogger.Log("FinalizeSceneSetupHandler has run.");
+            initializationContext.LoadingScreenController.UpdateLoadProgress(100);
             this.m_NextHandler?.Handle(initializationContext);
         }
 

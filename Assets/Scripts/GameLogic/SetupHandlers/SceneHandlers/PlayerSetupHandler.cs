@@ -1,10 +1,10 @@
 using System.Linq;
+using ProjectExodus;
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Camera;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.GameLogic.Player.PlayerProvider;
 using ProjectExodus.GameLogic.Player.PlayerSpawner;
-using ProjectExodus.Management.SceneManager;
 using ProjectExodus.UserInterface.Controllers;
 using ProjectExodus.Utility.GameLogging;
 using UnityEngine;
@@ -35,6 +35,7 @@ namespace GameLogic.SetupHandlers.SceneHandlers
             ICameraController _CameraController = initializationContext.CameraController;
             IPlayerProvider _PlayerProvider = PlayerProvider;
             IPlayerSpawner _PlayerSpawner = PlayerSpawner;
+            IPlayerObserver _PlayerObserver = initializationContext.PlayerObserver;
             
             // TODO: Change this so that during the pipeline if it fails, a warning popup is presented to the Player.
             if (!initializationContext.ActiveUserInterfaceController.TryGetGUIControllers(out object _Controllers))
@@ -55,10 +56,13 @@ namespace GameLogic.SetupHandlers.SceneHandlers
                 .Ships
                 .Single(sm => sm.ID == initializationContext.StartupDataOptions.SelectedShip.ID);
             
+            // Assign listeners to Player Observer for spawning
+            _PlayerObserver.OnPlayerSpawned.AddListener(newPlayer => _PlayerProvider.SetActivePlayer(newPlayer));
+            _PlayerObserver.OnPlayerSpawned.AddListener(newPlayer => _CameraController.SetCameraFollowTarget(newPlayer.transform));
+            _PlayerObserver.OnPlayerDeath.AddListener(initializationContext.InputManager.UnpossesGameplayInputControls);
+            
             // Create Player ship
-            GameObject _Player = _PlayerSpawner.SpawnPlayerShip(_ShipToSpawn);
-            _CameraController.SetCameraFollowTarget(_Player.transform);
-            _PlayerProvider.SetActivePlayer(_Player);
+            _ = _PlayerSpawner.SpawnPlayerShip(_ShipToSpawn);
             
             // Hook to input system
             initializationContext.InputManager.PossesGameplayInputControls();

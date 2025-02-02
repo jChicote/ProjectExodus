@@ -1,13 +1,15 @@
 ﻿using System;
 using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
-using ProjectExodus.Management.SceneManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace ProjectExodus.GameLogic.Input.Gameplay
 {
 
+    /// <summary>
+    /// Responsible for only handling the inputs for the active player object.
+    /// </summary>
     public class KeyboardAndMouseGameplayInputControl : 
         PausableMonoBehavior,
         IGameplayInputControl
@@ -20,8 +22,6 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
         private Vector2 m_ScreenCenter;
         private bool m_IsInputActive;
         private bool m_IsDebugConsoleEnabled;
-        private bool m_IsPlayerControllable = true;
-
         private bool m_CtrlPressed;
 
         #endregion Fields
@@ -33,29 +33,24 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             // Executes custom resolution of input control's dependencies.
             if (initializerCommand.CanExecute())
                 initializerCommand.Execute();
-            
-            IPlayerObserver _PlayerObserver = SceneManager.Instance.PlayerObserver;
-            _PlayerObserver.OnPlayerSpawned.AddListener( _ => this.m_IsPlayerControllable = true);
-            _PlayerObserver.OnPlayerDeath.AddListener(() => this.m_IsPlayerControllable = false);
-            _PlayerObserver.OnPlayerSpawned.AddListener(this.RebindInputControlToRespawnedPlayer);
         }
 
         #endregion Initializers
   
-        #region - - - - - - Unity Lifecycle Methods - - - - - -
+        #region - - - - - - Unity Methods - - - - - -
 
         private void Awake()
             => this.m_ScreenCenter = new Vector2(
                 Screen.width / 2f,
                 Screen.height / 2f);
 
-        #endregion Unity Lifecycle Methods
+        #endregion Unity Methods
   
-        #region - - - - - - Events - - - - - -
+        #region - - - - - - Event Handlers - - - - - -
 
         void IGameplayInputControl.OnAttack(InputAction.CallbackContext callback)
         {
-            if (this.IsInputControlValid() || !this.m_IsPlayerControllable)
+            if (this.IsInputControlValid())
                 return;
             
             this.m_ServiceControllers.PlayerWeaponSystems?.ToggleWeaponFire(true);
@@ -63,7 +58,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnAttackRelease(InputAction.CallbackContext callback)
         {
-            if (this.IsInputControlValid() || !this.m_IsPlayerControllable)
+            if (this.IsInputControlValid())
                 return;
             
             this.m_ServiceControllers.PlayerWeaponSystems?.ToggleWeaponFire(false);
@@ -71,7 +66,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnControlOptionPressed(InputAction.CallbackContext callback)
         {
-            if (this.IsInputControlValid() || !this.m_IsPlayerControllable)
+            if (this.IsInputControlValid())
                 return;
 
             this.m_CtrlPressed = true;
@@ -80,7 +75,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnControlOptionReleased(InputAction.CallbackContext callback)
         {
-            if (this.IsInputControlValid() || !this.m_IsPlayerControllable)
+            if (this.IsInputControlValid())
                 return;
 
             this.m_CtrlPressed = false;
@@ -97,7 +92,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnLook(InputAction.CallbackContext callback)
         {
-            if (this.IsInputControlValid() || !this.m_IsPlayerControllable)
+            if (this.IsInputControlValid())
                 return;
             
             // Calculate look direction assuming screen center as origin point
@@ -109,7 +104,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnMove(InputAction.CallbackContext callback)
         {
-            if (this.IsInputControlValid() || !this.m_IsPlayerControllable)
+            if (this.IsInputControlValid())
                 return;
             
             this.m_ServiceControllers.PlayerMovement.SetMoveDirection(callback.ReadValue<Vector2>()); // default for now
@@ -125,7 +120,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnSecondaryAction(InputAction.CallbackContext callback)
         {
-            if (this.IsInputControlValid() || !this.m_IsPlayerControllable)
+            if (this.IsInputControlValid())
                 return;
             
             if (this.m_CtrlPressed)
@@ -134,7 +129,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnSprint(InputAction.CallbackContext callbackContext)
         {
-            if (this.IsInputControlValid() || !this.m_IsPlayerControllable)
+            if (this.IsInputControlValid())
                 return;
 
             this.m_ServiceControllers.PlayerMovement?.ToggleAfterburn();
@@ -148,9 +143,8 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
         {
             if (!this.m_IsInputActive)
                 return;
-            
-            this.m_ServiceControllers.DebugHandler.ToggleDebugMenu();
-            this.m_IsDebugConsoleEnabled = !this.m_IsDebugConsoleEnabled;
+
+            this.ToggleDebugConsole();
         }
 
         void IGameplayInputControl.OnSubmitCommand(InputAction.CallbackContext context)
@@ -161,7 +155,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             this.m_ServiceControllers.DebugHandler.SubmitDebugCommand();
         }
 
-        #endregion Events
+        #endregion Event Handlers
         
         #region - - - - - - Methods - - - - - -
 
@@ -240,6 +234,9 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
                 ((IGameplayInputControl)this).OnDebugConsole;
             playerInput.actions[GameplayInputActionConstants.SUBMITCOMMAND].performed -=
                 ((IGameplayInputControl)this).OnSubmitCommand;
+
+            if (this.m_IsDebugConsoleEnabled)
+                this.ToggleDebugConsole();
         }
 
         bool IInputControl.IsInputControlIsActive()
@@ -257,15 +254,18 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
         private bool IsInputControlValid()
             => this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled;
 
-        private void RebindInputControlToRespawnedPlayer(GameObject player)
-        {
-            this.m_IsPlayerControllable = false;
-            this.m_ServiceControllers.SetNewPlayerComponents(player);
-            this.m_IsPlayerControllable = true;
-        }
-
         #endregion Methods
 
+        #region - - - - - - Debug Methods - - - - - -
+
+        private void ToggleDebugConsole()
+        {
+            this.m_ServiceControllers.DebugHandler.ToggleDebugMenu();
+            this.m_IsDebugConsoleEnabled = !this.m_IsDebugConsoleEnabled;
+        }
+
+        #endregion Debug Methods
+  
     }
 
 }
