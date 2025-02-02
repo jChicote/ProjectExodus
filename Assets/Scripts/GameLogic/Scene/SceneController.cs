@@ -1,5 +1,6 @@
 using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Pause.PauseController;
+using ProjectExodus.GameLogic.Player.PlayerProvider;
 using ProjectExodus.GameLogic.Scene.SetupHandlers;
 using UnityEngine;
 
@@ -14,6 +15,11 @@ namespace ProjectExodus.GameLogic.Scene
         [SerializeField] private UnityEngine.Camera m_Camera;
         [SerializeField] private SceneStartupHandler m_SceneStartupController;
         [SerializeField] private PauseController m_PauseController;
+
+        [Header("Player Related")]
+        [RequiredField]
+        [SerializeField]
+        private PlayerProvider m_PlayerProvider;
 
         #endregion Fields
 
@@ -35,6 +41,9 @@ namespace ProjectExodus.GameLogic.Scene
 
         public UnityEngine.Camera Camera
             => this.m_Camera;
+        
+        public IPlayerProvider PlayerProvider
+            => this.m_PlayerProvider;
         
         IPauseController ISceneController.PauseController
             => this.m_PauseController;

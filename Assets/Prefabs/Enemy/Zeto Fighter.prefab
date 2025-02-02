@@ -370,7 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 876974338744005530}
+  selectedEditorNode: {fileID: 0}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1
   parent: {fileID: 0}
@@ -389,8 +389,8 @@ MonoBehaviour:
   title: Root
   rect:
     serializedVersion: 2
-    x: 181
-    y: 199
+    x: 200
+    y: 200
     width: 160
     height: 44
   parent: {fileID: 0}
@@ -1330,3 +1330,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 784f48ed8387451a828227f76e12f955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Blackboard: {fileID: 31365097159186596}

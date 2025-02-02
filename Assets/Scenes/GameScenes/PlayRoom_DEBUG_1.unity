@@ -2394,6 +2394,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2044013418}
     - target: {fileID: 6406323765604720328, guid: fa93da31246b1ef418d4cc664b40e97e, type: 3}
+      propertyPath: m_PlayerProvider
+      value: 
+      objectReference: {fileID: 1379387251}
+    - target: {fileID: 6406323765604720328, guid: fa93da31246b1ef418d4cc664b40e97e, type: 3}
       propertyPath: m_PauseController
       value: 
       objectReference: {fileID: 902847392}

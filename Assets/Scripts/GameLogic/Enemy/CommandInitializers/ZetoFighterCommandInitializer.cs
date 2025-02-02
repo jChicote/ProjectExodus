@@ -54,6 +54,11 @@ namespace ProjectExodus
                 this.GetComponent<IInitialize<EnemyWeaponSystemInitializerData>>();
             _WeaponSystemInitializer.Initialize(new());
             
+            // Collect and run all generic initializers
+            IInitialize[] _Initializers = this.GetComponents<IInitialize>();
+            foreach (var _Initializer in _Initializers)
+                _Initializer.Initialize();
+            
             // Set Prefab Template values to the blackboard
             this.m_Blackboard.GetVariable<GameObjectVariable>(EnemyHealthSystemKeys.DeathEffect);
         }
