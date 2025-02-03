@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ProjectExodus;
+using ProjectExodus.GameLogic.Input;
+using ProjectExodus.Management.InputManager;
 using ProjectExodus.Management.SceneManager;
+using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class DebugManager : MonoBehaviour, IDebugCommandSystem
 {
@@ -15,6 +19,9 @@ public class DebugManager : MonoBehaviour, IDebugCommandSystem
     public DebugOverlayer DebugOverlayer;
     
     [SerializeField] private DebugConsole m_Console;
+    [SerializeField] private DebugSettings m_DebugSettings;
+    
+    private GameObject m_DebugInputController;
 
     #endregion Fields
 
@@ -91,12 +98,26 @@ public class DebugManager : MonoBehaviour, IDebugCommandSystem
     // A separate input control is created to preserve debug console interactions.
     private void CreateTemporaryDebugInputHandler()
     {
+        this.m_DebugInputController = Instantiate(this.m_DebugSettings.DebugInputControl, this.transform);
         
+        IInitialize<DebugInputControlInitializerData> _Initializer =
+            this.m_DebugInputController.GetComponent<IInitialize<DebugInputControlInitializerData>>();
+        _Initializer.Initialize(new() { DebugHandler = this.GetComponent<IDebugHandler>() });
+        IInputControl _InputControl = this.m_DebugInputController.GetComponent<IInputControl>();
+        
+        PlayerInput _PlayerInput = InputManager.Instance.GetComponent<PlayerInput>();
+        _InputControl.BindInputControls(_PlayerInput);
     }
 
     private void RemoveTemporaryDebugInputHandler()
     {
+        if (this.m_DebugInputController == null) return;
         
+        IInputControl _InputControl = this.m_DebugInputController.GetComponent<IInputControl>();
+        PlayerInput _PlayerInput = InputManager.Instance.GetComponent<PlayerInput>();
+        _InputControl.UnbindInputControls(_PlayerInput);
+        
+        Destroy(this.m_DebugInputController);
     }
 
     #endregion Methods

@@ -51,15 +51,14 @@ namespace ProjectExodus.Debugging
                 .FindObjectsByType<GameObject>(FindObjectsInactive.Exclude, FindObjectsSortMode.None)
                 .FirstOrDefault(x => x.tag == GameTag.Player);
 
-            if (_ExistingPlayer == null)
+            if (_ExistingPlayer)
             {
-                Debug.LogError("Cannot perform command: No Player is found in the scene.");
-                return;
+                IDamageable _PlayerDamageHandle = _ExistingPlayer.GetComponent<IDamageable>();
+                _PlayerDamageHandle.SendDamage(999);
+                _PlayerDamageHandle.SendDamage(999); // Performed twice to also damage the plating.
             }
-
-            IDamageable _PlayerDamageHandle = _ExistingPlayer.GetComponent<IDamageable>();
-            _PlayerDamageHandle.SendDamage(999);
-            _PlayerDamageHandle.SendDamage(999); // Performed twice to also damage the plating.
+            else
+                Debug.LogError("Cannot perform command: No Player is found in the scene.");
             
             StartupDataContext _StartupData = new StartupDataContext
             {

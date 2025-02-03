@@ -1910,6 +1910,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DebugOverlayer: {fileID: 6318848658456269594}
   m_Console: {fileID: 1950507694}
+  m_DebugSettings: {fileID: 11400000, guid: acef7330d0b7a1e4396d8d396571e406, type: 2}
 --- !u!114 &671981342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2393,6 +2394,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 2044013418}
+    - target: {fileID: 6406323765604720328, guid: fa93da31246b1ef418d4cc664b40e97e, type: 3}
+      propertyPath: m_PlayerObserver
+      value: 
+      objectReference: {fileID: 1143688067}
     - target: {fileID: 6406323765604720328, guid: fa93da31246b1ef418d4cc664b40e97e, type: 3}
       propertyPath: m_PlayerProvider
       value: 
