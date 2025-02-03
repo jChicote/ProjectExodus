@@ -18,17 +18,23 @@ namespace ProjectExodus.Management.SceneManager
         #region - - - - - - Fields - - - - - -
 
         public static SceneManager Instance;
-
+        
         // Player
         public PlayerObserver PlayerObserver;
 
         // Camera
         public CinemachineVirtualCamera MainVirtualCamera;
         
-        // Debug
         private ISceneController m_ActiveSceneController;
 
         #endregion Fields
+
+        #region - - - - - - Properties - - - - - -
+
+        public ISceneController SceneController 
+            => this.m_ActiveSceneController ?? this.GetActiveSceneController();
+
+        #endregion Properties
   
         #region - - - - - - Initialisers - - - - - -
 

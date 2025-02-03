@@ -13,6 +13,8 @@ namespace ProjectExodus.GameLogic.Scene
         
         IPlayerProvider PlayerProvider { get; }
         
+        IPlayerObserver PlayerObserver { get; }
+        
         UnityEngine.Camera Camera { get; }
 
         #endregion Properties

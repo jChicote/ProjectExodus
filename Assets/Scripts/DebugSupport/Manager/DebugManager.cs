@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ProjectExodus;
+using ProjectExodus.Management.SceneManager;
 using UnityEngine;
 
 public class DebugManager : MonoBehaviour, IDebugCommandSystem
@@ -34,8 +36,14 @@ public class DebugManager : MonoBehaviour, IDebugCommandSystem
     #region - - - - - - Initializers - - - - - -
 
     // Custom initializer is used to ensure that added commands have valid function references after the scene starts.
-    public void Initialize() 
-        => this.InitializeCommands();
+    public void Initialize()
+    {
+        this.InitializeCommands();
+
+        IPlayerObserver _PlayerObserver = SceneManager.Instance.SceneController.PlayerObserver;
+        _PlayerObserver.OnPlayerDeath.AddListener(this.CreateTemporaryDebugInputHandler);
+        _PlayerObserver.OnPlayerSpawned.AddListener(_ => this.RemoveTemporaryDebugInputHandler());
+    }
 
     #endregion Initializers
   
@@ -77,6 +85,18 @@ public class DebugManager : MonoBehaviour, IDebugCommandSystem
         // Register all commands
         DebugCommandConfigurator _CommandConfigurator = new DebugCommandConfigurator();
         _CommandConfigurator.ConfigureCommands();
+    }
+
+    // As the InputControl exists on the player and can be destroyed.
+    // A separate input control is created to preserve debug console interactions.
+    private void CreateTemporaryDebugInputHandler()
+    {
+        
+    }
+
+    private void RemoveTemporaryDebugInputHandler()
+    {
+        
     }
 
     #endregion Methods

@@ -20,6 +20,9 @@ namespace ProjectExodus.GameLogic.Scene
         [RequiredField]
         [SerializeField]
         private PlayerProvider m_PlayerProvider;
+        [RequiredField] 
+        [SerializeField] 
+        private PlayerObserver m_PlayerObserver;
 
         #endregion Fields
 
@@ -44,6 +47,9 @@ namespace ProjectExodus.GameLogic.Scene
         
         public IPlayerProvider PlayerProvider
             => this.m_PlayerProvider;
+
+        public IPlayerObserver PlayerObserver
+            => this.m_PlayerObserver;
         
         IPauseController ISceneController.PauseController
             => this.m_PauseController;
