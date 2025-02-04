@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4739030d3f488ebcad0b6ff753bfe7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FireRate: 0.3
+  m_FireRate: 0.1
   m_Temperature: 0
   m_ReloadPeriod: 3
   m_AmmoSize: 24
