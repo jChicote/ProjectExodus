@@ -58,7 +58,7 @@ namespace ProjectExodus.Debugging
                 _PlayerDamageHandle.SendDamage(999); // Performed twice to also damage the plating.
             }
             else
-                Debug.LogError("Cannot perform command: No Player is found in the scene.");
+                Debug.LogError("No player is found in scene. New player is spawned instead.");
             
             StartupDataContext _StartupData = new StartupDataContext
             {
