@@ -65,7 +65,7 @@ namespace ProjectExodus.Management.InputManager
         // InputControl Possession Behavior
         // --------------------------------------
 
-        void IInputManager.PossesGameplayInputControls()
+        public void PossesGameplayInputControls()
         {
             // Validate whether controls exist
             if (!this.TryGetScenePlayerProvider() 
@@ -88,7 +88,7 @@ namespace ProjectExodus.Management.InputManager
         }
 
         /// <remarks>This should only be invoked during the start of the Game/Application.</remarks>
-        void IInputManager.PossesUserInterfaceInputControls()
+        public void PossesUserInterfaceInputControls()
         {
             // Validate whether controls exist
             if (this.m_SessionUser.GetComponent<IUserInterfaceInputControl>() != null)
@@ -111,7 +111,7 @@ namespace ProjectExodus.Management.InputManager
         }
 
         void IInputManager.UnpossesGameplayInputControls() 
-            => this.m_GameplayInputControl.UnbindInputControls(this.m_PlayerInput);
+            => this.m_GameplayInputControl?.UnbindInputControls(this.m_PlayerInput);
 
         void IInputManager.UnpossesUserInterfaceInputControls()
             => this.m_UserInterfaceInputControl.UnbindInputControls(this.m_PlayerInput);

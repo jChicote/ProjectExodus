@@ -16,6 +16,7 @@ namespace ProjectExodus
         private IDebugHandler m_DebugHandler;
         
         private bool m_IsInputActive;
+        private bool m_IsDebugActive;
 
         #endregion Fields
 
@@ -37,11 +38,12 @@ namespace ProjectExodus
                 return;
 
             this.m_DebugHandler.ToggleDebugMenu();
+            this.m_IsDebugActive = !this.m_IsDebugActive;
         }
 
         public void OnSubmitCommand(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive)
+            if (!this.m_IsInputActive || !this.m_IsDebugActive)
                 return;
             
             this.m_DebugHandler.SubmitDebugCommand();
@@ -65,6 +67,9 @@ namespace ProjectExodus
                 this.OnDebugConsole;
             playerInput.actions[DebugInputActionConstants.SUBMITCOMMAND].performed -=
                 this.OnSubmitCommand;
+            
+            if (this.m_IsDebugActive)
+                this.m_DebugHandler.ToggleDebugMenu();
         }
 
         public bool IsInputControlIsActive() 

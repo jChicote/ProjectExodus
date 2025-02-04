@@ -5,6 +5,7 @@ using ProjectExodus.GameLogic.Camera;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.GameLogic.Player.PlayerProvider;
 using ProjectExodus.GameLogic.Player.PlayerSpawner;
+using ProjectExodus.Management.InputManager;
 using ProjectExodus.UserInterface.Controllers;
 using ProjectExodus.Utility.GameLogging;
 using UnityEngine;
@@ -59,6 +60,7 @@ namespace GameLogic.SetupHandlers.SceneHandlers
             // Assign listeners to Player Observer for spawning
             _PlayerObserver.OnPlayerSpawned.AddListener(newPlayer => _PlayerProvider.SetActivePlayer(newPlayer));
             _PlayerObserver.OnPlayerSpawned.AddListener(newPlayer => _CameraController.SetCameraFollowTarget(newPlayer.transform));
+            _PlayerObserver.OnPlayerSpawned.AddListener(_ => InputManager.Instance.PossesGameplayInputControls());
             _PlayerObserver.OnPlayerDeath.AddListener(initializationContext.InputManager.UnpossesGameplayInputControls);
             
             // Create Player ship
