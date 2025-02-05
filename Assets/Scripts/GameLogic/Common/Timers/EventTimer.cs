@@ -50,7 +50,7 @@ namespace ProjectExodus.GameLogic.Common.Timers
 
         public void ResetTimer() 
             => this.m_TimeLeft = this.m_TimerLength;
-
+        
         private bool IsTimerComplete()
             => this.m_TimeLeft <= 0;
         
