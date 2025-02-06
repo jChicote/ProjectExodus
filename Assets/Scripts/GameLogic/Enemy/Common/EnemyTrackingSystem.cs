@@ -11,7 +11,7 @@ namespace ProjectExodus
 
         #region - - - - - - Fields - - - - - -
 
-        public const string TrackedTargetTransform = "PlayerTargetTransform";
+        public const string TrackedTargetTransform = "TargetTransform";
 
         #endregion Fields
 

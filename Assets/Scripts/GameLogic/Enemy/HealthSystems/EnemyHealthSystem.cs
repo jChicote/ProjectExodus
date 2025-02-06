@@ -1,4 +1,5 @@
-﻿using MBT;
+﻿using System;
+using MBT;
 using ProjectExodus.GameLogic.Common.Health;
 using ProjectExodus.GameLogic.Enumeration;
 using UnityEngine;
