@@ -27,6 +27,7 @@ public class DebugCommandConfigurator
         // Spawning
         new Debug_SpawnZetoPawn().RegisterCommand(this.m_DebugManager);
         new Debug_SpawnZetoFighter().RegisterCommand(this.m_DebugManager);
+        new Debug_SpawnZetoDrone().RegisterCommand(this.m_DebugManager);
         
         // Player
         new Debug_RespawnPlayer().RegisterCommand(this.m_DebugManager);

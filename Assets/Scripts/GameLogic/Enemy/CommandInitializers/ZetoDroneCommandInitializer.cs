@@ -1,39 +1,32 @@
-﻿using System.Linq;
-using MBT;
+using System.Linq;
 using ProjectExodus.Common.Services;
-using UnityEditor.TextCore.Text;
 using UnityEngine;
 
 namespace ProjectExodus
 {
 
-    public class ZetoFighterCommandInitializer : MonoBehaviour, ICommand
+    public class ZetoDroneCommandInitializer : MonoBehaviour, ICommand
     {
-        
-        #region - - - - - - Fields - - - - - -
 
-        [RequiredField] 
-        [SerializeField] 
-        private Blackboard m_Blackboard;
+
+        #region - - - - - - Fields - - - - - -
 
         private EnemyAssetObject m_EnemySpawnData;
 
         #endregion Fields
-
+  
         #region - - - - - - Unity Methods - - - - - -
 
-        // Must resolve dependencies without a context object, to ensure the spawner does not include
-        //  specific logic to setup dependencies for each enemy type.;
         private void Awake()
         {
             EnemyManager _EnemyManager = EnemyManager.Instance;
-            this.m_EnemySpawnData = _EnemyManager.EnemySettings.Enemies.Single(eao => eao.Name == EnemyType.ZetoFighter);
+            this.m_EnemySpawnData = _EnemyManager.EnemySettings.Enemies.Single(eao => eao.Name == EnemyType.ZetoDrone);
         }
 
         #endregion Unity Methods
   
         #region - - - - - - Methods - - - - - -
-        
+
         public void Execute()
         {
             IInitialize<EnemyMovementSystemInitializerData> _MovementSystemInitializer =
@@ -49,7 +42,7 @@ namespace ProjectExodus
             {
                 Health = this.m_EnemySpawnData.Health
             });
-
+            
             IInitialize<EnemyWeaponSystemInitializerData> _WeaponSystemInitializer =
                 this.GetComponent<IInitialize<EnemyWeaponSystemInitializerData>>();
             _WeaponSystemInitializer.Initialize(new());
@@ -58,12 +51,9 @@ namespace ProjectExodus
             IInitialize[] _Initializers = this.GetComponents<IInitialize>();
             foreach (var _Initializer in _Initializers)
                 _Initializer.Initialize();
-            
-            // Set Prefab Template values to the blackboard
-            //this.m_Blackboard.GetVariable<GameObjectVariable>(EnemyHealthSystemKeys.DeathEffect);
         }
 
-        public bool CanExecute()
+        public bool CanExecute() 
             => true;
 
         #endregion Methods

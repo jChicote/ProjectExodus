@@ -50,7 +50,7 @@ namespace ProjectExodus
             });
 
             // Set Prefab Template values to the blackboard
-            this.m_Blackboard.GetVariable<GameObjectVariable>(EnemyHealthSystemKeys.DeathEffect);
+            //this.m_Blackboard.GetVariable<GameObjectVariable>(EnemyHealthSystemKeys.DeathEffect);
         }
 
         public bool CanExecute()

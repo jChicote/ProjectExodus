@@ -21,6 +21,7 @@ MonoBehaviour:
     Lifetime: 6
     Speed: 9
     MaxCollisionHitCount: 2
+    TurnSpeed: 0
     AttackDamage: 5
     TrackingDistance: 0
   - ID: 2
@@ -31,5 +32,17 @@ MonoBehaviour:
     Lifetime: 999
     Speed: 2
     MaxCollisionHitCount: 999
+    TurnSpeed: 0
     AttackDamage: 3
     TrackingDistance: 20
+  - ID: 3
+    Name: Zeto Drone
+    SpawnTemplate: {fileID: 2442593814432986150, guid: 688cf2b1e48ba4b3192aa9d1c9867510, type: 3}
+    DeathEffect: {fileID: 2010537941153600407, guid: ebcbce93d32fc0442827d50b1f94eeff, type: 3}
+    Health: 60
+    Lifetime: 999
+    Speed: 0
+    MaxCollisionHitCount: 100
+    TurnSpeed: 0
+    AttackDamage: 10
+    TrackingDistance: 999
