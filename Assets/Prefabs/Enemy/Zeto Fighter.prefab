@@ -287,13 +287,13 @@ GameObject:
   - component: {fileID: 5798797943074413062}
   - component: {fileID: 2719508543635070451}
   - component: {fileID: 4080473341498776218}
-  - component: {fileID: 5412659537390059582}
   - component: {fileID: 5069549066356228831}
   - component: {fileID: 81465012966984149}
   - component: {fileID: 8362225361554142861}
   - component: {fileID: 802770041409527407}
   - component: {fileID: 6990436375482712623}
   - component: {fileID: 5040549946580144282}
+  - component: {fileID: 5047662901425840839}
   m_Layer: 9
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -339,11 +339,11 @@ MonoBehaviour:
   - {fileID: 5798797943074413062}
   - {fileID: 2719508543635070451}
   - {fileID: 4080473341498776218}
-  - {fileID: 5412659537390059582}
   - {fileID: 5069549066356228831}
   - {fileID: 81465012966984149}
   - {fileID: 8362225361554142861}
   - {fileID: 802770041409527407}
+  - {fileID: 5047662901425840839}
   masterBlackboard: {fileID: 0}
 --- !u!114 &8426814322175186382
 MonoBehaviour:
@@ -370,7 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 0}
+  selectedEditorNode: {fileID: 726797194551752704}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1
   parent: {fileID: 0}
@@ -680,7 +680,7 @@ MonoBehaviour:
     useConstant: 0
     mode: 0
     blackboard: {fileID: 31365097159186596}
-    key: PlayerTargetTransform
+    key: TargetTransform
     constantValue: {fileID: 0}
   DetectionDistance:
     useConstant: 0
@@ -722,7 +722,7 @@ MonoBehaviour:
     useConstant: 0
     mode: 0
     blackboard: {fileID: 31365097159186596}
-    key: PlayerTargetTransform
+    key: TargetTransform
     constantValue: {fileID: 0}
   TurnSpeed:
     useConstant: 0
@@ -765,7 +765,7 @@ MonoBehaviour:
     useConstant: 0
     mode: 0
     blackboard: {fileID: 31365097159186596}
-    key: PlayerTargetTransform
+    key: TargetTransform
     constantValue: {fileID: 0}
   WeaponSystemsInfo:
     useConstant: 0
@@ -788,8 +788,8 @@ MonoBehaviour:
   title: Sequence
   rect:
     serializedVersion: 2
-    x: 473
-    y: 402
+    x: 480
+    y: 400
     width: 160
     height: 44
   parent: {fileID: 7917987135681338436}
@@ -956,20 +956,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: Lifetime
   val: 999
---- !u!114 &5412659537390059582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568491025053358227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a280585a974a40e59661cc863248813a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: PlayerTargetTransform
-  val: {fileID: 0}
 --- !u!114 &5069549066356228831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1083,6 +1069,20 @@ MonoBehaviour:
     blackboard: {fileID: 31365097159186596}
     key: WeaponSystemsInfo
     constantValue: {fileID: 0}
+--- !u!114 &5047662901425840839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568491025053358227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a280585a974a40e59661cc863248813a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: TargetTransform
+  val: {fileID: 0}
 --- !u!1 &8739472934000758447
 GameObject:
   m_ObjectHideFlags: 0
