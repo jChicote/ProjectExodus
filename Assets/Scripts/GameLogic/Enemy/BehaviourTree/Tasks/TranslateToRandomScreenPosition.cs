@@ -29,9 +29,13 @@ namespace ProjectExodus
 
         #region - - - - - - Unity Methods - - - - - -
 
-        private void Start()
+        private void Start() 
+            => this.m_EventTimer = new EventTimer(this.m_TimeBetweenTravel, Time.deltaTime, this.StartTravel);
+
+        private void Update()
         {
-            this.m_EventTimer = new EventTimer(this.m_TimeBetweenTravel, Time.deltaTime, this.StartTravel);
+            if (!this.m_CanTravel)
+                this.m_EventTimer.TickTimer();
         }
 
         #endregion Unity Methods
@@ -41,10 +45,7 @@ namespace ProjectExodus
         public override NodeResult Execute()
         {
             if (!this.m_CanTravel)
-            {
-                this.m_EventTimer.TickTimer();
                 return NodeResult.success;
-            }
 
             if (this.m_ElapsedTime > this.m_DurationOfTravel)
             {
@@ -59,12 +60,14 @@ namespace ProjectExodus
                 this.m_NextTravelPosition,
                 Mathf.Clamp(0, 1, this.m_ElapsedTime / this.m_DurationOfTravel));
 
+            Debug.Log("Translation is running.");
             this.m_SourceTransform.Value.position = new(_NewPosition.x, _NewPosition.y, 0);
             return NodeResult.success;
         }
 
         private void StartTravel()
         {
+            Debug.Log("Starting Travel. Stop the timer");
             this.m_CanTravel = true;
             Vector3 _RandomPosition = new(Random.Range(0f, 1f), Random.Range(0f, 1f), 0);
             Vector3 _WorldPoint = Camera.main.ViewportToWorldPoint(_RandomPosition);
@@ -74,6 +77,7 @@ namespace ProjectExodus
 
         private void ResetTranslationValues()
         {
+            Debug.Log("Reset the Timer");
             this.m_StartingTravelPosition = Vector2.zero;
             this.m_NextTravelPosition = Vector2.zero;
             this.m_ElapsedTime = 0;
