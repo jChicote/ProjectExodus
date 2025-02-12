@@ -1,3 +1,4 @@
+using MBT;
 using ProjectExodus.UserInterface.GameplayHUD;
 
 namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
@@ -13,6 +14,8 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
         void UpgradePlating(float upgradeValue);
 
         void UpgradeShields(float upgradeValue);
+
+        void MakeInvincible(bool isInvincible);
 
         #endregion Methods
 

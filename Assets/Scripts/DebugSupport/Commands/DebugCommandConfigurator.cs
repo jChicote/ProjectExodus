@@ -32,6 +32,7 @@ public class DebugCommandConfigurator
         // Player
         new Debug_RespawnPlayer().RegisterCommand(this.m_DebugManager);
         new Debug_KillPlayer().RegisterCommand(this.m_DebugManager);
+        new Debug_PlayerHealth().RegisterCommand(this.m_DebugManager);
     }
 
     #endregion Methods
