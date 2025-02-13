@@ -588,7 +588,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 0}
+  selectedEditorNode: {fileID: 6844703217032798455}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1
   parent: {fileID: 0}
@@ -1188,7 +1188,7 @@ MonoBehaviour:
   title: Is Target Within Screen
   rect:
     serializedVersion: 2
-    x: 620
+    x: 621
     y: 540
     width: 160
     height: 44
@@ -1234,8 +1234,8 @@ MonoBehaviour:
     blackboard: {fileID: 4433647141410801155}
     key: AgentTransform
     constantValue: {fileID: 0}
-  m_TimeBetweenTravel: 1
-  m_DurationOfTravel: 2
+  m_TimeBetweenTravel: 4
+  m_DurationOfTravel: 1.2
 --- !u!114 &1832152936941928507
 MonoBehaviour:
   m_ObjectHideFlags: 0
