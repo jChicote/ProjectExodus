@@ -79,7 +79,6 @@ namespace ProjectExodus
 
         private void ResetTranslationValues()
         {
-            Debug.Log("Reset the Timer");
             this.m_StartingTravelPosition = Vector2.zero;
             this.m_NextTravelPosition = Vector2.zero;
             this.m_ElapsedTime = 0;
