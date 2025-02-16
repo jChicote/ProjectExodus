@@ -29,32 +29,30 @@ namespace ProjectExodus
 
         #region - - - - - - Unity Methods - - - - - -
 
-        private void Start() 
+        private void Awake() 
             => this.m_EventTimer = new EventTimer(this.m_TimeBetweenTravel, Time.deltaTime, this.StartTravel);
-
-        private void Update()
-        {
-            if (!this.m_CanTravel)
-            {
-                this.m_EventTimer.TickTimer();
-                return;
-            }
-            
-            if (this.m_ElapsedTime > this.m_DurationOfTravel)
-            {
-                this.ResetTranslationValues();
-                return;
-            }
-            
-            this.RunTravel();
-        }
 
         #endregion Unity Methods
 
         #region - - - - - - Methods - - - - - -
 
-        public override NodeResult Execute() 
-            => NodeResult.success;
+        public override NodeResult Execute()
+        {
+            if (!this.m_CanTravel)
+            {
+                this.m_EventTimer.TickTimer();
+                return NodeResult.success;
+            }
+            
+            if (this.m_ElapsedTime > this.m_DurationOfTravel)
+            {
+                this.ResetTranslationValues();
+                return NodeResult.success;
+            }
+            
+            this.RunTravel();
+            return NodeResult.success;
+        }
 
         private void StartTravel()
         {
