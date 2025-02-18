@@ -4,6 +4,8 @@ using UnityEngine;
 namespace ProjectExodus
 {
 
+    [AddComponentMenu("")]
+    [MBTNode(name = "Tasks/Thrust Forward Over Time")]
     public class ThrustForward : Leaf
     {
 
@@ -11,6 +13,9 @@ namespace ProjectExodus
 
         [SerializeField] private TransformReference m_SourceTransform;
         [SerializeField] private float m_TraversalSpeed;
+        
+        // Might not be needed
+        [SerializeField] private float m_TraversalTime; // TODO: Need to be calculated variable
 
         #endregion Fields
   
