@@ -11,6 +11,7 @@ namespace ProjectExodus
         public static EnemyType ZetoPawn = new("Zeto Pawn", 1);
         public static EnemyType ZetoFighter = new("Zeto Fighter", 2);
         public static EnemyType ZetoDrone = new("Zeto Drone", 3);
+        public static EnemyType ZetoKnight = new("Zeto Knight", 4);
 
         #endregion Fields
 

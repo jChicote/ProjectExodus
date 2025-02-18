@@ -46,3 +46,14 @@ MonoBehaviour:
     TurnSpeed: 0
     AttackDamage: 10
     TrackingDistance: 999
+  - ID: 4
+    Name: Zeto Knight
+    SpawnTemplate: {fileID: 7711567922364662258, guid: 7c6d3787a7407954a9ac4fa59e0665fc, type: 3}
+    DeathEffect: {fileID: 2010537941153600407, guid: ebcbce93d32fc0442827d50b1f94eeff, type: 3}
+    Health: 60
+    Lifetime: 999
+    Speed: 0
+    MaxCollisionHitCount: 100
+    TurnSpeed: 0
+    AttackDamage: 10
+    TrackingDistance: 999
