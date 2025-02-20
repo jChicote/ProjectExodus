@@ -2543,11 +2543,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2929745749158573381, guid: ffb455430059b4ea7a9fb28e681b8f0d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.821417
+      value: 2.66
       objectReference: {fileID: 0}
     - target: {fileID: 2929745749158573381, guid: ffb455430059b4ea7a9fb28e681b8f0d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.0488963
+      value: -22.29
       objectReference: {fileID: 0}
     - target: {fileID: 2929745749158573381, guid: ffb455430059b4ea7a9fb28e681b8f0d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2585,6 +2585,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZetoKnightSpawner
       objectReference: {fileID: 0}
+    - target: {fileID: 6312496430952847642, guid: ffb455430059b4ea7a9fb28e681b8f0d, type: 3}
+      propertyPath: m_EnemyTemplate
+      value: 
+      objectReference: {fileID: 7711567922364662258, guid: 7c6d3787a7407954a9ac4fa59e0665fc, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2595,6 +2599,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2929745749158573381, guid: ffb455430059b4ea7a9fb28e681b8f0d, type: 3}
   m_PrefabInstance: {fileID: 933770549}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &933770552 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6312496430952847642, guid: ffb455430059b4ea7a9fb28e681b8f0d, type: 3}
+  m_PrefabInstance: {fileID: 933770549}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 693e814314a7478185f813fcd7246cf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &954017612
 GameObject:
   m_ObjectHideFlags: 0
@@ -3743,6 +3758,7 @@ MonoBehaviour:
   - {fileID: 1174162355}
   - {fileID: 957777810}
   - {fileID: 263714982}
+  - {fileID: 933770552}
   PlayerProvider: {fileID: 1379387251}
 --- !u!4 &1368923788
 Transform:
@@ -3803,63 +3819,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b75a36a8ead14760ad3eece338cb68b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &1383723103
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4879297771139142918, guid: 7c6d3787a7407954a9ac4fa59e0665fc, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -6.16
-      objectReference: {fileID: 0}
-    - target: {fileID: 4879297771139142918, guid: 7c6d3787a7407954a9ac4fa59e0665fc, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4879297771139142918, guid: 7c6d3787a7407954a9ac4fa59e0665fc, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4879297771139142918, guid: 7c6d3787a7407954a9ac4fa59e0665fc, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4879297771139142918, guid: 7c6d3787a7407954a9ac4fa59e0665fc, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4879297771139142918, guid: 7c6d3787a7407954a9ac4fa59e0665fc, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4879297771139142918, guid: 7c6d3787a7407954a9ac4fa59e0665fc, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4879297771139142918, guid: 7c6d3787a7407954a9ac4fa59e0665fc, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4879297771139142918, guid: 7c6d3787a7407954a9ac4fa59e0665fc, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4879297771139142918, guid: 7c6d3787a7407954a9ac4fa59e0665fc, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7711567922364662258, guid: 7c6d3787a7407954a9ac4fa59e0665fc, type: 3}
-      propertyPath: m_Name
-      value: ZetoKnight
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 7c6d3787a7407954a9ac4fa59e0665fc, type: 3}
 --- !u!1 &1418227044
 GameObject:
   m_ObjectHideFlags: 0
@@ -6848,4 +6807,3 @@ SceneRoots:
   - {fileID: 160802012}
   - {fileID: 284386221}
   - {fileID: 865911289}
-  - {fileID: 1383723103}

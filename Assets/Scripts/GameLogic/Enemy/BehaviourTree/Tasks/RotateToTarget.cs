@@ -19,22 +19,22 @@ namespace ProjectExodus
         private float m_Angle;
 
         #endregion Fields
-  
-        #region - - - - - - Unity Methods - - - - - -
-
-        private void Update()
-        {
-            if (m_Direction == Vector3.zero) return;
-
-            // Calculate the desired rotation
-            var _PreferredEuler = Quaternion.Euler(Vector3.forward * (m_Angle + 90f));
-            this.SourceTransform.Value.rotation = Quaternion.Lerp(
-                this.SourceTransform.Value.rotation, 
-                _PreferredEuler, 
-                Time.deltaTime * this.TurnSpeed.Value);
-        }
-
-        #endregion Unity Methods
+        //
+        // #region - - - - - - Unity Methods - - - - - -
+        //
+        // private void Update()
+        // {
+        //     if (m_Direction == Vector3.zero) return;
+        //
+        //     // Calculate the desired rotation
+        //     var _PreferredEuler = Quaternion.Euler(Vector3.forward * (m_Angle + 90f));
+        //     this.SourceTransform.Value.rotation = Quaternion.Lerp(
+        //         this.SourceTransform.Value.rotation, 
+        //         _PreferredEuler, 
+        //         Time.deltaTime * this.TurnSpeed.Value);
+        // }
+        //
+        // #endregion Unity Methods
 
         #region - - - - - - Methods - - - - - -
 
@@ -46,6 +46,15 @@ namespace ProjectExodus
             Vector3 _Direction = this.TargetTransform.Value.position - this.SourceTransform.Value.position;
             this.m_Direction = _Direction * -1;
             this.m_Angle = Mathf.Atan2(this.m_Direction.y, this.m_Direction.x) * Mathf.Rad2Deg;
+
+            if (this.m_Direction == Vector3.zero) return NodeResult.success;
+
+            // Calculate the desired rotation
+            var _PreferredEuler = Quaternion.Euler(Vector3.forward * (m_Angle + 90f));
+            this.SourceTransform.Value.rotation = Quaternion.Lerp(
+                this.SourceTransform.Value.rotation, 
+                _PreferredEuler, 
+                Time.deltaTime * this.TurnSpeed.Value);
             
             return NodeResult.success;
         }

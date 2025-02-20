@@ -356,9 +356,12 @@ GameObject:
   - component: {fileID: 7588805390548946000}
   - component: {fileID: 7778203870779705255}
   - component: {fileID: 2161812621641823986}
-  - component: {fileID: 3632082985868734358}
   - component: {fileID: 8998230321685949692}
-  - component: {fileID: 4176865531201353490}
+  - component: {fileID: 5426720388869491097}
+  - component: {fileID: 1902281249297798827}
+  - component: {fileID: 5175603544792717838}
+  - component: {fileID: 1691447464305821737}
+  - component: {fileID: 4324515163852572101}
   m_Layer: 9
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -409,6 +412,7 @@ MonoBehaviour:
   - {fileID: 84753026363742230}
   - {fileID: 5681331247988695563}
   - {fileID: 3361628031937566536}
+  - {fileID: 5426720388869491097}
   masterBlackboard: {fileID: 0}
 --- !u!114 &7247940746275959858
 MonoBehaviour:
@@ -435,7 +439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 0}
+  selectedEditorNode: {fileID: 4324515163852572101}
   repeatOnFinish: 1
   maxExecutionsPerTick: 500
   parent: {fileID: 0}
@@ -682,13 +686,13 @@ MonoBehaviour:
   title: Sequence
   rect:
     serializedVersion: 2
-    x: 520
+    x: 540
     y: 400
     width: 160
     height: 44
   parent: {fileID: 1981919699421537206}
   children:
-  - {fileID: 7588805390548946000}
+  - {fileID: 1902281249297798827}
   - {fileID: 2161812621641823986}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
@@ -707,7 +711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: MovementSpeed
-  val: 9
+  val: 20
 --- !u!114 &224712574474757323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -763,7 +767,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Health
-  val: 0
+  val: 200
 --- !u!114 &3222785136074645743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -833,7 +837,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: DistanceToTarget
-  val: 50
+  val: 30
 --- !u!114 &728832317025329092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -847,7 +851,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: TurnSpeed
-  val: 0.5
+  val: 2
 --- !u!114 &84753026363742230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -905,11 +909,11 @@ MonoBehaviour:
   title: Rotate To Target
   rect:
     serializedVersion: 2
-    x: 400
-    y: 500
+    x: 320
+    y: 680
     width: 160
     height: 44
-  parent: {fileID: 9116331656553192665}
+  parent: {fileID: 5175603544792717838}
   children: []
   behaviourTree: {fileID: 0}
   runtimePriority: 0
@@ -947,13 +951,13 @@ MonoBehaviour:
   title: Is Within Attack Cone
   rect:
     serializedVersion: 2
-    x: 640
-    y: 560
+    x: 500
+    y: 680
     width: 160
     height: 44
-  parent: {fileID: 2161812621641823986}
+  parent: {fileID: 5175603544792717838}
   children:
-  - {fileID: 4176865531201353490}
+  - {fileID: 1691447464305821737}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -968,12 +972,6 @@ MonoBehaviour:
     mode: 0
     blackboard: {fileID: 8634351066951394143}
     key: TargetTransform
-    constantValue: {fileID: 0}
-  WeaponSystemsInfo:
-    useConstant: 0
-    mode: 0
-    blackboard: {fileID: 8634351066951394143}
-    key: WeaponSystemsInfo
     constantValue: {fileID: 0}
 --- !u!114 &2161812621641823986
 MonoBehaviour:
@@ -990,13 +988,13 @@ MonoBehaviour:
   title: Is Target Within Radius
   rect:
     serializedVersion: 2
-    x: 640
+    x: 740
     y: 500
     width: 160
     height: 44
   parent: {fileID: 9116331656553192665}
   children:
-  - {fileID: 7778203870779705255}
+  - {fileID: 8998230321685949692}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -1018,38 +1016,6 @@ MonoBehaviour:
     blackboard: {fileID: 8634351066951394143}
     key: DistanceToTarget
     constantValue: 0
---- !u!114 &3632082985868734358
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6080278391026388356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58fe7bc6a9b18e148b82820c7c1c0a90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  title: Wait
-  rect:
-    serializedVersion: 2
-    x: 540
-    y: 740
-    width: 160
-    height: 44
-  parent: {fileID: 4176865531201353490}
-  children: []
-  behaviourTree: {fileID: 0}
-  runtimePriority: 0
-  breakpoint: 0
-  time:
-    useConstant: 1
-    mode: 0
-    blackboard: {fileID: 0}
-    key: 
-    constantValue: 2
-  randomDeviation: 0
-  continueOnRestart: 0
 --- !u!114 &8998230321685949692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1066,10 +1032,10 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 740
-    y: 740
+    y: 580
     width: 160
     height: 44
-  parent: {fileID: 4176865531201353490}
+  parent: {fileID: 2161812621641823986}
   children: []
   behaviourTree: {fileID: 0}
   runtimePriority: 0
@@ -1077,12 +1043,72 @@ MonoBehaviour:
   m_SourceTransform:
     useConstant: 0
     mode: 0
+    blackboard: {fileID: 8634351066951394143}
+    key: AgentTransform
+    constantValue: {fileID: 0}
+  m_TraversalSpeed: 30
+  m_TraversalTime: 10
+--- !u!114 &5426720388869491097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6080278391026388356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ae15c5e6bcb1714080f2e8296c3d17a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: IsTraveling
+  val: 0
+--- !u!114 &1902281249297798827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6080278391026388356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 534e3ec7de6cd444e984c2e7f68e42e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Is Not Travelling
+  rect:
+    serializedVersion: 2
+    x: 540
+    y: 500
+    width: 160
+    height: 44
+  parent: {fileID: 9116331656553192665}
+  children:
+  - {fileID: 5175603544792717838}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  abort: 1
+  invert: 1
+  type: 0
+  boolReference:
+    useConstant: 0
+    mode: 1
+    blackboard: {fileID: 8634351066951394143}
+    key: IsTraveling
+    constantValue: 0
+  objectReference:
+    useConstant: 0
+    mode: 1
     blackboard: {fileID: 0}
     key: 
     constantValue: {fileID: 0}
-  m_TraversalSpeed: 0
-  m_TraversalTime: 0
---- !u!114 &4176865531201353490
+  transformReference:
+    useConstant: 0
+    mode: 1
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: {fileID: 0}
+--- !u!114 &5175603544792717838
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1097,18 +1123,86 @@ MonoBehaviour:
   title: Sequence
   rect:
     serializedVersion: 2
-    x: 640
-    y: 640
+    x: 540
+    y: 580
     width: 160
     height: 44
-  parent: {fileID: 7778203870779705255}
+  parent: {fileID: 1902281249297798827}
   children:
-  - {fileID: 3632082985868734358}
-  - {fileID: 8998230321685949692}
+  - {fileID: 7588805390548946000}
+  - {fileID: 7778203870779705255}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
   random: 0
+--- !u!114 &1691447464305821737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6080278391026388356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a491dc0bc41ade74e85756aea423797c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Set Boolean
+  rect:
+    serializedVersion: 2
+    x: 500
+    y: 740
+    width: 160
+    height: 44
+  parent: {fileID: 7778203870779705255}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  source:
+    useConstant: 1
+    mode: 0
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: 1
+  destination:
+    useConstant: 0
+    mode: 1
+    blackboard: {fileID: 8634351066951394143}
+    key: IsTraveling
+    constantValue: 0
+--- !u!114 &4324515163852572101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6080278391026388356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2370820ab6f42c8449d09456ac02d66d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Cooldown
+  rect:
+    serializedVersion: 2
+    x: 360
+    y: 580
+    width: 160
+    height: 44
+  parent: {fileID: 0}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  abort: 1
+  time:
+    useConstant: 1
+    mode: 0
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: 3
+  resetOnChildFailure: 0
 --- !u!1 &7711567922364662258
 GameObject:
   m_ObjectHideFlags: 0
@@ -1121,7 +1215,7 @@ GameObject:
   - component: {fileID: 7936427491385958054}
   - component: {fileID: 6309376601277298117}
   - component: {fileID: 5894744619015238414}
-  - component: {fileID: 9145528849213478221}
+  - component: {fileID: 2623591543766540520}
   - component: {fileID: 2823214435052261754}
   - component: {fileID: 3735131715994758923}
   - component: {fileID: 5063318382616399053}
@@ -1279,7 +1373,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.52, y: 1.79}
   m_EdgeRadius: 0
---- !u!114 &9145528849213478221
+--- !u!114 &2623591543766540520
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1288,7 +1382,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7711567922364662258}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7067aa6eb826424fa6a06446bb2abea1, type: 3}
+  m_Script: {fileID: 11500000, guid: f589b98373ba4b039937f91507367f09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2823214435052261754

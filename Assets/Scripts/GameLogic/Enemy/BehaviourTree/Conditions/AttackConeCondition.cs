@@ -13,7 +13,7 @@ namespace ProjectExodus
 
         public TransformReference AgentTransform = new();
         public TransformReference TargetTransform = new();
-        public WeaponSystemsInfoReference WeaponSystemsInfo = new();
+        // public WeaponSystemsInfoReference WeaponSystemsInfo = new();
         
         private float FiringArc = 45f; // TODO: Use Weapon systems info
 

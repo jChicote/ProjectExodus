@@ -37,7 +37,7 @@ namespace ProjectExodus
             
             // Temporary set the target transform
             var _SpawnedEnemyBT = _SpawnedEnemy.GetComponentInChildren<Blackboard>();
-            var _TransformVariable = _SpawnedEnemyBT.GetVariable<TransformVariable>("PlayerTargetTransform");
+            var _TransformVariable = _SpawnedEnemyBT.GetVariable<TransformVariable>("TargetTransform");
             _TransformVariable.Value = Object
                 .FindObjectsByType<GameObject>(FindObjectsInactive.Exclude, FindObjectsSortMode.None)
                 .FirstOrDefault(x => x.tag == GameTag.Player)
