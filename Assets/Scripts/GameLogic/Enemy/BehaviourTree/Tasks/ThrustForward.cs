@@ -37,22 +37,6 @@ namespace ProjectExodus
             return NodeResult.success;
         }
         
-        private bool IsWithinVerticalBound(float verticalPosition, float borderPadding)
-        {
-            Vector2 _UpperBound = Camera.main.ViewportToWorldPoint(new Vector2(1f, 1f));
-            Vector2 _LowerBound = Camera.main.ViewportToWorldPoint(new Vector2(0f, 0f));
-            return verticalPosition < _UpperBound.y - borderPadding 
-                   && verticalPosition > _LowerBound.y + borderPadding;
-        }
-
-        private bool IsWithinHorizontalBound(float horizontalPosition, float borderPadding)
-        {
-            Vector2 _UpperBound = Camera.main.ViewportToWorldPoint(new Vector2(1f, 1f));
-            Vector2 _LowerBound = Camera.main.ViewportToWorldPoint(new Vector2(0f, 0f));
-            return horizontalPosition < _UpperBound.x - borderPadding
-                   && horizontalPosition > _LowerBound.x + borderPadding;
-        }
-
         #endregion Methods
   
     }
