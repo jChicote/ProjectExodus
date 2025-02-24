@@ -21,8 +21,8 @@ namespace ProjectExodus
         #region - - - - - - Methods - - - - - -
 
         public override bool Check() 
-            => !this.IsWithinVerticalBound(this.m_SourceTransform.Value.position.y, 4) 
-                || !this.IsWithinHorizontalBound(this.m_SourceTransform.Value.position.x, 4);
+            => !this.IsWithinVerticalBound(this.m_SourceTransform.Value.position.y, this.m_BorderPadding) 
+                || !this.IsWithinHorizontalBound(this.m_SourceTransform.Value.position.x, this.m_BorderPadding);
 
         // TODO: This needs to be optimised and refactored
         private bool IsWithinVerticalBound(float verticalPosition, float borderPadding)
@@ -54,7 +54,9 @@ namespace ProjectExodus
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireCube(
                 _CameraCenter, 
-                new Vector2(_UpperBound.x * -1 - this.m_BorderPadding, _UpperBound.y * -1 - this.m_BorderPadding));
+                new Vector2(
+                    _UpperBound.x * -1 - this.m_BorderPadding, 
+                    _UpperBound.y * -1 - this.m_BorderPadding));
         }
 
         #endregion Gizmos
