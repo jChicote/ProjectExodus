@@ -14,7 +14,7 @@ namespace ProjectExodus
         [SerializeField] private TransformReference m_SourceTransform;
         [SerializeField] 
         [Tooltip("Padding distance from the screen borders.")]
-        private float m_BorderPadding = 4;
+        private float m_BorderPadding = 1;
 
         #endregion Fields
 
@@ -51,12 +51,20 @@ namespace ProjectExodus
             Vector2 _UpperBound = Camera.main.ViewportToWorldPoint(new Vector2(1f, 1f));
             Vector2 _CameraCenter = Camera.main.ViewportToWorldPoint(new Vector2(0.5f, 0.5f));
             
-            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(_UpperBound, 2f);
+            Gizmos.DrawWireSphere(_CameraCenter, 2f);
+            
+            Gizmos.color = Color.blue;
             Gizmos.DrawWireCube(
                 _CameraCenter, 
                 new Vector2(
-                    _UpperBound.x * -1 - this.m_BorderPadding, 
-                    _UpperBound.y * -1 - this.m_BorderPadding));
+                    _UpperBound.x,// - this.m_BorderPadding, 
+                    _UpperBound.y));// - this.m_BorderPadding));
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireCube(
+                _CameraCenter,
+                new Vector2(Screen.width - this.m_BorderPadding * 2, Screen.height - this.m_BorderPadding * 2));
         }
 
         #endregion Gizmos
