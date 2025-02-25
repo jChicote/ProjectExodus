@@ -353,7 +353,6 @@ GameObject:
   - component: {fileID: 5681331247988695563}
   - component: {fileID: 3361628031937566536}
   - component: {fileID: 5426720388869491097}
-  - component: {fileID: 7951399978910231134}
   - component: {fileID: 5633886646191861794}
   - component: {fileID: 1702597680052055849}
   - component: {fileID: 6277607791718079851}
@@ -369,6 +368,8 @@ GameObject:
   - component: {fileID: 6541282407625001252}
   - component: {fileID: 5997965202976755308}
   - component: {fileID: 3415199505184455777}
+  - component: {fileID: 4030170773482967534}
+  - component: {fileID: 318672550957184826}
   m_Layer: 9
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -532,7 +533,7 @@ MonoBehaviour:
   - {fileID: 4629235552232469503}
   - {fileID: 5681242179669367510}
   - {fileID: 8906902187856059358}
-  - {fileID: 7951399978910231134}
+  - {fileID: 4030170773482967534}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -777,7 +778,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: MaxCollisionHitCount
-  val: 999
+  val: 3
 --- !u!114 &2326171465988178017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -890,34 +891,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: IsTraveling
   val: 0
---- !u!114 &7951399978910231134
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6080278391026388356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08540605df275034fafc8e05c6704214, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  title: Selector
-  rect:
-    serializedVersion: 2
-    x: 700
-    y: 400
-    width: 160
-    height: 44
-  parent: {fileID: 1981919699421537206}
-  children:
-  - {fileID: 1226809883492852838}
-  - {fileID: 2464438423946346402}
-  - {fileID: 9148688024658476162}
-  behaviourTree: {fileID: 0}
-  runtimePriority: 0
-  breakpoint: 0
-  random: 0
 --- !u!114 &5633886646191861794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -948,7 +921,7 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 700
-    y: 560
+    y: 620
     width: 160
     height: 44
   parent: {fileID: 2464438423946346402}
@@ -1090,10 +1063,10 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 960
-    y: 520
+    y: 500
     width: 160
     height: 44
-  parent: {fileID: 7951399978910231134}
+  parent: {fileID: 4030170773482967534}
   children:
   - {fileID: 7095143353574010639}
   behaviourTree: {fileID: 0}
@@ -1136,7 +1109,7 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 960
-    y: 580
+    y: 560
     width: 160
     height: 44
   parent: {fileID: 9148688024658476162}
@@ -1150,7 +1123,7 @@ MonoBehaviour:
     blackboard: {fileID: 8634351066951394143}
     key: AgentTransform
     constantValue: {fileID: 0}
-  m_TraversalSpeed: 10
+  m_TraversalSpeed: 30
   m_TraversalTime: 10
 --- !u!114 &1226809883492852838
 MonoBehaviour:
@@ -1164,14 +1137,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 395c78dbe96b4433bbdbd3d311a6a38c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: Has Reached Screen Borders
+  title: Is Within Screen?
   rect:
     serializedVersion: 2
-    x: 440
-    y: 500
+    x: 420
+    y: 540
     width: 160
-    height: 59
-  parent: {fileID: 7951399978910231134}
+    height: 44
+  parent: {fileID: 318672550957184826}
   children:
   - {fileID: 3937466551775094271}
   behaviourTree: {fileID: 0}
@@ -1183,7 +1156,7 @@ MonoBehaviour:
     blackboard: {fileID: 8634351066951394143}
     key: AgentTransform
     constantValue: {fileID: 0}
-  m_BorderPadding: 0.5
+  m_BorderPadding: 0
 --- !u!114 &2846630865675638308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1199,8 +1172,8 @@ MonoBehaviour:
   title: Disable Movement
   rect:
     serializedVersion: 2
-    x: 360
-    y: 660
+    x: 320
+    y: 680
     width: 160
     height: 44
   parent: {fileID: 3937466551775094271}
@@ -1253,7 +1226,7 @@ MonoBehaviour:
     y: 500
     width: 160
     height: 44
-  parent: {fileID: 7951399978910231134}
+  parent: {fileID: 4030170773482967534}
   children:
   - {fileID: 1702597680052055849}
   behaviourTree: {fileID: 0}
@@ -1295,8 +1268,8 @@ MonoBehaviour:
   title: Sequence
   rect:
     serializedVersion: 2
-    x: 440
-    y: 580
+    x: 420
+    y: 620
     width: 160
     height: 44
   parent: {fileID: 1226809883492852838}
@@ -1323,7 +1296,7 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 520
-    y: 660
+    y: 680
     width: 160
     height: 44
   parent: {fileID: 3937466551775094271}
@@ -1406,6 +1379,80 @@ MonoBehaviour:
     blackboard: {fileID: 8634351066951394143}
     key: IsSearching
     constantValue: 0
+--- !u!114 &4030170773482967534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6080278391026388356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08540605df275034fafc8e05c6704214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Selector
+  rect:
+    serializedVersion: 2
+    x: 700
+    y: 360
+    width: 160
+    height: 44
+  parent: {fileID: 1981919699421537206}
+  children:
+  - {fileID: 318672550957184826}
+  - {fileID: 2464438423946346402}
+  - {fileID: 9148688024658476162}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  random: 0
+--- !u!114 &318672550957184826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6080278391026388356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 534e3ec7de6cd444e984c2e7f68e42e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Is Not Searching Target?
+  rect:
+    serializedVersion: 2
+    x: 420
+    y: 500
+    width: 160
+    height: 44
+  parent: {fileID: 4030170773482967534}
+  children:
+  - {fileID: 1226809883492852838}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  abort: 0
+  invert: 1
+  type: 0
+  boolReference:
+    useConstant: 0
+    mode: 1
+    blackboard: {fileID: 8634351066951394143}
+    key: IsSearching
+    constantValue: 0
+  objectReference:
+    useConstant: 0
+    mode: 1
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: {fileID: 0}
+  transformReference:
+    useConstant: 0
+    mode: 1
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: {fileID: 0}
 --- !u!1 &7711567922364662258
 GameObject:
   m_ObjectHideFlags: 0
@@ -1526,7 +1573,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0

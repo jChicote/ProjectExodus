@@ -20,9 +20,13 @@ namespace ProjectExodus
 
         #region - - - - - - Methods - - - - - -
 
-        public override bool Check() 
-            => !this.IsWithinVerticalBound(this.m_SourceTransform.Value.position.y, this.m_BorderPadding) 
-                || !this.IsWithinHorizontalBound(this.m_SourceTransform.Value.position.x, this.m_BorderPadding);
+        public override bool Check()
+        {
+            var _Condition = !this.IsWithinVerticalBound(this.m_SourceTransform.Value.position.y, this.m_BorderPadding)
+                             || !this.IsWithinHorizontalBound(this.m_SourceTransform.Value.position.x, this.m_BorderPadding);
+            Debug.Log("Has reached screen border is:" + _Condition);
+            return _Condition;
+        }
 
         // TODO: This needs to be optimised and refactored
         private bool IsWithinVerticalBound(float verticalPosition, float borderPadding)
