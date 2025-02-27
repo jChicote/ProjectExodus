@@ -2,7 +2,6 @@ using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Common.Timers;
 using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace ProjectExodus.GameLogic.Weapons
 {
@@ -89,7 +88,9 @@ namespace ProjectExodus.GameLogic.Weapons
         {
             if (!this.m_IsFiring || this.m_IsReloading) return;
             
-            Object.Instantiate(this.m_Projectile, this.m_FiringPoint.position, this.m_FiringPoint.rotation);
+            GameObject _SpawnedProjectile = Instantiate(this.m_Projectile, this.m_FiringPoint.position, this.m_FiringPoint.rotation);
+            _SpawnedProjectile.layer = this.gameObject.layer; // The weapon should belong to layer of its parent object.
+            
             this.m_AmmoRemaining -= 1;
 
             if (this.m_AmmoRemaining <= 0)

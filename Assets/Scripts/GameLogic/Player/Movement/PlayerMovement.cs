@@ -16,7 +16,7 @@ namespace ProjectExodus.GameLogic.Player.Movement
         [SerializeField] private float m_ThrustPower;
 
         private Vector2 m_MoveDirection;
-
+        
         #endregion Fields
 
         #region - - - - - - Unity Lifecycle Methods - - - - - -

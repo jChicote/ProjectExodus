@@ -1,6 +1,7 @@
 using ProjectExodus.GameLogic.Player.Movement;
 using ProjectExodus.GameLogic.Player.PlayerTargetingSystem;
 using ProjectExodus.GameLogic.Player.Weapons;
+using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Input.Gameplay
 {
@@ -19,6 +20,17 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
         public IDebugHandler DebugHandler { get; set; }
 
         #endregion Properties
+
+        #region - - - - - - Methods - - - - - -
+
+        public void SetNewPlayerComponents(GameObject newPlayer)
+        {
+            this.PlayerMovement = newPlayer.GetComponent<IPlayerMovement>();
+            this.PlayerTargetingSystem = newPlayer.GetComponent<IPlayerTargetingSystem>();
+            this.PlayerWeaponSystems = newPlayer.GetComponent<IPlayerWeaponSystems>();
+        }
+
+        #endregion Methods
   
     }
 

@@ -1,5 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+using Cinemachine;
 using ProjectExodus.GameLogic.Scene;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -19,13 +19,20 @@ namespace ProjectExodus.Management.SceneManager
 
         public static SceneManager Instance;
         
-        private ISceneController m_ActiveSceneController; // Debug Only
+        // Player
+        public PlayerObserver PlayerObserver;
+
+        // Camera
+        public CinemachineVirtualCamera MainVirtualCamera;
+        
+        private ISceneController m_ActiveSceneController;
 
         #endregion Fields
 
         #region - - - - - - Properties - - - - - -
 
-        // public Guid SelectedShipID { get; set; } // TODO: Remove this, data related values are ties to the GameDataManager
+        public ISceneController SceneController 
+            => this.m_ActiveSceneController ?? this.GetActiveSceneController();
 
         #endregion Properties
   
@@ -36,7 +43,7 @@ namespace ProjectExodus.Management.SceneManager
 
         #endregion Initialisers
   
-        #region - - - - - - Unity Lifecycle Methods - - - - - -
+        #region - - - - - - Unity Methods - - - - - -
         
         private void Awake()
         {
@@ -54,7 +61,7 @@ namespace ProjectExodus.Management.SceneManager
                                $"Only one {nameof(SceneManager)} should exist, unexpected behaviour will occur.");
         }
 
-        #endregion Unity Lifecycle Methods
+        #endregion Unity Methods
   
         #region - - - - - - Methods - - - - - -
 
@@ -72,9 +79,6 @@ namespace ProjectExodus.Management.SceneManager
             this.m_ActiveSceneController = this.GetAllActiveSceneControllers().FirstOrDefault();
             return this.m_ActiveSceneController;
         }
-
-        // void ISceneManager.SetCurrentPlayerModel(PlayerModel currentPlayer) 
-        //     => this.m_CurrentPlayer = currentPlayer;
 
         private bool DoesMultipleSceneControllersExist() 
             => this.GetAllActiveSceneControllers().Length > 1;

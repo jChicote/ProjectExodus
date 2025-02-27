@@ -1,4 +1,5 @@
 using ProjectExodus.GameLogic.Pause.PauseController;
+using ProjectExodus.GameLogic.Player.PlayerProvider;
 
 namespace ProjectExodus.GameLogic.Scene
 {
@@ -9,6 +10,10 @@ namespace ProjectExodus.GameLogic.Scene
         #region - - - - - - Properties - - - - - -
 
         IPauseController PauseController { get; }
+        
+        IPlayerProvider PlayerProvider { get; }
+        
+        IPlayerObserver PlayerObserver { get; }
         
         UnityEngine.Camera Camera { get; }
 

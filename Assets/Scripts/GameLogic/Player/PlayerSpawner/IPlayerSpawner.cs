@@ -14,6 +14,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
 
         void InitialisePlayerSpawner(
             GameplaySceneGUIControllers gameplaySceneGUIControllers,
+            IPlayerObserver playerObserver,
             IShipAssetProvider shipAssetProvider,
             IWeaponAssetProvider weaponAssetProvider);
 

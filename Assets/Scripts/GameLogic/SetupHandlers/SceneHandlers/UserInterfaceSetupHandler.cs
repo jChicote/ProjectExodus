@@ -2,6 +2,7 @@ using ProjectExodus;
 using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.UserInterface.Controllers;
+using ProjectExodus.Utility.GameLogging;
 using UnityEngine;
 
 namespace GameLogic.SetupHandlers.SceneHandlers
@@ -23,8 +24,7 @@ namespace GameLogic.SetupHandlers.SceneHandlers
 
         void ISetupHandler.Handle(SceneSetupInitializationContext initializationContext)
         {
-            IUserInterfaceManager _UserInterfaceManager = 
-                initializationContext.ServiceLocator.GetService<IUserInterfaceManager>();
+            IUserInterfaceManager _UserInterfaceManager = UserInterfaceManager.Instance;
             
             IUserInterfaceController _ActiveUserInterfaceController =
                 _UserInterfaceManager.GetTheActiveUserInterfaceController();
@@ -59,6 +59,8 @@ namespace GameLogic.SetupHandlers.SceneHandlers
             ((GameplaySceneGUIControllers)_Controllers).WeaponTrackingHUDController.Initialize(_WeaponTargetTrackingHUDData);
 
             initializationContext.LoadingScreenController.UpdateLoadProgress(40);
+            
+            GameLogger.Log("UserInterfaceSetupHandler has run.");
             this.m_NextHandler?.Handle(initializationContext);
         }
 

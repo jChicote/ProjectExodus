@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
+using Cinemachine;
 using ProjectExodus.Domain.Models;
+using ProjectExodus.GameLogic.Enumeration;
 using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.GameLogic.Player.PlayerHealthSystem;
 using ProjectExodus.GameLogic.Player.PlayerTargetingSystem;
@@ -21,6 +23,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
         #region - - - - - - Fields - - - - - -
 
         private GameplaySceneGUIControllers m_GameplaySceneGUIControllers;
+        private IPlayerObserver m_PlayerObserver;
         private IShipAssetProvider m_ShipAssetProvider;
         private IWeaponAssetProvider m_WeaponAssetProvider;
 
@@ -30,14 +33,18 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
         
         void IPlayerSpawner.InitialisePlayerSpawner(
             GameplaySceneGUIControllers gameplaySceneGUIControllers,
+            IPlayerObserver playerObserver,
             IShipAssetProvider shipAssetProvider,
             IWeaponAssetProvider weaponAssetProvider)
         {
-            this.m_GameplaySceneGUIControllers =
-                gameplaySceneGUIControllers ?? throw new ArgumentNullException(nameof(gameplaySceneGUIControllers));
-            this.m_ShipAssetProvider = shipAssetProvider ?? throw new ArgumentNullException(nameof(shipAssetProvider));
-            this.m_WeaponAssetProvider =
-                weaponAssetProvider ?? throw new ArgumentNullException(nameof(weaponAssetProvider));
+            this.m_GameplaySceneGUIControllers = gameplaySceneGUIControllers 
+                ?? throw new ArgumentNullException(nameof(gameplaySceneGUIControllers));
+            this.m_PlayerObserver = playerObserver
+                ?? throw new ArgumentNullException(nameof(playerObserver));
+            this.m_ShipAssetProvider = shipAssetProvider 
+                ?? throw new ArgumentNullException(nameof(shipAssetProvider));
+            this.m_WeaponAssetProvider = weaponAssetProvider 
+                ?? throw new ArgumentNullException(nameof(weaponAssetProvider));
         }
 
         #endregion Initializers
@@ -47,10 +54,12 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
         GameObject IPlayerSpawner.SpawnPlayerShip(ShipModel shipToSpawn)
         {
             ISceneController _SceneController = SceneManager.Instance.GetActiveSceneController();
-            ShipAssetObject _ShipAsset = this.m_ShipAssetProvider.Provide(shipToSpawn.AssetID);
-            GameObject _PlayerShip = Instantiate(_ShipAsset.Asset, Vector2.zero, this.transform.rotation);
             IGameplayHUDController _GameplayHUDController =
                 this.m_GameplaySceneGUIControllers.GetGameplayHUDController();
+            ShipAssetObject _ShipAsset = this.m_ShipAssetProvider.Provide(shipToSpawn.AssetID);
+            
+            GameObject _PlayerShip = Instantiate(_ShipAsset.Asset, Vector2.zero, this.transform.rotation);
+            _PlayerShip.layer = GameLayer.Player;
             
             // Setup Weapons
             _PlayerShip.GetComponent<IPlayerWeaponSystems>()
@@ -60,6 +69,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
             _PlayerShip.GetComponent<IPlayerHealthSystem>()
                 .Initializer(
                     _GameplayHUDController,
+                    this.m_PlayerObserver,
                     _ShipAsset.BaseShieldHealth + shipToSpawn.ShieldHealthModifier, 
                     _ShipAsset.BasePlatingHealth + shipToSpawn.PlatingHealthModifier);
             
@@ -79,6 +89,9 @@ namespace ProjectExodus.GameLogic.Player.PlayerSpawner
                     Camera = SceneManager.Instance.GetActiveSceneController().Camera,
                     WeaponTrackingHUDController = this.m_GameplaySceneGUIControllers.WeaponTrackingHUDController
                 });
+            
+            // Broadcast to all components reliant on the Player's gameobject
+            this.m_PlayerObserver.OnPlayerSpawned?.Invoke(_PlayerShip);
 
             return _PlayerShip;
         }

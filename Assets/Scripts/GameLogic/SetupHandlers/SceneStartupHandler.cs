@@ -70,7 +70,7 @@ namespace ProjectExodus.GameLogic.Scene.SetupHandlers
             List<ISetupHandler> _SetupHandlers = this.m_SetupHandlersObjects
                 .Select(sh => sh.GetComponent<ISetupHandler>())
                 .ToList();
-            
+                
             // Configure the handler chain for sequential invocation.
             for (int i = 0; i < _SetupHandlers.Count - 1; i++)
             {

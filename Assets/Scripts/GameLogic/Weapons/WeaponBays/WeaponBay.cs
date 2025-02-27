@@ -1,5 +1,5 @@
+using ProjectExodus.GameLogic.Enumeration;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace ProjectExodus.GameLogic.Weapons.WeaponBays
 {
@@ -19,7 +19,8 @@ namespace ProjectExodus.GameLogic.Weapons.WeaponBays
 
         public void LoadWeaponToBay(GameObject weaponPrefab)
         {
-            GameObject _SpawnedWeapon = Object.Instantiate(weaponPrefab, this.transform);
+            GameObject _SpawnedWeapon = Instantiate(weaponPrefab, this.transform);
+            _SpawnedWeapon.layer = GameLayer.Player;
             this.m_AttachedWeapon = _SpawnedWeapon.GetComponent<IWeapon>();
         }
 

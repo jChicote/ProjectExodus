@@ -6,8 +6,11 @@ namespace ProjectExodus.GameLogic.Enumeration
 
         #region - - - - - - Fields - - - - - -
 
-        public static GameLayer Ignore = new GameLayer("Ignore", 6);
-        public static GameLayer Raycast = new GameLayer("Raycast", 7);
+        public static GameLayer Ignore = new("Ignore", 6);
+        public static GameLayer Raycast = new("Raycast", 7);
+        public static GameLayer Environment = new("Environment", 8);
+        public static GameLayer Enemies = new("Enemies", 9);
+        public static GameLayer Player = new GameLayer("Player", 10);
 
         #endregion Fields
 

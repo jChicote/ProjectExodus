@@ -3,7 +3,6 @@ using ProjectExodus.GameLogic.Input;
 using ProjectExodus.GameLogic.Input.Gameplay;
 using ProjectExodus.GameLogic.Input.UserInterface;
 using ProjectExodus.GameLogic.Player.PlayerProvider;
-using ProjectExodus.Management.SceneManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Object = UnityEngine.Object;
@@ -18,6 +17,8 @@ namespace ProjectExodus.Management.InputManager
     {
 
         #region - - - - - - Fields - - - - - -
+
+        public static InputManager Instance; 
 
         [Header("Target input destinations")]
         [SerializeField] private GameObject m_SessionUser;
@@ -37,12 +38,12 @@ namespace ProjectExodus.Management.InputManager
 
         private void Awake()
         {
-            InputManager[] _InputManager = Object.FindObjectsByType<InputManager>(FindObjectsSortMode.None);
-            if (_InputManager.Length > 1)
-                Debug.LogError($"Multiple {nameof(InputManager)}s detected. " +
-                               $"Only one {nameof(InputManager)} should exist, unexpected behaviour will occur.");
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(gameObject);
         }
-
+        
         #endregion Unity Methods
   
         #region - - - - - - Methods - - - - - -
@@ -51,7 +52,6 @@ namespace ProjectExodus.Management.InputManager
         {
             // Note: Ensure all values exist and references are set. Avoid setting the active input control.
             ((IInputManager)this).PossesUserInterfaceInputControls();
-            
             Debug.Log("InputManager initialised."); // Temp debug only
         }
 
@@ -65,7 +65,7 @@ namespace ProjectExodus.Management.InputManager
         // InputControl Possession Behavior
         // --------------------------------------
 
-        void IInputManager.PossesGameplayInputControls()
+        public void PossesGameplayInputControls()
         {
             // Validate whether controls exist
             if (!this.TryGetScenePlayerProvider() 
@@ -88,7 +88,7 @@ namespace ProjectExodus.Management.InputManager
         }
 
         /// <remarks>This should only be invoked during the start of the Game/Application.</remarks>
-        void IInputManager.PossesUserInterfaceInputControls()
+        public void PossesUserInterfaceInputControls()
         {
             // Validate whether controls exist
             if (this.m_SessionUser.GetComponent<IUserInterfaceInputControl>() != null)
@@ -111,7 +111,7 @@ namespace ProjectExodus.Management.InputManager
         }
 
         void IInputManager.UnpossesGameplayInputControls() 
-            => this.m_GameplayInputControl.UnbindInputControls(this.m_PlayerInput);
+            => this.m_GameplayInputControl?.UnbindInputControls(this.m_PlayerInput);
 
         void IInputManager.UnpossesUserInterfaceInputControls()
             => this.m_UserInterfaceInputControl.UnbindInputControls(this.m_PlayerInput);

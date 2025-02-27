@@ -3,6 +3,8 @@ using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Player.Movement;
 using ProjectExodus.GameLogic.Player.PlayerTargetingSystem;
 using ProjectExodus.GameLogic.Player.Weapons;
+using ProjectExodus.Management.InputManager;
+using ProjectExodus.Management.SceneManager;
 using ProjectExodus.Utility.GameValidation;
 using UnityEngine;
 
@@ -46,6 +48,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             
             // DebugHandler exists exclusively from the DebugManager object as it is not related to the player behavior.
             _ServiceControllers.DebugHandler = DebugManager.Instance.gameObject.GetComponent<DebugHandler>();
+            this.BindInputPossessionToPlayerRespawnEvents();
             
             this.m_GameplayInputControl.SetServiceContainer(_ServiceControllers);
         }
@@ -54,6 +57,19 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             => GameValidator.NotNull(this.m_ActivePlayer, nameof(this.m_ActivePlayer))
                && GameValidator.NotNull(this.m_SessionUser, nameof(this.m_SessionUser))
                && GameValidator.NotNull(this.m_GameplayInputControl, nameof(this.m_GameplayInputControl));
+
+        private void BindInputPossessionToPlayerRespawnEvents()
+        {
+            IInputManager _InputManager = InputManager.Instance;
+            IPlayerObserver _PlayerObserver = SceneManager.Instance.PlayerObserver;
+            
+            _PlayerObserver.OnPlayerDeath.AddListener(_InputManager.UnpossesGameplayInputControls);
+            _PlayerObserver.OnPlayerSpawned.AddListener(_ =>
+            {
+                _InputManager.PossesGameplayInputControls();
+                _InputManager.EnableActiveInputControl();
+            });
+        }
 
         #endregion Methods
 

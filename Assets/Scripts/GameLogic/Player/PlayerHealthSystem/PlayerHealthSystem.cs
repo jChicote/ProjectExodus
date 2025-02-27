@@ -15,7 +15,9 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
         private const float MAXIMUM_SUPPORTED_SHIELDS = 500f;
 
         private IGameplayHUDController m_GameplayHUDController;
+        private IPlayerObserver m_PlayerObserver;
 
+        private bool m_IsInvincible;
         private float m_CurrentPlatingHealth;
         private float m_CurrentShieldHealth;
         private float m_MaxPlatingHealth;
@@ -26,12 +28,15 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
         #region - - - - - - Initializers - - - - - -
 
         void IPlayerHealthSystem.Initializer(
-            IGameplayHUDController gameplayHUDController, 
+            IGameplayHUDController gameplayHUDController,
+            IPlayerObserver playerObserver,
             float platingHealth, 
             float shieldHealth)
         {
-            this.m_GameplayHUDController =
-                gameplayHUDController ?? throw new ArgumentNullException(nameof(gameplayHUDController));
+            this.m_GameplayHUDController = gameplayHUDController 
+                ?? throw new ArgumentNullException(nameof(gameplayHUDController));
+            this.m_PlayerObserver = playerObserver
+                ?? throw new ArgumentNullException(nameof(playerObserver));
             
             this.m_CurrentPlatingHealth = platingHealth;
             this.m_CurrentShieldHealth = shieldHealth;
@@ -51,6 +56,9 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
 
         void IDamageable.SendDamage(float damage)
         {
+            if (this.m_IsInvincible) return;
+            
+            // TODO: The health system needs to be changed to allow for damage of both shields and plating in one single hit.
             float _PlatingDamage = 
                 this.m_CurrentShieldHealth > damage ? 0 : damage - this.m_CurrentShieldHealth;
 
@@ -60,6 +68,9 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
             else
                 this.m_CurrentPlatingHealth = 
                     Math.Clamp(this.m_CurrentPlatingHealth - _PlatingDamage, 0, this.m_MaxPlatingHealth);
+            
+            if (this.m_CurrentPlatingHealth <= 0 && this.m_CurrentShieldHealth <= 0)
+                this.DestroyPlayer();
             
             this.m_GameplayHUDController.SetHealthValues(this.m_CurrentPlatingHealth, this.m_CurrentShieldHealth);
         }
@@ -84,6 +95,19 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
             // TODO: The GUD controller needs to animate and await for the health to approach full bar.
             this.m_GameplayHUDController.SetMaxHealthValues(this.m_MaxPlatingHealth, this.m_MaxShieldHealth);
             this.m_GameplayHUDController.SetHealthValues(this.m_CurrentPlatingHealth, this.m_CurrentShieldHealth);
+        }
+
+        void IPlayerHealthSystem.MakeInvincible(bool isInvincible)
+        {
+            this.m_IsInvincible = isInvincible;
+            this.m_CurrentShieldHealth = this.m_MaxShieldHealth;
+            this.m_CurrentPlatingHealth = this.m_MaxPlatingHealth;
+        }
+
+        private void DestroyPlayer()
+        {
+            this.m_PlayerObserver.OnPlayerDeath?.Invoke();
+            Destroy(this.gameObject);
         }
         
         #endregion Methods

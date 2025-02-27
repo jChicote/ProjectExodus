@@ -7,6 +7,9 @@ using UnityEngine.InputSystem;
 namespace ProjectExodus.GameLogic.Input.Gameplay
 {
 
+    /// <summary>
+    /// Responsible for only handling the inputs for the active player object.
+    /// </summary>
     public class KeyboardAndMouseGameplayInputControl : 
         PausableMonoBehavior,
         IGameplayInputControl
@@ -19,7 +22,6 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
         private Vector2 m_ScreenCenter;
         private bool m_IsInputActive;
         private bool m_IsDebugConsoleEnabled;
-
         private bool m_CtrlPressed;
 
         #endregion Fields
@@ -34,55 +36,55 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
         }
 
         #endregion Initializers
-
-        #region - - - - - - Unity Lifecycle Methods - - - - - -
+  
+        #region - - - - - - Unity Methods - - - - - -
 
         private void Awake()
             => this.m_ScreenCenter = new Vector2(
                 Screen.width / 2f,
                 Screen.height / 2f);
 
-        #endregion Unity Lifecycle Methods
+        #endregion Unity Methods
   
-        #region - - - - - - Events - - - - - -
+        #region - - - - - - Event Handlers - - - - - -
 
         void IGameplayInputControl.OnAttack(InputAction.CallbackContext callback)
         {
-            if (this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled)
+            if (this.IsInputControlValid())
                 return;
             
-            this.m_ServiceControllers.PlayerWeaponSystems.ToggleWeaponFire(true);
+            this.m_ServiceControllers.PlayerWeaponSystems?.ToggleWeaponFire(true);
         }
 
         void IGameplayInputControl.OnAttackRelease(InputAction.CallbackContext callback)
         {
-            if (this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled)
+            if (this.IsInputControlValid())
                 return;
             
-            this.m_ServiceControllers.PlayerWeaponSystems.ToggleWeaponFire(false);
+            this.m_ServiceControllers.PlayerWeaponSystems?.ToggleWeaponFire(false);
         }
 
         void IGameplayInputControl.OnControlOptionPressed(InputAction.CallbackContext callback)
         {
-            if (this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled)
+            if (this.IsInputControlValid())
                 return;
 
             this.m_CtrlPressed = true;
-            this.m_ServiceControllers.PlayerTargetingSystem.ActivateTargeting();
+            this.m_ServiceControllers.PlayerTargetingSystem?.ActivateTargeting();
         }
 
         void IGameplayInputControl.OnControlOptionReleased(InputAction.CallbackContext callback)
         {
-            if (this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled)
+            if (this.IsInputControlValid())
                 return;
 
             this.m_CtrlPressed = false;
-            this.m_ServiceControllers.PlayerTargetingSystem.DeactivateTargeting();
+            this.m_ServiceControllers.PlayerTargetingSystem?.DeactivateTargeting();
         }
 
         void IGameplayInputControl.OnInteract(InputAction.CallbackContext callbackContext)
         {
-            if (this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled)
+            if (this.IsInputControlValid())
                 return;
 
             Debug.LogWarning("[NOT IMPLEMENTED] >> No implemented behavior for OnInteract.");
@@ -90,19 +92,19 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnLook(InputAction.CallbackContext callback)
         {
-            if (this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled)
+            if (this.IsInputControlValid())
                 return;
             
             // Calculate look direction assuming screen center as origin point
             this.m_ServiceControllers.PlayerMovement.SetLookDirection(
                 callback.ReadValue<Vector2>() - this.m_ScreenCenter);
             
-            this.m_ServiceControllers.PlayerTargetingSystem.SearchForTarget(callback.ReadValue<Vector2>());
+            this.m_ServiceControllers.PlayerTargetingSystem?.SearchForTarget(callback.ReadValue<Vector2>());
         }
 
         void IGameplayInputControl.OnMove(InputAction.CallbackContext callback)
         {
-            if (this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled)
+            if (this.IsInputControlValid())
                 return;
             
             this.m_ServiceControllers.PlayerMovement.SetMoveDirection(callback.ReadValue<Vector2>()); // default for now
@@ -110,7 +112,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnPause(InputAction.CallbackContext callback)
         {
-            if (this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled)
+            if (this.IsInputControlValid())
                 return;
 
             Debug.LogWarning("[NOT IMPLEMENTED] >> No implemented behavior for OnPause.");
@@ -118,19 +120,19 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnSecondaryAction(InputAction.CallbackContext callback)
         {
-            if (this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled)
+            if (this.IsInputControlValid())
                 return;
             
             if (this.m_CtrlPressed)
-                this.m_ServiceControllers.PlayerTargetingSystem.ConfirmTargetLock();
+                this.m_ServiceControllers.PlayerTargetingSystem?.ConfirmTargetLock();
         }
 
         void IGameplayInputControl.OnSprint(InputAction.CallbackContext callbackContext)
         {
-            if (this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled)
+            if (this.IsInputControlValid())
                 return;
 
-            this.m_ServiceControllers.PlayerMovement.ToggleAfterburn();
+            this.m_ServiceControllers.PlayerMovement?.ToggleAfterburn();
         }
         
         // -----------------------------------------------------
@@ -141,9 +143,8 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
         {
             if (!this.m_IsInputActive)
                 return;
-            
-            this.m_ServiceControllers.DebugHandler.ToggleDebugMenu();
-            this.m_IsDebugConsoleEnabled = !this.m_IsDebugConsoleEnabled;
+
+            this.ToggleDebugConsole();
         }
 
         void IGameplayInputControl.OnSubmitCommand(InputAction.CallbackContext context)
@@ -154,7 +155,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             this.m_ServiceControllers.DebugHandler.SubmitDebugCommand();
         }
 
-        #endregion Events
+        #endregion Event Handlers
         
         #region - - - - - - Methods - - - - - -
 
@@ -233,6 +234,9 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
                 ((IGameplayInputControl)this).OnDebugConsole;
             playerInput.actions[GameplayInputActionConstants.SUBMITCOMMAND].performed -=
                 ((IGameplayInputControl)this).OnSubmitCommand;
+
+            if (this.m_IsDebugConsoleEnabled)
+                this.ToggleDebugConsole();
         }
 
         bool IInputControl.IsInputControlIsActive()
@@ -247,8 +251,21 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
         void IGameplayInputControl.SetServiceContainer(GameplayInputControlServiceContainer serviceContainer)
             => this.m_ServiceControllers = serviceContainer ?? throw new ArgumentNullException(nameof(serviceContainer));
 
+        private bool IsInputControlValid()
+            => this.m_IsPaused || !this.m_IsInputActive || this.m_IsDebugConsoleEnabled;
+
         #endregion Methods
 
+        #region - - - - - - Debug Methods - - - - - -
+
+        private void ToggleDebugConsole()
+        {
+            this.m_ServiceControllers.DebugHandler.ToggleDebugMenu();
+            this.m_IsDebugConsoleEnabled = !this.m_IsDebugConsoleEnabled;
+        }
+
+        #endregion Debug Methods
+  
     }
 
 }
