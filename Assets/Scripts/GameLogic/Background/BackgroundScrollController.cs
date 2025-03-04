@@ -20,18 +20,15 @@ namespace ProjectExodus
 
         private Transform m_CameraTransform;
 
-        private float m_HorizontalViewZone = 6f;
-        private float m_VerticalViewZone = 3f;
-        
         private int bottomIndex;
         private int upIndex;
         private float lastCameraY;
         
-        private int leftIndex;
-        private int rightIndex;
         private float lastCameraX;
         
         // Test inputs
+        private int m_LeftIndex;
+        private int m_RightIndex;
         private float m_TileWidth;
         private float m_TileHeight;
 
@@ -52,7 +49,7 @@ namespace ProjectExodus
             //     m_Columns[i] = transform.GetChild(i);
             // }
 
-            leftIndex = 0;
+            // leftIndex = 0;
             // rightIndex = m_Columns.Count - 1;
 
             // Get sprite properties
@@ -64,14 +61,18 @@ namespace ProjectExodus
             this.m_TileHeight = (spriteSize.y / pixelsPerUnit) * transform.lossyScale.y;
 
             Debug.Log($"Sprite World Size: Width = {m_TileWidth}, Height = {m_TileHeight}");
+
+            // TODO: Switch to calculated indexes
+            this.m_LeftIndex = 0;
+            this.m_RightIndex = 2;
+            
+            this.HorizontallyPositionColumnsOnStart();
             
             // Use the first row to calculate boundaries
             this.m_LeftColumnDetectionHorizontalBoundary =
                 this.m_Rows[0].RowColums[0].position.x + this.m_TileWidth / 2;
             this.m_RightColumnDetectionHorizontalBoundary =
                 this.m_Rows[0].RowColums[2].position.x - this.m_TileWidth / 2;
-            
-            this.HorizontallyPositionColumnsOnStart();
         }
 
         private void Update()
@@ -88,12 +89,6 @@ namespace ProjectExodus
         //     float deltaX = cameraTransform.position.x - lastCameraX;
         //     transform.position += Vector3.right * (deltaX * paralaxSpeed);
         //     lastCameraX = cameraTransform.position.x;
-        //
-        //     if (cameraTransform.position.x < (m_Columns[leftIndex].transform.position.x + this.m_TileWidth))
-        //         this.ScrollingLeft();
-        //
-        //     if (cameraTransform.position.x > (m_Columns[rightIndex].transform.position.x) - this.m_TileWidth)
-        //         this.ScrollingRight();
         // }
 
         private void HorizontallyPositionColumnsOnStart()
@@ -130,39 +125,56 @@ namespace ProjectExodus
 
         private void ScrollLeft()
         {
+            List<Transform> _ReferenceRowColumns = this.m_Rows.First().RowColums;
+            float _LeftColumnHorizontalPosition = _ReferenceRowColumns.ElementAt(this.m_LeftIndex).position.x;
+            List<Transform> _RightColumnElements = this.m_Rows
+                .Select(r => r.RowColums.ElementAt(this.m_RightIndex))
+                .ToList();
+
+            foreach (Transform _ColumnElement in _RightColumnElements)
+                _ColumnElement.position = new Vector2(
+                    _LeftColumnHorizontalPosition - this.m_TileWidth,
+                    _ColumnElement.position.y);
             
+            this.m_LeftIndex = this.m_RightIndex;
+            this.m_RightIndex--;
+
+            if (this.m_RightIndex < 0)
+                this.m_RightIndex = _ReferenceRowColumns.Count - 1;
+            
+            this.RecalculateHorizontalBoundaries(_ReferenceRowColumns);
         }
 
         private void ScrollRight()
         {
-            
+            List<Transform> _ReferenceRowColumns = this.m_Rows.First().RowColums;
+            float _RightColumnHorizontalPosition =
+                _ReferenceRowColumns.ElementAt(this.m_RightIndex).position.x;
+            List<Transform> _LeftColumnElements = this.m_Rows
+                .Select(r => r.RowColums.ElementAt(this.m_LeftIndex))
+                .ToList();
+
+            foreach (Transform _ColumnElement in _LeftColumnElements)
+                _ColumnElement.position = new Vector2(
+                    _RightColumnHorizontalPosition + this.m_TileWidth,
+                    _ColumnElement.position.y);
+
+            this.m_RightIndex = this.m_LeftIndex;
+            this.m_LeftIndex++;
+
+            if (this.m_LeftIndex == _ReferenceRowColumns.Count)
+                this.m_LeftIndex = 0;
+
+            this.RecalculateHorizontalBoundaries(_ReferenceRowColumns);
         }
 
-        // private void ScrollingLeft()
-        // {
-        //     m_Columns[rightIndex].position = new Vector3(
-        //         m_Columns[leftIndex].position.x - this.m_BackgroundTileSize.x, 
-        //         1 * m_Columns[leftIndex].position.y, 0);
-        //     //layers[rightIndex].position = Vector3.right * (layers[leftIndex].position.x - backgroundSize);
-        //     leftIndex = rightIndex;
-        //     rightIndex--;
-        //     
-        //     if (rightIndex < 0)
-        //         rightIndex = m_Columns.Count - 1;
-        // }
-        //
-        // private void ScrollingRight()
-        // {
-        //     m_Columns[leftIndex].position = new Vector3(
-        //         m_Columns[rightIndex].position.x + this.m_BackgroundTileSize.x, 
-        //         1 * m_Columns[rightIndex].position.y, 0);
-        //     //layers[leftIndex].position = Vector3.right * (layers[rightIndex].position.x + backgroundSize);
-        //     rightIndex = leftIndex;
-        //     leftIndex++;
-        //     
-        //     if (leftIndex == m_Columns.Count)
-        //         leftIndex = 0;
-        // }
+        private void RecalculateHorizontalBoundaries(List<Transform> referenceColumns)
+        {
+            this.m_LeftColumnDetectionHorizontalBoundary =
+                referenceColumns[this.m_LeftIndex].position.x + this.m_TileWidth / 2;
+            this.m_RightColumnDetectionHorizontalBoundary =
+                referenceColumns[this.m_RightIndex].position.x - this.m_TileWidth / 2;
+        }
 
         #endregion Horizontal Scroll Methods
 
@@ -170,10 +182,23 @@ namespace ProjectExodus
 
         private void OnDrawGizmos()
         {
+            // Draw tile borders
             Gizmos.color = Color.yellow;
             Transform[] _BackgroundTiles = this.m_Rows.SelectMany(r => r.RowColums).ToArray();
             foreach (Transform _Tile in _BackgroundTiles)
                 Gizmos.DrawWireCube(_Tile.position, new Vector2(this.m_TileWidth, this.m_TileHeight));
+
+            // Draw boundary lines
+            if (this.m_CameraTransform != null)
+            {
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawLine(
+                    new Vector3(this.m_RightColumnDetectionHorizontalBoundary, this.m_CameraTransform.position.y - 90, 0),
+                    new Vector3(this.m_RightColumnDetectionHorizontalBoundary, this.m_CameraTransform.position.y + 90, 0));
+                Gizmos.DrawLine(
+                    new Vector3(this.m_LeftColumnDetectionHorizontalBoundary, this.m_CameraTransform.position.y - 90, 0),
+                    new Vector3(this.m_LeftColumnDetectionHorizontalBoundary, this.m_CameraTransform.position.y + 90, 0));
+            }
         }
 
         #endregion Gizmos
