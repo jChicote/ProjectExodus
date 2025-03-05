@@ -20,8 +20,6 @@ namespace ProjectExodus
 
         private Transform m_CameraTransform;
 
-        private int bottomIndex;
-        private int upIndex;
         private float lastCameraY;
         
         private float lastCameraX;
@@ -29,11 +27,15 @@ namespace ProjectExodus
         // Test inputs
         private int m_LeftIndex;
         private int m_RightIndex;
+        private int m_BottomIndex;
+        private int m_UpIndex;
         private float m_TileWidth;
         private float m_TileHeight;
 
         private float m_LeftColumnDetectionHorizontalBoundary;
         private float m_RightColumnDetectionHorizontalBoundary;
+        private float m_BottomColumnDetectionVerticalBoundary;
+        private float m_UpColumnDetectionVerticalBoundary;
 
         #endregion Fields
 
@@ -65,6 +67,8 @@ namespace ProjectExodus
             // TODO: Switch to calculated indexes
             this.m_LeftIndex = 0;
             this.m_RightIndex = 2;
+            this.m_BottomIndex = 2;
+            this.m_UpIndex = 0;
             
             this.HorizontallyPositionColumnsOnStart();
             
@@ -73,11 +77,16 @@ namespace ProjectExodus
                 this.m_Rows[0].RowColums[0].position.x + this.m_TileWidth / 2;
             this.m_RightColumnDetectionHorizontalBoundary =
                 this.m_Rows[0].RowColums[2].position.x - this.m_TileWidth / 2;
+            this.m_BottomColumnDetectionVerticalBoundary =
+                this.m_Rows[2].RowColums[0].position.y + this.m_TileHeight / 2;
+            this.m_UpColumnDetectionVerticalBoundary =
+                this.m_Rows[0].RowColums[0].position.y - this.m_TileHeight / 2;
         }
 
         private void Update()
         {
             this.UpdateHorizontalScroll();
+            this.UpdateVerticalScroll();
         }
 
         #endregion Unity Methods
@@ -178,6 +187,52 @@ namespace ProjectExodus
 
         #endregion Horizontal Scroll Methods
 
+        #region - - - - - - Vertical Scroll Methods - - - - - -
+
+        private void UpdateVerticalScroll()
+        {
+            if (this.m_CameraTransform.position.y < this.m_BottomColumnDetectionVerticalBoundary)
+                this.ScrollDown();
+            
+            if (this.m_CameraTransform.position.y > this.m_UpColumnDetectionVerticalBoundary)
+                this.ScrollUp();
+        }
+
+        private void ScrollUp()
+        {
+            float _UpRowVerticalPositionY = this.m_Rows[this.m_UpIndex].RowColums[0].position.y;
+            List<Transform> _BottomRows = this.m_Rows[this.m_BottomIndex].RowColums;
+
+            foreach (Transform _RowColumnElement in _BottomRows)
+                _RowColumnElement.position = new Vector2(
+                    _UpRowVerticalPositionY + this.m_TileHeight,
+                    _RowColumnElement.position.x);
+
+            this.m_UpIndex = this.m_BottomIndex;
+            this.m_BottomIndex--;
+
+            if (this.m_BottomIndex == this.m_Rows.Count)
+                this.m_BottomIndex = 0;
+
+            this.RecalculateVerticalBoundaries();
+        }
+
+        private void ScrollDown()
+        {
+            
+        }
+
+        private void RecalculateVerticalBoundaries()
+        {
+            float _BottomRowPositionY = this.m_Rows[this.m_BottomIndex].RowColums[0].position.y;
+            this.m_BottomColumnDetectionVerticalBoundary =
+                this.m_Rows[this.m_LeftIndex].Row.position.y + this.m_TileWidth / 2;
+            this.m_UpColumnDetectionVerticalBoundary =
+                this.m_Rows[this.m_RightIndex].Row.position.y - this.m_TileWidth / 2;
+        }
+
+        #endregion Vertical Scroll Methods
+  
         #region - - - - - - Gizmos - - - - - -
 
         private void OnDrawGizmos()
@@ -192,12 +247,19 @@ namespace ProjectExodus
             if (this.m_CameraTransform != null)
             {
                 Gizmos.color = Color.cyan;
+                
+                // Draw Horizontal boundaries
                 Gizmos.DrawLine(
                     new Vector3(this.m_RightColumnDetectionHorizontalBoundary, this.m_CameraTransform.position.y - 90, 0),
                     new Vector3(this.m_RightColumnDetectionHorizontalBoundary, this.m_CameraTransform.position.y + 90, 0));
                 Gizmos.DrawLine(
                     new Vector3(this.m_LeftColumnDetectionHorizontalBoundary, this.m_CameraTransform.position.y - 90, 0),
                     new Vector3(this.m_LeftColumnDetectionHorizontalBoundary, this.m_CameraTransform.position.y + 90, 0));
+                
+                // Draw Vertical boundaries
+                Gizmos.DrawLine(
+                    new Vector3(this.m_CameraTransform.position.x - 90, this.m_UpColumnDetectionVerticalBoundary, 0),
+                    new Vector3(this.m_CameraTransform.position.x - 90, this.m_UpColumnDetectionVerticalBoundary, 0));
             }
         }
 
