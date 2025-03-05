@@ -78,9 +78,9 @@ namespace ProjectExodus
             this.m_RightColumnDetectionHorizontalBoundary =
                 this.m_Rows[0].RowColums[2].position.x - this.m_TileWidth / 2;
             this.m_BottomColumnDetectionVerticalBoundary =
-                this.m_Rows[2].RowColums[0].position.y + this.m_TileHeight / 2;
+                this.m_Rows[this.m_BottomIndex].RowColums[0].position.y - this.m_TileHeight / 2;
             this.m_UpColumnDetectionVerticalBoundary =
-                this.m_Rows[0].RowColums[0].position.y - this.m_TileHeight / 2;
+                this.m_Rows[this.m_UpIndex].RowColums[0].position.y - this.m_TileHeight / 2;
         }
 
         private void Update()
@@ -205,11 +205,11 @@ namespace ProjectExodus
 
             foreach (Transform _RowColumnElement in _BottomRows)
                 _RowColumnElement.position = new Vector2(
-                    _UpRowVerticalPositionY + this.m_TileHeight,
-                    _RowColumnElement.position.x);
+                    _RowColumnElement.position.x,
+                    _UpRowVerticalPositionY + this.m_TileHeight);
 
             this.m_UpIndex = this.m_BottomIndex;
-            this.m_BottomIndex--;
+            this.m_BottomIndex++;
 
             if (this.m_BottomIndex == this.m_Rows.Count)
                 this.m_BottomIndex = 0;
@@ -224,11 +224,10 @@ namespace ProjectExodus
 
         private void RecalculateVerticalBoundaries()
         {
-            float _BottomRowPositionY = this.m_Rows[this.m_BottomIndex].RowColums[0].position.y;
             this.m_BottomColumnDetectionVerticalBoundary =
-                this.m_Rows[this.m_LeftIndex].Row.position.y + this.m_TileWidth / 2;
+                this.m_Rows[this.m_BottomIndex].RowColums[0].position.y + this.m_TileHeight / 2;
             this.m_UpColumnDetectionVerticalBoundary =
-                this.m_Rows[this.m_RightIndex].Row.position.y - this.m_TileWidth / 2;
+                this.m_Rows[this.m_UpIndex].RowColums[0].position.y - this.m_TileHeight / 2;
         }
 
         #endregion Vertical Scroll Methods
@@ -259,7 +258,7 @@ namespace ProjectExodus
                 // Draw Vertical boundaries
                 Gizmos.DrawLine(
                     new Vector3(this.m_CameraTransform.position.x - 90, this.m_UpColumnDetectionVerticalBoundary, 0),
-                    new Vector3(this.m_CameraTransform.position.x - 90, this.m_UpColumnDetectionVerticalBoundary, 0));
+                    new Vector3(this.m_CameraTransform.position.x + 90, this.m_UpColumnDetectionVerticalBoundary, 0));
             }
         }
 
