@@ -12,30 +12,24 @@ namespace ProjectExodus
 
         #region - - - - - - Fields - - - - - -
 
-        public Sprite m_BackgroundTile;
-        public Vector2 m_BackgroundTileSize;
-        public float paralaxSpeed;
-        
+        [SerializeField] private Sprite m_BackgroundTile;
         [SerializeField] private List<BackgroundRowElement> m_Rows;
 
         private Transform m_CameraTransform;
-
-        private float lastCameraY;
         
-        private float lastCameraX;
+        // Tile-Info Fields
+        private float m_TileWidth;
+        private float m_TileHeight;
         
-        // Test inputs
+        // Runtime Scroll Fields
         private int m_LeftIndex;
         private int m_RightIndex;
         private int m_BottomIndex;
-        private int m_UpIndex;
-        private float m_TileWidth;
-        private float m_TileHeight;
-
-        private float m_LeftColumnDetectionHorizontalBoundary;
-        private float m_RightColumnDetectionHorizontalBoundary;
-        private float m_BottomColumnDetectionVerticalBoundary;
-        private float m_UpColumnDetectionVerticalBoundary;
+        private int m_TopIndex;
+        private float m_LeftScrollTriggerLimit;
+        private float m_RightScrollTriggerLimit;
+        private float m_LowerScrollTriggerLimit;
+        private float m_UpperScrollTriggerLimit;
 
         #endregion Fields
 
@@ -44,43 +38,26 @@ namespace ProjectExodus
         private void Start()
         {
             this.m_CameraTransform = Camera.main.transform;
-            // lastCameraX = cameraTransform.position.x;
-            // m_Columns = new List<Transform>transform.childCount];
-            // for (int i = 0; i < transform.childCount; i++)
-            // {
-            //     m_Columns[i] = transform.GetChild(i);
-            // }
-
-            // leftIndex = 0;
-            // rightIndex = m_Columns.Count - 1;
-
+            
             // Get sprite properties
-            Vector2 spriteSize = this.m_BackgroundTile.rect.size; // Size in pixels
-            float pixelsPerUnit = this.m_BackgroundTile.pixelsPerUnit;
+            Vector2 _SpriteSize = this.m_BackgroundTile.rect.size; // Size in pixels
+            float _PixelsPerUnit = this.m_BackgroundTile.pixelsPerUnit;
 
             // Convert to world space
-            this.m_TileWidth = (spriteSize.x / pixelsPerUnit) * transform.lossyScale.x;
-            this.m_TileHeight = (spriteSize.y / pixelsPerUnit) * transform.lossyScale.y;
+            this.m_TileWidth = (_SpriteSize.x / _PixelsPerUnit) * transform.lossyScale.x;
+            this.m_TileHeight = (_SpriteSize.y / _PixelsPerUnit) * transform.lossyScale.y;
 
-            Debug.Log($"Sprite World Size: Width = {m_TileWidth}, Height = {m_TileHeight}");
-
-            // TODO: Switch to calculated indexes
+            // Prepare tiles
             this.m_LeftIndex = 0;
-            this.m_RightIndex = 2;
-            this.m_BottomIndex = 2;
-            this.m_UpIndex = 0;
+            this.m_RightIndex = this.m_Rows.First().RowColums.Count - 1;
+            this.m_BottomIndex = this.m_Rows.Count - 1;
+            this.m_TopIndex = 0;
             
-            this.HorizontallyPositionColumnsOnStart();
+            this.PositionRowColumnsOnStart();
             
             // Use the first row to calculate boundaries
-            this.m_LeftColumnDetectionHorizontalBoundary =
-                this.m_Rows[0].RowColums[0].position.x + this.m_TileWidth / 2;
-            this.m_RightColumnDetectionHorizontalBoundary =
-                this.m_Rows[0].RowColums[2].position.x - this.m_TileWidth / 2;
-            this.m_BottomColumnDetectionVerticalBoundary =
-                this.m_Rows[this.m_BottomIndex].RowColums[0].position.y - this.m_TileHeight / 2;
-            this.m_UpColumnDetectionVerticalBoundary =
-                this.m_Rows[this.m_UpIndex].RowColums[0].position.y - this.m_TileHeight / 2;
+            this.RecalculateHorizontalBoundaries(this.m_Rows.First().RowColums);
+            this.RecalculateVerticalBoundaries();
         }
 
         private void Update()
@@ -91,16 +68,9 @@ namespace ProjectExodus
 
         #endregion Unity Methods
 
-        #region - - - - - - Horizontal Scroll Methods - - - - - -
+        #region - - - - - - Methods - - - - - -
 
-        // private void UpdateHorizontalScroll()
-        // {
-        //     float deltaX = cameraTransform.position.x - lastCameraX;
-        //     transform.position += Vector3.right * (deltaX * paralaxSpeed);
-        //     lastCameraX = cameraTransform.position.x;
-        // }
-
-        private void HorizontallyPositionColumnsOnStart()
+        private void PositionRowColumnsOnStart()
         {
             for (int _I = 0; _I < this.m_Rows.Count; _I++)
             {
@@ -118,17 +88,16 @@ namespace ProjectExodus
             }
         }
 
-        // private void VerticallyPositionColumnsOnStart()
-        // {
-        //     
-        // }
+        #endregion Methods
+  
+        #region - - - - - - Horizontal Scroll Methods - - - - - -
 
         private void UpdateHorizontalScroll()
         {
-            if (this.m_CameraTransform.position.x < this.m_LeftColumnDetectionHorizontalBoundary)
+            if (this.m_CameraTransform.position.x < this.m_LeftScrollTriggerLimit)
                 this.ScrollLeft();
             
-            if (this.m_CameraTransform.position.x > this.m_RightColumnDetectionHorizontalBoundary)
+            if (this.m_CameraTransform.position.x > this.m_RightScrollTriggerLimit)
                 this.ScrollRight();
         }
 
@@ -179,9 +148,9 @@ namespace ProjectExodus
 
         private void RecalculateHorizontalBoundaries(List<Transform> referenceColumns)
         {
-            this.m_LeftColumnDetectionHorizontalBoundary =
+            this.m_LeftScrollTriggerLimit =
                 referenceColumns[this.m_LeftIndex].position.x + this.m_TileWidth / 2;
-            this.m_RightColumnDetectionHorizontalBoundary =
+            this.m_RightScrollTriggerLimit =
                 referenceColumns[this.m_RightIndex].position.x - this.m_TileWidth / 2;
         }
 
@@ -191,43 +160,57 @@ namespace ProjectExodus
 
         private void UpdateVerticalScroll()
         {
-            if (this.m_CameraTransform.position.y < this.m_BottomColumnDetectionVerticalBoundary)
+            if (this.m_CameraTransform.position.y < this.m_LowerScrollTriggerLimit)
                 this.ScrollDown();
             
-            if (this.m_CameraTransform.position.y > this.m_UpColumnDetectionVerticalBoundary)
+            if (this.m_CameraTransform.position.y > this.m_UpperScrollTriggerLimit)
                 this.ScrollUp();
         }
 
         private void ScrollUp()
         {
-            float _UpRowVerticalPositionY = this.m_Rows[this.m_UpIndex].RowColums[0].position.y;
+            float _TopRowYPosition = this.m_Rows[this.m_TopIndex].RowColums[0].position.y;
             List<Transform> _BottomRows = this.m_Rows[this.m_BottomIndex].RowColums;
 
             foreach (Transform _RowColumnElement in _BottomRows)
                 _RowColumnElement.position = new Vector2(
                     _RowColumnElement.position.x,
-                    _UpRowVerticalPositionY + this.m_TileHeight);
+                    _TopRowYPosition + this.m_TileHeight);
 
-            this.m_UpIndex = this.m_BottomIndex;
-            this.m_BottomIndex++;
-
-            if (this.m_BottomIndex == this.m_Rows.Count)
-                this.m_BottomIndex = 0;
+            this.m_TopIndex = this.m_BottomIndex;
+            this.m_BottomIndex--;
+            
+            if (this.m_BottomIndex < 0)
+                this.m_BottomIndex = this.m_Rows.Count - 1;
 
             this.RecalculateVerticalBoundaries();
         }
 
         private void ScrollDown()
         {
+            float _BottonRowYPosition = this.m_Rows[this.m_BottomIndex].RowColums[0].position.y;
+            List<Transform> _TopRows = this.m_Rows[this.m_TopIndex].RowColums;
             
+            foreach (Transform _RowColumnElement in _TopRows)
+                _RowColumnElement.position = new Vector2(
+                    _RowColumnElement.position.x,
+                    _BottonRowYPosition - this.m_TileHeight);
+
+            this.m_BottomIndex = this.m_TopIndex;
+            this.m_TopIndex++;
+            
+            if (this.m_TopIndex == this.m_Rows.Count)
+                this.m_TopIndex = 0;
+            
+            this.RecalculateVerticalBoundaries();
         }
 
         private void RecalculateVerticalBoundaries()
         {
-            this.m_BottomColumnDetectionVerticalBoundary =
+            this.m_LowerScrollTriggerLimit =
                 this.m_Rows[this.m_BottomIndex].RowColums[0].position.y + this.m_TileHeight / 2;
-            this.m_UpColumnDetectionVerticalBoundary =
-                this.m_Rows[this.m_UpIndex].RowColums[0].position.y - this.m_TileHeight / 2;
+            this.m_UpperScrollTriggerLimit =
+                this.m_Rows[this.m_TopIndex].RowColums[0].position.y - this.m_TileHeight / 2;
         }
 
         #endregion Vertical Scroll Methods
@@ -249,16 +232,19 @@ namespace ProjectExodus
                 
                 // Draw Horizontal boundaries
                 Gizmos.DrawLine(
-                    new Vector3(this.m_RightColumnDetectionHorizontalBoundary, this.m_CameraTransform.position.y - 90, 0),
-                    new Vector3(this.m_RightColumnDetectionHorizontalBoundary, this.m_CameraTransform.position.y + 90, 0));
+                    new Vector3(this.m_RightScrollTriggerLimit, this.m_CameraTransform.position.y - 90, 0),
+                    new Vector3(this.m_RightScrollTriggerLimit, this.m_CameraTransform.position.y + 90, 0));
                 Gizmos.DrawLine(
-                    new Vector3(this.m_LeftColumnDetectionHorizontalBoundary, this.m_CameraTransform.position.y - 90, 0),
-                    new Vector3(this.m_LeftColumnDetectionHorizontalBoundary, this.m_CameraTransform.position.y + 90, 0));
+                    new Vector3(this.m_LeftScrollTriggerLimit, this.m_CameraTransform.position.y - 90, 0),
+                    new Vector3(this.m_LeftScrollTriggerLimit, this.m_CameraTransform.position.y + 90, 0));
                 
                 // Draw Vertical boundaries
                 Gizmos.DrawLine(
-                    new Vector3(this.m_CameraTransform.position.x - 90, this.m_UpColumnDetectionVerticalBoundary, 0),
-                    new Vector3(this.m_CameraTransform.position.x + 90, this.m_UpColumnDetectionVerticalBoundary, 0));
+                    new Vector3(this.m_CameraTransform.position.x - 90, this.m_UpperScrollTriggerLimit, 0),
+                    new Vector3(this.m_CameraTransform.position.x + 90, this.m_UpperScrollTriggerLimit, 0));
+                Gizmos.DrawLine(
+                    new Vector3(this.m_CameraTransform.position.x - 90, this.m_LowerScrollTriggerLimit, 0),
+                    new Vector3(this.m_CameraTransform.position.x + 90, this.m_LowerScrollTriggerLimit, 0));
             }
         }
 
