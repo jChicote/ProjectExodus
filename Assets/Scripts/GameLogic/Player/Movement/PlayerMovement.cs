@@ -1,3 +1,4 @@
+using System.Collections;
 using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
 using UnityEngine;
 
@@ -14,12 +15,18 @@ namespace ProjectExodus.GameLogic.Player.Movement
         [SerializeField] private float m_MaxThrustMagnitude;
         [SerializeField] private float m_MoveInterpolationInterval;
         [SerializeField] private float m_ThrustPower;
+        [SerializeField] private float m_AfterburnPower;
+        [SerializeField] private float m_AfterburnTimeLength;
 
         private Vector2 m_MoveDirection;
+        private float m_TotalSpeed;
         
         #endregion Fields
 
         #region - - - - - - Unity Lifecycle Methods - - - - - -
+
+        private void Start() 
+            => this.m_TotalSpeed = this.m_ThrustPower;
 
         private void Update()
         {
@@ -41,7 +48,27 @@ namespace ProjectExodus.GameLogic.Player.Movement
 
         void IPlayerMovement.ToggleAfterburn()
         {
+            this.StartCoroutine(this.RunAfterBurn());
             Debug.Log("Thrust power toggled.");
+        }
+
+        private IEnumerator RunAfterBurn()
+        {
+            float _SpeedBefore = this.m_TotalSpeed;
+            float _TargetAfterburnSpeed = this.m_TotalSpeed + this.m_AfterburnPower;
+            float _AfterburnRuntime = 0;
+            
+            while (_AfterburnRuntime < this.m_AfterburnTimeLength)
+            {
+                this.m_TotalSpeed = Mathf.Lerp(
+                    _SpeedBefore,
+                    _TargetAfterburnSpeed,
+                    _AfterburnRuntime / this.m_AfterburnTimeLength);
+
+                _AfterburnRuntime += Time.deltaTime;
+            }
+
+            yield return null;
         }
 
         private void RunMovement()
