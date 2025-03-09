@@ -48,6 +48,19 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
   
         #region - - - - - - Event Handlers - - - - - -
 
+        void IGameplayInputControl.OnAfterBurn(InputAction.CallbackContext callback)
+        {
+            if (this.IsInputControlValid()) // TODO: Should be !this.IsInputControlValid()
+                return;
+            
+        }
+
+        void IGameplayInputControl.OnAfterBurnRelease(InputAction.CallbackContext callback)
+        {
+            if (this.IsInputControlValid()) // TODO: Should be !this.IsInputControlValid()
+                            return;
+        }
+
         void IGameplayInputControl.OnAttack(InputAction.CallbackContext callback)
         {
             if (this.IsInputControlValid())
@@ -184,6 +197,11 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             playerInput.actions[GameplayInputActionConstants.MOVE].performed += ((IGameplayInputControl)this).OnMove;
             playerInput.actions[GameplayInputActionConstants.MOVE].canceled += ((IGameplayInputControl)this).OnMove;
 
+            playerInput.actions[GameplayInputActionConstants.AFTERBURN].performed +=
+                ((IGameplayInputControl)this).OnAfterBurn;
+            playerInput.actions[GameplayInputActionConstants.AFTERBURN].canceled +=
+                ((IGameplayInputControl)this).OnAfterBurnRelease;
+            
             // Sprint
             playerInput.actions[GameplayInputActionConstants.SPRINT].performed +=
                 ((IGameplayInputControl)this).OnSprint;
@@ -223,6 +241,11 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             playerInput.actions[GameplayInputActionConstants.MOVE].performed -= ((IGameplayInputControl)this).OnMove;
             playerInput.actions[GameplayInputActionConstants.MOVE].canceled -= ((IGameplayInputControl)this).OnMove;
 
+            playerInput.actions[GameplayInputActionConstants.AFTERBURN].performed -=
+                ((IGameplayInputControl)this).OnAfterBurn;
+            playerInput.actions[GameplayInputActionConstants.AFTERBURN].canceled -=
+                ((IGameplayInputControl)this).OnAfterBurnRelease;
+            
             // Sprint
             playerInput.actions[GameplayInputActionConstants.SPRINT].performed -=
                 ((IGameplayInputControl)this).OnSprint;

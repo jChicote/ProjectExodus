@@ -94,6 +94,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Afterburn",
+                    "type": "Button",
+                    "id": "01b3255b-478a-41d1-bbf7-554ed9a65f79",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -292,6 +301,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "SubmitCommand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c8d9d7d8-64e5-4384-8d2d-dada1db31045",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Afterburn",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

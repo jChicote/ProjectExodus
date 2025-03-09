@@ -6,6 +6,7 @@
 
         #region - - - - - - Fields - - - - - -
 
+        public const string AFTERBURN = "afterburn";
         public const string ATTACK = "attack";
         public const string CONTROL_OPTION = "controloption";
         public const string INTERACT = "interact";
