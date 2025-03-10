@@ -12,7 +12,9 @@ namespace ProjectExodus.GameLogic.Player.Movement
 
         void SetMoveDirection(Vector2 moveDirection);
 
-        void ToggleAfterburn();
+        void StartAfterburn();
+
+        void EndAfterburn();
 
         #endregion Methods
 

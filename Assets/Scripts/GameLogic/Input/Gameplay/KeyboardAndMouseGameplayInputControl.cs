@@ -50,15 +50,18 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void IGameplayInputControl.OnAfterBurn(InputAction.CallbackContext callback)
         {
-            if (this.IsInputControlValid()) // TODO: Should be !this.IsInputControlValid()
+            if (this.IsInputControlValid())
                 return;
             
+            this.m_ServiceControllers.PlayerMovement.StartAfterburn();
         }
 
         void IGameplayInputControl.OnAfterBurnRelease(InputAction.CallbackContext callback)
         {
-            if (this.IsInputControlValid()) // TODO: Should be !this.IsInputControlValid()
-                            return;
+            if (this.IsInputControlValid())
+                return;
+            
+            this.m_ServiceControllers.PlayerMovement.EndAfterburn();
         }
 
         void IGameplayInputControl.OnAttack(InputAction.CallbackContext callback)
@@ -145,7 +148,7 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
             if (this.IsInputControlValid())
                 return;
 
-            this.m_ServiceControllers.PlayerMovement?.ToggleAfterburn();
+            this.m_ServiceControllers.PlayerMovement?.StartAfterburn();
         }
         
         // -----------------------------------------------------
