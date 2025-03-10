@@ -18,7 +18,9 @@ namespace ProjectExodus.UserInterface.GameplayHUD
         void SetMaxHealthValues(float maxPlating, float maxShield);
 
         void SetHealthValues(float platingHealth, float shieldHealth);
-        
+
+        void SetWeaponCooldownValues(float currentCooldown, float maxCooldown);
+
         #endregion Methods
 
     }

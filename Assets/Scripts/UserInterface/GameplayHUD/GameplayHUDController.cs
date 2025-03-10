@@ -34,13 +34,28 @@ namespace ProjectExodus.UserInterface.GameplayHUD
 
         #endregion Initializers
 
-        #region - - - - - - Methods - - - - - -
-        
+        #region - - - - - - Health Methods - - - - - -
+
         void IGameplayHUDController.SetMaxHealthValues(float maxPlating, float maxShield)
             => this.m_View.SetMaxHealthValues(maxPlating, maxShield);
 
         void IGameplayHUDController.SetHealthValues(float platingHealth, float shieldHealth)
             => this.m_View.UpdateHealthBars(platingHealth, shieldHealth);
+
+        #endregion Health Methods
+
+
+        #region - - - - - - Weapon Methods - - - - - -
+
+        void IGameplayHUDController.SetWeaponCooldownValues(float currentCooldown, float maxCooldown)
+        {
+            // this.m_View.UpdateWeaponCooldown();
+        }
+
+        #endregion Weapon Methods
+  
+  
+        #region - - - - - - HUD Methods - - - - - -
         
         void IScreenStateController.HideScreen() 
             => this.m_View.HideHUD();
@@ -57,7 +72,7 @@ namespace ProjectExodus.UserInterface.GameplayHUD
             this.m_PauseController.Pause();
         }
 
-        #endregion Methods
+        #endregion HUD Methods
 
     }
 
