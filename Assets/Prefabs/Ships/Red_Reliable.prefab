@@ -130,6 +130,7 @@ MonoBehaviour:
   m_ThrustPower: 10
   m_AfterburnPower: 50
   m_AfterburnTimeLength: 3
+  m_AfterburnCooldownTimeLength: 2
   m_MoveRampTimeLength: 0.07
 --- !u!114 &4067972612123224677
 MonoBehaviour:

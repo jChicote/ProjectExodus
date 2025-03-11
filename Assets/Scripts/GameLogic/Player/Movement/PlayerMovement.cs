@@ -1,6 +1,10 @@
 using System.Collections;
 using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
+using ProjectExodus.Management.UserInterfaceManager;
+using ProjectExodus.UserInterface.Controllers;
+using ProjectExodus.UserInterface.GameplayHUD;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ProjectExodus.GameLogic.Player.Movement
 {
@@ -12,6 +16,7 @@ namespace ProjectExodus.GameLogic.Player.Movement
 
         // Required Components Fields
         [SerializeField] private Rigidbody2D m_Rigidbody;
+        private IGameplayHUDController m_GameplayHUDController;
 
         // Thrust Fields
         [SerializeField] private float m_MaxThrustMagnitude;
@@ -20,8 +25,11 @@ namespace ProjectExodus.GameLogic.Player.Movement
         
         // Afterburn Fields
         [SerializeField] private float m_AfterburnPower;
-        [SerializeField] private float m_AfterburnTimeLength;
+        [SerializeField] private float m_AfterburnFillAmount;
+        [SerializeField] private float m_AfterburnCooldownTimeLength;
+        private float m_CurrentAfterburnFill;
         private bool m_IsInAfterburn;
+        private bool m_HasDepletedAfterburn;
 
         // Movement Fields
         [SerializeField] private float m_MoveRampTimeLength;
@@ -32,8 +40,14 @@ namespace ProjectExodus.GameLogic.Player.Movement
 
         #region - - - - - - Unity Lifecycle Methods - - - - - -
 
-        private void Start() 
-            => this.m_TotalSpeed = this.m_ThrustPower;
+        private void Start()
+        {
+            UserInterfaceManager.Instance.GetTheActiveUserInterfaceController().TryGetGUIControllers(out object _Controllers);
+            this.m_GameplayHUDController = ((GameplaySceneGUIControllers)_Controllers).GetGameplayHUDController();
+            this.m_GameplayHUDController.SetAfterburnFill(1, 1);
+            
+            this.m_TotalSpeed = this.m_ThrustPower;
+        }
 
         private void Update()
         {
@@ -80,9 +94,10 @@ namespace ProjectExodus.GameLogic.Player.Movement
 
         void IPlayerMovement.StartAfterburn()
         {
-            if (this.m_IsInAfterburn) return;
+            if (this.m_IsInAfterburn || this.m_HasDepletedAfterburn) return;
             
             this.m_IsInAfterburn = true;
+            this.StopAllCoroutines();
             this.StartCoroutine(this.RunAfterBurn());
         }
 
@@ -97,23 +112,26 @@ namespace ProjectExodus.GameLogic.Player.Movement
         {
             float _SpeedBefore = this.m_TotalSpeed;
             float _TargetAfterburnSpeed = this.m_TotalSpeed + this.m_AfterburnPower;
-            float _AfterburnRuntime = 0;
-            float _AfterburnRampTime = 0;
-            float _AfterburnRampTimeLength = this.m_AfterburnTimeLength * 0.1f;
+            float _AfterburnFillTime = 0;
+            float _AfterburnFillTimeLength = this.m_AfterburnFillAmount * 0.1f;
             
-            while (_AfterburnRuntime < this.m_AfterburnTimeLength)
+            while (this.m_CurrentAfterburnFill < this.m_AfterburnFillAmount)
             {
                 this.m_TotalSpeed = Mathf.Lerp(
                     _SpeedBefore,
                     _TargetAfterburnSpeed,
-                    _AfterburnRampTime / _AfterburnRampTimeLength);
+                    _AfterburnFillTime / _AfterburnFillTimeLength);
+                this.m_GameplayHUDController.SetAfterburnFill(
+                    this.m_AfterburnFillAmount - this.m_CurrentAfterburnFill, 
+                    this.m_AfterburnFillAmount);
 
-                _AfterburnRuntime += Time.deltaTime;
-                _AfterburnRampTime += Time.deltaTime;
+                this.m_CurrentAfterburnFill += Time.deltaTime;
+                _AfterburnFillTime += Time.deltaTime;
                 
                 yield return null;
             }
 
+            this.m_HasDepletedAfterburn = true;
             this.StopAfterburn();
         }
 
@@ -121,7 +139,34 @@ namespace ProjectExodus.GameLogic.Player.Movement
         {
             this.m_IsInAfterburn = false;
             this.m_TotalSpeed = this.m_ThrustPower;
+            this.StartCoroutine(this.RunAfterburnCooldown());
         }
+
+        private IEnumerator RunAfterburnCooldown()
+        {
+            float _CooldownRuntime = 0;
+            float _CooldownStepInterval = this.m_AfterburnCooldownTimeLength * Time.deltaTime;
+            
+            // Briefly pause cooldown to delay the perceived 'quickness' of the cooldown.
+            float _CooldownPauseTime = this.m_AfterburnCooldownTimeLength * 0.2f;
+            yield return new WaitForSeconds(_CooldownPauseTime);
+
+            while (_CooldownRuntime < this.m_AfterburnCooldownTimeLength && this.m_CurrentAfterburnFill > 0)
+            {
+                this.m_CurrentAfterburnFill = Mathf.Clamp(
+                    this.m_CurrentAfterburnFill - _CooldownStepInterval, 
+                    0, 
+                    this.m_AfterburnFillAmount);
+                this.m_GameplayHUDController.SetAfterburnFill(
+                    this.m_AfterburnFillAmount - this.m_CurrentAfterburnFill, 
+                    this.m_AfterburnFillAmount);
+
+                _CooldownRuntime += Time.deltaTime;
+                yield return null;
+            }
+
+            this.m_HasDepletedAfterburn = false;
+        } 
 
         #endregion Afterburn Methods
   

@@ -19,7 +19,7 @@ namespace ProjectExodus.UserInterface.GameplayHUD
         [SerializeField] private Slider m_WeaponCooldownBar;
 
         [Header("Movement HUD Elements")]
-        [SerializeField] private Slider m_AfterburnStatusBar;
+        [SerializeField] private Slider m_AfterburnFillBar;
         
         [Space]
         [SerializeField] private Button m_PauseButton;
@@ -62,6 +62,13 @@ namespace ProjectExodus.UserInterface.GameplayHUD
             => this.m_WeaponCooldownBar.value = currentHeatLevel / maxHeatLevel;
 
         #endregion Weapon Methods
+
+        #region - - - - - - Movement Methods - - - - - -
+
+        public void UpdateAfterburnFill(float currentFill, float maxFill) 
+            => this.m_AfterburnFillBar.value = currentFill / maxFill;
+
+        #endregion Movement Methods
   
         #region - - - - - - HUD Methods - - - - - -
 

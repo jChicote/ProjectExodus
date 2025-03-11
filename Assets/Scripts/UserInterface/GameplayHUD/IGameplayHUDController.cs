@@ -21,6 +21,8 @@ namespace ProjectExodus.UserInterface.GameplayHUD
 
         void SetWeaponCooldownValues(float currentCooldown, float maxCooldown);
 
+        void SetAfterburnFill(float currentFill, float maxFill);
+
         #endregion Methods
 
     }

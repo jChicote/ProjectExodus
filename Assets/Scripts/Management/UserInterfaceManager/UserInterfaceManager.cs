@@ -47,7 +47,7 @@ namespace ProjectExodus.Management.UserInterfaceManager
         /// <remarks>
         /// This method is expensive, reserve for only transitions between scenes.
         /// </remarks>
-        IUserInterfaceController IUserInterfaceManager.GetTheActiveUserInterfaceController()
+        public IUserInterfaceController GetTheActiveUserInterfaceController()
         {
             this.m_UserInterfaceController = null;
             

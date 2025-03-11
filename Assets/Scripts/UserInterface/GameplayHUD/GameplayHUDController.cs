@@ -53,6 +53,13 @@ namespace ProjectExodus.UserInterface.GameplayHUD
             => this.m_View.UpdateWeaponCooldown(currentCooldown, maxCooldown);
 
         #endregion Weapon Methods
+
+        #region - - - - - - Movement Methods - - - - - -
+
+        void IGameplayHUDController.SetAfterburnFill(float currentFill, float maxFill)
+            => this.m_View.UpdateAfterburnFill(currentFill, maxFill);
+
+        #endregion Movement Methods
   
         #region - - - - - - HUD Methods - - - - - -
         
