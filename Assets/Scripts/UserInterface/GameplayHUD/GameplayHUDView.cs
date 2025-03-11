@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace ProjectExodus.UserInterface.GameplayHUD
@@ -19,7 +20,10 @@ namespace ProjectExodus.UserInterface.GameplayHUD
         [SerializeField] private Slider m_WeaponCooldownBar;
 
         [Header("Movement HUD Elements")]
+        [SerializeField] private CanvasGroup m_AfterburnGroup;
         [SerializeField] private Slider m_AfterburnFillBar;
+        private bool m_IsFadingIn;
+        private bool m_IsFadingOut;
         
         [Space]
         [SerializeField] private Button m_PauseButton;
@@ -68,6 +72,33 @@ namespace ProjectExodus.UserInterface.GameplayHUD
         public void UpdateAfterburnFill(float currentFill, float maxFill) 
             => this.m_AfterburnFillBar.value = currentFill / maxFill;
 
+        public void FadeInAfterburnFill()
+        {
+            if (Mathf.Approximately(this.m_AfterburnGroup.alpha, 1) || this.m_IsFadingIn) return;
+            this.StartCoroutine(this.AnimateFade(FadeDirection.In, 0.2f));
+            this.m_IsFadingIn = true;
+        }
+
+        public void FadeOutAfterburnFill()
+        {
+            this.m_IsFadingIn = false;
+            this.StartCoroutine(this.AnimateFade(FadeDirection.Out, 0.8f));
+        }
+
+        private IEnumerator AnimateFade(FadeDirection fadeDirection, float fadeTime)
+        {
+            float _CurrentFadeTime = 0;
+            while (_CurrentFadeTime < fadeTime)
+            {
+                this.m_AfterburnGroup.alpha = fadeDirection == FadeDirection.In
+                    ? _CurrentFadeTime / fadeTime
+                    : fadeTime - _CurrentFadeTime / fadeTime;
+
+                _CurrentFadeTime += Time.deltaTime;
+                yield return null;
+            }
+        }
+
         #endregion Movement Methods
   
         #region - - - - - - HUD Methods - - - - - -
@@ -80,6 +111,12 @@ namespace ProjectExodus.UserInterface.GameplayHUD
 
         #endregion HUD Methods
 
+    }
+
+    public enum FadeDirection
+    {
+        In,
+        Out
     }
 
 }
