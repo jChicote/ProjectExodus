@@ -30,6 +30,9 @@ namespace ProjectExodus.UserInterface.GameplayHUD
             
             this.m_View = this.GetComponent<GameplayHUDView>();
             this.BindMethodsToView();
+            
+            // Temporary: Until the UI is fleshed out and with no parameters. The weapon UI is initialized here.
+            this.m_View.SetDefaultWeaponValues();
         }
 
         #endregion Initializers
@@ -44,16 +47,12 @@ namespace ProjectExodus.UserInterface.GameplayHUD
 
         #endregion Health Methods
 
-
         #region - - - - - - Weapon Methods - - - - - -
-
-        void IGameplayHUDController.SetWeaponCooldownValues(float currentCooldown, float maxCooldown)
-        {
-            // this.m_View.UpdateWeaponCooldown();
-        }
+        
+        void IGameplayHUDController.SetWeaponCooldownValues(float currentCooldown, float maxCooldown) 
+            => this.m_View.UpdateWeaponCooldown(currentCooldown, maxCooldown);
 
         #endregion Weapon Methods
-  
   
         #region - - - - - - HUD Methods - - - - - -
         
