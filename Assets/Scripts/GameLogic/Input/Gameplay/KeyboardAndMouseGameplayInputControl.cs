@@ -206,10 +206,10 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
                 ((IGameplayInputControl)this).OnAfterBurnRelease;
             
             // Sprint
-            playerInput.actions[GameplayInputActionConstants.SPRINT].performed +=
-                ((IGameplayInputControl)this).OnSprint;
-            playerInput.actions[GameplayInputActionConstants.SPRINT].canceled +=
-                ((IGameplayInputControl)this).OnSprint;
+            // playerInput.actions[GameplayInputActionConstants.SPRINT].performed +=
+            //     ((IGameplayInputControl)this).OnSprint;
+            // playerInput.actions[GameplayInputActionConstants.SPRINT].canceled +=
+            //     ((IGameplayInputControl)this).OnSprint;
             
             // Debug
             playerInput.actions[GameplayInputActionConstants.DEBUGCONSOLE].performed +=
@@ -250,10 +250,10 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
                 ((IGameplayInputControl)this).OnAfterBurnRelease;
             
             // Sprint
-            playerInput.actions[GameplayInputActionConstants.SPRINT].performed -=
-                ((IGameplayInputControl)this).OnSprint;
-            playerInput.actions[GameplayInputActionConstants.SPRINT].canceled -=
-                ((IGameplayInputControl)this).OnSprint;
+            // playerInput.actions[GameplayInputActionConstants.SPRINT].performed -=
+            //     ((IGameplayInputControl)this).OnSprint;
+            // playerInput.actions[GameplayInputActionConstants.SPRINT].canceled -=
+            //     ((IGameplayInputControl)this).OnSprint;
             
             // Debug
             playerInput.actions[GameplayInputActionConstants.DEBUGCONSOLE].performed -=
