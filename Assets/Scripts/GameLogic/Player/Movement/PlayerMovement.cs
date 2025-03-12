@@ -145,7 +145,6 @@ namespace ProjectExodus.GameLogic.Player.Movement
         private IEnumerator RunAfterburnCooldown()
         {
             float _CooldownRuntime = 0;
-            float _CooldownStepInterval = this.m_AfterburnCooldownTimeLength * Time.deltaTime;
             
             // Briefly pause cooldown to delay the perceived 'quickness' of the cooldown.
             float _CooldownPauseTime = this.m_AfterburnCooldownTimeLength * 0.2f;
@@ -153,6 +152,7 @@ namespace ProjectExodus.GameLogic.Player.Movement
 
             while (_CooldownRuntime < this.m_AfterburnCooldownTimeLength && this.m_CurrentAfterburnFill > 0)
             {
+                float _CooldownStepInterval = this.m_AfterburnFillAmount / this.m_AfterburnCooldownTimeLength * Time.deltaTime;
                 this.m_CurrentAfterburnFill = Mathf.Clamp(
                     this.m_CurrentAfterburnFill - _CooldownStepInterval, 
                     0, 
