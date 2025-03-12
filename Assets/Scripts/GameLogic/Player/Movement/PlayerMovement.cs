@@ -4,7 +4,6 @@ using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.UserInterface.Controllers;
 using ProjectExodus.UserInterface.GameplayHUD;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace ProjectExodus.GameLogic.Player.Movement
 {
@@ -34,6 +33,7 @@ namespace ProjectExodus.GameLogic.Player.Movement
         // Movement Fields
         [SerializeField] private float m_MoveRampTimeLength;
         private Vector2 m_MoveDirection;
+        private Vector2 m_SnapshotMoveDirection;
         private float m_MoveInterpolation;
 
         #endregion Fields
@@ -73,11 +73,22 @@ namespace ProjectExodus.GameLogic.Player.Movement
                 this.m_MoveInterpolation + Time.deltaTime, 0,
                 this.m_MoveRampTimeLength);
             
+            // Ramp movement down to nothing
             if (this.m_MoveDirection == Vector2.zero && !this.m_IsInAfterburn)
             {
                 this.m_Rigidbody.linearVelocity = Vector2.Lerp(
                     this.m_Rigidbody.linearVelocity, 
                     Vector2.zero,
+                    this.m_MoveInterpolation);
+                return;
+            }
+
+            // Move along captured 'up' direction when only afterburn is triggered
+            if (this.m_MoveDirection == Vector2.zero && this.m_IsInAfterburn)
+            {
+                this.m_Rigidbody.linearVelocity = Vector2.Lerp(
+                    this.m_Rigidbody.linearVelocity, 
+                    this.m_SnapshotMoveDirection * this.m_TotalSpeed, 
                     this.m_MoveInterpolation);
                 return;
             }
@@ -103,6 +114,8 @@ namespace ProjectExodus.GameLogic.Player.Movement
 
         void IPlayerMovement.EndAfterburn()
         {
+            if (!this.m_IsInAfterburn) return;
+            
             this.m_IsInAfterburn = false;
             this.StopAllCoroutines();
             this.StopAfterburn();
@@ -115,6 +128,10 @@ namespace ProjectExodus.GameLogic.Player.Movement
             float _AfterburnFillTime = 0;
             float _AfterburnFillTimeLength = this.m_AfterburnFillAmount * 0.1f;
             
+            // Record last up direction before afterburn 
+            if (this.m_MoveDirection == Vector2.zero)
+                this.m_SnapshotMoveDirection = this.transform.up;
+            
             while (this.m_CurrentAfterburnFill < this.m_AfterburnFillAmount)
             {
                 this.m_TotalSpeed = Mathf.Lerp(
@@ -124,7 +141,7 @@ namespace ProjectExodus.GameLogic.Player.Movement
                 this.m_GameplayHUDController.SetAfterburnFill(
                     this.m_AfterburnFillAmount - this.m_CurrentAfterburnFill, 
                     this.m_AfterburnFillAmount);
-
+                
                 this.m_CurrentAfterburnFill += Time.deltaTime;
                 _AfterburnFillTime += Time.deltaTime;
                 
