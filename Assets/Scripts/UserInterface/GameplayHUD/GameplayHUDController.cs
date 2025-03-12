@@ -76,14 +76,13 @@ namespace ProjectExodus.UserInterface.GameplayHUD
             this.m_View.UpdateAfterburnFill(currentFill, maxFill);
             this.m_AfterburnFadeTimer.ResetTimer();
             this.m_AfterburnFadeTimer.EnableTimer();
-            this.m_View.FadeInAfterburnFill();
         }
 
         private void FadeOutAfterburn()
         {
             this.m_AfterburnFadeTimer.ResetTimer();
             this.m_AfterburnFadeTimer.DisableTimer();
-            this.m_View.FadeOutAfterburnFill();
+            this.m_View.HideAfterburn();
         }
 
         #endregion Movement Methods
