@@ -37,6 +37,12 @@ namespace ProjectExodus.UserInterface.GameplayHUD
             // Temporary: Until the UI is fleshed out and with no parameters. The weapon UI is initialized here.
             this.m_View.SetDefaultWeaponValues();
             this.m_AfterburnFadeTimer = new EventTimer(2f, Time.deltaTime, this.FadeOutAfterburn, canRun: false);
+            
+            // Register game events
+            IUIEventCollection _EventCollection = null;
+            _EventCollection.RegisterEvent(
+                GameplayHUDEvents.UpdateAfterburn.ToString(), 
+                eventObject => this.SetAfterburnFill(eventObject as AfterburnDto));
         }
 
         #endregion Initializers
@@ -67,13 +73,18 @@ namespace ProjectExodus.UserInterface.GameplayHUD
         void IGameplayHUDController.SetWeaponCooldownValues(float currentCooldown, float maxCooldown) 
             => this.m_View.UpdateWeaponCooldown(currentCooldown, maxCooldown);
 
+        public void SetAfterburnFill(float currentFill, float maxFill)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion Weapon Methods
 
         #region - - - - - - Movement Methods - - - - - -
 
-        void IGameplayHUDController.SetAfterburnFill(float currentFill, float maxFill)
+        private void SetAfterburnFill(AfterburnDto afterburn)
         {
-            this.m_View.UpdateAfterburnFill(currentFill, maxFill);
+            this.m_View.UpdateAfterburnFill(afterburn.CurrentFill, afterburn.MaxFill);
             this.m_AfterburnFadeTimer.ResetTimer();
             this.m_AfterburnFadeTimer.EnableTimer();
         }
@@ -108,4 +119,17 @@ namespace ProjectExodus.UserInterface.GameplayHUD
 
     }
 
+}
+
+public class AfterburnDto
+{
+
+    #region - - - - - - Properties - - - - - -
+
+    public float CurrentFill { get; set; }
+    
+    public float MaxFill { get; set; }
+
+    #endregion Properties
+  
 }

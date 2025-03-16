@@ -27,6 +27,9 @@ namespace GameLogic.SetupHandlers.SceneHandlers
         [RequiredField] public UserInterfaceSettings UserInterfaceSettings;
         public StartupDataContext StartupDataOptions;
 
+        [Header("User Interface")]
+        [RequiredField] public GameObject UserInterfaceEventMediatorObject;
+
         #endregion Fields
   
         #region - - - - - - Properties - - - - - -

@@ -64,6 +64,11 @@ namespace GameLogic.SetupHandlers.SceneHandlers
             this.m_NextHandler?.Handle(initializationContext);
         }
 
+        private void SetupEventMediator()
+        {
+            
+        }
+
         #endregion Methods
   
     }
