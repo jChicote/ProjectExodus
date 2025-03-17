@@ -38,6 +38,8 @@ namespace ProjectExodus.UserInterface.GameplayHUD
             // Temporary: Until the UI is fleshed out and with no parameters. The weapon UI is initialized here.
             this.m_View.SetDefaultWeaponValues();
             this.m_AfterburnFadeTimer = new EventTimer(2f, Time.deltaTime, this.FadeOutAfterburn, canRun: false);
+            
+            this.RegisterActionsToMediator();
         }
 
         #endregion Initializers

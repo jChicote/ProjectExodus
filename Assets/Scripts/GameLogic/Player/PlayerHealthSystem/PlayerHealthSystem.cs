@@ -42,11 +42,16 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
             this.m_CurrentShieldHealth = shieldHealth;
             this.m_MaxPlatingHealth = platingHealth;
             this.m_MaxShieldHealth = shieldHealth;
-            
-            this.UpdateHealthUI();
         }
 
         #endregion Initializers
+
+        #region - - - - - - Unity Methods - - - - - -
+
+        private void Start() 
+            => this.UpdateHealthUI();
+
+        #endregion Unity Methods
   
         #region - - - - - - Methods - - - - - -
 
