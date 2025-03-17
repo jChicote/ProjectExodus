@@ -9,17 +9,23 @@ namespace ProjectExodus.Management.UserInterfaceManager
     /// <summary>
     /// Responsible for high-level coordination of different UI views and encapsulating UI related components.
     /// </summary>
-    public class UserInterfaceManager : MonoBehaviour, IUserInterfaceManager // No Need for interface
+    public class UserInterfaceManager : MonoBehaviour, IUserInterfaceManager, IValidate
     {
 
         #region - - - - - - Fields - - - - - -
 
         public static UserInterfaceManager Instance;
-
+        
         private IUserInterfaceController m_UserInterfaceController;
 
         #endregion Fields
 
+        #region - - - - - - Properties - - - - - -
+
+        public IUIEventMediator EventMediator { get; set; }
+
+        #endregion Properties
+  
         #region - - - - - - Unity Methods - - - - - -
 
         private void Awake()
@@ -39,10 +45,9 @@ namespace ProjectExodus.Management.UserInterfaceManager
   
         #region - - - - - - Methods - - - - - -
 
-        public bool IsMembersValid()
-        {
-            return GameValidator.NotNull(this.m_UserInterfaceController, nameof(this.m_UserInterfaceController));
-        }
+        public bool Validate() 
+            => GameValidator.NotNull(this.m_UserInterfaceController, nameof(this.m_UserInterfaceController))
+                && GameValidator.NotNull(this.EventMediator, nameof(this.EventMediator));
 
         /// <remarks>
         /// This method is expensive, reserve for only transitions between scenes.
