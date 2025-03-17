@@ -15,10 +15,14 @@ namespace ProjectExodus.UserInterface.GameplayHUD
   
         #region - - - - - - Methods - - - - - -
 
-        void SetMaxHealthValues(float maxPlating, float maxShield);
+        // void SetMaxHealthValues(float maxPlating, float maxShield);
+        //
+        // void SetHealthValues(float platingHealth, float shieldHealth);
+        //
+        // void SetWeaponCooldownValues(float currentCooldown, float maxCooldown);
 
-        void SetHealthValues(float platingHealth, float shieldHealth);
-        
+        // void SetAfterburnFill(float currentFill, float maxFill);
+
         #endregion Methods
 
     }

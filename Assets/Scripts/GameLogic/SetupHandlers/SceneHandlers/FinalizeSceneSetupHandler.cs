@@ -22,9 +22,8 @@ namespace GameLogic.SetupHandlers.SceneHandlers
 
         void ISetupHandler.Handle(SceneSetupInitializationContext initializationContext)
         {
-            // Validate Management
-            _ = GameManager.Instance.IsMembersValid();
-            _ = UserInterfaceManager.Instance.IsMembersValid();
+            this.ValidateManagementLayer();
+            this.ValidateServices();
             
             initializationContext.LoadingScreenController.HideScreen();
             initializationContext.LoadingScreenController.ResetLoadingScreen();
@@ -33,6 +32,17 @@ namespace GameLogic.SetupHandlers.SceneHandlers
             GameLogger.Log("FinalizeSceneSetupHandler has run.");
             initializationContext.LoadingScreenController.UpdateLoadProgress(100);
             this.m_NextHandler?.Handle(initializationContext);
+        }
+
+        private void ValidateManagementLayer()
+        {
+            _ = GameManager.Instance.Validate();
+            _ = UserInterfaceManager.Instance.Validate();
+        }
+
+        private void ValidateServices()
+        {
+            
         }
 
         #endregion Methods

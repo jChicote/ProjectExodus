@@ -12,13 +12,15 @@ namespace ProjectExodus.GameLogic.Common.Timers
         private float m_DeltaTime;
         private float m_TimeLeft;
         private float m_TimerLength;
+        private bool m_CanRun;
 
         #endregion Fields
 
         #region - - - - - - Constructors - - - - - -
 
-        public EventTimer(float timerLength, float deltaTime, Action endingAction)
+        public EventTimer(float timerLength, float deltaTime, Action endingAction, bool canRun = true)
         {
+            this.m_CanRun = canRun;
             this.m_EndingAction = endingAction;
             this.m_DeltaTime = deltaTime;
             this.m_TimeLeft = timerLength;
@@ -41,6 +43,8 @@ namespace ProjectExodus.GameLogic.Common.Timers
 
         public void TickTimer()
         {
+            if (!this.m_CanRun) return;
+            
             this.m_TimeLeft -= this.m_DeltaTime;
 
             if (!this.IsTimerComplete()) return;
@@ -50,6 +54,12 @@ namespace ProjectExodus.GameLogic.Common.Timers
 
         public void ResetTimer() 
             => this.m_TimeLeft = this.m_TimerLength;
+
+        public void EnableTimer()
+            => this.m_CanRun = true;
+        
+        public void DisableTimer()
+            => this.m_CanRun = false;
         
         private bool IsTimerComplete()
             => this.m_TimeLeft <= 0;

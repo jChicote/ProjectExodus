@@ -24,7 +24,7 @@ namespace ProjectExodus
     /// <summary>
     /// Responsible for managing the high-level components of the game.
     /// </summary>
-    public class GameManager : MonoBehaviour
+    public class GameManager : MonoBehaviour, IValidate
     {
 
         #region - - - - - - Fields - - - - - -
@@ -111,15 +111,13 @@ namespace ProjectExodus
 
         #region - - - - - - Methods - - - - - -
 
-        public bool IsMembersValid()
-        {
-            return GameValidator.NotNull(this.m_GameOptionsFacade, nameof(this.m_GameOptionsFacade))
-                   && GameValidator.NotNull(this.m_GameSaveFacade, nameof(this.m_GameSaveFacade))
-                   && GameValidator.NotNull(this.m_DataContext, nameof(this.m_DataContext))
-                   && GameValidator.NotNull(this.m_GameSettings, nameof(this.m_GameSettings))
-                   && GameValidator.NotNull(this.m_ObjectMapper, nameof(this.m_ObjectMapper))
-                   && GameValidator.NotNull(this.m_ServiceLocator, nameof(this.m_ServiceLocator));
-        }
+        public bool Validate() 
+            => GameValidator.NotNull(this.m_GameOptionsFacade, nameof(this.m_GameOptionsFacade))
+                && GameValidator.NotNull(this.m_GameSaveFacade, nameof(this.m_GameSaveFacade))
+                && GameValidator.NotNull(this.m_DataContext, nameof(this.m_DataContext))
+                && GameValidator.NotNull(this.m_GameSettings, nameof(this.m_GameSettings))
+                && GameValidator.NotNull(this.m_ObjectMapper, nameof(this.m_ObjectMapper))
+                && GameValidator.NotNull(this.m_ServiceLocator, nameof(this.m_ServiceLocator));
 
         private void SetupGame()
         {

@@ -127,8 +127,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Rigidbody: {fileID: 7252544755981936645}
   m_MaxThrustMagnitude: 28
-  m_MoveInterpolationInterval: 0.07
   m_ThrustPower: 10
+  m_AfterburnPower: 50
+  m_AfterburnFillAmount: 5
+  m_AfterburnCooldownTimeLength: 2
+  m_MoveRampTimeLength: 0.07
 --- !u!114 &4067972612123224677
 MonoBehaviour:
   m_ObjectHideFlags: 0

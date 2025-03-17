@@ -11,9 +11,15 @@ namespace ProjectExodus.UserInterface.GameplayHUD
 
         [SerializeField] private GameObject m_ContentGroup;
         
-        [Space]
+        [Header("Health Bars")]
         [SerializeField] private Slider m_PlatingHealthBar;
         [SerializeField] private Slider m_ShieldHealthBar;
+
+        [Header("Weapon HUD Elements")]
+        [SerializeField] private Slider m_WeaponCooldownBar;
+
+        [Header("Movement HUD Elements")]
+        [SerializeField] private FadableSlider m_AfterburnFillBar;
         
         [Space]
         [SerializeField] private Button m_PauseButton;
@@ -29,7 +35,7 @@ namespace ProjectExodus.UserInterface.GameplayHUD
 
         #endregion Properties
   
-        #region - - - - - - Methods - - - - - -
+        #region - - - - - - Health Methods - - - - - -
 
         public void SetMaxHealthValues(float maxPlating, float maxShield)
         {
@@ -43,13 +49,40 @@ namespace ProjectExodus.UserInterface.GameplayHUD
             this.m_ShieldHealthBar.value = shieldHealth / this.m_MaxShieldHealth;
         }
 
+        #endregion Health Methods
+
+        #region - - - - - - Weapon Methods - - - - - -
+
+        public void SetDefaultWeaponValues() 
+            => this.m_WeaponCooldownBar.value = 0;
+
+        public void UpdateWeaponCooldown(float currentHeatLevel, float maxHeatLevel) 
+            => this.m_WeaponCooldownBar.value = currentHeatLevel / maxHeatLevel;
+
+        #endregion Weapon Methods
+
+        #region - - - - - - Movement Methods - - - - - -
+
+        public void UpdateAfterburnFill(float currentFill, float maxFill)
+        {
+            this.m_AfterburnFillBar.value = currentFill / maxFill;
+            this.m_AfterburnFillBar.FadeIn();
+        }
+
+        public void HideAfterburn()
+            => this.m_AfterburnFillBar.FadeOut();
+
+        #endregion Movement Methods
+  
+        #region - - - - - - HUD Methods - - - - - -
+
         public void ShowHUD()
             => this.m_ContentGroup.SetActive(true);
 
         public void HideHUD()
             => this.m_ContentGroup.SetActive(false);
 
-        #endregion Methods
+        #endregion HUD Methods
 
     }
 

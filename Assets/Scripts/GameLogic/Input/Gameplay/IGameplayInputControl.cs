@@ -11,6 +11,10 @@ namespace ProjectExodus.GameLogic.Input.Gameplay
 
         void InitializeGameplayInputControl(ICommand initializerCommand);
 
+        void OnAfterBurn(InputAction.CallbackContext callback);
+
+        void OnAfterBurnRelease(InputAction.CallbackContext callback);
+
         void OnAttack(InputAction.CallbackContext callback);
 
         void OnAttackRelease(InputAction.CallbackContext callback);

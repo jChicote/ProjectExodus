@@ -25,6 +25,7 @@ namespace GameLogic.SetupHandlers.SceneHandlers
         void ISetupHandler.Handle(SceneSetupInitializationContext initializationContext)
         {
             IUserInterfaceManager _UserInterfaceManager = UserInterfaceManager.Instance;
+            this.SetupEventMediator(initializationContext);
             
             IUserInterfaceController _ActiveUserInterfaceController =
                 _UserInterfaceManager.GetTheActiveUserInterfaceController();
@@ -59,9 +60,18 @@ namespace GameLogic.SetupHandlers.SceneHandlers
             ((GameplaySceneGUIControllers)_Controllers).WeaponTrackingHUDController.Initialize(_WeaponTargetTrackingHUDData);
 
             initializationContext.LoadingScreenController.UpdateLoadProgress(40);
-            
             GameLogger.Log("UserInterfaceSetupHandler has run.");
+            
             this.m_NextHandler?.Handle(initializationContext);
+        }
+
+        private void SetupEventMediator(SceneSetupInitializationContext initializationContext)
+        {
+            UserInterfaceManager _Manager = UserInterfaceManager.Instance;
+            _Manager.EventMediator = initializationContext.UserInterfaceEventMediatorObject
+                .GetComponent<IUIEventMediator>();
+            _Manager.EventCollectionRegistry = initializationContext.UserInterfaceEventMediatorObject
+                .GetComponent<IUIEventCollection>();
         }
 
         #endregion Methods
