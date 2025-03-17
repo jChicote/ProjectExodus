@@ -3,6 +3,7 @@ using ProjectExodus.GameLogic.Common.Timers;
 using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
 using ProjectExodus.GameLogic.Pause.PauseController;
 using ProjectExodus.Management.Enumeration;
+using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.UserInterface.Controllers;
 using UnityEngine;
 
@@ -37,12 +38,6 @@ namespace ProjectExodus.UserInterface.GameplayHUD
             // Temporary: Until the UI is fleshed out and with no parameters. The weapon UI is initialized here.
             this.m_View.SetDefaultWeaponValues();
             this.m_AfterburnFadeTimer = new EventTimer(2f, Time.deltaTime, this.FadeOutAfterburn, canRun: false);
-            
-            // Register game events
-            IUIEventCollection _EventCollection = null;
-            _EventCollection.RegisterEvent(
-                GameplayHUDEvents.UpdateAfterburn.ToString(), 
-                eventObject => this.SetAfterburnFill(eventObject as AfterburnDto));
         }
 
         #endregion Initializers
@@ -60,23 +55,18 @@ namespace ProjectExodus.UserInterface.GameplayHUD
   
         #region - - - - - - Health Methods - - - - - -
 
-        void IGameplayHUDController.SetMaxHealthValues(float maxPlating, float maxShield)
-            => this.m_View.SetMaxHealthValues(maxPlating, maxShield);
+        private void SetMaxHealthValues(HealthDto health)
+            => this.m_View.SetMaxHealthValues(health.MaxPlating, health.MaxShield);
 
-        void IGameplayHUDController.SetHealthValues(float platingHealth, float shieldHealth)
-            => this.m_View.UpdateHealthBars(platingHealth, shieldHealth);
+        private void SetHealthValues(HealthDto health)
+            => this.m_View.UpdateHealthBars(health.CurrentPlating, health.CurrentShield);
 
         #endregion Health Methods
 
         #region - - - - - - Weapon Methods - - - - - -
         
-        void IGameplayHUDController.SetWeaponCooldownValues(float currentCooldown, float maxCooldown) 
-            => this.m_View.UpdateWeaponCooldown(currentCooldown, maxCooldown);
-
-        public void SetAfterburnFill(float currentFill, float maxFill)
-        {
-            throw new NotImplementedException();
-        }
+        private void SetWeaponCooldownValues(AfterburnCooldownDto cooldown) 
+            => this.m_View.UpdateWeaponCooldown(cooldown.CurrentCooldown, cooldown.MaxCooldown);
 
         #endregion Weapon Methods
 
@@ -100,11 +90,34 @@ namespace ProjectExodus.UserInterface.GameplayHUD
   
         #region - - - - - - HUD Methods - - - - - -
         
-        void IScreenStateController.HideScreen() 
+        public void HideScreen() 
             => this.m_View.HideHUD();
 
-        void IScreenStateController.ShowScreen()
+        public void ShowScreen()
             => this.m_View.ShowHUD();
+
+        private void RegisterActionsToMediator()
+        {
+            // Register Gameplay HUD events
+            IUIEventCollection _EventCollection = UserInterfaceManager.Instance.EventCollectionRegistry;
+            _EventCollection.RegisterEvent(
+                GameplayHUDEvents.UpdateAfterburn.ToString(), 
+                eventObject => this.SetAfterburnFill(eventObject as AfterburnDto));
+            _EventCollection.RegisterEvent(GameplayHUDEvents.FadeOutAfterburn.ToString(), this.FadeOutAfterburn);
+            _EventCollection.RegisterEvent(
+                GameplayHUDEvents.UpdateCooldown.ToString(),
+                eventObject => this.SetWeaponCooldownValues(eventObject as AfterburnCooldownDto));
+            
+            _EventCollection.RegisterEvent(
+                GameplayHUDEvents.SetupHealthHUD.ToString(), 
+                eventObject => this.SetMaxHealthValues(eventObject as HealthDto));
+            _EventCollection.RegisterEvent(
+                GameplayHUDEvents.UpdateHealth.ToString(),
+                eventObject => this.SetHealthValues(eventObject as HealthDto));
+            
+            _EventCollection.RegisterEvent(GameplayHUDEvents.ShowHUD.ToString(), this.ShowScreen);
+            _EventCollection.RegisterEvent(GameplayHUDEvents.HideHUD.ToString(), this.HideScreen);
+        }
 
         private void BindMethodsToView() 
             => this.m_View.PauseButton.onClick.AddListener(this.PauseGame);
@@ -129,6 +142,36 @@ public class AfterburnDto
     public float CurrentFill { get; set; }
     
     public float MaxFill { get; set; }
+
+    #endregion Properties
+  
+}
+
+public class AfterburnCooldownDto
+{
+
+    #region - - - - - - Properties - - - - - -
+
+    public float CurrentCooldown { get; set; }
+
+    public float MaxCooldown { get; set; }
+
+    #endregion Properties
+  
+}
+
+public class HealthDto
+{
+
+    #region - - - - - - Properties - - - - - -
+
+    public float MaxPlating { get; set; }
+
+    public float MaxShield { get; set; }
+    
+    public float CurrentPlating { get; set; }
+
+    public float CurrentShield { get; set; }
 
     #endregion Properties
   
