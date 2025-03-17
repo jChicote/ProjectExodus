@@ -23,6 +23,8 @@ namespace ProjectExodus.Management.UserInterfaceManager
         #region - - - - - - Properties - - - - - -
 
         public IUIEventMediator EventMediator { get; set; }
+        
+        public IUIEventCollection EventCollectionRegistry { get; set; }
 
         #endregion Properties
   
@@ -45,9 +47,10 @@ namespace ProjectExodus.Management.UserInterfaceManager
   
         #region - - - - - - Methods - - - - - -
 
-        public bool Validate() 
-            => GameValidator.NotNull(this.m_UserInterfaceController, nameof(this.m_UserInterfaceController))
-                && GameValidator.NotNull(this.EventMediator, nameof(this.EventMediator));
+        public bool Validate()
+            => !GameValidator.NotNull(this.m_UserInterfaceController, nameof(this.m_UserInterfaceController))
+               || !GameValidator.NotNull(this.EventMediator, nameof(this.EventMediator))
+               || !GameValidator.NotNull(this.EventCollectionRegistry, nameof(EventCollectionRegistry));
 
         /// <remarks>
         /// This method is expensive, reserve for only transitions between scenes.

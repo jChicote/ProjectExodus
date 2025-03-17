@@ -1,5 +1,6 @@
 using System;
 using ProjectExodus.GameLogic.Common.Health;
+using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.UserInterface.GameplayHUD;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
         private const float MAXIMUM_SUPPORTED_PLATING = 500f;
         private const float MAXIMUM_SUPPORTED_SHIELDS = 500f;
 
-        private IGameplayHUDController m_GameplayHUDController;
+        private IUIEventMediator m_GameplayHUDMediator;
         private IPlayerObserver m_PlayerObserver;
 
         private bool m_IsInvincible;
@@ -33,8 +34,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
             float platingHealth, 
             float shieldHealth)
         {
-            this.m_GameplayHUDController = gameplayHUDController 
-                ?? throw new ArgumentNullException(nameof(gameplayHUDController));
+            this.m_GameplayHUDMediator = UserInterfaceManager.Instance.EventMediator;
             this.m_PlayerObserver = playerObserver
                 ?? throw new ArgumentNullException(nameof(playerObserver));
             
@@ -43,8 +43,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
             this.m_MaxPlatingHealth = platingHealth;
             this.m_MaxShieldHealth = shieldHealth;
             
-            this.m_GameplayHUDController.SetMaxHealthValues(platingHealth, shieldHealth);
-            this.m_GameplayHUDController.SetHealthValues(platingHealth, shieldHealth);
+            this.UpdateHealthUI();
         }
 
         #endregion Initializers
@@ -72,7 +71,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
             if (this.m_CurrentPlatingHealth <= 0 && this.m_CurrentShieldHealth <= 0)
                 this.DestroyPlayer();
             
-            this.m_GameplayHUDController.SetHealthValues(this.m_CurrentPlatingHealth, this.m_CurrentShieldHealth);
+            this.UpdateHealthUI();
         }
 
         void IPlayerHealthSystem.UpgradePlating(float upgradeValue)
@@ -81,9 +80,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
                 Math.Clamp(this.m_MaxPlatingHealth + upgradeValue, 0, MAXIMUM_SUPPORTED_PLATING);
             this.m_CurrentPlatingHealth = this.m_MaxPlatingHealth;
             
-            // TODO: The GUD controller needs to animate and await for the health to approach full bar.
-            this.m_GameplayHUDController.SetMaxHealthValues(this.m_MaxPlatingHealth, this.m_MaxShieldHealth);
-            this.m_GameplayHUDController.SetHealthValues(this.m_CurrentPlatingHealth, this.m_CurrentShieldHealth);
+            this.UpdateHealthUI();
         }
 
         void IPlayerHealthSystem.UpgradeShields(float upgradeValue)
@@ -92,9 +89,7 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
                 Math.Clamp(this.m_MaxShieldHealth + upgradeValue, 0, MAXIMUM_SUPPORTED_SHIELDS);
             this.m_CurrentShieldHealth = this.m_MaxShieldHealth;
             
-            // TODO: The GUD controller needs to animate and await for the health to approach full bar.
-            this.m_GameplayHUDController.SetMaxHealthValues(this.m_MaxPlatingHealth, this.m_MaxShieldHealth);
-            this.m_GameplayHUDController.SetHealthValues(this.m_CurrentPlatingHealth, this.m_CurrentShieldHealth);
+            this.UpdateHealthUI();
         }
 
         void IPlayerHealthSystem.MakeInvincible(bool isInvincible)
@@ -109,7 +104,21 @@ namespace ProjectExodus.GameLogic.Player.PlayerHealthSystem
             this.m_PlayerObserver.OnPlayerDeath?.Invoke();
             Destroy(this.gameObject);
         }
-        
+
+        private void UpdateHealthUI()
+        {
+            HealthDto _Health = new HealthDto()
+            {
+                CurrentPlating = this.m_CurrentPlatingHealth,
+                CurrentShield = this.m_CurrentShieldHealth,
+                MaxPlating = this.m_MaxPlatingHealth,
+                MaxShield = this.m_MaxShieldHealth
+            };
+            
+            this.m_GameplayHUDMediator.Dispatch(GameplayHUDEvents.SetupHealthHUD.ToString(), _Health);
+            this.m_GameplayHUDMediator.Dispatch(GameplayHUDEvents.UpdateHealth.ToString(), _Health);
+        }
+
         #endregion Methods
   
     }

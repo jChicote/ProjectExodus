@@ -67,8 +67,11 @@ namespace GameLogic.SetupHandlers.SceneHandlers
 
         private void SetupEventMediator(SceneSetupInitializationContext initializationContext)
         {
-            UserInterfaceManager.Instance.EventMediator =
-                initializationContext.UserInterfaceEventMediatorObject.GetComponent<IUIEventMediator>();
+            UserInterfaceManager _Manager = UserInterfaceManager.Instance;
+            _Manager.EventMediator = initializationContext.UserInterfaceEventMediatorObject
+                .GetComponent<IUIEventMediator>();
+            _Manager.EventCollectionRegistry = initializationContext.UserInterfaceEventMediatorObject
+                .GetComponent<IUIEventCollection>();
         }
 
         #endregion Methods

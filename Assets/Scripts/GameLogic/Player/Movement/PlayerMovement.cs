@@ -15,7 +15,7 @@ namespace ProjectExodus.GameLogic.Player.Movement
 
         // Required Components Fields
         [SerializeField] private Rigidbody2D m_Rigidbody;
-        private IGameplayHUDController m_GameplayHUDController;
+        private IUIEventMediator m_GameplayHUDMediator;
 
         // Thrust Fields
         [SerializeField] private float m_MaxThrustMagnitude;
@@ -42,9 +42,12 @@ namespace ProjectExodus.GameLogic.Player.Movement
 
         private void Start()
         {
-            UserInterfaceManager.Instance.GetTheActiveUserInterfaceController().TryGetGUIControllers(out object _Controllers);
-            this.m_GameplayHUDController = ((GameplaySceneGUIControllers)_Controllers).GetGameplayHUDController();
-            this.m_GameplayHUDController.SetAfterburnFill(1, 1);
+            this.m_GameplayHUDMediator = UserInterfaceManager.Instance.EventMediator;
+            this.m_GameplayHUDMediator.Dispatch(GameplayHUDEvents.UpdateAfterburn.ToString(), new AfterburnDto()
+            {
+                CurrentFill = this.m_AfterburnFillAmount,
+                MaxFill = this.m_AfterburnFillAmount
+            });
             
             this.m_TotalSpeed = this.m_ThrustPower;
         }
@@ -138,9 +141,13 @@ namespace ProjectExodus.GameLogic.Player.Movement
                     _SpeedBefore,
                     _TargetAfterburnSpeed,
                     _AfterburnFillTime / _AfterburnFillTimeLength);
-                this.m_GameplayHUDController.SetAfterburnFill(
-                    this.m_AfterburnFillAmount - this.m_CurrentAfterburnFill, 
-                    this.m_AfterburnFillAmount);
+                this.m_GameplayHUDMediator.Dispatch(
+                    GameplayHUDEvents.UpdateAfterburn.ToString(),
+                    new AfterburnDto()
+                    {
+                        CurrentFill = this.m_AfterburnFillAmount - this.m_CurrentAfterburnFill,
+                        MaxFill = this.m_AfterburnFillAmount
+                    });
                 
                 this.m_CurrentAfterburnFill += Time.deltaTime;
                 _AfterburnFillTime += Time.deltaTime;
@@ -174,10 +181,15 @@ namespace ProjectExodus.GameLogic.Player.Movement
                     this.m_CurrentAfterburnFill - _CooldownStepInterval, 
                     0, 
                     this.m_AfterburnFillAmount);
-                this.m_GameplayHUDController.SetAfterburnFill(
-                    this.m_AfterburnFillAmount - this.m_CurrentAfterburnFill, 
-                    this.m_AfterburnFillAmount);
-
+                this.m_GameplayHUDMediator.Dispatch(
+                    GameplayHUDEvents.UpdateAfterburn.ToString(),
+                    new AfterburnDto()
+                    {
+                        CurrentFill = this.m_AfterburnFillAmount - this.m_CurrentAfterburnFill,
+                        MaxFill = this.m_AfterburnFillAmount
+                    });
+                
+                
                 _CooldownRuntime += Time.deltaTime;
                 yield return null;
             }
