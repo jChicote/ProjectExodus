@@ -24,6 +24,7 @@ namespace ProjectExodus.UserInterface.Controllers
         
         [Header("Sub screens")]
         [SerializeField] private GameObject m_TargetingHUDScreen;
+        [SerializeField] private GameObject m_WeaponLocatorHUDScreen;
         
         [Header("Scene-Persistence Views")]
         [SerializeField] private WeaponTargetWeaponTrackingHUDController weaponTargetWeaponTrackingHUDController;
@@ -71,6 +72,7 @@ namespace ProjectExodus.UserInterface.Controllers
                     _GameManager.GameOptionsFacade,
                     _GameManager.Mapper,
                     this);
+            this.m_WeaponLocatorHUDScreen.GetComponent<IInitialize>().Initialize();
 
             this.m_GUIControllers = new GameplaySceneGUIControllers(
                 _GamplayHUDController,

@@ -34,6 +34,9 @@ public class DebugCommandConfigurator
         new Debug_RespawnPlayer().RegisterCommand(this.m_DebugManager);
         new Debug_KillPlayer().RegisterCommand(this.m_DebugManager);
         new Debug_PlayerHealth().RegisterCommand(this.m_DebugManager);
+        
+        // User Interface
+        new Debug_EnemyLocatorHUD().RegisterCommand(this.m_DebugManager);
     }
 
     #endregion Methods
