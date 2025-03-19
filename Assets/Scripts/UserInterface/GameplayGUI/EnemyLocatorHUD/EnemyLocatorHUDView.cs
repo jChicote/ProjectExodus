@@ -12,7 +12,7 @@ public class EnemyLocatorHUDView : MonoBehaviour
     [SerializeField] private GameObject m_CanvasGroup;
     private Dictionary<int, RectTransform> m_Markers = new();
 
-    private RectTransform m_CanvasRect;
+    public  RectTransform m_CanvasRect;
     
     #endregion Fields
 
@@ -34,20 +34,23 @@ public class EnemyLocatorHUDView : MonoBehaviour
         this.m_Markers.Add(id, _MarkerInstance.GetComponent<RectTransform>());
     }
 
+    public Vector2 GetCanvasSizeDelta()
+    {
+        return this.m_CanvasRect.sizeDelta;
+    }
+
     public void UpdateMarker(int id, Vector2 newScreenPosition)
     {
         RectTransform _Marker = this.m_Markers[id];
-        // Vector2 _AdjustedScreenPosition = new Vector2(
-        //     newScreenPosition )
+        Debug.Log(newScreenPosition);
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             this.m_CanvasRect,
             newScreenPosition,
-            null,
+            Camera.main,
             out Vector2 _LocalPoint);
         
-        _Marker.anchoredPosition = newScreenPosition;
-        Debug.Log(_LocalPoint);
+        _Marker.anchoredPosition = _LocalPoint;
     }
 
     #endregion Methods

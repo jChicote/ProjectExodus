@@ -69,15 +69,38 @@ public class EnemyLocatorHUDController : PausableMonoBehavior, IInitialize
         for (int _I = 0; _I < this.m_TargetEnemies.Count; _I++)
         {
             Vector2 _Direction = this.CalculateDirectionToEnemy(this.m_TargetEnemies.ElementAt(_I).Key);
-            Vector2 _NormalizedDirection = _Direction.normalized;
-
-            float _EllipseScaleConstraint = Mathf.Sqrt(
-                1.0f / ((_NormalizedDirection.x * _NormalizedDirection.x) / (m_EllipseWidth * m_EllipseWidth / 4) +
-                        (_NormalizedDirection.y * _NormalizedDirection.y) / (m_EllipseHeight * m_EllipseHeight / 4)));
+            Vector2 _NormalizedDirection = _Direction.sqrMagnitude > 0.0001f ? _Direction.normalized : Vector2.zero;
             
+            // Scale direction to screen dimensions
+            Vector2 _ScreenScaledDirection = new Vector2(
+                _Direction.x * Screen.width,
+                _Direction.y * Screen.height);
+
+            // float _EllipseScaleConstraint = Mathf.Sqrt(
+            //     1.0f / ((_NormalizedDirection.x * _NormalizedDirection.x) / (m_EllipseWidth * m_EllipseWidth / 4) +
+            //             (_NormalizedDirection.y * _NormalizedDirection.y) / (m_EllipseHeight * m_EllipseHeight / 4)));
+            
+            float a = (this.m_EllipseWidth / 2) * this.m_View.GetCanvasSizeDelta().x;  // Semi-major axis (UI units)
+            float b = (this.m_EllipseHeight / 2) * this.m_View.GetCanvasSizeDelta().y;
+            
+            Debug.Log(a + ", " + b);
+
+            float _EllipseScaleConstraint = 0;
+            if (a > 0 && b > 0)
+            { 
+                _EllipseScaleConstraint = (a * b) / Mathf.Sqrt(
+                    (b * _NormalizedDirection.x) * (b * _NormalizedDirection.x) +
+                    (a * _NormalizedDirection.y) * (a * _NormalizedDirection.y)
+                );
+            }
+
+            // float _EllipseScaleConstraint = Mathf.Sqrt(
+            //         1.0f / ((_NormalizedDirection.x * _NormalizedDirection.x) / (m_EllipseWidth * m_EllipseWidth / 4) +
+            //                 (_NormalizedDirection.y * _NormalizedDirection.y) / (m_EllipseHeight * m_EllipseHeight / 4)));
+
             this.m_View.UpdateMarker(
-                this.m_TargetEnemies.ElementAt(_I).Key, 
-                _NormalizedDirection * Mathf.Min(_Direction.magnitude, _EllipseScaleConstraint));
+                this.m_TargetEnemies.ElementAt(_I).Key,
+                _NormalizedDirection * 200);//* Mathf.Min(_ScreenScaledDirection.magnitude, _EllipseScaleConstraint));
         }
     }
 
@@ -94,19 +117,20 @@ public class EnemyLocatorHUDController : PausableMonoBehavior, IInitialize
         // Vector2 _EnemyScreenPosition = RectTransformUtility.WorldToScreenPoint(Camera.main, _EnemyTransform.position);
 
         Vector3 _ViewportCameraPosition = Camera.main.WorldToViewportPoint(Camera.main.transform.position);
-        
         Vector3 _ViewportScreenPosition = Camera.main.WorldToViewportPoint(_EnemyTransform.position);
         
         _ViewportScreenPosition.x = Mathf.Clamp(_ViewportScreenPosition.x, 0, 1);
         _ViewportScreenPosition.y = Mathf.Clamp(_ViewportScreenPosition.y, 0, 1);
 
         Vector2 _CameraScreenPosition = new Vector2(
-            _ViewportCameraPosition.x * Screen.width / 2,
-            _ViewportCameraPosition.y * Screen.height / 2);
+            // Screen.width / 2,
+            // Screen.height / 2);
+            _ViewportCameraPosition.x,
+            _ViewportCameraPosition.y);
         
         Vector2 _EnemyScreenPosition = new Vector2(
-            _ViewportScreenPosition.x * Screen.width / 2,
-            _ViewportScreenPosition.y * Screen.height / 2);
+            _ViewportScreenPosition.x,
+            _ViewportScreenPosition.y);
         
         return _EnemyScreenPosition - _CameraScreenPosition;
     }
@@ -117,6 +141,7 @@ public class EnemyLocatorHUDController : PausableMonoBehavior, IInitialize
 
     private void OnDrawGizmos()
     {
+        // Draw Circle
         Gizmos.color = Color.green;
         int _Segments = 100;
         
@@ -134,6 +159,31 @@ public class EnemyLocatorHUDController : PausableMonoBehavior, IInitialize
                 Gizmos.DrawLine(_PreviousPoint, _NewPoint); // Draw line segment
 
             _PreviousPoint = _NewPoint;
+        }
+        
+        // Draw initial direction
+        for (int _I = 0; _I < this.m_TargetEnemies.Count; _I++)
+        {
+            Vector2 _Direction = this.CalculateDirectionToEnemy(this.m_TargetEnemies.ElementAt(_I).Key);
+            Vector2 _NormalizedDirection = _Direction.sqrMagnitude > 0.0001f ? _Direction.normalized : Vector2.zero;
+            Vector3 _ViewportCameraPosition = Camera.main.WorldToViewportPoint(Camera.main.transform.position);
+            
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(_ViewportCameraPosition, _Direction * 10);
+            
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawLine(_ViewportCameraPosition, _NormalizedDirection * 10);
+            
+            float _EllipseScaleConstraint = 0;
+            if (_NormalizedDirection.sqrMagnitude > 0.0001f)
+            {
+                _EllipseScaleConstraint = Mathf.Sqrt(
+                    1.0f / ((_NormalizedDirection.x * _NormalizedDirection.x) / (m_EllipseWidth * m_EllipseWidth / 4) +
+                            (_NormalizedDirection.y * _NormalizedDirection.y) / (m_EllipseHeight * m_EllipseHeight / 4)));
+            }
+            
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(_NormalizedDirection * Mathf.Min(_Direction.magnitude, _EllipseScaleConstraint), 2);
         }
     }
 
