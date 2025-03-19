@@ -37,6 +37,8 @@ public class EnemyLocatorHUDView : MonoBehaviour
     public void UpdateMarker(int id, Vector2 newScreenPosition)
     {
         RectTransform _Marker = this.m_Markers[id];
+        // Vector2 _AdjustedScreenPosition = new Vector2(
+        //     newScreenPosition )
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             this.m_CanvasRect,
@@ -44,7 +46,7 @@ public class EnemyLocatorHUDView : MonoBehaviour
             null,
             out Vector2 _LocalPoint);
         
-        _Marker.anchoredPosition = _LocalPoint;
+        _Marker.anchoredPosition = newScreenPosition;
         Debug.Log(_LocalPoint);
     }
 
