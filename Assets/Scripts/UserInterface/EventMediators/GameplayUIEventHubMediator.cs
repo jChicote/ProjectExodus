@@ -2,32 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IUIEventCollection
-{
-
-    #region - - - - - - Methods - - - - - -
-
-    void RegisterEvent(string key, Action eventAction);
-
-    void RegisterEvent(string key, Action<object> eventAction);
-
-    #endregion Methods
-
-}
-
-public interface IUIEventMediator
-{
-
-    #region - - - - - - Methods - - - - - -
-
-    void Dispatch(string key);
-
-    void Dispatch(string key, object eventObject);
-
-    #endregion Methods
-
-}
-
 /// <summary>
 /// Responsible for mediating events for the Gameplay UI.
 /// </summary>
