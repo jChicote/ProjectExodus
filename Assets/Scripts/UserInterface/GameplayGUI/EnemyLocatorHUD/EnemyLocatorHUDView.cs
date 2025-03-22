@@ -43,10 +43,10 @@ public class EnemyLocatorHUDView : MonoBehaviour
     {
         RectTransform _Marker = this.m_Markers[id];
         Debug.Log(newScreenPosition);
-
+        
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             this.m_CanvasRect,
-            newScreenPosition,
+            RectTransformUtility.WorldToScreenPoint(Camera.main, newScreenPosition),
             Camera.main,
             out Vector2 _LocalPoint);
         
