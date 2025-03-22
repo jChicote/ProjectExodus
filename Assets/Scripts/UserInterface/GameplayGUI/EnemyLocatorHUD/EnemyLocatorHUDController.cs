@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectExodus;
@@ -64,6 +65,11 @@ public class EnemyLocatorHUDController : PausableMonoBehavior, IInitialize
         this.m_View.AddMarker(_EnemyID);
     }
 
+    private void DrawIntoCircle()
+    {
+        
+    }
+
     private void DrawIntoEllipse()
     {
         for (int _I = 0; _I < this.m_TargetEnemies.Count; _I++)
@@ -79,28 +85,38 @@ public class EnemyLocatorHUDController : PausableMonoBehavior, IInitialize
             // float _EllipseScaleConstraint = Mathf.Sqrt(
             //     1.0f / ((_NormalizedDirection.x * _NormalizedDirection.x) / (m_EllipseWidth * m_EllipseWidth / 4) +
             //             (_NormalizedDirection.y * _NormalizedDirection.y) / (m_EllipseHeight * m_EllipseHeight / 4)));
-            
-            float a = (this.m_EllipseWidth / 2) * this.m_View.GetCanvasSizeDelta().x;  // Semi-major axis (UI units)
-            float b = (this.m_EllipseHeight / 2) * this.m_View.GetCanvasSizeDelta().y;
-            
-            Debug.Log(a + ", " + b);
+            //
+            // float a = (this.m_EllipseWidth / 2) * this.m_View.GetCanvasSizeDelta().x;  // Semi-major axis (UI units)
+            // float b = (this.m_EllipseHeight / 2) * this.m_View.GetCanvasSizeDelta().y;
+            //
+            // Debug.Log(a + ", " + b);
+            //
+            // float _EllipseScaleConstraint = 0;
+            // if (a > 0 && b > 0)
+            // { 
+            //     _EllipseScaleConstraint = (a * b) / Mathf.Sqrt(
+            //         (b * _NormalizedDirection.x) * (b * _NormalizedDirection.x) +
+            //         (a * _NormalizedDirection.y) * (a * _NormalizedDirection.y)
+            //     );
+            // }
 
-            float _EllipseScaleConstraint = 0;
-            if (a > 0 && b > 0)
-            { 
-                _EllipseScaleConstraint = (a * b) / Mathf.Sqrt(
-                    (b * _NormalizedDirection.x) * (b * _NormalizedDirection.x) +
-                    (a * _NormalizedDirection.y) * (a * _NormalizedDirection.y)
-                );
-            }
+            var _SemiMajorAxis = this.m_EllipseWidth / 2;
+            var _SemiMinorAxis = this.m_EllipseHeight / 2;
+            
+            // Calculate the scale constraint from the semi-major and semi-minor axis
+            float _Scale = (_SemiMajorAxis * _SemiMinorAxis) / Mathf.Sqrt(
+                ((_SemiMinorAxis * _NormalizedDirection.x) * (_SemiMinorAxis * _NormalizedDirection.x)) +
+                ((_SemiMajorAxis * _NormalizedDirection.y) * _SemiMajorAxis * _NormalizedDirection.y));
 
+            Debug.Log(_Scale);
+            
             // float _EllipseScaleConstraint = Mathf.Sqrt(
             //         1.0f / ((_NormalizedDirection.x * _NormalizedDirection.x) / (m_EllipseWidth * m_EllipseWidth / 4) +
             //                 (_NormalizedDirection.y * _NormalizedDirection.y) / (m_EllipseHeight * m_EllipseHeight / 4)));
 
             this.m_View.UpdateMarker(
                 this.m_TargetEnemies.ElementAt(_I).Key,
-                _NormalizedDirection * 200);//* Mathf.Min(_ScreenScaledDirection.magnitude, _EllipseScaleConstraint));
+                _NormalizedDirection * _Scale);//* Mathf.Min(_ScreenScaledDirection.magnitude, _EllipseScaleConstraint));
         }
     }
 
