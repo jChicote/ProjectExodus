@@ -7,9 +7,8 @@ public class EnemyLocatorHUDView : MonoBehaviour
     #region - - - - - - Fields - - - - - -
 
     [SerializeField] private GameObject m_MarkerPrefab;
-
     [SerializeField] private GameObject m_CanvasGroup;
-    private Dictionary<int, RectTransform> m_Markers = new();
+    private readonly Dictionary<int, RectTransform> m_Markers = new();
 
     #endregion Fields
   
@@ -22,11 +21,8 @@ public class EnemyLocatorHUDView : MonoBehaviour
         this.m_Markers.Add(id, _MarkerInstance.GetComponent<RectTransform>());
     }
 
-    public void UpdateMarker(int id, Vector2 newScreenPosition)
-    {
-        RectTransform _Marker = this.m_Markers[id];
-        _Marker.position = newScreenPosition;
-    }
+    public void UpdateMarker(int id, Vector2 newScreenPosition) 
+        => this.m_Markers[id].position = newScreenPosition;
 
     #endregion Methods
   

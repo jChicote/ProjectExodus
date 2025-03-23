@@ -3226,8 +3226,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MarkerPrefab: {fileID: 6443205922639656040, guid: d1a128bafaecaec478a23e0d5cd9af92, type: 3}
   m_CanvasGroup: {fileID: 515670306}
-  m_CanvasRect: {fileID: 335951837}
-  m_Canvas: {fileID: 335951836}
 --- !u!114 &1053469503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3240,6 +3238,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfd6ff182f8b4a478998a7654da0b8df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_HUDShape: 1
+  m_CircleRadius: 7
   m_EllipseWidth: 20
   m_EllipseHeight: 10
 --- !u!1 &1080787492
