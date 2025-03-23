@@ -65,6 +65,12 @@ public class EnemyLocatorHUDController : PausableMonoBehavior, IInitialize
         _UIEventCollection.RegisterEvent(
             EnemyLocatorHUDEventConstants.AddEnemyMarker, 
             enemyTransform => this.AddEnemy(enemyTransform as Transform));
+        
+        // Draw the HUD Shape
+        this.m_View.RenderHUDShape(this.m_HUDShape == EnemyLocatorHUDShape.Circle
+            ? new Vector2(this.m_CircleRadius, this.m_CircleRadius)
+            : new Vector2(this.m_EllipseWidth, this.m_EllipseHeight)
+            ,this.m_HUDShape);
     }
     
     private void Update()
@@ -80,8 +86,16 @@ public class EnemyLocatorHUDController : PausableMonoBehavior, IInitialize
 
     private void OnValidate()
     {
+        if (this.m_View == null) return;
+        
         this.m_SemiMajorAxis = this.m_EllipseWidth / 2;
         this.m_SemiMinorAxis = this.m_EllipseHeight / 2;
+        
+        // Draw the HUD Shape
+        this.m_View.RenderHUDShape(this.m_HUDShape == EnemyLocatorHUDShape.Circle
+                ? new Vector2(this.m_CircleRadius, this.m_CircleRadius)
+                : new Vector2(this.m_EllipseWidth, this.m_EllipseHeight)
+            ,this.m_HUDShape);
     }
 
     #endregion Unity Methods

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EnemyLocatorHUDView : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class EnemyLocatorHUDView : MonoBehaviour
 
     [SerializeField] private GameObject m_MarkerPrefab;
     [SerializeField] private GameObject m_CanvasGroup;
+    [SerializeField, RequiredField] private LineShapeGenerator m_LineShapeGenerator;
     private readonly Dictionary<int, RectTransform> m_Markers = new();
 
     #endregion Fields
@@ -20,6 +22,9 @@ public class EnemyLocatorHUDView : MonoBehaviour
         _MarkerInstance.SetActive(true);
         this.m_Markers.Add(id, _MarkerInstance.GetComponent<RectTransform>());
     }
+
+    public void RenderHUDShape(Vector2 shapeDimensions, EnemyLocatorHUDShape selectedShape) 
+        => this.m_LineShapeGenerator.DrawShape(shapeDimensions, EnemyLocatorHUDShapes.GetShape(selectedShape).Function);
 
     public void UpdateMarker(int id, Vector2 newScreenPosition) 
         => this.m_Markers[id].position = newScreenPosition;
