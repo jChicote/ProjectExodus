@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectExodus;
@@ -76,29 +75,9 @@ public class EnemyLocatorHUDController : PausableMonoBehavior, IInitialize
         {
             Vector2 _Direction = this.CalculateDirectionToEnemy(this.m_TargetEnemies.ElementAt(_I).Key);
             Vector2 _NormalizedDirection = _Direction.sqrMagnitude > 0.0001f ? _Direction.normalized : Vector2.zero;
-            
-            // Scale direction to screen dimensions
-            Vector2 _ScreenScaledDirection = new Vector2(
-                _Direction.x * Screen.width,
-                _Direction.y * Screen.height);
-
-            // float _EllipseScaleConstraint = Mathf.Sqrt(
-            //     1.0f / ((_NormalizedDirection.x * _NormalizedDirection.x) / (m_EllipseWidth * m_EllipseWidth / 4) +
-            //             (_NormalizedDirection.y * _NormalizedDirection.y) / (m_EllipseHeight * m_EllipseHeight / 4)));
-            //
-            // float a = (this.m_EllipseWidth / 2) * this.m_View.GetCanvasSizeDelta().x;  // Semi-major axis (UI units)
-            // float b = (this.m_EllipseHeight / 2) * this.m_View.GetCanvasSizeDelta().y;
-            //
-            // Debug.Log(a + ", " + b);
-            //
-            // float _EllipseScaleConstraint = 0;
-            // if (a > 0 && b > 0)
-            // { 
-            //     _EllipseScaleConstraint = (a * b) / Mathf.Sqrt(
-            //         (b * _NormalizedDirection.x) * (b * _NormalizedDirection.x) +
-            //         (a * _NormalizedDirection.y) * (a * _NormalizedDirection.y)
-            //     );
-            // }
+            Vector2 _CameraWorldPosition = new Vector2(
+                Camera.main.transform.position.x,
+                Camera.main.transform.position.y);
 
             var _SemiMajorAxis = this.m_EllipseWidth / 2;
             var _SemiMinorAxis = this.m_EllipseHeight / 2;
@@ -108,15 +87,9 @@ public class EnemyLocatorHUDController : PausableMonoBehavior, IInitialize
                 ((_SemiMinorAxis * _NormalizedDirection.x) * (_SemiMinorAxis * _NormalizedDirection.x)) +
                 ((_SemiMajorAxis * _NormalizedDirection.y) * _SemiMajorAxis * _NormalizedDirection.y));
 
-            Debug.Log(_Scale);
-            
-            // float _EllipseScaleConstraint = Mathf.Sqrt(
-            //         1.0f / ((_NormalizedDirection.x * _NormalizedDirection.x) / (m_EllipseWidth * m_EllipseWidth / 4) +
-            //                 (_NormalizedDirection.y * _NormalizedDirection.y) / (m_EllipseHeight * m_EllipseHeight / 4)));
-
             this.m_View.UpdateMarker(
                 this.m_TargetEnemies.ElementAt(_I).Key,
-                _NormalizedDirection * _Scale);//* Mathf.Min(_ScreenScaledDirection.magnitude, _EllipseScaleConstraint));
+                _NormalizedDirection * _Scale + _CameraWorldPosition);
         }
     }
 

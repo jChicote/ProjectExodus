@@ -804,7 +804,7 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 520427784504687565, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
-      insertIndex: 0
+      insertIndex: -1
       addedObject: {fileID: 1053469499}
     - targetCorrespondingSourceObject: {fileID: 520427784504687565, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
       insertIndex: -1
@@ -3226,7 +3226,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MarkerPrefab: {fileID: 6443205922639656040, guid: d1a128bafaecaec478a23e0d5cd9af92, type: 3}
   m_CanvasGroup: {fileID: 515670306}
-  m_CanvasRect: {fileID: 515670307}
+  m_CanvasRect: {fileID: 335951837}
+  m_Canvas: {fileID: 335951836}
 --- !u!114 &1053469503
 MonoBehaviour:
   m_ObjectHideFlags: 0

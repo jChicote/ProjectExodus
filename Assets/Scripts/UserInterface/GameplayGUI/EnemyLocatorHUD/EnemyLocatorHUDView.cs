@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class EnemyLocatorHUDView : MonoBehaviour
@@ -12,18 +11,7 @@ public class EnemyLocatorHUDView : MonoBehaviour
     [SerializeField] private GameObject m_CanvasGroup;
     private Dictionary<int, RectTransform> m_Markers = new();
 
-    public  RectTransform m_CanvasRect;
-    
     #endregion Fields
-
-    #region - - - - - - Unity Methods - - - - - -
-
-    private void Start()
-    {
-        this.m_CanvasRect = this.m_CanvasGroup.GetComponent<RectTransform>();
-    }
-
-    #endregion Unity Methods
   
     #region - - - - - - Methods - - - - - -
 
@@ -34,23 +22,10 @@ public class EnemyLocatorHUDView : MonoBehaviour
         this.m_Markers.Add(id, _MarkerInstance.GetComponent<RectTransform>());
     }
 
-    public Vector2 GetCanvasSizeDelta()
-    {
-        return this.m_CanvasRect.sizeDelta;
-    }
-
     public void UpdateMarker(int id, Vector2 newScreenPosition)
     {
         RectTransform _Marker = this.m_Markers[id];
-        Debug.Log(newScreenPosition);
-        
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            this.m_CanvasRect,
-            RectTransformUtility.WorldToScreenPoint(Camera.main, newScreenPosition),
-            Camera.main,
-            out Vector2 _LocalPoint);
-        
-        _Marker.anchoredPosition = _LocalPoint;
+        _Marker.position = newScreenPosition;
     }
 
     #endregion Methods
