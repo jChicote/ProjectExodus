@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7015693849525063744}
-  - component: {fileID: 2713827975065838625}
-  - component: {fileID: 3749719450549185704}
+  - component: {fileID: 792747977501972881}
+  - component: {fileID: 164342839145799669}
   m_Layer: 5
   m_Name: PointsHUD
   m_TagString: Untagged
@@ -38,7 +38,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2713827975065838625
+--- !u!114 &792747977501972881
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -47,10 +47,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6393573605786950148}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e378673a78ad48cb8e51406e655e06da, type: 3}
+  m_Script: {fileID: 11500000, guid: 93ab932d936a4f938fc7af5d52c62cc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3749719450549185704
+--- !u!114 &164342839145799669
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -59,11 +59,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6393573605786950148}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82df2aec8bb440309684b7e5ef731545, type: 3}
+  m_Script: {fileID: 11500000, guid: 517b11e5b8254e33a0b7094739cafbb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_TotalPointsText: {fileID: 769720988928670886}
-  m_PointsMarkerPrefab: {fileID: 4632343633041045011, guid: 40881c7ebcda1634193f5a887396565b, type: 3}
   m_ContentGroup: {fileID: 6862718982445011303}
 --- !u!1 &6862718982445011303
 GameObject:
