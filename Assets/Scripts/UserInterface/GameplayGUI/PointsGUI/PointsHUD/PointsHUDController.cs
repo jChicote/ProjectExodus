@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PointsHUDController : MonoBehaviour
 {
-
+    
     #region - - - - - - Fields - - - - - -
 
     private PointsHUDView m_View;
@@ -18,10 +18,7 @@ public class PointsHUDController : MonoBehaviour
         
         IUIEventCollection _UIEventCollection = UserInterfaceManager.Instance.EventCollectionRegistry;
         _UIEventCollection.RegisterEvent(
-            PointsHUDConstants.AddPoints,
-            pointsInfo => this.AddPointsHoverMarker(pointsInfo as PointsInfo));
-        _UIEventCollection.RegisterEvent(
-            PointsHUDConstants.UpdatePoints,
+            PointsGUIConstants.UpdatePoints,
             totalPoints => this.UpdateTotallPoints(totalPoints as int? ?? default));
     }
 
@@ -29,25 +26,9 @@ public class PointsHUDController : MonoBehaviour
 
     #region - - - - - - Methods - - - - - -
 
-    private void AddPointsHoverMarker(PointsInfo pointsInfo) 
-        => this.m_View.AddPointsMarker(pointsInfo.Position, pointsInfo.Points);
-
     private void UpdateTotallPoints(int totalPoints)
         => this.m_View.UpdateTotalPoints(totalPoints);
 
     #endregion Methods
-
-}
-
-public class PointsInfo
-{
-
-    #region - - - - - - Properties - - - - - -
-
-    public int Points { get; set; }
-
-    public Vector2 Position { get; set; }
-
-    #endregion Properties
-  
+    
 }

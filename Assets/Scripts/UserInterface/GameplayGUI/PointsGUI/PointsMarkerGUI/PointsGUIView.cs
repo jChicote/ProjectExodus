@@ -1,12 +1,10 @@
-﻿using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PointsHUDView : MonoBehaviour
+public class PointsGUIView : MonoBehaviour
 {
 
     #region - - - - - - Fields - - - - - -
 
-    public TMP_Text m_TotalPointsText;
     public GameObject m_PointsMarkerPrefab;
     public GameObject m_ContentGroup;
 
@@ -21,10 +19,7 @@ public class PointsHUDView : MonoBehaviour
         _PointsMarker.SetPosition(position);
         _PointsMarker.SetPoints(points);
     }
-
-    public void UpdateTotalPoints(int totalPoints) 
-        => this.m_TotalPointsText.text = $"Total Points: {totalPoints.ToString()}";
-
+    
     #endregion Methods
   
 }

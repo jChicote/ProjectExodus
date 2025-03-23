@@ -1,4 +1,4 @@
-﻿public class PointsHUDConstants
+﻿public class PointsGUIConstants
 {
 
     #region - - - - - - Fields - - - - - -
