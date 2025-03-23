@@ -33,7 +33,10 @@ public class PointsHoverMarker : PausableMonoBehavior
 
     public void SetPoints(int points)
         => this.m_PointsText.SetText(points.ToString());
-    
+
+    public void SetPosition(Vector2 position)
+        => this.transform.position = position;
+
     #endregion Methods
 
 }
