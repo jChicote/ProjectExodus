@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class EnemyLocatorHUDView : MonoBehaviour
 {
@@ -21,6 +20,14 @@ public class EnemyLocatorHUDView : MonoBehaviour
         GameObject _MarkerInstance = Instantiate(this.m_MarkerPrefab, this.m_CanvasGroup.transform);
         _MarkerInstance.SetActive(true);
         this.m_Markers.Add(id, _MarkerInstance.GetComponent<RectTransform>());
+    }
+
+    public void RemoveMarker(int id)
+    {
+        GameObject _MarkerInstance = this.m_Markers[id].gameObject;
+        this.m_Markers.Remove(id);
+        
+        Destroy(_MarkerInstance);
     }
 
     public void RenderHUDShape(Vector2 shapeDimensions, EnemyLocatorHUDShape selectedShape) 

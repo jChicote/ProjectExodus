@@ -65,6 +65,9 @@ public class EnemyLocatorHUDController : PausableMonoBehavior, IInitialize
         _UIEventCollection.RegisterEvent(
             EnemyLocatorHUDEventConstants.AddEnemyMarker, 
             enemyTransform => this.AddEnemy(enemyTransform as Transform));
+        _UIEventCollection.RegisterEvent(
+            EnemyLocatorHUDEventConstants.RemoveEnemyMarker,
+            enemy => this.RemoveEnemy(enemy as GameObject));
         
         // Draw the HUD Shape
         this.m_View.RenderHUDShape(this.m_HUDShape == EnemyLocatorHUDShape.Circle
@@ -107,6 +110,13 @@ public class EnemyLocatorHUDController : PausableMonoBehavior, IInitialize
         int _EnemyID = enemyTransform.gameObject.GetInstanceID();
         this.m_TargetEnemies.Add(_EnemyID, enemyTransform);
         this.m_View.AddMarker(_EnemyID);
+    }
+
+    private void RemoveEnemy(GameObject enemy)
+    {
+        int _EnemyID = enemy.GetInstanceID();
+        this.m_TargetEnemies.Remove(_EnemyID);
+        this.m_View.RemoveMarker(_EnemyID);
     }
 
     private void DrawIntoCircle()
