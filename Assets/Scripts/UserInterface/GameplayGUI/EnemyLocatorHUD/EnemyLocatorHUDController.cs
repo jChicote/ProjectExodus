@@ -11,14 +11,26 @@ public class EnemyLocatorHUDController : PausableMonoBehavior, IInitialize
 
     #region - - - - - - Fields - - - - - -
 
-    private EnemyLocatorHUDView m_View;
-    private Dictionary<int, Transform> m_TargetEnemies = new();
-    private Transform m_PlayerTransform;
-    // private float m_MaxTrackingRadius = 100f;
-    
-    public float m_EllipseWidth = 200f;  // Max width (2a)
-    public float m_EllipseHeight = 100f; // Max height (2b)
+    // Inspector Fields
+    [SerializeField] private EnemyLocatorHUDShape m_HUDShape;
 
+    // Required Dependency Fields
+    private Transform m_PlayerTransform;
+    private Camera m_MainCamera;
+    private EnemyLocatorHUDView m_View;
+    
+    // Runtime Fields
+    private Dictionary<int, Transform> m_TargetEnemies = new();
+    
+    // Ellipse Fields
+    [SerializeField] private float m_EllipseWidth = 20f;  // Max width (2a)
+    [SerializeField] private float m_EllipseHeight = 10f; // Max height (2b)
+    private Vector2 m_CameraWorldPosition = Vector2.zero;
+    private Vector2 m_Direction = Vector2.zero;
+    private Vector2 m_NormalizedDirection = Vector2.zero;
+    private float m_SemiMajorAxis;
+    private float m_SemiMinorAxis;
+    
     #endregion Fields
 
     #region - - - - - - Initializers - - - - - -
@@ -28,8 +40,12 @@ public class EnemyLocatorHUDController : PausableMonoBehavior, IInitialize
     /// </summary>
     public void Initialize()
     {
+        this.m_MainCamera = Camera.main;
         SceneManager.Instance.PlayerObserver.OnPlayerSpawned.AddListener(playerTransform =>
             this.m_PlayerTransform = playerTransform.transform);
+        
+        this.m_SemiMajorAxis = this.m_EllipseWidth / 2;
+        this.m_SemiMinorAxis = this.m_EllipseHeight / 2;
     }
 
     #endregion Initializers
@@ -50,7 +66,17 @@ public class EnemyLocatorHUDController : PausableMonoBehavior, IInitialize
     {
         if (this.m_IsPaused || this.m_PlayerTransform == null) return;
         
-        this.DrawIntoEllipse();
+        if (this.m_HUDShape == EnemyLocatorHUDShape.Circle)
+            this.DrawIntoCircle();
+        else if (this.m_HUDShape == EnemyLocatorHUDShape.Ellipse)
+            this.DrawIntoEllipse();
+        // TODO: Support squared shaped HUDs
+    }
+
+    private void OnValidate()
+    {
+        this.m_SemiMajorAxis = this.m_EllipseWidth / 2;
+        this.m_SemiMinorAxis = this.m_EllipseHeight / 2;
     }
 
     #endregion Unity Methods
@@ -66,62 +92,41 @@ public class EnemyLocatorHUDController : PausableMonoBehavior, IInitialize
 
     private void DrawIntoCircle()
     {
-        
     }
 
     private void DrawIntoEllipse()
     {
         for (int _I = 0; _I < this.m_TargetEnemies.Count; _I++)
         {
-            Vector2 _Direction = this.CalculateDirectionToEnemy(this.m_TargetEnemies.ElementAt(_I).Key);
-            Vector2 _NormalizedDirection = _Direction.sqrMagnitude > 0.0001f ? _Direction.normalized : Vector2.zero;
-            Vector2 _CameraWorldPosition = new Vector2(
-                Camera.main.transform.position.x,
-                Camera.main.transform.position.y);
+            this.m_Direction = this.CalculateDirectionToEnemy(this.m_TargetEnemies.ElementAt(_I).Key);
+            this.m_NormalizedDirection = this.m_Direction.sqrMagnitude > 0.0001f ? this.m_Direction.normalized : Vector2.zero;
+            this.m_CameraWorldPosition = new Vector2(
+                this.m_MainCamera.transform.position.x,
+                this.m_MainCamera.transform.position.y);
 
-            var _SemiMajorAxis = this.m_EllipseWidth / 2;
-            var _SemiMinorAxis = this.m_EllipseHeight / 2;
-            
-            // Calculate the scale constraint from the semi-major and semi-minor axis
-            float _Scale = (_SemiMajorAxis * _SemiMinorAxis) / Mathf.Sqrt(
-                ((_SemiMinorAxis * _NormalizedDirection.x) * (_SemiMinorAxis * _NormalizedDirection.x)) +
-                ((_SemiMajorAxis * _NormalizedDirection.y) * _SemiMajorAxis * _NormalizedDirection.y));
+            // Calculate the ellipse scale from the semi-major and semi-minor axis
+            float _Scale = (this.m_SemiMajorAxis * this.m_SemiMinorAxis) / Mathf.Sqrt(
+                ((this.m_SemiMinorAxis * this.m_NormalizedDirection.x) * (this.m_SemiMinorAxis * this.m_NormalizedDirection.x)) +
+                ((this.m_SemiMajorAxis * this.m_NormalizedDirection.y) * this.m_SemiMajorAxis * this.m_NormalizedDirection.y));
 
             this.m_View.UpdateMarker(
                 this.m_TargetEnemies.ElementAt(_I).Key,
-                _NormalizedDirection * _Scale + _CameraWorldPosition);
+                this.m_NormalizedDirection * _Scale + this.m_CameraWorldPosition);
         }
     }
 
     private Vector2 CalculateDirectionToEnemy(int id)
     {
         Transform _EnemyTransform = this.m_TargetEnemies[id];
-        // Vector2 _ScreenCenter =  RectTransformUtility.WorldToScreenPoint(
-        //     Camera.main, 
-        //     this.m_PlayerTransform.position);
-
-        // Vector2 _CameraPosition = new Vector2(
-        //     Camera.main.transform.position.x,
-        //     Camera.main.transform.position.y);
-        // Vector2 _EnemyScreenPosition = RectTransformUtility.WorldToScreenPoint(Camera.main, _EnemyTransform.position);
-
-        Vector3 _ViewportCameraPosition = Camera.main.WorldToViewportPoint(Camera.main.transform.position);
-        Vector3 _ViewportScreenPosition = Camera.main.WorldToViewportPoint(_EnemyTransform.position);
-        
+        Vector3 _ViewportScreenPosition = this.m_MainCamera.WorldToViewportPoint(_EnemyTransform.position);
         _ViewportScreenPosition.x = Mathf.Clamp(_ViewportScreenPosition.x, 0, 1);
         _ViewportScreenPosition.y = Mathf.Clamp(_ViewportScreenPosition.y, 0, 1);
 
-        Vector2 _CameraScreenPosition = new Vector2(
-            // Screen.width / 2,
-            // Screen.height / 2);
-            _ViewportCameraPosition.x,
-            _ViewportCameraPosition.y);
-        
         Vector2 _EnemyScreenPosition = new Vector2(
             _ViewportScreenPosition.x,
             _ViewportScreenPosition.y);
         
-        return _EnemyScreenPosition - _CameraScreenPosition;
+        return _EnemyScreenPosition - new Vector2(0.5f, 0.5f); // (0.5, 0.5) is the camera's position in viewport space
     }
 
     #endregion Methods
@@ -138,41 +143,32 @@ public class EnemyLocatorHUDController : PausableMonoBehavior, IInitialize
         
         for (int i = 0; i <= _Segments; i++)
         {
-            float angle = (i / (float)_Segments) * Mathf.PI * 2; // Full circle
-            float x = (m_EllipseWidth / 2) * Mathf.Cos(angle);    // X position
-            float y = (m_EllipseHeight / 2) * Mathf.Sin(angle);   // Y position
-
-            Vector3 _NewPoint = transform.position + new Vector3(x, y, 0);
-
-            if (i > 0)
-                Gizmos.DrawLine(_PreviousPoint, _NewPoint); // Draw line segment
-
-            _PreviousPoint = _NewPoint;
-        }
-        
-        // Draw initial direction
-        for (int _I = 0; _I < this.m_TargetEnemies.Count; _I++)
-        {
-            Vector2 _Direction = this.CalculateDirectionToEnemy(this.m_TargetEnemies.ElementAt(_I).Key);
-            Vector2 _NormalizedDirection = _Direction.sqrMagnitude > 0.0001f ? _Direction.normalized : Vector2.zero;
-            Vector3 _ViewportCameraPosition = Camera.main.WorldToViewportPoint(Camera.main.transform.position);
-            
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(_ViewportCameraPosition, _Direction * 10);
-            
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawLine(_ViewportCameraPosition, _NormalizedDirection * 10);
-            
-            float _EllipseScaleConstraint = 0;
-            if (_NormalizedDirection.sqrMagnitude > 0.0001f)
+            if (this.m_HUDShape == EnemyLocatorHUDShape.Circle)
             {
-                _EllipseScaleConstraint = Mathf.Sqrt(
-                    1.0f / ((_NormalizedDirection.x * _NormalizedDirection.x) / (m_EllipseWidth * m_EllipseWidth / 4) +
-                            (_NormalizedDirection.y * _NormalizedDirection.y) / (m_EllipseHeight * m_EllipseHeight / 4)));
+                float angle = (i / (float)_Segments) * Mathf.PI * 2; // Full circle
+                float x = Mathf.Cos(angle);    // X position
+                float y = Mathf.Sin(angle);   // Y position
+                
+                Vector3 _NewPoint = transform.position + new Vector3(x, y, 0);
+
+                if (i > 0)
+                    Gizmos.DrawLine(_PreviousPoint, _NewPoint); // Draw line segment
+
+                _PreviousPoint = _NewPoint;
             }
-            
-            Gizmos.color = Color.red;
-            Gizmos.DrawSphere(_NormalizedDirection * Mathf.Min(_Direction.magnitude, _EllipseScaleConstraint), 2);
+            else if (this.m_HUDShape == EnemyLocatorHUDShape.Ellipse)
+            {
+                float angle = (i / (float)_Segments) * Mathf.PI * 2; // Full circle
+                float x = (m_EllipseWidth / 2) * Mathf.Cos(angle);    // X position
+                float y = (m_EllipseHeight / 2) * Mathf.Sin(angle);   // Y position
+
+                Vector3 _NewPoint = transform.position + new Vector3(x, y, 0);
+
+                if (i > 0)
+                    Gizmos.DrawLine(_PreviousPoint, _NewPoint); // Draw line segment
+
+                _PreviousPoint = _NewPoint;
+            }
         }
     }
 
@@ -183,6 +179,5 @@ public class EnemyLocatorHUDController : PausableMonoBehavior, IInitialize
 public enum EnemyLocatorHUDShape
 {
     Circle,
-    Ellipse,
-    HUD
+    Ellipse
 }
