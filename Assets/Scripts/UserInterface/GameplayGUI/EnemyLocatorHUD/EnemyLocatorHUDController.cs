@@ -22,7 +22,12 @@ public class EnemyLocatorHUDController : PausableMonoBehavior, IInitialize
     // Runtime Fields
     private Dictionary<int, Transform> m_TargetEnemies = new();
     
+    // Circle Fields
+    [Header("Circle Fields")]
+    [SerializeField] private float m_CircleRadius = 7;
+    
     // Ellipse Fields
+    [Header("Ellipse Fields")]
     [SerializeField] private float m_EllipseWidth = 20f;  // Max width (2a)
     [SerializeField] private float m_EllipseHeight = 10f; // Max height (2b)
     private Vector2 m_CameraWorldPosition = Vector2.zero;
@@ -92,6 +97,18 @@ public class EnemyLocatorHUDController : PausableMonoBehavior, IInitialize
 
     private void DrawIntoCircle()
     {
+        for (int _I = 0; _I < this.m_TargetEnemies.Count; _I++)
+        {
+            this.m_Direction = this.CalculateDirectionToEnemy(this.m_TargetEnemies.ElementAt(_I).Key);
+            this.m_NormalizedDirection = this.m_Direction.sqrMagnitude > 0.0001f ? this.m_Direction.normalized : Vector2.zero;
+            this.m_CameraWorldPosition = new Vector2(
+                this.m_MainCamera.transform.position.x,
+                this.m_MainCamera.transform.position.y);
+            
+            this.m_View.UpdateMarker(
+                this.m_TargetEnemies.ElementAt(_I).Key,
+                this.m_NormalizedDirection * this.m_CircleRadius + this.m_CameraWorldPosition);
+        }
     }
 
     private void DrawIntoEllipse()
@@ -146,8 +163,8 @@ public class EnemyLocatorHUDController : PausableMonoBehavior, IInitialize
             if (this.m_HUDShape == EnemyLocatorHUDShape.Circle)
             {
                 float angle = (i / (float)_Segments) * Mathf.PI * 2; // Full circle
-                float x = Mathf.Cos(angle);    // X position
-                float y = Mathf.Sin(angle);   // Y position
+                float x = this.m_CircleRadius * Mathf.Cos(angle);    // X position
+                float y = this.m_CircleRadius * Mathf.Sin(angle);   // Y position
                 
                 Vector3 _NewPoint = transform.position + new Vector3(x, y, 0);
 
@@ -159,8 +176,8 @@ public class EnemyLocatorHUDController : PausableMonoBehavior, IInitialize
             else if (this.m_HUDShape == EnemyLocatorHUDShape.Ellipse)
             {
                 float angle = (i / (float)_Segments) * Mathf.PI * 2; // Full circle
-                float x = (m_EllipseWidth / 2) * Mathf.Cos(angle);    // X position
-                float y = (m_EllipseHeight / 2) * Mathf.Sin(angle);   // Y position
+                float x = (this.m_EllipseWidth / 2) * Mathf.Cos(angle);    // X position
+                float y = (this.m_EllipseHeight / 2) * Mathf.Sin(angle);   // Y position
 
                 Vector3 _NewPoint = transform.position + new Vector3(x, y, 0);
 
