@@ -5159,9 +5159,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 419301091}
     m_Modifications:
+    - target: {fileID: 910798459967404833, guid: c08d3dca063484bd489b1e52a8dae266, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1930011796031436203, guid: c08d3dca063484bd489b1e52a8dae266, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4543012802197957385, guid: c08d3dca063484bd489b1e52a8dae266, type: 3}
       propertyPath: m_Name
       value: ChatboxHUD
+      objectReference: {fileID: 0}
+    - target: {fileID: 4543012802197957385, guid: c08d3dca063484bd489b1e52a8dae266, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9208055946503290547, guid: c08d3dca063484bd489b1e52a8dae266, type: 3}
       propertyPath: m_Pivot.x
