@@ -5,8 +5,8 @@ public class PointsGUIView : MonoBehaviour
 
     #region - - - - - - Fields - - - - - -
 
-    public GameObject m_PointsMarkerPrefab;
-    public GameObject m_ContentGroup;
+    [SerializeField] private GameObject m_PointsMarkerPrefab;
+    [SerializeField] private GameObject m_ContentGroup;
 
     #endregion Fields
 

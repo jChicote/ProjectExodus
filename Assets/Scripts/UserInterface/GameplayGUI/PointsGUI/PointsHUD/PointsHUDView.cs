@@ -6,8 +6,8 @@ public class PointsHUDView : MonoBehaviour
     
     #region - - - - - - Fields - - - - - -
 
-    public TMP_Text m_TotalPointsText;
-    public GameObject m_ContentGroup;
+    [SerializeField] private TMP_Text m_TotalPointsText;
+    [SerializeField] private GameObject m_ContentGroup;
 
     #endregion Fields
 
