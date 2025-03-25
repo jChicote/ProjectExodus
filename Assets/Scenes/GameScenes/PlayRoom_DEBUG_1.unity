@@ -1735,6 +1735,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7015693849525063744, guid: 82b0ba19e3b0ed34f9e89daa3271d77d, type: 3}
   m_PrefabInstance: {fileID: 5465424937960189316}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &753560145 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7004299918977655684, guid: c08d3dca063484bd489b1e52a8dae266, type: 3}
+  m_PrefabInstance: {fileID: 4392085999081046672}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &776508581
 GameObject:
   m_ObjectHideFlags: 0
@@ -2833,6 +2838,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2744918257958503859, guid: 4387fd9a7c981cc42b7c0973f931b96a, type: 3}
   m_PrefabInstance: {fileID: 6442803466680049195}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1250419229 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 605766826814143873, guid: c08d3dca063484bd489b1e52a8dae266, type: 3}
+  m_PrefabInstance: {fileID: 4392085999081046672}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1331554493
 GameObject:
   m_ObjectHideFlags: 0
@@ -5159,21 +5175,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 419301091}
     m_Modifications:
+    - target: {fileID: 605766826814143873, guid: c08d3dca063484bd489b1e52a8dae266, type: 3}
+      propertyPath: m_Content
+      value: 
+      objectReference: {fileID: 753560145}
     - target: {fileID: 910798459967404833, guid: c08d3dca063484bd489b1e52a8dae266, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1930011796031436203, guid: c08d3dca063484bd489b1e52a8dae266, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
+    - target: {fileID: 4239028219569205651, guid: c08d3dca063484bd489b1e52a8dae266, type: 3}
+      propertyPath: m_ChatboxScroll
+      value: 
+      objectReference: {fileID: 1250419229}
     - target: {fileID: 4543012802197957385, guid: c08d3dca063484bd489b1e52a8dae266, type: 3}
       propertyPath: m_Name
       value: ChatboxHUD
-      objectReference: {fileID: 0}
-    - target: {fileID: 4543012802197957385, guid: c08d3dca063484bd489b1e52a8dae266, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9208055946503290547, guid: c08d3dca063484bd489b1e52a8dae266, type: 3}
       propertyPath: m_Pivot.x
@@ -5255,7 +5271,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8097577910405417556, guid: c08d3dca063484bd489b1e52a8dae266, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

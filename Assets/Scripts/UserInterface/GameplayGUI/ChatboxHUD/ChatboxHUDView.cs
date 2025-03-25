@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ChatboxHUDView : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class ChatboxHUDView : MonoBehaviour
 
     public GameObject m_ContentGroup;
     public TMP_Text m_ChatboxText;
+    public ScrollRect m_ChatboxScroll;
     public float m_TypingSpeed = 0.05f;
 
     #endregion Fields
@@ -35,6 +37,7 @@ public class ChatboxHUDView : MonoBehaviour
         for (int i = 0; i < text.Length; i++)
         {
             this.m_ChatboxText.text = text.Substring(0, i + 1);
+            this.m_ChatboxScroll.verticalNormalizedPosition = 0;
             yield return new WaitForSeconds(this.m_TypingSpeed);
         }
     }
