@@ -1,5 +1,4 @@
-﻿using System;
-using MBT;
+﻿using MBT;
 using ProjectExodus.GameLogic.Common.Health;
 using ProjectExodus.GameLogic.Enumeration;
 using UnityEngine;
@@ -38,6 +37,7 @@ namespace ProjectExodus
         #region - - - - - - Fields - - - - - -
 
         [SerializeField] private Blackboard m_Blackboard;
+        [SerializeField] private bool m_CanPresentPoints;
         
         private float m_CurrentHealth;
         private IntVariable m_CollisionHitCountVariable;
@@ -101,7 +101,14 @@ namespace ProjectExodus
         private void DestroyEnemy(bool oldValue, bool isDead)
         {
             if (!isDead) return;
-            
+
+            EnemyObserver _Observer = EnemyManager.Instance.EnemyObserver;
+            _Observer.OnEnemyDeath.Invoke(new EnemyDeathInfo
+            {
+                CanShowPoints = this.m_CanPresentPoints,
+                Points = 250, // TODO: retrive base points from the Asset info
+                Position = this.transform.position
+            });
             Destroy(this.gameObject);
         }
 

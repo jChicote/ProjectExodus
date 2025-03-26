@@ -1663,6 +1663,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Blackboard: {fileID: 8634351066951394143}
+  m_CanPresentPoints: 1
 --- !u!114 &5063318382616399053
 MonoBehaviour:
   m_ObjectHideFlags: 0

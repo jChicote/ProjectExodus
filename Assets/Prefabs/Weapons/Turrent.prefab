@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_FireRate: 0.1
   m_Temperature: 0
-  m_ReloadPeriod: 3
-  m_AmmoSize: 24
+  m_ReloadPeriod: 1
+  m_AmmoSize: 100
   m_FiringPoint: {fileID: 5125360690596063949}
   m_Projectile: {fileID: 7079179050686402987, guid: 7f6f9b0f9d495f14ba36d9a4ad512a50, type: 3}
