@@ -70,6 +70,12 @@ namespace ProjectExodus.UserInterface.GameplayHUD
         private void SetWeaponCooldownValues(AfterburnCooldownDto cooldown) 
             => this.m_View.UpdateWeaponCooldown(cooldown.CurrentCooldown, cooldown.MaxCooldown);
 
+        private void AddWeaponIndicator(int weaponInstanceID, WeaponType weaponType) 
+            => this.m_View.AddWeaponIndicator(weaponInstanceID);
+
+        private void UpdateIndicator(int id, int currentAmmo, int maxAmmo) 
+            => this.m_View.UpdateIndicator(id, (float)currentAmmo / maxAmmo);
+
         #endregion Weapon Methods
 
         #region - - - - - - Movement Methods - - - - - -
@@ -116,6 +122,21 @@ namespace ProjectExodus.UserInterface.GameplayHUD
             _EventCollection.RegisterEvent(
                 GameplayHUDEvents.UpdateHealth.ToString(),
                 eventObject => this.SetHealthValues(eventObject as HealthDto));
+            
+            _EventCollection.RegisterEvent(
+                GameplayHUDEvents.AddWeaponIndicator.ToString(),
+                weapon =>
+                {
+                    WeaponInfo _Weapon = weapon as WeaponInfo;
+                    this.AddWeaponIndicator(_Weapon.ID, WeaponType.Turrent);
+                });
+            _EventCollection.RegisterEvent(
+                GameplayHUDEvents.AddWeaponIndicator.ToString(),
+                weapon =>
+                {
+                    WeaponInfo _Weapon = weapon as WeaponInfo;
+                    this.UpdateIndicator(_Weapon.ID, _Weapon.CurrentAmmo, _Weapon.MaxAmmo);
+                });
             
             _EventCollection.RegisterEvent(GameplayHUDEvents.ShowHUD.ToString(), this.ShowScreen);
             _EventCollection.RegisterEvent(GameplayHUDEvents.HideHUD.ToString(), this.HideScreen);
@@ -176,5 +197,20 @@ public class HealthDto
     public float CurrentShield { get; set; }
 
     #endregion Properties
+  
+}
+
+public class WeaponInfo
+{
+
+    #region - - - - - - Propertis - - - - - -
+
+    public int ID { get; set; }
+    
+    public int CurrentAmmo { get; set; }
+
+    public int MaxAmmo { get; set; }
+
+    #endregion Propertis
   
 }

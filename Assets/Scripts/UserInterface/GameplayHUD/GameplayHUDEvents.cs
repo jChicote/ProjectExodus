@@ -15,6 +15,8 @@ public class GameplayHUDEvents : SmartEnum
     
     // Weapons
     public static GameplayHUDEvents UpdateCooldown = new("UpdateCooldown", 4);
+    public static GameplayHUDEvents AddWeaponIndicator = new("AddWeaponIndicator", 5);
+    public static GameplayHUDEvents UpdateWeaponIndicator = new("UpdateWeaponIndicator", 6);
     
     // Screen
     public static GameplayHUDEvents ShowHUD = new("ShowGameplayHUD", 00);
