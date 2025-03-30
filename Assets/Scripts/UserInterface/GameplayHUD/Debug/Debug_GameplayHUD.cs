@@ -41,6 +41,7 @@ public class Debug_GameplayHUD : IDebugCommandRegistrater
         _EventMediator.Dispatch(GameplayHUDEvents.AddWeaponIndicator.ToString(), new WeaponInfo
         {
             ID = this.m_TestID,
+            WeaponType = WeaponType.Turrent
         });
     }
 

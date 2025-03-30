@@ -124,7 +124,7 @@ namespace ProjectExodus.UserInterface.GameplayHUD
                 weapon =>
                 {
                     WeaponInfo _Weapon = weapon as WeaponInfo;
-                    this.AddWeaponIndicator(_Weapon.ID, WeaponType.Turrent);
+                    this.AddWeaponIndicator(_Weapon.ID, _Weapon.WeaponType);
                 });
             _EventCollection.RegisterEvent(
                 GameplayHUDEvents.UpdateWeaponIndicator.ToString(),
@@ -207,6 +207,8 @@ public class WeaponInfo
     public int CurrentAmmo { get; set; }
 
     public int MaxAmmo { get; set; }
+    
+    public WeaponType WeaponType { get; set; }
 
     #endregion Propertis
   
