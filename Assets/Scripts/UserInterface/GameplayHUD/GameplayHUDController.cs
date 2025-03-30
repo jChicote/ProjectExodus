@@ -131,7 +131,7 @@ namespace ProjectExodus.UserInterface.GameplayHUD
                     this.AddWeaponIndicator(_Weapon.ID, WeaponType.Turrent);
                 });
             _EventCollection.RegisterEvent(
-                GameplayHUDEvents.AddWeaponIndicator.ToString(),
+                GameplayHUDEvents.UpdateWeaponIndicator.ToString(),
                 weapon =>
                 {
                     WeaponInfo _Weapon = weapon as WeaponInfo;
