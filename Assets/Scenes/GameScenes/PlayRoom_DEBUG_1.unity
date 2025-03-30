@@ -774,6 +774,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8087115176676656756, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
+      propertyPath: m_WeaponAreaGroup
+      value: 
+      objectReference: {fileID: 1849377026}
+    - target: {fileID: 8087115176676656756, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
+      propertyPath: m_WeaponIndicatorPrefab
+      value: 
+      objectReference: {fileID: 7849706392889828918, guid: 1ef0ae4e705ca41f688abe214444f017, type: 3}
     - target: {fileID: 9125139199920498774, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -5055,6 +5063,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1849377027}
     m_Modifications:
+    - target: {fileID: 2517772133899418500, guid: 1ef0ae4e705ca41f688abe214444f017, type: 3}
+      propertyPath: m_WarningFlashCount
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4116153819157159384, guid: 1ef0ae4e705ca41f688abe214444f017, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

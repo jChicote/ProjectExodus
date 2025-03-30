@@ -58,12 +58,6 @@ namespace ProjectExodus.UserInterface.GameplayHUD
 
         #region - - - - - - Weapon Methods - - - - - -
 
-        public void SetDefaultWeaponValues() 
-            => this.m_WeaponCooldownBar.value = 0;
-
-        public void UpdateWeaponCooldown(float currentHeatLevel, float maxHeatLevel) 
-            => this.m_WeaponCooldownBar.value = currentHeatLevel / maxHeatLevel;
-
         public void AddWeaponIndicator(int id)
         {
             WeaponIndicator _NewIndicator = Instantiate(
@@ -71,6 +65,7 @@ namespace ProjectExodus.UserInterface.GameplayHUD
                 this.m_WeaponAreaGroup.transform)
                 .GetComponent<WeaponIndicator>();
             _NewIndicator.ShowIndicator();
+            this.m_WeaponIndicators.Add(id, _NewIndicator);
         }
         
         public void UpdateIndicator(int id, float remainingAmmoDelta)

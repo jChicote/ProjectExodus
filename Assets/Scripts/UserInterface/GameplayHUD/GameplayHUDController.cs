@@ -36,7 +36,6 @@ namespace ProjectExodus.UserInterface.GameplayHUD
             this.BindMethodsToView();
             
             // Temporary: Until the UI is fleshed out and with no parameters. The weapon UI is initialized here.
-            this.m_View.SetDefaultWeaponValues();
             this.m_AfterburnFadeTimer = new EventTimer(2f, Time.deltaTime, this.FadeOutAfterburn, canRun: false);
             
             this.RegisterActionsToMediator();
@@ -67,9 +66,6 @@ namespace ProjectExodus.UserInterface.GameplayHUD
 
         #region - - - - - - Weapon Methods - - - - - -
         
-        private void SetWeaponCooldownValues(AfterburnCooldownDto cooldown) 
-            => this.m_View.UpdateWeaponCooldown(cooldown.CurrentCooldown, cooldown.MaxCooldown);
-
         private void AddWeaponIndicator(int weaponInstanceID, WeaponType weaponType) 
             => this.m_View.AddWeaponIndicator(weaponInstanceID);
 
@@ -106,16 +102,15 @@ namespace ProjectExodus.UserInterface.GameplayHUD
 
         private void RegisterActionsToMediator()
         {
-            // Register Gameplay HUD events
             IUIEventCollection _EventCollection = UserInterfaceManager.Instance.EventCollectionRegistry;
+            
+            // Register movement events
             _EventCollection.RegisterEvent(
                 GameplayHUDEvents.UpdateAfterburn.ToString(), 
                 eventObject => this.SetAfterburnFill(eventObject as AfterburnDto));
             _EventCollection.RegisterEvent(GameplayHUDEvents.FadeOutAfterburn.ToString(), this.FadeOutAfterburn);
-            _EventCollection.RegisterEvent(
-                GameplayHUDEvents.UpdateCooldown.ToString(),
-                eventObject => this.SetWeaponCooldownValues(eventObject as AfterburnCooldownDto));
             
+            // Register health events
             _EventCollection.RegisterEvent(
                 GameplayHUDEvents.SetupHealthHUD.ToString(), 
                 eventObject => this.SetMaxHealthValues(eventObject as HealthDto));
@@ -123,6 +118,7 @@ namespace ProjectExodus.UserInterface.GameplayHUD
                 GameplayHUDEvents.UpdateHealth.ToString(),
                 eventObject => this.SetHealthValues(eventObject as HealthDto));
             
+            // Register weapon events
             _EventCollection.RegisterEvent(
                 GameplayHUDEvents.AddWeaponIndicator.ToString(),
                 weapon =>
@@ -138,6 +134,7 @@ namespace ProjectExodus.UserInterface.GameplayHUD
                     this.UpdateIndicator(_Weapon.ID, _Weapon.CurrentAmmo, _Weapon.MaxAmmo);
                 });
             
+            // Register HUD events
             _EventCollection.RegisterEvent(GameplayHUDEvents.ShowHUD.ToString(), this.ShowScreen);
             _EventCollection.RegisterEvent(GameplayHUDEvents.HideHUD.ToString(), this.HideScreen);
         }
