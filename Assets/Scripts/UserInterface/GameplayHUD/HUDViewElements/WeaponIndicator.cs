@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -44,10 +43,10 @@ public class WeaponIndicator : MonoBehaviour
         for (int i = 0; i < this.m_WarningFlashCount; i++)
         {
             this.m_WarningSign.SetActive(true);
-            yield return new WaitForSeconds(0.8f);
+            yield return new WaitForSeconds(0.2f);
             
             this.m_WarningSign.SetActive(false);
-            yield return new WaitForSeconds(0.8f);
+            yield return new WaitForSeconds(0.2f);
         }
     }
 
