@@ -10,26 +10,23 @@ public class WeaponIndicator : MonoBehaviour
     public Image m_IndicatorIcon;
     public Color m_NormalColor;
     public Color m_DepletedColor;
+
+    public Slider m_AmmoBarSlider;
     
     public GameObject m_WarningSign;
     public int m_WarningFlashCount;
 
     #endregion Fields
 
-    #region - - - - - - Unity Methods - - - - - -
-
-    private void Start()
-    {
-    }
-
-    #endregion Unity Methods
-
     #region - - - - - - Methods - - - - - -]
 
     public void UpdateWeaponState(float delta)
     {
-        Color _Transition = Color.Lerp(this.m_NormalColor, this.m_DepletedColor, delta);
+        Color _Transition = Color.Lerp(this.m_NormalColor, this.m_DepletedColor, 1 - delta);
         this.m_IndicatorIcon.color = _Transition;
+        this.m_AmmoBarSlider.targetGraphic.color = _Transition;
+        
+        this.m_AmmoBarSlider.value = delta;
     }
 
     public void ShowWarning()
