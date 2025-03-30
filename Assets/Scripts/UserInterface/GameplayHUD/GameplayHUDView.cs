@@ -17,8 +17,6 @@ namespace ProjectExodus.UserInterface.GameplayHUD
         [SerializeField] private Slider m_ShieldHealthBar;
 
         [Header("Weapon HUD Elements")]
-        [SerializeField] private Slider m_WeaponCooldownBar;
-
         [SerializeField] private GameObject m_WeaponAreaGroup;
         [SerializeField] private GameObject m_WeaponIndicatorPrefab;
         [SerializeField] private Dictionary<int, WeaponIndicator> m_WeaponIndicators = new();
