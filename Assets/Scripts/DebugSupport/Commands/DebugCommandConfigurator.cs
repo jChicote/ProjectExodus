@@ -40,6 +40,7 @@ public class DebugCommandConfigurator
         new Debug_EnemyLocatorHUD().RegisterCommand(this.m_DebugManager);
         new Debug_PointsGUI().RegisterCommand(this.m_DebugManager);
         new Debug_ChatboxHUD().RegisterCommand(this.m_DebugManager);
+        new Debug_GameplayHUD().RegisterCommand(this.m_DebugManager);
     }
 
     #endregion Methods
