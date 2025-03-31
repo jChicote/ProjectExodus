@@ -54,7 +54,7 @@ namespace ProjectExodus.GameLogic.Player.Weapons
                 _EventMediator.Dispatch(GameplayHUDEvents.AddWeaponIndicator.ToString(), new WeaponInfo
                 {
                     ID = _LoadedWeapon.GetWeaponID(),
-                    WeaponType = _LoadedWeapon.WeaponType
+                    WeaponType = _LoadedWeapon.Type
                 });
             }
         }

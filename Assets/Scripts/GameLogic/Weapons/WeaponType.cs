@@ -17,10 +17,10 @@ public class WeaponType : SmartEnum
 
     #region - - - - - - Methods - - - - - -
 
-    public WeaponType ConvertFromEnum(WeaponTypeEnum weaponType)
+    public static WeaponType ConvertFromEnum(WeaponTypeEnum weaponType)
     {
-        if (weaponType.ToString() == Turrent.ToString())
-            return Turrent;
+        // if (weaponType.ToString() == Turrent.ToString())
+        //     return Turrent;
 
         return Turrent;
     }

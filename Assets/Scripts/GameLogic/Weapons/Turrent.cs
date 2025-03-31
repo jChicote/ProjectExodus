@@ -41,7 +41,7 @@ namespace ProjectExodus.GameLogic.Weapons
 
         #region - - - - - - Properties - - - - - -
 
-        public WeaponType WeaponType => WeaponType.ConvertFromEnum(this.m_WeaponType);
+        public WeaponType Type => WeaponType.ConvertFromEnum(this.m_WeaponType);
 
         #endregion Properties
   

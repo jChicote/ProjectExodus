@@ -8,7 +8,7 @@ namespace ProjectExodus.GameLogic.Weapons
 
         #region - - - - - - Properties - - - - - -
 
-        WeaponType WeaponType { get; }
+        WeaponType Type { get; }
 
         #endregion Properties
   
