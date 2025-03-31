@@ -1,6 +1,7 @@
 using ProjectExodus.Domain.Models;
 using ProjectExodus.GameLogic.Common.Timers;
 using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
+using ProjectExodus.Management.UserInterfaceManager;
 using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Weapons
@@ -12,6 +13,7 @@ namespace ProjectExodus.GameLogic.Weapons
         #region - - - - - - Fields - - - - - -
 
         [Header("Weapon Characteristics")]
+        [SerializeField] private WeaponTypeEnum m_WeaponType;
         [SerializeField] private float m_FireRate;
         [SerializeField] private float m_Temperature;
         [SerializeField] private float m_ReloadPeriod;
@@ -29,11 +31,20 @@ namespace ProjectExodus.GameLogic.Weapons
         private EventTimer m_HeldFireTimer;
         private EventTimer m_ReloadTimer;
         
+        // Dependency Fields
+        private IUIEventMediator m_UIEventMediator;
+        
         // Temporary
         private int m_AssignedBayID = 999;
 
         #endregion Fields
 
+        #region - - - - - - Properties - - - - - -
+
+        public WeaponType WeaponType => WeaponType.ConvertFromEnum(this.m_WeaponType);
+
+        #endregion Properties
+  
         #region - - - - - - Unity Lifecycle Methods - - - - - -
 
         private void Start()
@@ -41,6 +52,8 @@ namespace ProjectExodus.GameLogic.Weapons
             this.m_HeldFireTimer = new EventTimer(this.m_FireRate, Time.deltaTime, this.FireWeapons);
             this.m_FirstShotTimer = new EventTimer(this.m_FireRate, Time.deltaTime, this.ResetFirstRoundFire);
             this.m_ReloadTimer = new EventTimer(this.m_ReloadPeriod, Time.deltaTime, this.ReloadWeapon);
+
+            this.m_UIEventMediator = UserInterfaceManager.Instance.EventMediator;
         }
         
         private void Update()
@@ -69,6 +82,9 @@ namespace ProjectExodus.GameLogic.Weapons
             this.m_AmmoRemaining = this.m_AmmoSize;
         }
 
+        int IWeapon.GetWeaponID()
+            => this.gameObject.GetInstanceID();
+
         void IWeapon.ToggleWeaponFire(bool isFiring)
         {
             this.m_IsFiring = isFiring;
@@ -95,6 +111,16 @@ namespace ProjectExodus.GameLogic.Weapons
 
             if (this.m_AmmoRemaining <= 0)
                 this.m_IsReloading = true;
+            
+            this.m_UIEventMediator.Dispatch(
+                GameplayHUDEvents.UpdateWeaponIndicator.ToString(),
+                new WeaponInfo
+                {
+                    ID = this.gameObject.GetInstanceID(),
+                    CurrentAmmo = this.m_AmmoRemaining,
+                    MaxAmmo = this.m_AmmoSize,
+                    WeaponType = WeaponType.Turrent
+                });
         }
 
         private void ReloadWeapon()

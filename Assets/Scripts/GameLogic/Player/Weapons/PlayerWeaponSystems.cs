@@ -5,6 +5,7 @@ using ProjectExodus.GameLogic.Infrastructure.Providers;
 using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
 using ProjectExodus.GameLogic.Weapons;
 using ProjectExodus.GameLogic.Weapons.WeaponBays;
+using ProjectExodus.Management.UserInterfaceManager;
 using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Player.Weapons
@@ -27,7 +28,9 @@ namespace ProjectExodus.GameLogic.Player.Weapons
 
         #region - - - - - - Methods - - - - - -
 
-        void IPlayerWeaponSystems.InitialiseWeaponSystems(IWeaponAssetProvider weaponAssetProvider, List<WeaponModel> weapons)
+        void IPlayerWeaponSystems.InitialiseWeaponSystems(
+            IWeaponAssetProvider weaponAssetProvider, 
+            List<WeaponModel> weapons)
         {
             // Allocate weapons to weapon bays
             foreach (WeaponModel _WeaponModel in weapons)
@@ -46,6 +49,13 @@ namespace ProjectExodus.GameLogic.Player.Weapons
                 IWeapon _LoadedWeapon = _WeaponBay.GetAttachedWeapon();
                 _LoadedWeapon.InitializeWeapon(_WeaponModel);
                 this.m_Weapons.Add(_LoadedWeapon);
+
+                IUIEventMediator _EventMediator = UserInterfaceManager.Instance.EventMediator;
+                _EventMediator.Dispatch(GameplayHUDEvents.AddWeaponIndicator.ToString(), new WeaponInfo
+                {
+                    ID = _LoadedWeapon.GetWeaponID(),
+                    WeaponType = _LoadedWeapon.WeaponType
+                });
             }
         }
 

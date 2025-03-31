@@ -14,5 +14,25 @@ public class WeaponType : SmartEnum
     public WeaponType(string name, int value) : base(name, value) { }
 
     #endregion Constructors
+
+    #region - - - - - - Methods - - - - - -
+
+    public WeaponType ConvertFromEnum(WeaponTypeEnum weaponType)
+    {
+        if (weaponType.ToString() == Turrent.ToString())
+            return Turrent;
+
+        return Turrent;
+    }
+
+    #endregion Methods
   
+}
+
+/// <summary>
+/// Enum intended for use in inspector
+/// </summary>
+public enum WeaponTypeEnum
+{
+    Turrent
 }
