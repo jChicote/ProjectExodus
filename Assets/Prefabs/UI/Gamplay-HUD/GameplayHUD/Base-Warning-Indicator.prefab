@@ -402,6 +402,7 @@ MonoBehaviour:
   m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
   m_DepletedColor: {r: 1, g: 0, b: 0, a: 1}
   m_AmmoBarSlider: {fileID: 401529207895958798}
+  m_Background: {fileID: 4543887069572204636}
   m_WarningSign: {fileID: 2475643665734129412}
   m_WarningFlashCount: 8
 --- !u!114 &4002990677197391877

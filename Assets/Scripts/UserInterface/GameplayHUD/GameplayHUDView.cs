@@ -73,6 +73,8 @@ namespace ProjectExodus.UserInterface.GameplayHUD
             
             if (remainingAmmoDelta == 0)
                 this.m_WeaponIndicators[id].ShowWarning();
+            else if (remainingAmmoDelta > 0)
+                this.m_WeaponIndicators[id].HideWarning();
         }
 
         #endregion Weapon Methods
