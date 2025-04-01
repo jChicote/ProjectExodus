@@ -21,7 +21,7 @@ public class PointsSystem : MonoBehaviour
         // TODO: Change to use interface
         EnemyObserver _Observer = EnemyManager.Instance.EnemyObserver;
         _Observer.OnEnemyDeath.AddListener(deathInfo =>
-            this.AddPoints(deathInfo.Points, deathInfo.CanShowPoints, deathInfo.Position));
+            this.AddPoints(deathInfo.Points, deathInfo.CanAddPoints, deathInfo.CanShowPoints, deathInfo.Position));
 
         this.m_UIEventMediator = UserInterfaceManager.Instance.EventMediator
             ?? throw new NullReferenceException( nameof(UserInterfaceManager.Instance.EventMediator));
@@ -31,8 +31,10 @@ public class PointsSystem : MonoBehaviour
 
     #region - - - - - - Methods - - - - - -
 
-    private void AddPoints(int points, bool canShowPoints, Vector2 presentationPosition)
+    private void AddPoints(int points, bool canAddPoints, bool canShowPoints, Vector2 presentationPosition)
     {
+        if (!canAddPoints) return;
+        
         if (canShowPoints)
         {
             this.m_UIEventMediator.Dispatch(PointsGUIConstants.AddPoints, new PointsInfo

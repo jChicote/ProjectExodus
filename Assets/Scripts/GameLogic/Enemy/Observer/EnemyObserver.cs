@@ -24,12 +24,14 @@ public class EnemyDeathInfo
 
     #region - - - - - - Properties - - - - - -
     
+    public bool CanAddPoints { get; set; }
+    
     public bool CanShowPoints { get; set; }
 
     public int Points { get; set; }
     
     public Vector2 Position { get; set; }
-
+    
     #endregion Properties
   
 }
