@@ -46,10 +46,11 @@ namespace ProjectExodus.GameLogic.Player.Weapons
                 
                 _WeaponBay.LoadWeaponToBay(weaponAssetProvider.Provide(_WeaponModel.AssetID).Asset);
 
-                IWeapon _LoadedWeapon = _WeaponBay.GetAttachedWeapon();
+                IPlayerWeapon _LoadedWeapon = _WeaponBay.GetAttachedWeapon();
                 _LoadedWeapon.InitializeWeapon(_WeaponModel);
                 this.m_Weapons.Add(_LoadedWeapon);
-
+                
+                // Add weapon indicators
                 IUIEventMediator _EventMediator = UserInterfaceManager.Instance.EventMediator;
                 _EventMediator.Dispatch(GameplayHUDEvents.AddWeaponIndicator.ToString(), new WeaponInfo
                 {

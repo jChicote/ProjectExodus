@@ -6,12 +6,6 @@ namespace ProjectExodus.GameLogic.Weapons
     public interface IWeapon
     {
 
-        #region - - - - - - Properties - - - - - -
-
-        WeaponType Type { get; }
-
-        #endregion Properties
-  
         #region - - - - - - Methods - - - - - -
 
         void InitializeWeapon(WeaponModel weaponModel);

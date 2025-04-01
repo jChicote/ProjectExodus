@@ -7,7 +7,7 @@ using UnityEngine;
 namespace ProjectExodus.GameLogic.Weapons
 {
 
-    public class Turrent : PausableMonoBehavior, IWeapon
+    public class Turrent : PausableMonoBehavior, IPlayerWeapon
     {
 
         #region - - - - - - Fields - - - - - -
@@ -49,7 +49,7 @@ namespace ProjectExodus.GameLogic.Weapons
 
         private void Start()
         {
-            this.m_HeldFireTimer = new EventTimer(this.m_FireRate, Time.deltaTime, this.FireWeapons);
+            this.m_HeldFireTimer = new EventTimer(this.m_FireRate, Time.deltaTime, this.FireWeapon);
             this.m_FirstShotTimer = new EventTimer(this.m_FireRate, Time.deltaTime, this.ResetFirstRoundFire);
             this.m_ReloadTimer = new EventTimer(this.m_ReloadPeriod, Time.deltaTime, this.ReloadWeapon);
 
@@ -91,16 +91,16 @@ namespace ProjectExodus.GameLogic.Weapons
             this.FireFirstShot();
         }
 
-        private void FireFirstShot()
+        protected void FireFirstShot()
         {
             if (this.m_IsFiringFirstShot) return;
             
-            this.FireWeapons();
+            this.FireWeapon();
             this.m_IsFiringFirstShot = true;
             this.m_HeldFireTimer.ResetTimer();
         }
 
-        private void FireWeapons()
+        private void FireWeapon()
         {
             if (!this.m_IsFiring || this.m_IsReloading) return;
             

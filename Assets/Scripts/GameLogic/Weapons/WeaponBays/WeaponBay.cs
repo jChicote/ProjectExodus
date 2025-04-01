@@ -11,7 +11,7 @@ namespace ProjectExodus.GameLogic.Weapons.WeaponBays
 
         public int Identifier;
         
-        private IWeapon m_AttachedWeapon;
+        private IPlayerWeapon m_AttachedWeapon;
 
         #endregion Fields
 
@@ -21,10 +21,10 @@ namespace ProjectExodus.GameLogic.Weapons.WeaponBays
         {
             GameObject _SpawnedWeapon = Instantiate(weaponPrefab, this.transform);
             _SpawnedWeapon.layer = GameLayer.Player;
-            this.m_AttachedWeapon = _SpawnedWeapon.GetComponent<IWeapon>();
+            this.m_AttachedWeapon = _SpawnedWeapon.GetComponent<IPlayerWeapon>();
         }
 
-        public IWeapon GetAttachedWeapon() 
+        public IPlayerWeapon GetAttachedWeapon() 
             => this.m_AttachedWeapon;
 
         #endregion Methods
