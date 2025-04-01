@@ -6,6 +6,7 @@ using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.UserInterface.Controllers;
 using UnityEngine;
+using SceneManager = ProjectExodus.Management.SceneManager.SceneManager;
 
 namespace ProjectExodus.UserInterface.GameplayHUD
 {
@@ -72,6 +73,9 @@ namespace ProjectExodus.UserInterface.GameplayHUD
         private void UpdateIndicator(int id, int currentAmmo, int maxAmmo) 
             => this.m_View.UpdateIndicator(id, (float)currentAmmo / maxAmmo);
 
+        private void RemoveWeaponIndicators()
+            => this.m_View.RemoveIndicator();
+
         #endregion Weapon Methods
 
         #region - - - - - - Movement Methods - - - - - -
@@ -103,6 +107,7 @@ namespace ProjectExodus.UserInterface.GameplayHUD
         private void RegisterActionsToMediator()
         {
             IUIEventCollection _EventCollection = UserInterfaceManager.Instance.EventCollectionRegistry;
+            IPlayerObserver _PlayerObserver = SceneManager.Instance.SceneController.PlayerObserver;
             
             // Register movement events
             _EventCollection.RegisterEvent(
@@ -133,6 +138,7 @@ namespace ProjectExodus.UserInterface.GameplayHUD
                     WeaponInfo _Weapon = weapon as WeaponInfo;
                     this.UpdateIndicator(_Weapon.ID, _Weapon.CurrentAmmo, _Weapon.MaxAmmo);
                 });
+            _PlayerObserver.OnPlayerDeath.AddListener(this.RemoveWeaponIndicators);
             
             // Register HUD events
             _EventCollection.RegisterEvent(GameplayHUDEvents.ShowHUD.ToString(), this.ShowScreen);
@@ -162,19 +168,6 @@ public class AfterburnDto
     public float CurrentFill { get; set; }
     
     public float MaxFill { get; set; }
-
-    #endregion Properties
-  
-}
-
-public class AfterburnCooldownDto
-{
-
-    #region - - - - - - Properties - - - - - -
-
-    public float CurrentCooldown { get; set; }
-
-    public float MaxCooldown { get; set; }
 
     #endregion Properties
   

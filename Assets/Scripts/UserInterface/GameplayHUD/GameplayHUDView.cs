@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -75,6 +76,15 @@ namespace ProjectExodus.UserInterface.GameplayHUD
                 this.m_WeaponIndicators[id].ShowWarning();
             else if (remainingAmmoDelta > 0)
                 this.m_WeaponIndicators[id].HideWarning();
+        }
+
+        public void RemoveIndicator()
+        {
+            WeaponIndicator[] _Indicators = this.m_WeaponIndicators.Select(wi => wi.Value).ToArray();
+            foreach (WeaponIndicator _Indicator in _Indicators)
+                Destroy(_Indicator.gameObject);
+            
+            this.m_WeaponIndicators.Clear();
         }
 
         #endregion Weapon Methods
