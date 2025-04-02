@@ -14,7 +14,7 @@ namespace GameLogic.SetupHandlers.SceneHandlers
 
         private ISetupHandler m_NextHandler;
 
-        public List<ZetoEnemySpawner> EnemySpawners;
+        public List<ZetoEnemySpawner_Old> EnemySpawners;
         public PlayerProvider PlayerProvider;
 
         #endregion Fields
@@ -26,7 +26,7 @@ namespace GameLogic.SetupHandlers.SceneHandlers
 
         void ISetupHandler.Handle(SceneSetupInitializationContext initializationContext)
         {
-            foreach (ZetoEnemySpawner _EnemySpawner in this.EnemySpawners)
+            foreach (ZetoEnemySpawner_Old _EnemySpawner in this.EnemySpawners)
                 _EnemySpawner.Initialize(new() { PlayerProvider = PlayerProvider });
             
             initializationContext.LoadingScreenController.UpdateLoadProgress(80f);
