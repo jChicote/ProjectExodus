@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ProjectExodus
 {
@@ -13,6 +14,8 @@ namespace ProjectExodus
         [RequiredField] 
         [SerializeField] 
         public EnemySettings EnemySettings;
+
+        public EnemyObserver EnemyObserver;
 
         #endregion Fields
 

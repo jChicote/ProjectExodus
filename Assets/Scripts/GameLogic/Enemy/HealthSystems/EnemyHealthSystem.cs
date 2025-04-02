@@ -1,5 +1,4 @@
-﻿using System;
-using MBT;
+﻿using MBT;
 using ProjectExodus.GameLogic.Common.Health;
 using ProjectExodus.GameLogic.Enumeration;
 using UnityEngine;
@@ -38,11 +37,14 @@ namespace ProjectExodus
         #region - - - - - - Fields - - - - - -
 
         [SerializeField] private Blackboard m_Blackboard;
+        [SerializeField] private bool m_CanPresentPoints;
         
         private float m_CurrentHealth;
         private IntVariable m_CollisionHitCountVariable;
         private FloatVariable m_HealthVariable;
         private BoolVariable m_IsDeadVariable;
+
+        private string m_LastCollidedObject;
 
         #endregion Fields
 
@@ -79,6 +81,7 @@ namespace ProjectExodus
 
         private void OnCollisionEnter2D(Collision2D other)
         {
+            this.m_LastCollidedObject = other.gameObject.tag;
             if (other.gameObject.tag == GameTag.Player)
             {
                 IDamageable _DamageablePlayer = other.gameObject.GetComponent<IDamageable>();
@@ -101,7 +104,17 @@ namespace ProjectExodus
         private void DestroyEnemy(bool oldValue, bool isDead)
         {
             if (!isDead) return;
-            
+
+            bool _CanAddPoints = this.m_LastCollidedObject == GameTag.Player ||
+                                 this.m_LastCollidedObject == GameTag.Projectile;
+            EnemyObserver _Observer = EnemyManager.Instance.EnemyObserver;
+            _Observer.OnEnemyDeath.Invoke(new EnemyDeathInfo
+            {
+                CanAddPoints = _CanAddPoints,
+                CanShowPoints = this.m_CanPresentPoints && _CanAddPoints,
+                Points = 250, // TODO: retrive base points from the Asset info
+                Position = this.transform.position
+            });
             Destroy(this.gameObject);
         }
 

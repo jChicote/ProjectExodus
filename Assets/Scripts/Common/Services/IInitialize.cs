@@ -12,6 +12,10 @@
 
     }
 
+    /// <summary>
+    /// Custom initializer that is managed by the custom setup logic
+    /// </summary>
+    /// <remarks>This is not a replacement for Unity's 'Awake' method</remarks>
     public interface IInitialize
     {
 

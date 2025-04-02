@@ -1,3 +1,4 @@
+using ProjectExodus;
 using ProjectExodus.Management.SceneManager;
 using ProjectExodus.Utility.GameLogging;
 using UnityEngine;
@@ -37,6 +38,7 @@ namespace GameLogic.SetupHandlers.SceneHandlers
             SceneSetupInitializationContext initializationContext)
         {
             SceneManager.Instance.PlayerObserver = initializationContext.PlayerObserver;
+            EnemyManager.Instance.EnemyObserver = initializationContext.EnemyObserver;
         }
 
         #endregion Methods

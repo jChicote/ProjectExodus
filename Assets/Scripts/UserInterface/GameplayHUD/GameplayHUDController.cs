@@ -6,6 +6,7 @@ using ProjectExodus.Management.Enumeration;
 using ProjectExodus.Management.UserInterfaceManager;
 using ProjectExodus.UserInterface.Controllers;
 using UnityEngine;
+using SceneManager = ProjectExodus.Management.SceneManager.SceneManager;
 
 namespace ProjectExodus.UserInterface.GameplayHUD
 {
@@ -36,7 +37,6 @@ namespace ProjectExodus.UserInterface.GameplayHUD
             this.BindMethodsToView();
             
             // Temporary: Until the UI is fleshed out and with no parameters. The weapon UI is initialized here.
-            this.m_View.SetDefaultWeaponValues();
             this.m_AfterburnFadeTimer = new EventTimer(2f, Time.deltaTime, this.FadeOutAfterburn, canRun: false);
             
             this.RegisterActionsToMediator();
@@ -67,8 +67,14 @@ namespace ProjectExodus.UserInterface.GameplayHUD
 
         #region - - - - - - Weapon Methods - - - - - -
         
-        private void SetWeaponCooldownValues(AfterburnCooldownDto cooldown) 
-            => this.m_View.UpdateWeaponCooldown(cooldown.CurrentCooldown, cooldown.MaxCooldown);
+        private void AddWeaponIndicator(int weaponInstanceID, WeaponType weaponType) 
+            => this.m_View.AddWeaponIndicator(weaponInstanceID);
+
+        private void UpdateIndicator(int id, int currentAmmo, int maxAmmo) 
+            => this.m_View.UpdateIndicator(id, (float)currentAmmo / maxAmmo);
+
+        private void RemoveWeaponIndicators()
+            => this.m_View.RemoveIndicator();
 
         #endregion Weapon Methods
 
@@ -100,16 +106,16 @@ namespace ProjectExodus.UserInterface.GameplayHUD
 
         private void RegisterActionsToMediator()
         {
-            // Register Gameplay HUD events
             IUIEventCollection _EventCollection = UserInterfaceManager.Instance.EventCollectionRegistry;
+            IPlayerObserver _PlayerObserver = SceneManager.Instance.SceneController.PlayerObserver;
+            
+            // Register movement events
             _EventCollection.RegisterEvent(
                 GameplayHUDEvents.UpdateAfterburn.ToString(), 
                 eventObject => this.SetAfterburnFill(eventObject as AfterburnDto));
             _EventCollection.RegisterEvent(GameplayHUDEvents.FadeOutAfterburn.ToString(), this.FadeOutAfterburn);
-            _EventCollection.RegisterEvent(
-                GameplayHUDEvents.UpdateCooldown.ToString(),
-                eventObject => this.SetWeaponCooldownValues(eventObject as AfterburnCooldownDto));
             
+            // Register health events
             _EventCollection.RegisterEvent(
                 GameplayHUDEvents.SetupHealthHUD.ToString(), 
                 eventObject => this.SetMaxHealthValues(eventObject as HealthDto));
@@ -117,6 +123,24 @@ namespace ProjectExodus.UserInterface.GameplayHUD
                 GameplayHUDEvents.UpdateHealth.ToString(),
                 eventObject => this.SetHealthValues(eventObject as HealthDto));
             
+            // Register weapon events
+            _EventCollection.RegisterEvent(
+                GameplayHUDEvents.AddWeaponIndicator.ToString(),
+                weapon =>
+                {
+                    WeaponInfo _Weapon = weapon as WeaponInfo;
+                    this.AddWeaponIndicator(_Weapon.ID, _Weapon.WeaponType);
+                });
+            _EventCollection.RegisterEvent(
+                GameplayHUDEvents.UpdateWeaponIndicator.ToString(),
+                weapon =>
+                {
+                    WeaponInfo _Weapon = weapon as WeaponInfo;
+                    this.UpdateIndicator(_Weapon.ID, _Weapon.CurrentAmmo, _Weapon.MaxAmmo);
+                });
+            _PlayerObserver.OnPlayerDeath.AddListener(this.RemoveWeaponIndicators);
+            
+            // Register HUD events
             _EventCollection.RegisterEvent(GameplayHUDEvents.ShowHUD.ToString(), this.ShowScreen);
             _EventCollection.RegisterEvent(GameplayHUDEvents.HideHUD.ToString(), this.HideScreen);
         }
@@ -149,19 +173,6 @@ public class AfterburnDto
   
 }
 
-public class AfterburnCooldownDto
-{
-
-    #region - - - - - - Properties - - - - - -
-
-    public float CurrentCooldown { get; set; }
-
-    public float MaxCooldown { get; set; }
-
-    #endregion Properties
-  
-}
-
 public class HealthDto
 {
 
@@ -176,5 +187,22 @@ public class HealthDto
     public float CurrentShield { get; set; }
 
     #endregion Properties
+  
+}
+
+public class WeaponInfo
+{
+
+    #region - - - - - - Propertis - - - - - -
+
+    public int ID { get; set; }
+    
+    public int CurrentAmmo { get; set; }
+
+    public int MaxAmmo { get; set; }
+    
+    public WeaponType WeaponType { get; set; }
+
+    #endregion Propertis
   
 }

@@ -10,6 +10,8 @@ namespace ProjectExodus.GameLogic.Weapons
 
         void InitializeWeapon(WeaponModel weaponModel);
 
+        int GetWeaponID();
+
         void ToggleWeaponFire(bool isFiring);
 
         #endregion Methods

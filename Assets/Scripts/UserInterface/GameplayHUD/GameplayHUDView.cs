@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace ProjectExodus.UserInterface.GameplayHUD
@@ -16,8 +18,10 @@ namespace ProjectExodus.UserInterface.GameplayHUD
         [SerializeField] private Slider m_ShieldHealthBar;
 
         [Header("Weapon HUD Elements")]
-        [SerializeField] private Slider m_WeaponCooldownBar;
-
+        [SerializeField] private GameObject m_WeaponAreaGroup;
+        [SerializeField] private GameObject m_WeaponIndicatorPrefab;
+        [SerializeField] private Dictionary<int, WeaponIndicator> m_WeaponIndicators = new();
+        
         [Header("Movement HUD Elements")]
         [SerializeField] private FadableSlider m_AfterburnFillBar;
         
@@ -53,11 +57,35 @@ namespace ProjectExodus.UserInterface.GameplayHUD
 
         #region - - - - - - Weapon Methods - - - - - -
 
-        public void SetDefaultWeaponValues() 
-            => this.m_WeaponCooldownBar.value = 0;
+        public void AddWeaponIndicator(int id)
+        {
+            WeaponIndicator _NewIndicator = Instantiate(
+                this.m_WeaponIndicatorPrefab, 
+                this.m_WeaponAreaGroup.transform)
+                .GetComponent<WeaponIndicator>();
+            _NewIndicator.ShowIndicator();
+            this.m_WeaponIndicators.Add(id, _NewIndicator);
+        }
+        
+        public void UpdateIndicator(int id, float remainingAmmoDelta)
+        {
+            this.m_WeaponIndicators[id].ShowIndicator();
+            this.m_WeaponIndicators[id].UpdateWeaponState(remainingAmmoDelta);
+            
+            if (remainingAmmoDelta == 0)
+                this.m_WeaponIndicators[id].ShowWarning();
+            else if (remainingAmmoDelta > 0)
+                this.m_WeaponIndicators[id].HideWarning();
+        }
 
-        public void UpdateWeaponCooldown(float currentHeatLevel, float maxHeatLevel) 
-            => this.m_WeaponCooldownBar.value = currentHeatLevel / maxHeatLevel;
+        public void RemoveIndicator()
+        {
+            WeaponIndicator[] _Indicators = this.m_WeaponIndicators.Select(wi => wi.Value).ToArray();
+            foreach (WeaponIndicator _Indicator in _Indicators)
+                Destroy(_Indicator.gameObject);
+            
+            this.m_WeaponIndicators.Clear();
+        }
 
         #endregion Weapon Methods
 
