@@ -2,6 +2,7 @@
 using ProjectExodus.Common.Services;
 using ProjectExodus.GameLogic.Common.Timers;
 using ProjectExodus.GameLogic.Enumeration;
+using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
 using ProjectExodus.GameLogic.Player.PlayerProvider;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -9,7 +10,7 @@ using Random = UnityEngine.Random;
 namespace ProjectExodus
 {
 
-    public class ZetoEnemySpawner : BaseEnemySpawner, IInitialize<ZetoEnemySpawnerInitializerData>
+    public class ZetoEnemySpawner : PausableMonoBehavior, IInitialize<ZetoEnemySpawnerInitializerData>
     {
 
         #region - - - - - - Fields - - - - - -
