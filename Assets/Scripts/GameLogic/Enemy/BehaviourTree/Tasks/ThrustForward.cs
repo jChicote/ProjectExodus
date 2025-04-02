@@ -26,7 +26,6 @@ namespace ProjectExodus
             if (this.m_SourceTransform.Value == null) return NodeResult.failure;
 
             this.m_SourceTransform.Value.position += this.m_SourceTransform.Value.up * this.m_TraversalSpeed * Time.deltaTime;
-            Debug.Log("Is running");
             return NodeResult.success;
         }
         
