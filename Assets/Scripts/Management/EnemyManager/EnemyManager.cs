@@ -11,14 +11,17 @@ namespace ProjectExodus
 
         public static EnemyManager Instance;
 
-        [RequiredField] 
-        [SerializeField] 
-        public EnemySettings EnemySettings;
-
+        [RequiredField, SerializeField] public EnemySettings EnemySettings;
         public EnemyObserver EnemyObserver;
 
         #endregion Fields
 
+        #region - - - - - - Properties - - - - - -
+
+        public IEnemySpawner EnemySpawner { get; set; }
+
+        #endregion Properties
+        
         #region - - - - - - Unity Methods - - - - - -
 
         private void Awake()

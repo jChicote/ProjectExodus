@@ -1,7 +1,7 @@
 ﻿using ProjectExodus;
 using UnityEngine;
 
-public class EnemySpawnerController : MonoBehaviour
+public class EnemySpawnerController : MonoBehaviour, IEnemySpawner
 {
 
     #region - - - - - - Fields - - - - - -
