@@ -6,9 +6,8 @@ public class EnemySpawnerController : MonoBehaviour
 
     #region - - - - - - Fields - - - - - -
 
-    public SpawnerDifficultyMultiplier m_SpawnerDifficulty;
-
-    [Header("Spawner Fields")] public ZetoEnemySpawner m_PawnSpawner;
+    [Header("Spawner Fields")] 
+    public ZetoEnemySpawner m_PawnSpawner;
     public ZetoEnemySpawner m_FighterSpawner;
     public ZetoEnemySpawner m_DroneSpawner;
     public ZetoEnemySpawner m_KnightSpawner;

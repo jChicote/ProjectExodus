@@ -57,3 +57,23 @@ MonoBehaviour:
     TurnSpeed: 0
     AttackDamage: 10
     TrackingDistance: 999
+  SpawnerDifficulty:
+    Easy: 1
+    Normal: 5
+    Hard: 10
+  PawnSpawnerInfo:
+    SpawnRatio: 0.5
+    MinDeviation: 0.2
+    MaxDeviation: 0.2
+  FighterSpawnerInfo:
+    SpawnRatio: 0.3
+    MinDeviation: 0.2
+    MaxDeviation: 0.2
+  DroneSpawnerInfo:
+    SpawnRatio: 0.5
+    MinDeviation: 0.2
+    MaxDeviation: 0.2
+  KnightSpawnerInfo:
+    SpawnRatio: 0.1
+    MinDeviation: 0.2
+    MaxDeviation: 0.2

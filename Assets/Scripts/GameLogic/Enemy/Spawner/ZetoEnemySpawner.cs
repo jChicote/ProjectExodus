@@ -9,7 +9,6 @@ public class ZetoEnemySpawner : MonoBehaviour, IInitialize<ZetoSpawnerInitialize
     #region - - - - - - Fields - - - - - -
 
     [SerializeField] private GameObject m_EnemyTemplate;
-    [SerializeField] private Transform m_SpawnPoint;
     private float m_DifficultyMultiplier;
     private SpawnerInfo m_SpawnerInfo;
     
