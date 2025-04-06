@@ -47,6 +47,7 @@ public class EnemySpawnerController : MonoBehaviour, IEnemySpawner
 
     public void Spawn(SpawnerRequest spawnRequest, EnemySpawnFilter spawnFilter)
     {
+        Debug.Log((spawnFilter & EnemySpawnFilter.Pawn) == EnemySpawnFilter.Pawn);
         if ((spawnFilter & EnemySpawnFilter.Pawn) == EnemySpawnFilter.Pawn)
             this.m_PawnSpawner.SpawnEnemies(spawnRequest);
         if ((spawnFilter & EnemySpawnFilter.Fighter) == EnemySpawnFilter.Fighter)
