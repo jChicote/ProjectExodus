@@ -1,5 +1,6 @@
 ﻿using ProjectExodus;
 using UnityEngine;
+using SceneManager = ProjectExodus.Management.SceneManager.SceneManager;
 
 public class EnemySpawnerController : MonoBehaviour, IEnemySpawner
 {
@@ -19,25 +20,33 @@ public class EnemySpawnerController : MonoBehaviour, IEnemySpawner
     private void Start()
     {
         EnemySettings _EnemySettings = EnemyManager.Instance.EnemySettings;
+        SceneDifficulty _Difficulty = SceneManager.Instance.SceneController.Difficulty;
+        float _DifficultyMultiplier = _EnemySettings.SpawnerDifficulty.Normal;
+
+        if (_Difficulty == SceneDifficulty.Easy)
+            _DifficultyMultiplier = _EnemySettings.SpawnerDifficulty.Easy;
+        else if (_Difficulty == SceneDifficulty.Hard)
+            _DifficultyMultiplier = _EnemySettings.SpawnerDifficulty.Hard;
+        
         this.m_PawnSpawner.Initialize(new()
         {
             Info = _EnemySettings.PawnSpawnerInfo, 
-            DifficultyMultiplier = _EnemySettings.SpawnerDifficulty.Normal //TODO: Change this to be set externally
+            DifficultyMultiplier = _DifficultyMultiplier
         });
         this.m_FighterSpawner.Initialize(new()
         {
             Info = _EnemySettings.FighterSpawnerInfo, 
-            DifficultyMultiplier = _EnemySettings.SpawnerDifficulty.Normal //TODO: Change this to be set externally
+            DifficultyMultiplier = _DifficultyMultiplier
         });
         this.m_DroneSpawner.Initialize(new()
         {
             Info = _EnemySettings.DroneSpawnerInfo, 
-            DifficultyMultiplier = _EnemySettings.SpawnerDifficulty.Normal //TODO: Change this to be set externally
+            DifficultyMultiplier = _DifficultyMultiplier
         });
         this.m_KnightSpawner.Initialize(new()
         {
             Info = _EnemySettings.KnightSpawnerInfo, 
-            DifficultyMultiplier = _EnemySettings.SpawnerDifficulty.Normal //TODO: Change this to be set externally
+            DifficultyMultiplier = _DifficultyMultiplier
         });
     }
 
@@ -47,7 +56,6 @@ public class EnemySpawnerController : MonoBehaviour, IEnemySpawner
 
     public void Spawn(SpawnerRequest spawnRequest, EnemySpawnFilter spawnFilter)
     {
-        Debug.Log((spawnFilter & EnemySpawnFilter.Pawn) == EnemySpawnFilter.Pawn);
         if ((spawnFilter & EnemySpawnFilter.Pawn) == EnemySpawnFilter.Pawn)
             this.m_PawnSpawner.SpawnEnemies(spawnRequest);
         if ((spawnFilter & EnemySpawnFilter.Fighter) == EnemySpawnFilter.Fighter)
