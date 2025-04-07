@@ -10,46 +10,22 @@ public class Debug_EnemySpawnerController : IDebugCommandRegistrater
 
     public void RegisterCommand(IDebugCommandSystem debugCommandSystem)
     {
-        DebugCommand _SpawnSmallEasyGroup = new DebugCommand(
-            "spawn_smalleasygroup",
-            "Spawn small EASY enemy group",
-            "spawn_smalleasygroup",
-            this.SpawnSmallEasyGroup);
-        DebugCommand _SpawnSmallNormalGroup = new DebugCommand(
-            "spawn_smallnormalgroup",
-            "Spawn small NORMAL enemy group",
-            "spawn_smallnormalgroup",
-            this.SpawnSmallNormalGroup);
-        DebugCommand _SpawnSmallHardGroup = new DebugCommand(
-            "spawn_smallhardgroup",
-            "Spawn small HARD enemy group",
-            "spawn_smallhardgroup",
-            this.SpawnSmallHardGroup);
-        DebugCommand _SpawnLargeEasyGroup = new DebugCommand(
-            "spawn_largeeasygroup",
-            "Spawn small EASY enemy group",
-            "spawn_largeeasygroup",
-            this.SpawnLargeEasyGroup);
-        DebugCommand _SpawnLargeNormalGroup = new DebugCommand(
-            "spawn_largenormalgroup",
-            "Spawn small NORMAL enemy group",
-            "spawn_largenormalgroup",
-            this.SpawnLargeNormalGroup);
-        DebugCommand _SpawnLargeHardGroup = new DebugCommand(
-            "spawn_largehardgroup",
-            "Spawn small HARD enemy group",
-            "spawn_largehardgroup",
-            this.SpawnLargeHardGroup);
+        DebugCommand _SpawnSmallGroup = new DebugCommand(
+            "spawn_smallgroup",
+            "Spawn SMALL enemy group",
+            "spawn_smallgroup",
+            this.SpawnSmallGroup);
+        DebugCommand _SpawnLargeGroup = new DebugCommand(
+            "spawn_largegroup",
+            "Spawn LARGE enemy group",
+            "spawn_largegroup",
+            this.SpawnLargeGroup);
             
-        debugCommandSystem.RegisterCommand(_SpawnSmallEasyGroup);
-        debugCommandSystem.RegisterCommand(_SpawnSmallNormalGroup);
-        debugCommandSystem.RegisterCommand(_SpawnSmallHardGroup);
-        debugCommandSystem.RegisterCommand(_SpawnLargeEasyGroup);
-        debugCommandSystem.RegisterCommand(_SpawnLargeNormalGroup);
-        debugCommandSystem.RegisterCommand(_SpawnLargeHardGroup);
+        debugCommandSystem.RegisterCommand(_SpawnSmallGroup);
+        debugCommandSystem.RegisterCommand(_SpawnLargeGroup);
     }
 
-    private void SpawnSmallEasyGroup()
+    private void SpawnSmallGroup()
     {
         Vector2 _SpawnCenterPosition = this.GenerateRandomPositionWithinView();
         this.SendSpawnRequest(
@@ -64,74 +40,9 @@ public class Debug_EnemySpawnerController : IDebugCommandRegistrater
         Debug.Log("Spawned small easy group");
     }
 
-    private void SpawnSmallNormalGroup()
+    private void SpawnLargeGroup()
     {
         Vector2 _SpawnCenterPosition = this.GenerateRandomPositionWithinView();
-        // TODO: DIfficulty is set to hard by default
-        this.SendSpawnRequest(
-            new SpawnerRequest()
-            {
-                SpawnCenterPosition = _SpawnCenterPosition,
-                SpawnCount = 5,
-                SpawnDirection = this.GetPlayerDirection(_SpawnCenterPosition),
-                SpawnRadius = 5f
-            });
-
-        Debug.Log("Spawned small normal group");
-    }
-
-    private void SpawnSmallHardGroup()
-    {
-        Vector2 _SpawnCenterPosition = this.GenerateRandomPositionWithinView();
-        // TODO: DIfficulty is set to hard by default
-        this.SendSpawnRequest(
-            new SpawnerRequest()
-            {
-                SpawnCenterPosition = _SpawnCenterPosition,
-                SpawnCount = 5,
-                SpawnDirection = this.GetPlayerDirection(_SpawnCenterPosition),
-                SpawnRadius = 10f
-            });
-
-        Debug.Log("Spawned small normal group");
-    } 
-
-    private void SpawnLargeEasyGroup()
-    {
-        Vector2 _SpawnCenterPosition = this.GenerateRandomPositionWithinView();
-        // TODO: DIfficulty is set to hard by default
-        this.SendSpawnRequest(
-            new SpawnerRequest()
-            {
-                SpawnCenterPosition = _SpawnCenterPosition,
-                SpawnCount = 30,
-                SpawnDirection = this.GetPlayerDirection(_SpawnCenterPosition),
-                SpawnRadius = 15f
-            });
-
-        Debug.Log("Spawned small normal group");
-    }
-
-    private void SpawnLargeNormalGroup()
-    {
-        Vector2 _SpawnCenterPosition = this.GenerateRandomPositionWithinView();
-        // TODO: DIfficulty is set to hard by default
-        this.SendSpawnRequest(
-            new SpawnerRequest()
-            {
-                SpawnCenterPosition = _SpawnCenterPosition,
-                SpawnCount = 30,
-                SpawnDirection = this.GetPlayerDirection(_SpawnCenterPosition),
-                SpawnRadius = 15f
-            });
-
-        Debug.Log("Spawned small normal group");
-    }
-
-    private void SpawnLargeHardGroup()
-    {
-        Vector2 _SpawnCenterPosition = this.GenerateRandomPositionWithinView();
-        // TODO: DIfficulty is set to hard by default
         this.SendSpawnRequest(
             new SpawnerRequest()
             {
