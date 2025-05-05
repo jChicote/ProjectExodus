@@ -29,7 +29,7 @@ public class Debug_EnemySpawnerController : IDebugCommandRegistrater
     {
         Vector2 _SpawnCenterPosition = this.GenerateRandomPositionWithinView();
         this.SendSpawnRequest(
-            new SpawnerRequest()
+            new SpawnerRequest
             {
                 SpawnCenterPosition = _SpawnCenterPosition,
                 SpawnCount = 5,
