@@ -1,4 +1,5 @@
 ﻿using ProjectExodus;
+using ProjectExodus.Utility.GameValidation;
 using UnityEngine;
 using SceneManager = ProjectExodus.Management.SceneManager.SceneManager;
 
@@ -8,10 +9,10 @@ public class EnemySpawnerController : MonoBehaviour, IEnemySpawner
     #region - - - - - - Fields - - - - - -
 
     [Header("Spawner Fields")] 
-    public ZetoEnemySpawner m_PawnSpawner;
-    public ZetoEnemySpawner m_FighterSpawner;
-    public ZetoEnemySpawner m_DroneSpawner;
-    public ZetoEnemySpawner m_KnightSpawner;
+    [SerializeField, RequiredField] private ZetoEnemySpawner m_PawnSpawner;
+    [SerializeField, RequiredField] private ZetoEnemySpawner m_FighterSpawner;
+    [SerializeField, RequiredField] private ZetoEnemySpawner m_DroneSpawner;
+    [SerializeField, RequiredField] private ZetoEnemySpawner m_KnightSpawner;
 
     #endregion Fields
 
@@ -21,6 +22,12 @@ public class EnemySpawnerController : MonoBehaviour, IEnemySpawner
     {
         EnemySettings _EnemySettings = EnemyManager.Instance.EnemySettings;
         SceneDifficulty _Difficulty = SceneManager.Instance.SceneController.Difficulty;
+
+        GameValidator.NotNull(this.m_PawnSpawner, nameof(m_PawnSpawner), sourceObjectName: this.gameObject.name);
+        GameValidator.NotNull(this.m_FighterSpawner, nameof(m_FighterSpawner), sourceObjectName: this.gameObject.name);
+        GameValidator.NotNull(this.m_DroneSpawner, nameof(m_DroneSpawner), sourceObjectName: this.gameObject.name);
+        GameValidator.NotNull(this.m_KnightSpawner, nameof(m_KnightSpawner), sourceObjectName: this.gameObject.name);
+        
         float _DifficultyMultiplier = _EnemySettings.SpawnerDifficulty.Normal;
 
         if (_Difficulty == SceneDifficulty.Easy)

@@ -8,12 +8,16 @@ namespace ProjectExodus.Utility.GameValidation
 
         #region - - - - - - Methods - - - - - -
 
-        public static bool NotNull(object objectToCheck, string sourceName, bool canShowMessage = true)
+        public static bool NotNull(
+            object objectToCheck, 
+            string sourceName, 
+            bool canShowMessage = true, 
+            string sourceObjectName = "")
         {
             if (objectToCheck != null) return true;
 
             if (canShowMessage)
-                GameLogger.LogError($"'{sourceName}' is found to be null. Please set a value.");
+                GameLogger.LogError($"'{sourceName}' is found to be null. Please set a value. ({sourceObjectName})");
 
             return false;
         }
