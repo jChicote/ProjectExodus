@@ -744,11 +744,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1759352615067613151, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1759352615067613151, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2178452695694619523, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
       propertyPath: m_AnchorMax.x
@@ -768,11 +768,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7074605820995331329, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7074605820995331329, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8087115176676656756, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
       propertyPath: m_WeaponAreaGroup
@@ -788,11 +788,11 @@ PrefabInstance:
       objectReference: {fileID: 2629149440660803255, guid: 973fed330daef414692d01d437b4e047, type: 3}
     - target: {fileID: 9125139199920498774, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9125139199920498774, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -200
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -1658,7 +1658,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &675504406
 Transform:
   m_ObjectHideFlags: 0
@@ -2965,8 +2965,7 @@ GameObject:
   - component: {fileID: 1269510317}
   - component: {fileID: 1269510318}
   - component: {fileID: 1269510313}
-  - component: {fileID: 1269510316}
-  - component: {fileID: 1269510315}
+  - component: {fileID: 1269510319}
   m_Layer: 9
   m_Name: Sentinel Portal
   m_TagString: Enemy
@@ -3045,34 +3044,6 @@ Transform:
   - {fileID: 675504406}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1269510315
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1269510312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ed158cfece647cd91fbeb4e4e054aac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Rigidbody: {fileID: 1269510317}
-  m_Blackboard: {fileID: 675504409}
---- !u!114 &1269510316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1269510312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 413562acb3914cd3aa1b1c28b43651f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Blackboard: {fileID: 675504409}
-  m_CanPresentPoints: 1
 --- !u!50 &1269510317
 Rigidbody2D:
   serializedVersion: 5
@@ -3088,7 +3059,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -3146,6 +3117,22 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1269510319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1269510312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8fdebc177dd4d809f4c8fb896f02e46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ControlRadius: 8.02
+  m_GroupCount: 1
+  m_EnemySpawnTypes: 7
+  m_SpawnIntervalTimeLength: 3
 --- !u!1 &1331554493
 GameObject:
   m_ObjectHideFlags: 0
