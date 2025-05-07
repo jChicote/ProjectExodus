@@ -748,7 +748,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1759352615067613151, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2178452695694619523, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
       propertyPath: m_AnchorMax.x
@@ -772,7 +772,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7074605820995331329, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8087115176676656756, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
       propertyPath: m_WeaponAreaGroup
@@ -1667,6 +1667,8 @@ GameObject:
   - component: {fileID: 675504420}
   - component: {fileID: 675504419}
   - component: {fileID: 675504410}
+  - component: {fileID: 675504426}
+  - component: {fileID: 675504425}
   m_Layer: 9
   m_Name: Behaviour Tree
   m_TagString: Untagged
@@ -1934,7 +1936,9 @@ MonoBehaviour:
     width: 160
     height: 44
   parent: {fileID: 675504423}
-  children: []
+  children:
+  - {fileID: 675504425}
+  - {fileID: 675504426}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -2047,6 +2051,63 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
+--- !u!114 &675504425
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675504405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58fe7bc6a9b18e148b82820c7c1c0a90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Wait
+  rect:
+    serializedVersion: 2
+    x: 260
+    y: 460
+    width: 160
+    height: 44
+  parent: {fileID: 675504420}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  time:
+    useConstant: 1
+    mode: 0
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: 3
+  randomDeviation: 2
+  continueOnRestart: 0
+--- !u!114 &675504426
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675504405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15e284a86f514b57b62fda5d4bcbc77c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Spawn Enemies
+  rect:
+    serializedVersion: 2
+    x: 420
+    y: 460
+    width: 160
+    height: 44
+  parent: {fileID: 675504420}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  m_SpawnDirector: {fileID: 1269510319}
 --- !u!1001 &676926453
 PrefabInstance:
   m_ObjectHideFlags: 0

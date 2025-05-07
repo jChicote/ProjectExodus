@@ -42,16 +42,29 @@ public class EnemySpawnDirector : PausableMonoBehavior
         this.CalculateScaledScreenDimensions();
     }
 
-    private void Update()
-    {
-        if (this.m_IsPaused) return;
-        
-        this.m_Timer.TickTimer();
-    }
-
     #endregion Unity Methods
 
     #region - - - - - - Methods - - - - - -
+    
+    public void SpawnEnemies()
+    {
+        Vector2 _DirectionToPlayer = new Vector2(
+            (this.m_PlayerTransform.position - this.transform.position).x,
+            (this.m_PlayerTransform.position - this.transform.position).y);
+        
+        for (int i = 0; i < this.m_GroupCount; i++)
+        {
+            this.m_EnemySpawner.Spawn(new SpawnerRequest
+            {
+                SpawnCenterPosition = this.GenerateSpawnPosition(),
+                SpawnCount = 10,
+                SpawnDirection = this.m_PlayerTransform == null ? Vector2.zero : _DirectionToPlayer,
+                SpawnRadius = this.m_ControlRadius
+            }, (EnemySpawnFilter)this.m_EnemySpawnTypes);
+        }
+        
+        Debug.Log("Enemies Spawned");
+    }
 
     private void CalculateScaledScreenDimensions()
     {
@@ -78,26 +91,6 @@ public class EnemySpawnDirector : PausableMonoBehavior
             y: Random.Range(this.m_MainCamera.transform.position.y - this.m_Height / 2,
                 this.m_MainCamera.transform.position.y + this.m_Height / 2));
         return _RandomPosition;
-    }
-    
-    private void SpawnEnemies()
-    {
-        Vector2 _DirectionToPlayer = new Vector2(
-            (this.m_PlayerTransform.position - this.transform.position).x,
-            (this.m_PlayerTransform.position - this.transform.position).y);
-        
-        for (int i = 0; i < this.m_GroupCount; i++)
-        {
-            this.m_EnemySpawner.Spawn(new SpawnerRequest
-            {
-                SpawnCenterPosition = this.GenerateSpawnPosition(),
-                SpawnCount = 10,
-                SpawnDirection = this.m_PlayerTransform == null ? Vector2.zero : _DirectionToPlayer,
-                SpawnRadius = this.m_ControlRadius
-            }, (EnemySpawnFilter)this.m_EnemySpawnTypes);
-        }
-        
-        Debug.Log("Enemies Spawned");
     }
 
     #endregion Methods
