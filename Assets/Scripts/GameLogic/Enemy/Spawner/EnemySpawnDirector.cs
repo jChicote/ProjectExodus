@@ -1,9 +1,11 @@
+using System;
 using ProjectExodus;
 using ProjectExodus.GameLogic.Common.Timers;
 using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
 using ProjectExodus.Management.SceneManager;
 using ProjectExodus.Utility.GameValidation;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemySpawnDirector : PausableMonoBehavior
 {

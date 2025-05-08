@@ -19,14 +19,11 @@ public class ZetoSentinelDroneCommandInitializer : MonoBehaviour, ICommand
 
     // Must resolve dependencies without a context object, to ensure the spawner does not include
     //  specific logic to setup dependencies for each enemy type.;
-    private void Awake()
-    {
-        EnemyManager _EnemyManager = EnemyManager.Instance;
-        this.m_EnemySpawnData = _EnemyManager.EnemySettings.Enemies.Single(eao => eao.Name == EnemyType.ZetoPawn);
-    }
-
     private void Start()
     {
+        EnemyManager _EnemyManager = EnemyManager.Instance;
+        this.m_EnemySpawnData = _EnemyManager.EnemySettings.Enemies.Single(eao => eao.Name == EnemyType.ZetoSentinelDrone);
+        
         this.Execute();
     }
 

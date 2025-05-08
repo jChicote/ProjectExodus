@@ -57,6 +57,17 @@ MonoBehaviour:
     TurnSpeed: 0
     AttackDamage: 10
     TrackingDistance: 999
+  - ID: 5
+    Name: Zeto Sentinel Drone
+    SpawnTemplate: {fileID: 1818183813825923562, guid: f153f1a1c796a46479098e6687b46e16, type: 3}
+    DeathEffect: {fileID: 2010537941153600407, guid: ebcbce93d32fc0442827d50b1f94eeff, type: 3}
+    Health: 60
+    Lifetime: 999
+    Speed: 0
+    MaxCollisionHitCount: 100
+    TurnSpeed: 0
+    AttackDamage: 10
+    TrackingDistance: 999
   SpawnerDifficulty:
     Easy: 1
     Normal: 5
