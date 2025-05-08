@@ -1827,7 +1827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: MovementSpeed
-  val: 0
+  val: 1
 --- !u!114 &675504416
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -1841,7 +1841,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Health
-  val: 0
+  val: 80
 --- !u!114 &675504417
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -3356,6 +3356,7 @@ GameObject:
   - component: {fileID: 1269510317}
   - component: {fileID: 1269510318}
   - component: {fileID: 1269510313}
+  - component: {fileID: 1269510323}
   - component: {fileID: 1269510319}
   - component: {fileID: 1269510321}
   - component: {fileID: 1269510320}
@@ -3565,6 +3566,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 338b02c62c3b48f0a4f16b5ce71a9fbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Blackboard: {fileID: 675504409}
+--- !u!114 &1269510323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1269510312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b62dd668b83a4262a5cfa9d22783dbce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Blackboard: {fileID: 675504409}
