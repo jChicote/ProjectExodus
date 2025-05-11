@@ -4029,6 +4029,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 96650939708158771, guid: f153f1a1c796a46479098e6687b46e16, type: 3}
+      propertyPath: repeatOnFinish
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 96650939708158771, guid: f153f1a1c796a46479098e6687b46e16, type: 3}
+      propertyPath: selectedEditorNode
+      value: 
+      objectReference: {fileID: 1956872808}
     - target: {fileID: 1818183813825923562, guid: f153f1a1c796a46479098e6687b46e16, type: 3}
       propertyPath: m_Name
       value: Sentinel Portal
@@ -4124,6 +4132,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: edea847d200847199f6fd0748cd255fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1956872808 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5483418640856769216, guid: f153f1a1c796a46479098e6687b46e16, type: 3}
+  m_PrefabInstance: {fileID: 1873199779}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c78c7da6b00e1b46bad07949050f82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1977858551 stripped
