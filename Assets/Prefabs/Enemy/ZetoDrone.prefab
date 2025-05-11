@@ -69,6 +69,7 @@ GameObject:
   - component: {fileID: 1384312078311053805}
   - component: {fileID: 8352025293518278158}
   - component: {fileID: 4912776804026893600}
+  - component: {fileID: 2630716250962403559}
   m_Layer: 9
   m_Name: ZetoDrone
   m_TagString: Enemy
@@ -300,6 +301,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Blackboard: {fileID: 4433647141410801155}
+--- !u!114 &2630716250962403559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2442593814432986150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec9bb78498646a89fbcfa8243a849d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4786838420162815293
 GameObject:
   m_ObjectHideFlags: 0
