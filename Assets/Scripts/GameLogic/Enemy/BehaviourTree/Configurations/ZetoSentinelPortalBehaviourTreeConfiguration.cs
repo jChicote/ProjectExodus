@@ -5,8 +5,7 @@ using ProjectExodus.Management.SceneManager;
 using ProjectExodus.Utility.BehaviourTree;
 using ProjectExodus.Utility.GameValidation;
 using UnityEngine;
-using TransformReference = MBT.TransformReference;
-using TransformVariable = MBT.TransformVariable;
+using TransformVariable = ProjectExodus.TransformVariable;
 
 public class ZetoSentinelPortalBehaviourTreeConfiguration : MonoBehaviour
 {
@@ -42,7 +41,6 @@ public class ZetoSentinelPortalBehaviourTreeConfiguration : MonoBehaviour
         IPlayerProvider _PlayerProvider = SceneManager.Instance.SceneController.PlayerProvider;        
         
         // Get Variable References
-        Debug.Log(this.m_Blackboard.GetVariable<TransformVariable>(EnemyGeneralConstants.TargetTransform).GetType());
         TransformVariable _TargetTransformVariable =
             this.m_Blackboard.GetVariable<TransformVariable>(EnemyGeneralConstants.TargetTransform);
         

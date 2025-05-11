@@ -1,5 +1,4 @@
 using MBT;
-using ProjectExodus.Utility.BehaviourTree;
 using UnityEngine;
 
 namespace ProjectExodus
@@ -36,8 +35,9 @@ namespace ProjectExodus
 
         private void OnDrawGizmos()
         {
-            if (!MBTUtils.IsValid(this.SourceTransform.GetVariable()) 
-                || !MBTUtils.IsValid(this.TargetTransform.GetVariable())) return;
+            if (!Application.isPlaying
+                || this.SourceTransform.Value == null
+                || this.TargetTransform.Value == null) return;
             
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(this.SourceTransform.Value.position, this.DetectionDistance.Value);
