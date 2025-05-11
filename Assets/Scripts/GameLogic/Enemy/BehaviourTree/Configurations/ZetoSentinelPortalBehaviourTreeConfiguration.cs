@@ -5,6 +5,7 @@ using ProjectExodus.Management.SceneManager;
 using ProjectExodus.Utility.BehaviourTree;
 using ProjectExodus.Utility.GameValidation;
 using UnityEngine;
+using TransformReference = MBT.TransformReference;
 using TransformVariable = MBT.TransformVariable;
 
 public class ZetoSentinelPortalBehaviourTreeConfiguration : MonoBehaviour
