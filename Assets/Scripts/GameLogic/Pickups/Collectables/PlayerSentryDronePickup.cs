@@ -1,15 +1,10 @@
 using GameLogic.Pickups;
+using GameLogic.Pickups.Collectables;
 using ProjectExodus.GameLogic.Enumeration;
 using UnityEngine;
 
-public class PlayerSentryDronePickup : BasePickup
+public class PlayerSentryDronePickup : CollectablePickup
 {
-
-    #region - - - - - - Fields - - - - - -
-
-    
-
-    #endregion Fields
 
     #region - - - - - - Unity Methods - - - - - -
 
@@ -19,6 +14,9 @@ public class PlayerSentryDronePickup : BasePickup
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag != GameTag.Player) return;
+
+        IPickupCollectionSystem _PickupCollectionSystem = other.GetComponent<IPickupCollectionSystem>();
+        _PickupCollectionSystem.AddCollectable(this);
         
         Destroy(this.gameObject);
     }
