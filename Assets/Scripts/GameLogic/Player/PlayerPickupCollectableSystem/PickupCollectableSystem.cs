@@ -1,20 +1,5 @@
-using System;
 using System.Collections.Generic;
-using GameLogic.Pickups;
-using NUnit.Framework;
-using ProjectExodus.GameLogic.Enumeration;
 using UnityEngine;
-
-public interface IPickupCollectionSystem
-{
-
-    #region - - - - - - Methods - - - - - -
-
-    void AddCollectable(ICollectablePickup collectablePickup);
-
-    #endregion Methods
-
-}
 
 public class PickupCollectableSystem : MonoBehaviour, IPickupCollectionSystem
 {
