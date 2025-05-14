@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectExodus.Management.UserInterfaceManager;
@@ -24,7 +23,7 @@ public class PickupCollectionHUDController : MonoBehaviour
         this.m_View = this.GetComponent<PickupCollectionHUDView>();
         this.m_Settings = UserInterfaceManager.Instance.UserInterfaceSettings;
 
-        // Validate depenedencies
+        // Validate dependencies
         string _SourceObjectName = this.gameObject.name;
         GameValidator.NotNull(this.m_View, nameof(m_View), sourceObjectName: _SourceObjectName);
         GameValidator.NotNull(this.m_Settings, nameof(m_Settings), sourceObjectName: _SourceObjectName);
@@ -52,13 +51,13 @@ public class PickupCollectionHUDController : MonoBehaviour
             .Select(spg => spg.First())
             .ToList();
         
-        
+        this.m_View.InitialiseView(_DeduplicatedList
+            .Select(p => this.m_Settings.PickupAssets.First(pa => pa.PickupEnum == p))
+            .ToList());
     }
 
-    public void UpdatePickup(PickupEnum pickupToUpdate, int currentCount)
-    {
-        
-    }
+    public void UpdatePickup(PickupEnum pickupToUpdate, int currentCount) 
+        => this.m_View.UpdateCount(pickupToUpdate, currentCount);
 
     #endregion Methods
   
