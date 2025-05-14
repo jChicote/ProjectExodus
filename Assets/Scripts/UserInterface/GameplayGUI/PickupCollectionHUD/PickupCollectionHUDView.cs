@@ -9,4 +9,9 @@ public class PickupCollectionHUDView : MonoBehaviour
 
     #endregion Fields
 
+    #region - - - - - - Methods - - - - - -
+
+
+    #endregion Methods
+  
 }

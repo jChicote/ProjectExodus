@@ -23,7 +23,10 @@ namespace ProjectExodus.ScriptableObjects
         [Header("Tractor Beam Targeting")] 
         public Color WeakBeamStrengthColor;
         public Color FullBeamStregnthColor;
-        
+
+        [Header("Pickup / Collectables")] 
+        public List<PickupUserInterfaceAsset> PickupAssets;
+
         #endregion Fields
 
     }
