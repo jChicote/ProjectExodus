@@ -26,6 +26,9 @@ namespace GameLogic.Pickups.Collectables
         public void Activate()
         {
         }
+
+        public virtual PickupEnum GetPickupType() 
+            => PickupEnum.None;
     }
 
 }

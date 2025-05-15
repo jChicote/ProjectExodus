@@ -21,9 +21,12 @@ namespace GameLogic.Pickups
             yield return new WaitForSeconds(this.m_Lifetime);
             Destroy(this.gameObject);
         }
+        
+        public virtual PickupEnum GetPickupType() 
+            => PickupEnum.None;
 
         #endregion Methods
-  
+
     }
 
 }

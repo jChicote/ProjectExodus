@@ -22,6 +22,12 @@ public class PlayerSentryDronePickup : CollectablePickup
     }
 
     #endregion Unity Methods
-  
+
+    #region - - - - - - Methods - - - - - -
+
+    public override PickupEnum GetPickupType() 
+        => PickupEnum.AutonomousSentry;
+
+    #endregion Methods
   
 }

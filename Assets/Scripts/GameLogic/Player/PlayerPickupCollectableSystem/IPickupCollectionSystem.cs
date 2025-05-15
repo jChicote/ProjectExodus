@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public interface IPickupCollectionSystem
 {
     
@@ -5,6 +7,8 @@ public interface IPickupCollectionSystem
 
     void AddCollectable(ICollectablePickup collectablePickup);
 
+    void LoadSelectedCollectables(List<PickupEnum> selectedPickupTypes);
+
     #endregion Methods
-    
+
 }
