@@ -10,8 +10,11 @@ public class PickupCollectionHUDController : MonoBehaviour
 
     #region - - - - - - Fields - - - - - -
 
+    // Required Dependencies
     private PickupCollectionHUDView m_View;
     private UserInterfaceSettings m_Settings;
+    
+    private List<PickupEnum> m_LoadedPickups;
 
     #endregion Fields
 
@@ -29,6 +32,12 @@ public class PickupCollectionHUDController : MonoBehaviour
         GameValidator.NotNull(this.m_Settings, nameof(m_Settings), sourceObjectName: _SourceObjectName);
 
         IUIEventCollection _EventCollection = UserInterfaceManager.Instance.EventCollectionRegistry;
+        _EventCollection.RegisterEvent(PickupCollectionHUDConstants.EmptyPickups, this.EmptyPickups);
+        _EventCollection.RegisterEvent(
+            PickupCollectionHUDConstants.LoadPickups, 
+            selectedPickups => this.LoadPickups(selectedPickups as List<PickupEnum>));
+        _EventCollection.RegisterEvent(PickupCollectionHUDConstants.UpdatePickup,
+            pickupUpdate => this.UpdatePickup(pickupUpdate as PickupUpdateRequest));
     }
 
     #endregion Unity Methods
@@ -44,7 +53,7 @@ public class PickupCollectionHUDController : MonoBehaviour
      * - Show pickup when used or when forced to reveal
      */
 
-    public void LoadPickups(List<PickupEnum> selectedPickups)
+    private void LoadPickups(List<PickupEnum> selectedPickups)
     {
         List<PickupEnum> _DeduplicatedList = selectedPickups
             .GroupBy(sp => sp.ToString())
@@ -56,9 +65,28 @@ public class PickupCollectionHUDController : MonoBehaviour
             .ToList());
     }
 
-    public void UpdatePickup(PickupEnum pickupToUpdate, int currentCount) 
-        => this.m_View.UpdateCount(pickupToUpdate, currentCount);
+    private void UpdatePickup(PickupUpdateRequest pickupUpdate) 
+        => this.m_View.UpdateCount(pickupUpdate.PickupToUpdate, pickupUpdate.CurrentCount);
 
+    private void EmptyPickups()
+    {
+        foreach(PickupEnum _LoadedPickup in this.m_LoadedPickups)
+            this.m_View.UpdateCount(_LoadedPickup, 0);
+    }
+    
     #endregion Methods
+  
+}
+
+public class PickupUpdateRequest
+{
+
+    #region - - - - - - Properties - - - - - -
+
+    public PickupEnum PickupToUpdate { get; set; }
+
+    public int CurrentCount { get; set; }
+
+    #endregion Properties
   
 }
