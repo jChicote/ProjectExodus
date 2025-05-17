@@ -17,8 +17,17 @@ public class CollectableIndicator : MonoBehaviour
 
     #region - - - - - - Methods - - - - - -
 
-    public void DeactivateIndicator() 
-        => this.m_IndicatorCountGroup.SetActive(false);
+    public void DeactivateIndicator()
+    {
+        this.m_IndicatorImage.color = this.m_InactiveColor;
+        this.m_IndicatorCountGroup.SetActive(false);
+    }
+
+    public void EnableIndicator()
+    {
+        this.m_IndicatorImage.color = this.m_ActiveColor;
+        this.m_IndicatorCountGroup.SetActive(true);
+    }
 
     public void SetCount(int count)
         => this.m_IndicatorCount.text = count.ToString();

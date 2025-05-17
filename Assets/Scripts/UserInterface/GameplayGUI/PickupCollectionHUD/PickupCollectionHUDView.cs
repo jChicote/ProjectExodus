@@ -29,16 +29,18 @@ public class PickupCollectionHUDView : MonoBehaviour
     {
         for (int i = 0; i < m_Indicators.Count; i++)
         {
-            CollectableIndicator _Indicator = this.m_Indicators.ElementAt(i).Indicator;
+            HUDPickupIndicator _HUDIndicator = this.m_Indicators.ElementAt(i);
 
             if (i >= selectedPickups.Count)
             {
-                _Indicator.DeactivateIndicator();
+                _HUDIndicator.Indicator.DeactivateIndicator();
                 return;
             }
             
-            _Indicator.SetCount(0);
-            _Indicator.SetImage(selectedPickups[i].Sprite);
+            _HUDIndicator.Type = selectedPickups[i].PickupEnum;
+            _HUDIndicator.Indicator.SetCount(0);
+            _HUDIndicator.Indicator.SetImage(selectedPickups[i].Sprite);
+            _HUDIndicator.Indicator.EnableIndicator();
         }
     }
     
