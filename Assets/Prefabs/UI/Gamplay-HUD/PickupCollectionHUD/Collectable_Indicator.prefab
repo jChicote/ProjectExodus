@@ -299,6 +299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IndicatorImage: {fileID: 8828527593512388873}
+  m_IndicatorCountGroup: {fileID: 6537114233618208399}
   m_IndicatorCount: {fileID: 6531480337217339648}
   m_ActiveColor: {r: 1, g: 1, b: 1, a: 0}
   m_InactiveColor: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 0}

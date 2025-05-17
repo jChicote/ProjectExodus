@@ -1,5 +1,8 @@
-using UnityEngine.UI;
+using System;
+using UnityEngine;
+using UnityEngine.Serialization;
 
+[Serializable]
 public class PickupUserInterfaceAsset
 {
     
@@ -7,7 +10,7 @@ public class PickupUserInterfaceAsset
 
     public PickupEnum PickupEnum;
 
-    public Image UIImage;
+    [FormerlySerializedAs("Spite")] public Sprite Sprite;
 
     #endregion Fields
     

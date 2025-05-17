@@ -36,7 +36,7 @@ public class PickupCollectableSystem : MonoBehaviour, IPickupCollectionSystem
         if (_PickupState == null) return;
         
         _PickupState.CollectablePickups.Add(collectablePickup);
-        this.m_EventMediator.Dispatch(PickupCollectionHUDConstants.UpdatePickup, new PickupInfo()
+        this.m_EventMediator.Dispatch(PickupCollectionHUDConstants.UpdatePickup, new PickupUpdateInfo()
         {
             CurrentCount = _PickupState.CollectablePickups.Count,
             PickupToUpdate = _PickupState.Type

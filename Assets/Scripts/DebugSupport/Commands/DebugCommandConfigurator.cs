@@ -1,5 +1,4 @@
-﻿using Codice.CM.Common.Merge;
-using ProjectExodus;
+﻿using ProjectExodus;
 using ProjectExodus.Debugging;
 
 public class DebugCommandConfigurator
@@ -38,6 +37,7 @@ public class DebugCommandConfigurator
         new Debug_PointsGUI().RegisterCommand(this.m_DebugManager);
         new Debug_ChatboxHUD().RegisterCommand(this.m_DebugManager);
         new Debug_GameplayHUD().RegisterCommand(this.m_DebugManager);
+        new Debug_PickupCollectionHUD().RegisterCommand(this.m_DebugManager);
     }
 
     #endregion Methods

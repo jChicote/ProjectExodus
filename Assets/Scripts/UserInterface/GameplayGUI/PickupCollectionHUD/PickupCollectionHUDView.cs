@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,6 +13,16 @@ public class PickupCollectionHUDView : MonoBehaviour
 
     #endregion Fields
 
+    #region - - - - - - Unity Methods - - - - - -
+
+    private void Start()
+    {
+        foreach(HUDPickupIndicator _PickupIndicator in this.m_Indicators)
+            _PickupIndicator.Indicator.DeactivateIndicator();
+    }
+
+    #endregion Unity Methods
+  
     #region - - - - - - Methods - - - - - -
 
     public void InitialiseView(List<PickupUserInterfaceAsset> selectedPickups)
@@ -27,7 +38,7 @@ public class PickupCollectionHUDView : MonoBehaviour
             }
             
             _Indicator.SetCount(0);
-            _Indicator.SetImage(selectedPickups[i].UIImage.sprite);
+            _Indicator.SetImage(selectedPickups[i].Sprite);
         }
     }
     
@@ -40,6 +51,7 @@ public class PickupCollectionHUDView : MonoBehaviour
   
 }
 
+[Serializable]
 public class HUDPickupIndicator
 {
 

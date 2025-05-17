@@ -342,6 +342,10 @@ PrefabInstance:
       value: Management-Layer
       objectReference: {fileID: 0}
     - target: {fileID: 4324687145220428121, guid: 440a148f3adfa5e4281217e2754dbf60, type: 3}
+      propertyPath: UserInterfaceSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: 621b35aba753e70478d8ecdb280e1e32, type: 2}
+    - target: {fileID: 4324687145220428121, guid: 440a148f3adfa5e4281217e2754dbf60, type: 3}
       propertyPath: m_LoadingScreenController
       value: 
       objectReference: {fileID: 0}

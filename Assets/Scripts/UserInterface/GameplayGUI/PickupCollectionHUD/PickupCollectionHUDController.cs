@@ -37,7 +37,7 @@ public class PickupCollectionHUDController : MonoBehaviour
             PickupCollectionHUDConstants.LoadPickups, 
             selectedPickups => this.LoadPickups(selectedPickups as List<PickupEnum>));
         _EventCollection.RegisterEvent(PickupCollectionHUDConstants.UpdatePickup,
-            pickupUpdate => this.UpdatePickup(pickupUpdate as PickupInfo));
+            pickupUpdate => this.UpdatePickup(pickupUpdate as PickupUpdateInfo));
     }
 
     #endregion Unity Methods
@@ -55,17 +55,18 @@ public class PickupCollectionHUDController : MonoBehaviour
 
     private void LoadPickups(List<PickupEnum> selectedPickups)
     {
-        List<PickupEnum> _DeduplicatedList = selectedPickups
+        List<PickupEnum> _DeduplicatedPickups = selectedPickups
             .GroupBy(sp => sp.ToString())
             .Select(spg => spg.First())
             .ToList();
-        
-        this.m_View.InitialiseView(_DeduplicatedList
+
+        this.m_LoadedPickups = _DeduplicatedPickups;
+        this.m_View.InitialiseView(_DeduplicatedPickups
             .Select(p => this.m_Settings.PickupAssets.First(pa => pa.PickupEnum == p))
             .ToList());
     }
 
-    private void UpdatePickup(PickupInfo pickupUpdate) 
+    private void UpdatePickup(PickupUpdateInfo pickupUpdate) 
         => this.m_View.UpdateCount(pickupUpdate.PickupToUpdate, pickupUpdate.CurrentCount);
 
     private void EmptyPickups()
@@ -78,7 +79,7 @@ public class PickupCollectionHUDController : MonoBehaviour
   
 }
 
-public class PickupInfo
+public class PickupUpdateInfo
 {
 
     #region - - - - - - Properties - - - - - -
