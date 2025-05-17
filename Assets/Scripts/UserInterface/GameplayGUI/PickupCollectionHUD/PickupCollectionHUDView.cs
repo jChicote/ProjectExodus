@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ProjectExodus.GameLogic.Common.Timers;
 using UnityEngine;
 
-public class PickupCollectionHUDView : MonoBehaviour
+public class PickupCollectionHUDView : FadableElement
 {
 
     #region - - - - - - Fields - - - - - -
@@ -11,14 +12,26 @@ public class PickupCollectionHUDView : MonoBehaviour
     [SerializeField] private GameObject m_ContentGroup;
     [SerializeField] private List<HUDPickupIndicator> m_Indicators = new();
 
+    [SerializeField] private float m_VisiblityLength;
+    private EventTimer m_VisibilityTimer;
+
     #endregion Fields
 
     #region - - - - - - Unity Methods - - - - - -
 
     private void Start()
     {
+        this.m_VisibilityTimer = new EventTimer(this.m_VisiblityLength, Time.deltaTime, this.HideView, canRun: false);
+        
         foreach(HUDPickupIndicator _PickupIndicator in this.m_Indicators)
             _PickupIndicator.Indicator.DeactivateIndicator();
+    }
+
+    private void Update()
+    {
+        if (this.m_IsPaused) return;
+        
+        this.m_VisibilityTimer.TickTimer();
     }
 
     #endregion Unity Methods
@@ -42,15 +55,34 @@ public class PickupCollectionHUDView : MonoBehaviour
             _HUDIndicator.Indicator.SetImage(selectedPickups[i].Sprite);
             _HUDIndicator.Indicator.EnableIndicator();
         }
+        
+        this.ShowView();
     }
     
     public void UpdateCount(PickupEnum pickupToUpdate, int count)
-        => this.m_Indicators
+    {
+        this.m_Indicators
             .Single(i => i.Type == pickupToUpdate)
             .Indicator.SetCount(count);
         
+        this.ShowView();
+    }
+
+    public void ShowView()
+    {
+        this.m_VisibilityTimer.EnableTimer();
+        this.m_VisibilityTimer.ResetTimer();
+        this.FadeIn();
+    }
+
+    public void HideView()
+    {
+        this.m_VisibilityTimer.DisableTimer();
+        this.FadeOut();
+    }
+
     #endregion Methods
-  
+
 }
 
 [Serializable]

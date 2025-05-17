@@ -1017,7 +1017,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2644851047606284426, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1849377027}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 42440849241492551, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1127942343}
   m_SourcePrefab: {fileID: 100100000, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
 --- !u!224 &419301091 stripped
 RectTransform:
@@ -1244,6 +1247,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 597867966560913825, guid: 7503b9e5f2aafe6478f3a45a07893900, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6537114233618208399, guid: 7503b9e5f2aafe6478f3a45a07893900, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6700078923610743937, guid: 7503b9e5f2aafe6478f3a45a07893900, type: 3}
@@ -3400,6 +3407,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6537114233618208399, guid: 7503b9e5f2aafe6478f3a45a07893900, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6700078923610743937, guid: 7503b9e5f2aafe6478f3a45a07893900, type: 3}
       propertyPath: m_Name
       value: Collectable_Indicator (3)
@@ -3514,6 +3525,29 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 42440849241492551, guid: 85d1dd35e36866440becbd848dd563c3, type: 3}
   m_PrefabInstance: {fileID: 419301090}
   m_PrefabAsset: {fileID: 0}
+--- !u!223 &1127942343
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127942339}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!114 &1141290861 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9096349792616650971, guid: 7503b9e5f2aafe6478f3a45a07893900, type: 3}
@@ -4035,6 +4069,7 @@ GameObject:
   - component: {fileID: 1490890431}
   - component: {fileID: 1490890433}
   - component: {fileID: 1490890432}
+  - component: {fileID: 1490890434}
   m_Layer: 5
   m_Name: PickupCollectionHUD
   m_TagString: Untagged
@@ -4086,6 +4121,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38b7f9b7d94d4c22a5e4900d3af3f708, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_LocalCanvasGroup: {fileID: 1490890434}
+  m_FadeAnimationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_FadeInTime: 0.2
+  m_FadeOutTime: 0.8
   m_ContentGroup: {fileID: 363119910}
   m_Indicators:
   - Type: 3
@@ -4096,6 +4158,19 @@ MonoBehaviour:
     Indicator: {fileID: 1141290861}
   - Type: 3
     Indicator: {fileID: 1641883815}
+  m_VisiblityLength: 4
+--- !u!225 &1490890434
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490890430}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 1
 --- !u!1 &1580888485 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7112598103157631078, guid: 6f87594e8184dd140a86fc539578e47b, type: 3}
@@ -5541,6 +5616,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6537114233618208399, guid: 7503b9e5f2aafe6478f3a45a07893900, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6700078923610743937, guid: 7503b9e5f2aafe6478f3a45a07893900, type: 3}
       propertyPath: m_Name
       value: Collectable_Indicator (2)
@@ -5967,6 +6046,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 597867966560913825, guid: 7503b9e5f2aafe6478f3a45a07893900, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6537114233618208399, guid: 7503b9e5f2aafe6478f3a45a07893900, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6700078923610743937, guid: 7503b9e5f2aafe6478f3a45a07893900, type: 3}

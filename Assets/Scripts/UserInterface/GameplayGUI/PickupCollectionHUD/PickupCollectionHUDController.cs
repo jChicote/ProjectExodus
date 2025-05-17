@@ -38,20 +38,13 @@ public class PickupCollectionHUDController : MonoBehaviour
             selectedPickups => this.LoadPickups(selectedPickups as List<PickupEnum>));
         _EventCollection.RegisterEvent(PickupCollectionHUDConstants.UpdatePickup,
             pickupUpdate => this.UpdatePickup(pickupUpdate as PickupUpdateInfo));
+        _EventCollection.RegisterEvent(PickupCollectionHUDConstants.ShowPickupHUD, this.ShowHUD);
+        _EventCollection.RegisterEvent(PickupCollectionHUDConstants.HidePickupHUD, this.HideHUD);
     }
 
     #endregion Unity Methods
 
     #region - - - - - - Methods - - - - - -
-
-    /*
-     * Decided actions for interface:
-     * - Add pickup to set collection sorted by type
-     * - Remove pickup when toggled from the player
-     * - Clear pickups on death
-     * - Hide pickup when not in use
-     * - Show pickup when used or when forced to reveal
-     */
 
     private void LoadPickups(List<PickupEnum> selectedPickups)
     {
@@ -74,9 +67,15 @@ public class PickupCollectionHUDController : MonoBehaviour
         foreach(PickupEnum _LoadedPickup in this.m_LoadedPickups)
             this.m_View.UpdateCount(_LoadedPickup, 0);
     }
-    
+
+    private void ShowHUD()
+        => this.m_View.ShowView();
+
+    private void HideHUD()
+        => this.m_View.HideView();
+
     #endregion Methods
-  
+
 }
 
 public class PickupUpdateInfo
