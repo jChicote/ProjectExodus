@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace ProjectExodus.GameLogic.Common.Timers
 {
@@ -8,7 +9,8 @@ namespace ProjectExodus.GameLogic.Common.Timers
 
         #region - - - - - - Fields - - - - - -
 
-        private Action m_EndingAction;
+        private readonly Action m_EndingAction;
+        
         private float m_DeltaTime;
         private float m_TimeLeft;
         private float m_TimerLength;
@@ -45,7 +47,7 @@ namespace ProjectExodus.GameLogic.Common.Timers
         {
             if (!this.m_CanRun) return;
             
-            this.m_TimeLeft -= this.m_DeltaTime;
+            this.m_TimeLeft -= Time.deltaTime;
 
             if (!this.IsTimerComplete()) return;
             this.m_EndingAction?.Invoke();

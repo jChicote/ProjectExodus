@@ -30,7 +30,7 @@ public class Debug_PickupCollectionHUD : IDebugCommandRegistrater
         debugCommandSystem.RegisterCommand(_EmptyPickups);
     }
 
-    // Currently loads only one as no additional collecctable pickup variants exist ... yet
+    // Currently loads only one as no additional collectable pickup variants exist ... yet
     private void LoadSelectedPickups()
     {
         List<PickupEnum> _Pickups = new() { PickupEnum.AutonomousSentry };

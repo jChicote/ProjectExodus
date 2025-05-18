@@ -40,20 +40,19 @@ public class PickupCollectionHUDView : FadableElement
 
     public void InitialiseView(List<PickupUserInterfaceAsset> selectedPickups)
     {
-        for (int i = 0; i < m_Indicators.Count; i++)
+        for (int i = 0; i < this.m_Indicators.Count; i++)
         {
             HUDPickupIndicator _HUDIndicator = this.m_Indicators.ElementAt(i);
 
-            if (i >= selectedPickups.Count)
+            if (i < selectedPickups.Count)
             {
-                _HUDIndicator.Indicator.DeactivateIndicator();
-                return;
+                _HUDIndicator.Type = selectedPickups[i].PickupEnum;
+                _HUDIndicator.Indicator.SetCount(0);
+                _HUDIndicator.Indicator.SetImage(selectedPickups[i].Sprite);
+                _HUDIndicator.Indicator.EnableIndicator();
             }
-            
-            _HUDIndicator.Type = selectedPickups[i].PickupEnum;
-            _HUDIndicator.Indicator.SetCount(0);
-            _HUDIndicator.Indicator.SetImage(selectedPickups[i].Sprite);
-            _HUDIndicator.Indicator.EnableIndicator();
+            else
+                _HUDIndicator.Indicator.DeactivateIndicator();
         }
         
         this.ShowView();
@@ -70,8 +69,8 @@ public class PickupCollectionHUDView : FadableElement
 
     public void ShowView()
     {
-        this.m_VisibilityTimer.EnableTimer();
         this.m_VisibilityTimer.ResetTimer();
+        this.m_VisibilityTimer.EnableTimer();
         this.FadeIn();
     }
 

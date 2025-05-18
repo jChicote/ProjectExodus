@@ -4146,7 +4146,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_FadeInTime: 0.2
+  m_FadeInTime: 0.8
   m_FadeOutTime: 0.8
   m_ContentGroup: {fileID: 363119910}
   m_Indicators:
