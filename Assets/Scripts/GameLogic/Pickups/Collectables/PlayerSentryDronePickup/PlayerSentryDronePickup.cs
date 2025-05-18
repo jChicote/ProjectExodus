@@ -1,4 +1,3 @@
-using GameLogic.Pickups;
 using GameLogic.Pickups.Collectables;
 using ProjectExodus.GameLogic.Enumeration;
 using UnityEngine;
