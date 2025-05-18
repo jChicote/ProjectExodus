@@ -9,8 +9,9 @@ public class PickupCollectableSystem : MonoBehaviour, IPickupCollectionSystem
 
     #region - - - - - - Fields - - - - - -
 
-    private List<CurrentCollectablePickupState> m_SelectedPickups;
     private IUIEventMediator m_EventMediator;
+    
+    private List<CurrentCollectablePickupState> m_SelectedPickups = new();
 
     #endregion Fields
 
@@ -22,6 +23,10 @@ public class PickupCollectableSystem : MonoBehaviour, IPickupCollectionSystem
 
         string _SourceObjectName = this.gameObject.name;
         GameValidator.NotNull(this.m_EventMediator, nameof(m_EventMediator), sourceObjectName: _SourceObjectName);
+        
+        // TODO: Replace with a selection menu passing in the details to the player's controller.
+        // - As the details are attached to the player, have it so that its stored in the scene controller
+        this.LoadSelectedCollectables(new List<PickupEnum> { PickupEnum.AutonomousSentry });
     }
 
     #endregion Unity Methods
@@ -51,6 +56,10 @@ public class PickupCollectableSystem : MonoBehaviour, IPickupCollectionSystem
                 CollectablePickups = new(),
                 Type = _PickupEnum
             });
+        
+        this.m_EventMediator.Dispatch(
+            PickupCollectionHUDConstants.LoadPickups, 
+            this.m_SelectedPickups.Select(p => p.Type).ToList());
     }
 
     #endregion Methods
