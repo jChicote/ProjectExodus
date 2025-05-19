@@ -13,7 +13,7 @@ namespace ProjectExodus
 
         public TransformReference AgentTransform = new();
         public TransformReference TargetTransform = new();
-        // public WeaponSystemsInfoReference WeaponSystemsInfo = new();
+        [SerializeField] private bool Invert = false;
         
         private float FiringArc = 45f; // TODO: Use Weapon systems info
 
@@ -30,7 +30,7 @@ namespace ProjectExodus
             float _AngleToTarget = Mathf.Acos(_DotProduct) * Mathf.Rad2Deg;
                 
             bool _IsWithinCone = _AngleToTarget <= this.FiringArc / 2;
-            return _IsWithinCone;
+            return _IsWithinCone ^ this.Invert;
         }
 
         #endregion Methods
