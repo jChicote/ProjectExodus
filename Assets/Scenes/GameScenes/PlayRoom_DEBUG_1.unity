@@ -1107,6 +1107,7 @@ GameObject:
   - component: {fileID: 498167820}
   - component: {fileID: 498167819}
   - component: {fileID: 498167818}
+  - component: {fileID: 498167822}
   m_Layer: 10
   m_Name: Player_Sentry_Drone
   m_TagString: Player
@@ -1249,6 +1250,20 @@ Transform:
   - {fileID: 1002590062}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &498167822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498167817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b92363c721d94a25968be9136d95952f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Blackboard: {fileID: 1500642492}
+  m_WeaponObjects: []
 --- !u!1 &499980462
 GameObject:
   m_ObjectHideFlags: 0
@@ -4027,7 +4042,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 0}
+  selectedEditorNode: {fileID: 1500642509}
   repeatOnFinish: 0
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
