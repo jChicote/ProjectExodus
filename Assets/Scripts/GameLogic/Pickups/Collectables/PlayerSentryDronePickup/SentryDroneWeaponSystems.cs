@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using MBT;
 using ProjectExodus.GameLogic.Weapons;
 using ProjectExodus.Utility.GameValidation;

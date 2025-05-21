@@ -855,6 +855,7 @@ MonoBehaviour:
     blackboard: {fileID: 31365097159186596}
     key: TargetTransform
     constantValue: {fileID: 0}
+  Invert: 0
 --- !u!114 &6509767817734328039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1183,6 +1184,7 @@ GameObject:
   - component: {fileID: 4778393852819598035}
   - component: {fileID: 4589782016980362613}
   - component: {fileID: 2579050524619403474}
+  - component: {fileID: 1390176664561882968}
   m_Layer: 9
   m_Name: Zeto Fighter
   m_TagString: Enemy
@@ -1415,3 +1417,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Blackboard: {fileID: 31365097159186596}
+--- !u!114 &1390176664561882968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8739472934000758447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790aad5e595b468c990f392a7390fcff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
