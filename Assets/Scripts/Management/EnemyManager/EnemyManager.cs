@@ -12,7 +12,8 @@ namespace ProjectExodus
         public static EnemyManager Instance;
 
         [RequiredField, SerializeField] public EnemySettings EnemySettings;
-        public EnemyObserver EnemyObserver;
+        [RequiredField] public EnemyObserver EnemyObserver;
+        [RequiredField] public EnemyCollection EnemyCollection;
 
         #endregion Fields
 

@@ -3994,6 +3994,9 @@ GameObject:
   - component: {fileID: 1500642510}
   - component: {fileID: 1500642509}
   - component: {fileID: 1500642508}
+  - component: {fileID: 1500642514}
+  - component: {fileID: 1500642512}
+  - component: {fileID: 1500642513}
   m_Layer: 10
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -4042,7 +4045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 1500642509}
+  selectedEditorNode: {fileID: 0}
   repeatOnFinish: 0
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -4065,6 +4068,7 @@ MonoBehaviour:
   - {fileID: 1500642501}
   - {fileID: 1500642500}
   - {fileID: 1500642499}
+  - {fileID: 1500642512}
   masterBlackboard: {fileID: 0}
 --- !u!114 &1500642493
 MonoBehaviour:
@@ -4261,11 +4265,11 @@ MonoBehaviour:
   title: Selector
   rect:
     serializedVersion: 2
-    x: 620
-    y: 160
+    x: 760
+    y: 260
     width: 160
     height: 44
-  parent: {fileID: 1500642505}
+  parent: {fileID: 1500642514}
   children:
   - {fileID: 1500642511}
   - {fileID: 1500642510}
@@ -4296,7 +4300,7 @@ MonoBehaviour:
   children:
   - {fileID: 1500642496}
   - {fileID: 1500642506}
-  - {fileID: 1500642503}
+  - {fileID: 1500642513}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -4404,8 +4408,8 @@ MonoBehaviour:
   title: Enable Weapon Fire
   rect:
     serializedVersion: 2
-    x: 740
-    y: 320
+    x: 880
+    y: 400
     width: 160
     height: 44
   parent: {fileID: 1500642510}
@@ -4429,8 +4433,8 @@ MonoBehaviour:
   title: Enable Weapon Fire
   rect:
     serializedVersion: 2
-    x: 500
-    y: 320
+    x: 640
+    y: 400
     width: 160
     height: 44
   parent: {fileID: 1500642511}
@@ -4454,8 +4458,8 @@ MonoBehaviour:
   title: IsOusideAttachCone?
   rect:
     serializedVersion: 2
-    x: 740
-    y: 260
+    x: 880
+    y: 340
     width: 160
     height: 44
   parent: {fileID: 1500642503}
@@ -4492,8 +4496,8 @@ MonoBehaviour:
   title: IsWithinAttackCone?
   rect:
     serializedVersion: 2
-    x: 500
-    y: 260
+    x: 640
+    y: 340
     width: 160
     height: 44
   parent: {fileID: 1500642503}
@@ -4515,6 +4519,94 @@ MonoBehaviour:
     key: TargetTransform
     constantValue: {fileID: 0}
   Invert: 0
+--- !u!114 &1500642512
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500642488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e5f4db414f0ab4c82c187a7653e99d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: DetectionDistance
+  val: 0
+--- !u!114 &1500642513
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500642488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7130667f20a542458eb1ad899f8a7bb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: DoesTargetExist?
+  rect:
+    serializedVersion: 2
+    x: 760
+    y: 160
+    width: 160
+    height: 44
+  parent: {fileID: 1500642505}
+  children:
+  - {fileID: 1500642514}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  m_TargetTransform:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 1500642492}
+    key: TargetTransform
+    constantValue: {fileID: 0}
+--- !u!114 &1500642514
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500642488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa9f5d833004cf1a4cafa4c84f7370d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: IsTargetWithinRadius?
+  rect:
+    serializedVersion: 2
+    x: 760
+    y: 200
+    width: 160
+    height: 44
+  parent: {fileID: 1500642513}
+  children:
+  - {fileID: 1500642503}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  SourceTransform:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 1500642492}
+    key: AgentTransform
+    constantValue: {fileID: 0}
+  TargetTransform:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 1500642492}
+    key: TargetTransform
+    constantValue: {fileID: 0}
+  DetectionDistance:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 1500642492}
+    key: DetectionDistance
+    constantValue: 0
 --- !u!1 &1580888485 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7112598103157631078, guid: 6f87594e8184dd140a86fc539578e47b, type: 3}
@@ -6952,11 +7044,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1048441154683287533, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1048441154683287533, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1048441154683287533, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6968,11 +7060,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1048441154683287533, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 1048441154683287533, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -120
       objectReference: {fileID: 0}
     - target: {fileID: 2594339969793207380, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_Pivot.x
@@ -7056,11 +7148,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2602710837380599531, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2602710837380599531, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2602710837380599531, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7072,19 +7164,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2602710837380599531, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 2602710837380599531, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -120
       objectReference: {fileID: 0}
     - target: {fileID: 2672429025798332194, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2672429025798332194, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2672429025798332194, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7096,11 +7188,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2672429025798332194, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 640
       objectReference: {fileID: 0}
     - target: {fileID: 2672429025798332194, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -120
       objectReference: {fileID: 0}
     - target: {fileID: 3366925030613021316, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_Name
@@ -7108,11 +7200,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8272866185915340394, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8272866185915340394, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8272866185915340394, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7124,11 +7216,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8272866185915340394, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 440
       objectReference: {fileID: 0}
     - target: {fileID: 8272866185915340394, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -120
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
