@@ -39,7 +39,9 @@ namespace ProjectExodus
 
         public Transform Value
         {
-            get => useConstant? constantValue : this.GetVariable().Value;
+            get => useConstant 
+                ? constantValue 
+                : this.GetVariable()?.Value;
             set
             {
                 if (useConstant)

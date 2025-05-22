@@ -39,6 +39,8 @@ namespace ProjectExodus
 
         private void OnDrawGizmos()
         {
+            if (this.AgentTransform.Value == null) return;
+            
             Gizmos.color = Color.green;
             
             // Draw cone directions
