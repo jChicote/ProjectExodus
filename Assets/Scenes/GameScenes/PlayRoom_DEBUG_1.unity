@@ -3997,6 +3997,8 @@ GameObject:
   - component: {fileID: 1500642514}
   - component: {fileID: 1500642512}
   - component: {fileID: 1500642513}
+  - component: {fileID: 1500642516}
+  - component: {fileID: 1500642515}
   m_Layer: 10
   m_Name: BehaviourTree
   m_TagString: Untagged
@@ -4265,8 +4267,8 @@ MonoBehaviour:
   title: Selector
   rect:
     serializedVersion: 2
-    x: 760
-    y: 260
+    x: 720
+    y: 380
     width: 160
     height: 44
   parent: {fileID: 1500642514}
@@ -4300,7 +4302,7 @@ MonoBehaviour:
   children:
   - {fileID: 1500642496}
   - {fileID: 1500642506}
-  - {fileID: 1500642513}
+  - {fileID: 1500642515}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -4408,8 +4410,8 @@ MonoBehaviour:
   title: Enable Weapon Fire
   rect:
     serializedVersion: 2
-    x: 880
-    y: 400
+    x: 840
+    y: 520
     width: 160
     height: 44
   parent: {fileID: 1500642510}
@@ -4433,8 +4435,8 @@ MonoBehaviour:
   title: Enable Weapon Fire
   rect:
     serializedVersion: 2
-    x: 640
-    y: 400
+    x: 600
+    y: 520
     width: 160
     height: 44
   parent: {fileID: 1500642511}
@@ -4458,8 +4460,8 @@ MonoBehaviour:
   title: IsOusideAttachCone?
   rect:
     serializedVersion: 2
-    x: 880
-    y: 340
+    x: 840
+    y: 460
     width: 160
     height: 44
   parent: {fileID: 1500642503}
@@ -4496,8 +4498,8 @@ MonoBehaviour:
   title: IsWithinAttackCone?
   rect:
     serializedVersion: 2
-    x: 640
-    y: 340
+    x: 600
+    y: 460
     width: 160
     height: 44
   parent: {fileID: 1500642503}
@@ -4548,11 +4550,11 @@ MonoBehaviour:
   title: DoesTargetExist?
   rect:
     serializedVersion: 2
-    x: 760
-    y: 160
+    x: 720
+    y: 280
     width: 160
     height: 44
-  parent: {fileID: 1500642505}
+  parent: {fileID: 1500642515}
   children:
   - {fileID: 1500642514}
   behaviourTree: {fileID: 0}
@@ -4579,8 +4581,8 @@ MonoBehaviour:
   title: IsTargetWithinRadius?
   rect:
     serializedVersion: 2
-    x: 760
-    y: 200
+    x: 720
+    y: 320
     width: 160
     height: 44
   parent: {fileID: 1500642513}
@@ -4607,6 +4609,75 @@ MonoBehaviour:
     blackboard: {fileID: 1500642492}
     key: DetectionDistance
     constantValue: 0
+--- !u!114 &1500642515
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500642488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c78c7da6b00e1b46bad07949050f82f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Sequence
+  rect:
+    serializedVersion: 2
+    x: 620
+    y: 160
+    width: 160
+    height: 44
+  parent: {fileID: 1500642505}
+  children:
+  - {fileID: 1500642516}
+  - {fileID: 1500642513}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  random: 0
+--- !u!114 &1500642516
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500642488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9752805d890c4620946817728ea05560, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Get Nearest Target
+  rect:
+    serializedVersion: 2
+    x: 520
+    y: 280
+    width: 160
+    height: 44
+  parent: {fileID: 1500642515}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  m_DetectionDistance:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 1500642492}
+    key: DetectionDistance
+    constantValue: 0
+  m_TargetTransform:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 1500642492}
+    key: TargetTransform
+    constantValue: {fileID: 0}
+  m_SourceTransform:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 1500642492}
+    key: AgentTransform
+    constantValue: {fileID: 0}
 --- !u!1 &1580888485 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7112598103157631078, guid: 6f87594e8184dd140a86fc539578e47b, type: 3}

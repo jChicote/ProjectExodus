@@ -3,7 +3,7 @@ using MBT;
 using ProjectExodus;
 using ProjectExodus.Utility.GameValidation;
 using UnityEngine;
-using TransformReference = MBT.TransformReference;
+using TransformReference = ProjectExodus.TransformReference;
 
 [AddComponentMenu("")]
 [MBTNode(name = "Tasks/Get Nearest Target")]
