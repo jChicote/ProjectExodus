@@ -39,6 +39,8 @@ namespace ProjectExodus
 
         private void OnDrawGizmos()
         {
+            if (!Application.isPlaying) return;
+            
             if (this.AgentTransform.Value == null) return;
             
             Gizmos.color = Color.green;

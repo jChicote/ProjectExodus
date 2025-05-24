@@ -45,13 +45,15 @@ public class GetNearestTarget : Leaf
 
     public override NodeResult Execute()
     {
+        if (this.m_TargetTransform.Value == null)
+        {
+            this.m_TargetTransform.Value = this.GetNearbyTarget();
+            return NodeResult.success;
+        }
+        
         float _TrackedTargetDistance = (this.m_TargetTransform.Value.position - this.m_SourceTransform.Value.position)
             .sqrMagnitude;
-
-        if (this.m_TargetTransform.Value == null)
-            this.m_TargetTransform.Value = this.GetNearbyTarget();
-        
-        else if (_TrackedTargetDistance > this.SqrDetectionDistance)
+        if (_TrackedTargetDistance > this.SqrDetectionDistance)
             this.m_TargetTransform.Value = this.GetNearbyTarget();
         
         return NodeResult.success;
