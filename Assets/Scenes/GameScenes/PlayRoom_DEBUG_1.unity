@@ -1108,6 +1108,7 @@ GameObject:
   - component: {fileID: 498167819}
   - component: {fileID: 498167818}
   - component: {fileID: 498167822}
+  - component: {fileID: 498167823}
   m_Layer: 10
   m_Name: Player_Sentry_Drone
   m_TagString: Player
@@ -1264,6 +1265,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Blackboard: {fileID: 1500642492}
   m_WeaponObjects: []
+--- !u!114 &498167823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498167817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e311acf0723b4789bb08a3b7d09e7354, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &499980462
 GameObject:
   m_ObjectHideFlags: 0
@@ -7123,11 +7136,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1048441154683287533, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -360
       objectReference: {fileID: 0}
     - target: {fileID: 1048441154683287533, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 1048441154683287533, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -7227,11 +7240,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2602710837380599531, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -160
       objectReference: {fileID: 0}
     - target: {fileID: 2602710837380599531, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 2602710837380599531, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -7251,11 +7264,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2672429025798332194, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 2672429025798332194, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 2672429025798332194, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -7279,11 +7292,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8272866185915340394, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 8272866185915340394, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 8272866185915340394, guid: 846ab6692e1e5f0418d2f05a9aa5f746, type: 3}
       propertyPath: m_AnchoredPosition.x
