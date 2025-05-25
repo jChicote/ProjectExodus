@@ -1,5 +1,4 @@
-﻿using Codice.CM.Common.Merge;
-using ProjectExodus;
+﻿using ProjectExodus;
 using ProjectExodus.Debugging;
 
 public class DebugCommandConfigurator
@@ -26,10 +25,7 @@ public class DebugCommandConfigurator
         new Debug_DisplayTargetingSystemInfoCommand().RegisterCommand(this.m_DebugManager);
         
         // Spawning
-        new Debug_SpawnZetoPawn().RegisterCommand(this.m_DebugManager);
-        new Debug_SpawnZetoFighter().RegisterCommand(this.m_DebugManager);
-        new Debug_SpawnZetoDrone().RegisterCommand(this.m_DebugManager);
-        new Debug_SpawnZetoKnight().RegisterCommand(this.m_DebugManager);
+        new Debug_EnemySpawnerController().RegisterCommand(this.m_DebugManager);
         
         // Player
         new Debug_RespawnPlayer().RegisterCommand(this.m_DebugManager);
@@ -41,6 +37,7 @@ public class DebugCommandConfigurator
         new Debug_PointsGUI().RegisterCommand(this.m_DebugManager);
         new Debug_ChatboxHUD().RegisterCommand(this.m_DebugManager);
         new Debug_GameplayHUD().RegisterCommand(this.m_DebugManager);
+        new Debug_PickupCollectionHUD().RegisterCommand(this.m_DebugManager);
     }
 
     #endregion Methods

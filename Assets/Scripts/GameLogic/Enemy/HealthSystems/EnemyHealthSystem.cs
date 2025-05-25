@@ -1,6 +1,7 @@
 ﻿using MBT;
 using ProjectExodus.GameLogic.Common.Health;
 using ProjectExodus.GameLogic.Enumeration;
+using ProjectExodus.Utility.GameValidation;
 using UnityEngine;
 
 namespace ProjectExodus
@@ -70,6 +71,14 @@ namespace ProjectExodus
                 this.m_Blackboard.GetVariable<IntVariable>(EnemyHealthSystemKeys.CollisionHitCount);
             this.m_IsDeadVariable = this.m_Blackboard.GetVariable<BoolVariable>(EnemyHealthSystemKeys.IsDead);
             this.m_HealthVariable = this.m_Blackboard.GetVariable<FloatVariable>(EnemyHealthSystemKeys.Health);
+
+            string _SourceObjectName = this.transform.root.gameObject.name;
+            GameValidator.NotNull(this.m_CollisionHitCountVariable, nameof(m_CollisionHitCountVariable),
+                sourceObjectName: _SourceObjectName);
+            GameValidator.NotNull(this.m_IsDeadVariable, nameof(m_HealthVariable),
+                sourceObjectName: _SourceObjectName);
+            GameValidator.NotNull(this.m_IsDeadVariable, nameof(m_IsDeadVariable),
+                sourceObjectName: _SourceObjectName);
             
             this.CurrentHealth = initializationData.Health;
             this.m_IsDeadVariable.AddListener(this.DestroyEnemy);

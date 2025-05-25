@@ -15,6 +15,7 @@ namespace ProjectExodus.GameLogic.Enumeration
         public static GameTag Interactable = new("Interactable", 0);
         public static GameTag Enemy = new("Enemy", 1);
         public static GameTag Projectile = new("Projectile", 2);
+        public static GameTag CollectablePickup = new("CollectablePickup", 3);
         public static GameTag Default = new("Default", 999);
         
         // Pre-existing tags

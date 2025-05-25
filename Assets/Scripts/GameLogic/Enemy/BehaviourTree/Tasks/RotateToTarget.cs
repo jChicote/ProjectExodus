@@ -19,22 +19,6 @@ namespace ProjectExodus
         private float m_Angle;
 
         #endregion Fields
-        //
-        // #region - - - - - - Unity Methods - - - - - -
-        //
-        // private void Update()
-        // {
-        //     if (m_Direction == Vector3.zero) return;
-        //
-        //     // Calculate the desired rotation
-        //     var _PreferredEuler = Quaternion.Euler(Vector3.forward * (m_Angle + 90f));
-        //     this.SourceTransform.Value.rotation = Quaternion.Lerp(
-        //         this.SourceTransform.Value.rotation, 
-        //         _PreferredEuler, 
-        //         Time.deltaTime * this.TurnSpeed.Value);
-        // }
-        //
-        // #endregion Unity Methods
 
         #region - - - - - - Methods - - - - - -
 
@@ -65,6 +49,8 @@ namespace ProjectExodus
 
         public void OnDrawGizmos()
         {
+            if (!Application.isPlaying || this.SourceTransform.Value == null) return;
+            
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(this.SourceTransform.Value.position, this.m_Direction * -1);
         }

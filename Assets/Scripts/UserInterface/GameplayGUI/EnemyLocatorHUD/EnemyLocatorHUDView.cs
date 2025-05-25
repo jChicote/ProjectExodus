@@ -24,7 +24,7 @@ public class EnemyLocatorHUDView : MonoBehaviour
 
     public void RemoveMarker(int id)
     {
-        GameObject _MarkerInstance = this.m_Markers[id].gameObject;
+        GameObject _MarkerInstance = this.m_Markers[id]?.gameObject;
         this.m_Markers.Remove(id);
         
         Destroy(_MarkerInstance);

@@ -1,122 +1,89 @@
-﻿using System;
+using ProjectExodus;
 using ProjectExodus.Common.Services;
-using ProjectExodus.GameLogic.Common.Timers;
-using ProjectExodus.GameLogic.Enumeration;
-using ProjectExodus.GameLogic.Player.PlayerProvider;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace ProjectExodus
+public class ZetoEnemySpawner : MonoBehaviour, IInitialize<ZetoSpawnerInitializerData>
 {
 
-    public class ZetoEnemySpawner : BaseEnemySpawner, IInitialize<ZetoEnemySpawnerInitializerData>
+    #region - - - - - - Fields - - - - - -
+
+    [SerializeField] private GameObject m_EnemyTemplate;
+    private float m_DifficultyMultiplier;
+    private SpawnerInfo m_SpawnerInfo;
+    
+    private bool m_IsSpawnerActive;
+
+    #endregion Fields
+
+    #region - - - - - - Initializers - - - - - -
+
+    public void Initialize(ZetoSpawnerInitializerData initializerData)
     {
+        this.m_DifficultyMultiplier = initializerData.DifficultyMultiplier;
+        this.m_SpawnerInfo = initializerData.Info;
+    }
 
-        #region - - - - - - Fields - - - - - -
+    #endregion Initializers
 
-        [SerializeField] private GameObject m_EnemyTemplate;
-        [SerializeField] private Transform m_SpawnPoint;
-        
-        // Change to serialized
-        public float m_SpawnInterval;
-        public float m_SpawnRadius;
-        public EventTimer m_SpawnTimer;
-        public CircleCollider2D m_DetectionCollider;
+    #region - - - - - - Methods - - - - - -
 
-        private bool m_IsSpawnerActive;
-        private IPlayerProvider m_PlayerProvider;
-        private Transform m_PlayerTransform;
+    public void SpawnEnemies(SpawnerRequest spawnRequest)
+    {
+        int _MinSpawnCount = (int)(spawnRequest.SpawnCount * this.m_DifficultyMultiplier 
+                                                           * this.m_SpawnerInfo.SpawnRatio 
+                                                           * (1 - this.m_SpawnerInfo.MinDeviation));
+        int _MaxSpawnCount = (int)(spawnRequest.SpawnCount * this.m_DifficultyMultiplier
+                                                           * this.m_SpawnerInfo.SpawnRatio
+                                                           * (1 + this.m_SpawnerInfo.MaxDeviation));
 
-        #endregion Fields
-
-        #region - - - - - - Properties - - - - - -
-
-        public Transform SpawnPoint
-            => this.m_SpawnPoint;
-
-        #endregion Properties
-
-        #region - - - - - - Initializers - - - - - -
-
-        public void Initialize(ZetoEnemySpawnerInitializerData initializerData)
-        {
-            this.m_SpawnTimer = new(this.m_SpawnInterval, Time.deltaTime, this.SpawnEnemy);
-            this.m_PlayerProvider = initializerData.PlayerProvider ??
-                                    throw new ArgumentNullException(nameof(initializerData.PlayerProvider));
-
-            this.m_DetectionCollider.radius = this.m_SpawnRadius;
-        }
-
-        #endregion Initializers
-
-        #region - - - - - - Unity Events - - - - - -
-
-        private void Update()
-        {
-            if (this.m_IsPaused || !this.m_IsSpawnerActive) return;
-
-            this.m_SpawnTimer.TickTimer();
-        }
-
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            if (other.gameObject.tag != GameTag.Player) return;
-            this.StartSpawner();
-        }
-
-        private void OnTriggerExit2D(Collider2D other)
-        {
-            if (other.gameObject.tag != GameTag.Player) return;
-            this.StopSpawner();
-        }
-
-        #endregion Unity Events
-  
-        #region - - - - - - Methods - - - - - -
-
-        public void SpawnEnemy()
+        for (int i = 0; i < Random.Range(_MinSpawnCount, _MaxSpawnCount); i++)
         {
             Vector2 _RandomizedSpawnPoint = new Vector2(
-                Random.Range(this.transform.position.x - this.m_SpawnRadius, this.transform.position.x + this.m_SpawnRadius),
-                Random.Range(this.transform.position.y - this.m_SpawnRadius, this.transform.position.y + this.m_SpawnRadius));
-            
+                Random.Range(
+                    spawnRequest.SpawnCenterPosition.x - spawnRequest.SpawnRadius, 
+                    this.transform.position.x + spawnRequest.SpawnRadius),
+                Random.Range(
+                    this.transform.position.y - spawnRequest.SpawnRadius, 
+                    this.transform.position.y + spawnRequest.SpawnRadius));
+                
             GameObject _SpawnedEnemy = Instantiate(this.m_EnemyTemplate, _RandomizedSpawnPoint, Quaternion.identity);
             ICommand _CommandInitializer = _SpawnedEnemy.GetComponent<ICommand>();
             _CommandInitializer.Execute();
         }
-
-        public void StartSpawner() => this.m_IsSpawnerActive = true;
-
-        public void StopSpawner()
-        {
-            this.m_IsSpawnerActive = false;
-            this.m_SpawnTimer.ResetTimer();
-        }
-
-        #endregion Methods
-
-        #region - - - - - - Gizmos - - - - - -
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(this.m_SpawnPoint.position, new Vector3(this.m_SpawnRadius * 2, this.m_SpawnRadius * 2, this.m_SpawnRadius * 2));
-            Gizmos.DrawWireSphere(this.transform.position, 0.5f);
-        }
-        
-        #endregion Gizmos
-  
     }
-
-    public class ZetoEnemySpawnerInitializerData
-    {
-
-        #region - - - - - - Properties - - - - - -
-
-        public IPlayerProvider PlayerProvider { get; set; }
-
-        #endregion Properties
+    
+    #endregion Methods
   
-    }
+}
 
+public class ZetoSpawnerInitializerData
+{
+
+    #region - - - - - - Properties - - - - - -
+    
+    public float DifficultyMultiplier { get; set; }
+
+    public SpawnerInfo Info { get; set; }
+
+    #endregion Properties
+  
+}
+
+public class SpawnerRequest
+{
+
+    #region - - - - - - Properties - - - - - -
+    
+    public Vector2 SpawnCenterPosition { get; set; }
+
+    public int SpawnCount { get; set; }
+    
+    public Vector2 SpawnDirection { get; set; }
+
+    public float SpawnRadius { get; set; }
+    
+
+    #endregion Properties
+  
 }

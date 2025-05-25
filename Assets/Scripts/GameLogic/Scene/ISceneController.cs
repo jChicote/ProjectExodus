@@ -16,6 +16,8 @@ namespace ProjectExodus.GameLogic.Scene
         IPlayerObserver PlayerObserver { get; }
         
         UnityEngine.Camera Camera { get; }
+        
+        SceneDifficulty Difficulty { get; set;  }
 
         #endregion Properties
   

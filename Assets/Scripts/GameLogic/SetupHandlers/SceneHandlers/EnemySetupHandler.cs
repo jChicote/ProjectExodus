@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using ProjectExodus;
 using ProjectExodus.GameLogic.Player.PlayerProvider;
 using ProjectExodus.Utility.GameLogging;
@@ -12,10 +11,9 @@ namespace GameLogic.SetupHandlers.SceneHandlers
 
         #region - - - - - - Fields - - - - - -
 
-        private ISetupHandler m_NextHandler;
-
-        public List<ZetoEnemySpawner> EnemySpawners;
         public PlayerProvider PlayerProvider;
+
+        private ISetupHandler m_NextHandler;
 
         #endregion Fields
   
@@ -26,10 +24,11 @@ namespace GameLogic.SetupHandlers.SceneHandlers
 
         void ISetupHandler.Handle(SceneSetupInitializationContext initializationContext)
         {
-            foreach (ZetoEnemySpawner _EnemySpawner in this.EnemySpawners)
-                _EnemySpawner.Initialize(new() { PlayerProvider = PlayerProvider });
-            
             initializationContext.LoadingScreenController.UpdateLoadProgress(80f);
+            
+            // Set required values for Enemy Manager
+            EnemyManager _EnemyManager = EnemyManager.Instance;
+            _EnemyManager.EnemySpawner = initializationContext.EnemySpawnerController;
             
             GameLogger.Log("EnemySetupHandler has run.");
             this.m_NextHandler?.Handle(initializationContext);

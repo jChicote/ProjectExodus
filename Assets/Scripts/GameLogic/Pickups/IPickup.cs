@@ -6,9 +6,10 @@ namespace GameLogic.Pickups
 
         #region - - - - - - Methods - - - - - -
 
+        PickupEnum GetPickupType();
 
         #endregion Methods
-  
+
     }
 
 }

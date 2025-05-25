@@ -25,6 +25,7 @@ namespace GameLogic.SetupHandlers.SceneHandlers
 
         [Header("Enemy Systems")]
         [RequiredField] public EnemyObserver EnemyObserver;
+        [RequiredField] public EnemySpawnerController EnemySpawnerController;
         
         [Header("Settings")]
         [RequiredField] public UserInterfaceSettings UserInterfaceSettings;

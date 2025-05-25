@@ -12,17 +12,16 @@ namespace ProjectExodus.GameLogic.Scene
 
         #region - - - - - - Fields - - - - - -
 
+        // Dependencies
         [SerializeField] private UnityEngine.Camera m_Camera;
         [SerializeField] private SceneStartupHandler m_SceneStartupController;
         [SerializeField] private PauseController m_PauseController;
 
         [Header("Player Related")]
-        [RequiredField]
-        [SerializeField]
-        private PlayerProvider m_PlayerProvider;
-        [RequiredField] 
-        [SerializeField] 
-        private PlayerObserver m_PlayerObserver;
+        [RequiredField, SerializeField] private PlayerProvider m_PlayerProvider;
+        [RequiredField, SerializeField]  private PlayerObserver m_PlayerObserver;
+
+        [SerializeField] private SceneDifficulty m_SceneDifficulty;
 
         #endregion Fields
 
@@ -54,6 +53,12 @@ namespace ProjectExodus.GameLogic.Scene
         IPauseController ISceneController.PauseController
             => this.m_PauseController;
 
+        public SceneDifficulty Difficulty
+        {
+            get => this.m_SceneDifficulty;
+            set => this.m_SceneDifficulty = value;
+        }
+
         #endregion Properties
   
         #region - - - - - - Methods - - - - - -
@@ -68,4 +73,11 @@ namespace ProjectExodus.GameLogic.Scene
   
     }
 
+}
+
+public enum SceneDifficulty
+{
+    Easy,
+    Normal,
+    Hard
 }

@@ -1,4 +1,5 @@
-﻿using ProjectExodus.UserInterface.Controllers;
+﻿using ProjectExodus.ScriptableObjects;
+using ProjectExodus.UserInterface.Controllers;
 using ProjectExodus.Utility.GameValidation;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -15,6 +16,8 @@ namespace ProjectExodus.Management.UserInterfaceManager
         #region - - - - - - Fields - - - - - -
 
         public static UserInterfaceManager Instance;
+
+        [RequiredField] public UserInterfaceSettings UserInterfaceSettings;
         
         private IUserInterfaceController m_UserInterfaceController;
 

@@ -23,6 +23,7 @@ namespace ProjectExodus
         {
             if (this.TargetTransform.Value == null) return false;
 
+            // TODO: Needs to be optimised to use sqrmagnitude
             return Vector3.Distance(
                 this.SourceTransform.Value.position, 
                 this.TargetTransform.Value.position) < this.DetectionDistance.Value;
@@ -34,6 +35,10 @@ namespace ProjectExodus
 
         private void OnDrawGizmos()
         {
+            if (!Application.isPlaying
+                || this.SourceTransform.Value == null
+                || this.TargetTransform.Value == null) return;
+            
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(this.SourceTransform.Value.position, this.DetectionDistance.Value);
         }

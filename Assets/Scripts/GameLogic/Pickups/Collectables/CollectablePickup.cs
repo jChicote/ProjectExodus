@@ -1,35 +1,34 @@
-﻿using ProjectExodus.GameLogic.Enumeration;
-using ProjectExodus.Utility.GameLogging;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace GameLogic.Pickups.Collectables
 {
 
-    public class CollectablePickup : BasePickup
+    public class CollectablePickup : MonoBehaviour, ICollectablePickup
     {
         
-        #region - - - - - - Unity Methods - - - - - -
+        #region - - - - - - Fields - - - - - -
 
-        private void Start() 
-            => this.StartCoroutine(this.DestroyPickup());
+        [SerializeField] protected float m_Lifetime;
 
-        #endregion Unity Methods
+        #endregion Fields
+        
+        #region - - - - - - Methods - - - - - -
 
-        #region - - - - - - Unity Events - - - - - -
-
-        private void OnTriggerEnter2D(Collider2D other)
+        protected IEnumerator DestroyPickup()
         {
-            if (other.tag != GameTag.Player) return;
-
-            // TODO: Implement behavior on SceneController to hold the SceneStateContext, which holds values about the 
-            // game without being tied to the Player's lifetime.
-            GameLogger.Log("No collectable collection is implemented.");
-            
+            yield return new WaitForSeconds(this.m_Lifetime);
             Destroy(this.gameObject);
         }
 
-        #endregion Unity Events
-        
+        #endregion Methods
+
+        public void Activate()
+        {
+        }
+
+        public virtual PickupEnum GetPickupType() 
+            => PickupEnum.None;
     }
 
 }

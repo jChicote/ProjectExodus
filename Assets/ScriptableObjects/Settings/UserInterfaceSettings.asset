@@ -35,3 +35,6 @@ MonoBehaviour:
   InvalidColor: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
   WeakBeamStrengthColor: {r: 1, g: 0, b: 0, a: 1}
   FullBeamStregnthColor: {r: 1, g: 1, b: 1, a: 1}
+  PickupAssets:
+  - PickupEnum: 2
+    Sprite: {fileID: 5607603774425885531, guid: 2c5b80e864ce16b4fa13ed5946d2c214, type: 3}
