@@ -1,0 +1,204 @@
+using System.Collections;
+using ProjectExodus.GameLogic.Pause.PausableMonoBehavior;
+using ProjectExodus.Management.UserInterfaceManager;
+using ProjectExodus.UserInterface.Controllers;
+using ProjectExodus.UserInterface.GameplayHUD;
+using UnityEngine;
+
+namespace ProjectExodus.GameLogic.Player.Movement
+{
+
+    public class PlayerMovement : PausableMonoBehavior, IPlayerMovement
+    {
+
+        #region - - - - - - Fields - - - - - -
+
+        // Required Components Fields
+        [SerializeField] private Rigidbody2D m_Rigidbody;
+        private IUIEventMediator m_GameplayHUDMediator;
+
+        // Thrust Fields
+        [SerializeField] private float m_MaxThrustMagnitude;
+        [SerializeField] private float m_ThrustPower;
+        private float m_TotalSpeed;
+        
+        // Afterburn Fields
+        [SerializeField] private float m_AfterburnPower;
+        [SerializeField] private float m_AfterburnFillAmount;
+        [SerializeField] private float m_AfterburnCooldownTimeLength;
+        private float m_CurrentAfterburnFill;
+        private bool m_IsInAfterburn;
+        private bool m_HasDepletedAfterburn;
+
+        // Movement Fields
+        [SerializeField] private float m_MoveRampTimeLength;
+        private Vector2 m_MoveDirection;
+        private Vector2 m_SnapshotMoveDirection;
+        private float m_MoveInterpolation;
+
+        #endregion Fields
+
+        #region - - - - - - Unity Lifecycle Methods - - - - - -
+
+        private void Start()
+        {
+            this.m_GameplayHUDMediator = UserInterfaceManager.Instance.EventMediator;
+            this.m_GameplayHUDMediator.Dispatch(GameplayHUDEvents.UpdateAfterburn.ToString(), new AfterburnDto()
+            {
+                CurrentFill = this.m_AfterburnFillAmount,
+                MaxFill = this.m_AfterburnFillAmount
+            });
+            
+            this.m_TotalSpeed = this.m_ThrustPower;
+        }
+
+        private void Update()
+        {
+            if (this.m_IsPaused) return;
+            
+            this.RunMovement();
+        }
+
+        #endregion Unity Lifecycle Methods
+
+        #region - - - - - - Movement Methods - - - - - -
+
+        void IPlayerMovement.SetLookDirection(Vector2 lookDirection) 
+            => this.transform.rotation =
+                Quaternion.Euler(new Vector3(0, 0, Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg - 90));
+
+        void IPlayerMovement.SetMoveDirection(Vector2 moveDirection)
+            => this.m_MoveDirection = moveDirection;
+        
+        private void RunMovement()
+        {
+            this.m_MoveInterpolation = Mathf.Clamp(
+                this.m_MoveInterpolation + Time.deltaTime, 0,
+                this.m_MoveRampTimeLength);
+            
+            // Ramp movement down to nothing
+            if (this.m_MoveDirection == Vector2.zero && !this.m_IsInAfterburn)
+            {
+                this.m_Rigidbody.linearVelocity = Vector2.Lerp(
+                    this.m_Rigidbody.linearVelocity, 
+                    Vector2.zero,
+                    this.m_MoveInterpolation);
+                return;
+            }
+
+            // Move along captured 'up' direction when only afterburn is triggered
+            if (this.m_MoveDirection == Vector2.zero && this.m_IsInAfterburn)
+            {
+                this.m_Rigidbody.linearVelocity = Vector2.Lerp(
+                    this.m_Rigidbody.linearVelocity, 
+                    this.m_SnapshotMoveDirection * this.m_TotalSpeed, 
+                    this.m_MoveInterpolation);
+                return;
+            }
+            
+            this.m_Rigidbody.linearVelocity = Vector2.Lerp(
+                this.m_Rigidbody.linearVelocity, 
+                this.m_MoveDirection * this.m_TotalSpeed, 
+                this.m_MoveInterpolation);
+        }
+
+        #endregion Movement Methods
+
+        #region - - - - - - Afterburn Methods - - - - - -
+
+        void IPlayerMovement.StartAfterburn()
+        {
+            if (this.m_IsInAfterburn || this.m_HasDepletedAfterburn) return;
+            
+            this.m_IsInAfterburn = true;
+            this.StopAllCoroutines();
+            this.StartCoroutine(this.RunAfterBurn());
+        }
+
+        void IPlayerMovement.EndAfterburn()
+        {
+            if (!this.m_IsInAfterburn) return;
+            
+            this.m_IsInAfterburn = false;
+            this.StopAllCoroutines();
+            this.StopAfterburn();
+        }
+
+        private IEnumerator RunAfterBurn()
+        {
+            float _SpeedBefore = this.m_TotalSpeed;
+            float _TargetAfterburnSpeed = this.m_TotalSpeed + this.m_AfterburnPower;
+            float _AfterburnFillTime = 0;
+            float _AfterburnFillTimeLength = this.m_AfterburnFillAmount * 0.1f;
+            
+            // Record last up direction before afterburn 
+            if (this.m_MoveDirection == Vector2.zero)
+                this.m_SnapshotMoveDirection = this.transform.up;
+            
+            while (this.m_CurrentAfterburnFill < this.m_AfterburnFillAmount)
+            {
+                this.m_TotalSpeed = Mathf.Lerp(
+                    _SpeedBefore,
+                    _TargetAfterburnSpeed,
+                    _AfterburnFillTime / _AfterburnFillTimeLength);
+                this.m_GameplayHUDMediator.Dispatch(
+                    GameplayHUDEvents.UpdateAfterburn.ToString(),
+                    new AfterburnDto()
+                    {
+                        CurrentFill = this.m_AfterburnFillAmount - this.m_CurrentAfterburnFill,
+                        MaxFill = this.m_AfterburnFillAmount
+                    });
+                
+                this.m_CurrentAfterburnFill += Time.deltaTime;
+                _AfterburnFillTime += Time.deltaTime;
+                
+                yield return null;
+            }
+
+            this.m_HasDepletedAfterburn = true;
+            this.StopAfterburn();
+        }
+
+        private void StopAfterburn()
+        {
+            this.m_IsInAfterburn = false;
+            this.m_TotalSpeed = this.m_ThrustPower;
+            this.StartCoroutine(this.RunAfterburnCooldown());
+        }
+
+        private IEnumerator RunAfterburnCooldown()
+        {
+            float _CooldownRuntime = 0;
+            
+            // Briefly pause cooldown to delay the perceived 'quickness' of the cooldown.
+            float _CooldownPauseTime = this.m_AfterburnCooldownTimeLength * 0.2f;
+            yield return new WaitForSeconds(_CooldownPauseTime);
+
+            while (_CooldownRuntime < this.m_AfterburnCooldownTimeLength && this.m_CurrentAfterburnFill > 0)
+            {
+                float _CooldownStepInterval = this.m_AfterburnFillAmount / this.m_AfterburnCooldownTimeLength * Time.deltaTime;
+                this.m_CurrentAfterburnFill = Mathf.Clamp(
+                    this.m_CurrentAfterburnFill - _CooldownStepInterval, 
+                    0, 
+                    this.m_AfterburnFillAmount);
+                this.m_GameplayHUDMediator.Dispatch(
+                    GameplayHUDEvents.UpdateAfterburn.ToString(),
+                    new AfterburnDto()
+                    {
+                        CurrentFill = this.m_AfterburnFillAmount - this.m_CurrentAfterburnFill,
+                        MaxFill = this.m_AfterburnFillAmount
+                    });
+                
+                
+                _CooldownRuntime += Time.deltaTime;
+                yield return null;
+            }
+
+            this.m_HasDepletedAfterburn = false;
+        } 
+
+        #endregion Afterburn Methods
+  
+    }
+
+}
